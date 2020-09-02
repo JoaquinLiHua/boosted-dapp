@@ -36,7 +36,7 @@ export const StatBox: React.FC<StatBoxProps> = ({
           {value
             ? bigNumber
               ? getDisplayBalance(value as BigNumber)
-              : value.toFixed(2)
+              : value
             : "-"}
         </StatNumber>
         {/* <StatNumber>{value ? getDisplayBalance(value) : "-"}</StatNumber> */}
