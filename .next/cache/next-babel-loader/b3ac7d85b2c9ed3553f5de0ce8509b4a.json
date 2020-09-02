@@ -1,0 +1,1 @@
+{"ast":null,"code":"var __jsx = React.createElement;\nimport React from \"react\";\nimport { Text, Box } from \"@chakra-ui/core\";\nexport const NewsBlock = () => __jsx(Box, null, __jsx(Text, {\n  fontSize: \"xs\"\n}, \"LATEST: GET B00STED! VOTE FOR B00ST! STAKE B00ST!\"));","map":null,"metadata":{},"sourceType":"module"}

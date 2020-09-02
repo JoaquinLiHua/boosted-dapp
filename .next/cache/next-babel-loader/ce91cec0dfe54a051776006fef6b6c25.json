@@ -1,0 +1,1 @@
+{"ast":null,"code":"var __jsx = React.createElement;\nimport React from \"react\";\nimport { Main } from \"src/components/Main\";\n\nconst Index = () => {\n  return __jsx(Main, null);\n};\n\nexport default Index;","map":null,"metadata":{},"sourceType":"module"}
