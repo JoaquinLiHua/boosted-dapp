@@ -189,10 +189,10 @@ export const boostCount = async (
   if (account) {
     const poolContract = getContract(provider, poolAddress);
     try {
-      const boostedBalances = await poolContract.methods
-        .boostedBalances(account)
+      const boosterCount = await poolContract.methods
+        .numBoostersBought(account)
         .call();
-      return boostedBalances;
+      return boosterCount;
     } catch (e) {
       console.log(e);
     }
