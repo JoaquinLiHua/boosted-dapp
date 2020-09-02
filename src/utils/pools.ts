@@ -67,11 +67,12 @@ export const stake = async (
     const poolContract = getContract(provider, poolAddress);
     const now = new Date().getTime() / 1000;
     const gas = GAS_LIMIT.STAKING.DEFAULT;
-    if (now >= 1597172400) {
+    const web3 = new Web3(provider);
+    var tokens = web3.utils.toWei(amount.toString(), "ether");
+    var bntokens = web3.utils.toBN(tokens);
+    if (now >= 1598965200) {
       return poolContract.methods
-        .stake(
-          "0x" + new BN(amount).multipliedBy(new BN(10).pow(18)).toString(16)
-        )
+        .stake(bntokens)
         .send({ from: account, gas })
         .on("transactionHash", (tx) => {
           console.log(tx);
@@ -94,20 +95,16 @@ export const unstake = async (
   if (account) {
     const poolContract = getContract(provider, poolAddress);
     const gas = GAS_LIMIT.STAKING.DEFAULT;
-    const now = new Date().getTime() / 1000;
-    if (now >= 1597172400) {
-      return poolContract.methods
-        .withdraw(
-          "0x" + new BN(amount).multipliedBy(new BN(10).pow(18)).toString(16)
-        )
-        .send({ from: account, gas: gas })
-        .on("transactionHash", (tx) => {
-          console.log(tx);
-          return tx.transactionHash;
-        });
-    } else {
-      alert("pool not active");
-    }
+    const web3 = new Web3(provider);
+    var tokens = web3.utils.toWei(amount.toString(), "ether");
+    var bntokens = web3.utils.toBN(tokens);
+    return poolContract.methods
+      .withdraw(bntokens)
+      .send({ from: account, gas: gas })
+      .on("transactionHash", (tx) => {
+        console.log(tx);
+        return tx.transactionHash;
+      });
   } else {
     alert("wallet not connected");
   }
@@ -139,18 +136,13 @@ export const claim = async (
   if (account) {
     const poolContract = getContract(provider, poolAddress);
     const gas = GAS_LIMIT.STAKING.DEFAULT;
-    const now = new Date().getTime() / 1000;
-    if (now >= 1597172400) {
-      return poolContract.methods
-        .getReward()
-        .send({ from: account, gas: gas })
-        .on("transactionHash", (tx) => {
-          console.log(tx);
-          return tx.transactionHash;
-        });
-    } else {
-      alert("pool not active");
-    }
+    return poolContract.methods
+      .getReward()
+      .send({ from: account, gas: gas })
+      .on("transactionHash", (tx) => {
+        console.log(tx);
+        return tx.transactionHash;
+      });
   } else {
     alert("wallet not connected");
   }
@@ -165,7 +157,7 @@ export const boost = async (
     const poolContract = getContract(provider, poolAddress);
     const gas = GAS_LIMIT.STAKING.DEFAULT;
     const now = new Date().getTime() / 1000;
-    if (now >= 1597172400) {
+    if (now >= 1599138000) {
       return poolContract.methods
         .boost()
         .send({ from: account, gas: gas })
@@ -227,18 +219,13 @@ export const exit = async (
   if (account) {
     const poolContract = getContract(provider, poolAddress);
     const gas = GAS_LIMIT.EXIT.DEFAULT;
-    const now = new Date().getTime() / 1000;
-    if (now >= 1597172400) {
-      return poolContract.methods
-        .exit()
-        .send({ from: account, gas: gas })
-        .on("transactionHash", (tx) => {
-          console.log(tx);
-          return tx.transactionHash;
-        });
-    } else {
-      alert("pool not active");
-    }
+    return poolContract.methods
+      .exit()
+      .send({ from: account, gas: gas })
+      .on("transactionHash", (tx) => {
+        console.log(tx);
+        return tx.transactionHash;
+      });
   } else {
     alert("wallet not connected");
   }
