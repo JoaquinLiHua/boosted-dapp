@@ -42,6 +42,7 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
         setRequestedApproval(false);
       }
     } catch (e) {
+      setRequestedApproval(false);
       console.log(e);
     }
   }, [onApprove, setRequestedApproval]);
@@ -61,6 +62,7 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
         setRequestedStake(false);
       }
     } catch (e) {
+      setRequestedStake(false);
       console.log(e);
     }
   }, [stakeAmount, onStake]);
@@ -73,6 +75,7 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
         setRequestedUnstake(false);
       }
     } catch (e) {
+      setRequestedUnstake(false);
       console.log(e);
     }
   }, [stakeAmount, onUnstake]);
