@@ -8,12 +8,12 @@ import {
   StatArrow,
 } from "@chakra-ui/core";
 import { getDisplayBalance } from "src/utils/formatBalance";
-import BigNumber from "bignumber.js";
+import BN from "bignumber.js";
 
 interface StatBoxProps {
   title: string;
   tokenTicker: string;
-  value?: BigNumber | number;
+  value?: BN | number;
   showRelativePercentage?: boolean;
   relativePercentage?: number;
   bigNumber?: boolean;
@@ -35,7 +35,7 @@ export const StatBox: React.FC<StatBoxProps> = ({
         <StatNumber>
           {value
             ? bigNumber
-              ? getDisplayBalance(value as BigNumber)
+              ? getDisplayBalance(value as BN)
               : value
             : "-"}
         </StatNumber>

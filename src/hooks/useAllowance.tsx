@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 
-import BigNumber from "bignumber.js";
+import BN from "bignumber.js";
 import { useWallet } from "use-wallet";
 import { provider } from "web3-core";
 
@@ -10,7 +10,7 @@ const useAllowance = (
   tokenContract: string | null,
   poolAddress: string | null
 ) => {
-  const [allowance, setAllowance] = useState(new BigNumber(0));
+  const [allowance, setAllowance] = useState(new BN(0));
   const {
     account,
     ethereum,
@@ -27,7 +27,7 @@ const useAllowance = (
       );
     }
 
-    setAllowance(new BigNumber(allowance));
+    setAllowance(new BN(allowance));
   }, [account, poolAddress, tokenContract, ethereum]);
 
   useEffect(() => {

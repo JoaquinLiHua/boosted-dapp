@@ -1,20 +1,20 @@
 import { useCallback, useEffect, useState } from "react";
 
-import BigNumber from "bignumber.js";
+import BN from "bignumber.js";
 import { useWallet } from "use-wallet";
 import { provider } from "web3-core";
 
 import { getTreasuryBalance } from "src/utils/erc20";
 
 export const useTreasuryBalance = () => {
-  const [balance, setBalance] = useState(new BigNumber(0));
+  const [balance, setBalance] = useState(new BN(0));
   const {
     ethereum,
   }: { account: string | null; ethereum: provider } = useWallet();
 
   const fetchTreasuryBalance = useCallback(async () => {
     const balance = await getTreasuryBalance(ethereum);
-    setBalance(new BigNumber(balance));
+    setBalance(new BN(balance));
   }, [ethereum]);
 
   useEffect(() => {

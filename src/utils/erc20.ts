@@ -6,7 +6,7 @@ import { boostToken } from "src/constants/tokenAddresses";
 import { ethers } from "ethers";
 import { yCRVToken, kovanGovernance } from "src/constants/tokenAddresses";
 import { getDisplayBalance } from "./formatBalance";
-import BigNumber from "bignumber.js";
+import BN from "bignumber.js";
 
 export const getContract = (provider: provider, address: string) => {
   const web3 = new Web3(provider);
@@ -109,7 +109,7 @@ export const getPoolValue = async (
       });
       const priceInUSD = data[tokenAddress].usd;
       const poolSizeNumber = parseInt(
-        getDisplayBalance(new BigNumber(poolSize))
+        getDisplayBalance(new BN(poolSize))
       );
       return priceInUSD * poolSizeNumber;
     } catch (e) {

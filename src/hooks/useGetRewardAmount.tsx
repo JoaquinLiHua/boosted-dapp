@@ -3,10 +3,10 @@ import { useCallback, useState, useEffect } from "react";
 import { useWallet } from "use-wallet";
 import { provider } from "web3-core";
 import { rewardAmount } from "../utils/pools";
-import BigNumber from "bignumber.js";
+import BN from "bignumber.js";
 
 const useGetRewardAmount = (poolAddress: string) => {
-  const [amount, setAmount] = useState(new BigNumber(0));
+  const [amount, setAmount] = useState(new BN(0));
   const {
     account,
     ethereum,
@@ -15,7 +15,7 @@ const useGetRewardAmount = (poolAddress: string) => {
   const fetchBalance = useCallback(async () => {
     if (account) {
       const amount = await rewardAmount(ethereum, poolAddress, account);
-      setAmount(new BigNumber(amount));
+      setAmount(new BN(amount));
     }
   }, [account, ethereum, poolAddress]);
 

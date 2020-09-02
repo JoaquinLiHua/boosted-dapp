@@ -2,7 +2,7 @@ import Web3 from "web3";
 import { provider } from "web3-core";
 import { AbiItem } from "web3-utils";
 import POOLABI from "../constants/abi/BoostPools.json";
-import BigNumber from "bignumber.js";
+import BN from "bignumber.js";
 import { getDisplayBalance } from "./formatBalance";
 
 const GAS_LIMIT = {
@@ -41,7 +41,7 @@ export const getPoolStats = async (provider: provider, poolAddress: string) => {
 
 export const getPoolPriceInUSD = async (
   tokenAddress: string,
-  poolSize: BigNumber,
+  poolSize: BN,
   coinGecko: any
 ) => {
   try {
@@ -50,7 +50,7 @@ export const getPoolPriceInUSD = async (
       vs_currencies: "usd",
     });
     const priceInUSD = data[tokenAddress].usd;
-    const poolSizeNumber = parseInt(getDisplayBalance(new BigNumber(poolSize)));
+    const poolSizeNumber = parseInt(getDisplayBalance(new BN(poolSize)));
     return priceInUSD * poolSizeNumber;
   } catch (e) {
     return null;

@@ -6,7 +6,7 @@ import React, {
   useCallback,
 } from "react";
 import { useWallet } from "use-wallet";
-import BigNumber from "bignumber.js";
+import BN from "bignumber.js";
 import { getPoolStats, getPoolPriceInUSD } from "src/utils/pools";
 import { provider } from "web3-core";
 import {
@@ -133,10 +133,10 @@ export interface IPool {
   order: number;
   address: string;
   tokenContract: string;
-  poolSize: BigNumber | null;
+  poolSize: BN | null;
   poolPriceInUSD: number | null;
-  periodFinish: BigNumber | null;
-  boosterPrice: BigNumber | null;
+  periodFinish: BN | null;
+  boosterPrice: BN | null;
   tokenTicker: string;
 }
 
@@ -173,14 +173,14 @@ export const PoolProvider: React.FC = ({ children }) => {
         tokenContract: pool.tokenContract,
         tokenTicker: pool.tokenTicker,
         poolSize: poolStats?.poolSize
-          ? new BigNumber(poolStats?.poolSize)
+          ? new BN(poolStats?.poolSize)
           : null,
         poolPriceInUSD: poolPriceInUSD ? poolPriceInUSD : null,
         periodFinish: poolStats?.periodFinish
-          ? new BigNumber(poolStats.periodFinish)
+          ? new BN(poolStats.periodFinish)
           : null,
         boosterPrice: poolStats?.boosterPrice
-          ? new BigNumber(poolStats.boosterPrice)
+          ? new BN(poolStats.boosterPrice)
           : null,
       };
     });
