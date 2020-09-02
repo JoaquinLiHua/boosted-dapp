@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
 
-import BigNumber from "bignumber.js";
+import BN from "bignumber.js";
 import { useWallet } from "use-wallet";
 import { provider } from "web3-core";
 
 import { getBalance } from "../utils/erc20";
 
 export const useTokenBalance = (tokenAddress: string | null) => {
-  const [balance, setBalance] = useState(new BigNumber(0));
+  const [balance, setBalance] = useState(new BN(0));
   const {
     account,
     ethereum,
@@ -16,7 +16,7 @@ export const useTokenBalance = (tokenAddress: string | null) => {
   const fetchBalance = useCallback(async () => {
     if (account && tokenAddress) {
       const balance = await getBalance(ethereum, tokenAddress, account);
-      setBalance(new BigNumber(balance));
+      setBalance(new BN(balance));
     }
   }, [account, ethereum, tokenAddress]);
 

@@ -16,7 +16,7 @@ import useAllowance from "src/hooks/useAllowance";
 import { IPool } from "src/context/PoolContext";
 import useApprove from "src/hooks/useApprove";
 import useStake from "src/hooks/useStake";
-import BigNumber from "bignumber.js";
+// import BN from "bignumber.js";
 import useStakedAmount from "src/hooks/useStakedAmount";
 import useExit from "src/hooks/useExit";
 
@@ -33,6 +33,8 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
   const { onExit } = useExit(pool.address);
   const [requestedApproval, setRequestedApproval] = useState<boolean>(false);
   const [requestedStake, setRequestedStake] = useState<boolean>(false);
+  const [requestedFullStake, setRequestedFullStake] = useState<boolean>(false);
+  const [requestedFullUnstake, setRequestedFullUnstake] = useState<boolean>(false);
   const [requestedUnstake, setRequestedUnstake] = useState<boolean>(false);
   const [requestedExit, setRequestedExit] = useState<boolean>(false);
   const [stakeAmount, setStakeAmount] = useState<string>("");
@@ -50,13 +52,13 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
     }
   }, [onApprove, setRequestedApproval]);
 
-  const handlePercentageInputs = (percentage) => {
-    const numberBalance = tokenBalance.dividedBy(
-      new BigNumber(10).pow(new BigNumber(18))
-    );
-    const stringValue = (percentage * numberBalance.toNumber()).toString();
-    setStakeAmount(stringValue);
-  };
+  // const handlePercentageInputs = (percentage) => {
+  //   const numberBalance = tokenBalance.dividedBy(
+  //     new BN(10).pow(new BN(18))
+  //   );
+  //   const stringValue = (percentage * numberBalance.toNumber()).toString();
+  //   setStakeAmount(stringValue);
+  // };
 
   const handleStake = useCallback(async () => {
     try {
@@ -71,6 +73,19 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
     }
   }, [stakeAmount, onStake]);
 
+  const handleFullStake = useCallback(async () => {
+    try {
+      setRequestedFullStake(true);
+      const txHash = await onStake(tokenBalance.toString());
+      if (!txHash) {
+        setRequestedFullStake(false);
+      }
+    } catch (e) {
+      setRequestedFullStake(false);
+      console.log(e);
+    }
+  }, [stakeAmount, onStake]);
+
   const handleUnstake = useCallback(async () => {
     try {
       setRequestedUnstake(true);
@@ -80,6 +95,19 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
       }
     } catch (e) {
       setRequestedUnstake(false);
+      console.log(e);
+    }
+  }, [stakeAmount, onUnstake]);
+
+  const handleFullUnstake = useCallback(async () => {
+    try {
+      setRequestedFullUnstake(true);
+      const txHash = await onUnstake(stakedAmount.toString());
+      if (!txHash) {
+        setRequestedFullUnstake(false);
+      }
+    } catch (e) {
+      setRequestedFullUnstake(false);
       console.log(e);
     }
   }, [stakeAmount, onUnstake]);
@@ -142,12 +170,12 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
               <NumberDecrementStepper />
             </NumberInputStepper>
           </NumberInput>
-          <Flex justifyContent="space-between" my="4">
+          {/* <Flex justifyContent="space-between" my="4">
             <Button onClick={() => handlePercentageInputs(0.25)}>25%</Button>
             <Button onClick={() => handlePercentageInputs(0.5)}>50%</Button>
             <Button onClick={() => handlePercentageInputs(0.75)}>75%</Button>
             <Button onClick={() => handlePercentageInputs(1)}>100%</Button>
-          </Flex>
+          </Flex> */}
           <Flex justifyContent="space-evenly">
             <Button
               colorScheme="green"
@@ -166,6 +194,26 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
               onClick={() => handleUnstake()}
             >
               Unstake
+            </Button>
+          </Flex>
+          <Flex justifyContent="space-evenly">
+            <Button
+              colorScheme="green"
+              width="50%"
+              mr="2"
+              disabled={requestedFullStake}
+              onClick={() => handleFullStake()}
+            >
+              Stake All
+            </Button>
+            <Button
+              colorScheme="green"
+              width="50%"
+              ml="2"
+              disabled={requestedFullUnstake}
+              onClick={() => handleFullUnstake()}
+            >
+              Unstake All
             </Button>
           </Flex>
           <Flex>

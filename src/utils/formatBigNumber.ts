@@ -1,5 +1,5 @@
-import BigNumber from "bignumber.js";
+import BN from "bignumber.js";
 
-export const getNumber = (balance: BigNumber) => {
-  return balance.dividedBy(new BigNumber(10).pow(0)).toFixed();
+export const getNumber = (balance: BN) => {
+  return balance.dividedBy(new BN(10).pow(0)).toFixed();
 };

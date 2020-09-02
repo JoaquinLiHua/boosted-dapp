@@ -2,7 +2,7 @@ import Web3 from "web3";
 import { provider } from "web3-core";
 import { AbiItem } from "web3-utils";
 import POOLABI from "../constants/abi/BoostPools.json";
-import BigNumber from "bignumber.js";
+import BN from "bignumber.js";
 import { getDisplayBalance } from "./formatBalance";
 
 const GAS_LIMIT = {
@@ -41,7 +41,7 @@ export const getPoolStats = async (provider: provider, poolAddress: string) => {
 
 export const getPoolPriceInUSD = async (
   tokenAddress: string,
-  poolSize: BigNumber,
+  poolSize: BN,
   coinGecko: any
 ) => {
   try {
@@ -50,7 +50,7 @@ export const getPoolPriceInUSD = async (
       vs_currencies: "usd",
     });
     const priceInUSD = data[tokenAddress].usd;
-    const poolSizeNumber = parseInt(getDisplayBalance(new BigNumber(poolSize)));
+    const poolSizeNumber = parseInt(getDisplayBalance(new BN(poolSize)));
     return priceInUSD * poolSizeNumber;
   } catch (e) {
     return null;
@@ -70,7 +70,7 @@ export const stake = async (
     if (now >= 1597172400) {
       return poolContract.methods
         .stake(
-          new BigNumber(amount).times(new BigNumber(10).pow(18)).toString()
+          "0x" + new BN(amount).multipliedBy(new BN(10).pow(18)).toString(16)
         )
         .send({ from: account, gas })
         .on("transactionHash", (tx) => {
@@ -98,7 +98,7 @@ export const unstake = async (
     if (now >= 1597172400) {
       return poolContract.methods
         .withdraw(
-          new BigNumber(amount).times(new BigNumber(10).pow(18)).toString()
+          "0x" + new BN(amount).multipliedBy(new BN(10).pow(18)).toString(16)
         )
         .send({ from: account, gas: gas })
         .on("transactionHash", (tx) => {
