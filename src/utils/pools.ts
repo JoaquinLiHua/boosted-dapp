@@ -62,6 +62,8 @@ export const stake = async (
   account: string | null
 ) => {
   if (account) {
+    console.log("WIP");
+
     const poolContract = getContract(provider, poolAddress);
     const now = new Date().getTime() / 1000;
     const gas = GAS_LIMIT.STAKING.DEFAULT;
@@ -70,7 +72,9 @@ export const stake = async (
       if (amount < 1000) {
         amountBN = ethers.BigNumber.from((amount * 1e18 - 100000).toString());
       } else {
-        amountBN = ethers.BigNumber.from(Math.floor(amount).toString()).mul(ethers.constants.WeiPerEther);
+        amountBN = ethers.BigNumber.from(Math.floor(amount).toString()).mul(
+          ethers.constants.WeiPerEther
+        );
       }
       return poolContract.methods
         .stake(amountBN)
@@ -102,7 +106,9 @@ export const unstake = async (
       if (amount < 1000) {
         amountBN = ethers.BigNumber.from((amount * 1e18 - 100000).toString());
       } else {
-        amountBN = ethers.BigNumber.from(Math.floor(amount).toString()).mul(ethers.constants.WeiPerEther);
+        amountBN = ethers.BigNumber.from(Math.floor(amount).toString()).mul(
+          ethers.constants.WeiPerEther
+        );
       }
       return poolContract.methods
         .withdraw(amountBN)
