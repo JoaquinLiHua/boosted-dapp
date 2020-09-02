@@ -1,19 +1,22 @@
 # GET BOOSTED
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
 ## Available Scripts
 
 In the project directory, you can run:
 
-### 'yarn dev'
+### `yarn dev`
 
-For quick dev purposes
+Runs the app in the development mode.<br />
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-### 'yarn run build'
+The page will reload if you make edits.<br />
+You will also see any lint errors in the console.
 
-For building up the app (we had problems before - some items worked in dev but not prod so be sure to build and run the next command)
+### `yarn run build`
 
-### 'yarn run start'
+Builds the app for production to the `build` folder.<br />
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-Boot up the app after building
+### `yarn start`
+
+Starts the app in production mode
