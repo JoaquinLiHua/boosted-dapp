@@ -9,6 +9,7 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
+  Divider,
 } from "@chakra-ui/core";
 import { getDisplayBalance } from "src/utils/formatBalance";
 import { useTokenBalance } from "src/hooks/useTokenBalance";
@@ -16,7 +17,7 @@ import useAllowance from "src/hooks/useAllowance";
 import { IPool } from "src/context/PoolContext";
 import useApprove from "src/hooks/useApprove";
 import useStake from "src/hooks/useStake";
-// import BN from "bignumber.js";
+import BN from "bignumber.js";
 import useStakedAmount from "src/hooks/useStakedAmount";
 import useExit from "src/hooks/useExit";
 
@@ -33,11 +34,10 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
   const { onExit } = useExit(pool.address);
   const [requestedApproval, setRequestedApproval] = useState<boolean>(false);
   const [requestedStake, setRequestedStake] = useState<boolean>(false);
-  const [requestedFullStake, setRequestedFullStake] = useState<boolean>(false);
-  const [requestedFullUnstake, setRequestedFullUnstake] = useState<boolean>(false);
   const [requestedUnstake, setRequestedUnstake] = useState<boolean>(false);
   const [requestedExit, setRequestedExit] = useState<boolean>(false);
   const [stakeAmount, setStakeAmount] = useState<string>("");
+  const [unstakeAmount, setUnstakeAmount] = useState<string>("");
 
   const handleApprove = useCallback(async () => {
     try {
@@ -52,13 +52,17 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
     }
   }, [onApprove, setRequestedApproval]);
 
-  // const handlePercentageInputs = (percentage) => {
-  //   const numberBalance = tokenBalance.dividedBy(
-  //     new BN(10).pow(new BN(18))
-  //   );
-  //   const stringValue = (percentage * numberBalance.toNumber()).toString();
-  //   setStakeAmount(stringValue);
-  // };
+  const handlePercentageStakeInputs = (percentage) => {
+    const numberBalance = tokenBalance.dividedBy(new BN(10).pow(new BN(18)));
+    const stringValue = (percentage * numberBalance.toNumber()).toString();
+    setStakeAmount(stringValue);
+  };
+
+  const handlePercentageUnstakeInput = (percentage: number) => {
+    const numberBalance = stakedAmount.dividedBy(new BN(10).pow(new BN(18)));
+    const stringValue = (percentage * numberBalance.toNumber()).toString();
+    setUnstakeAmount(stringValue);
+  };
 
   const handleStake = useCallback(async () => {
     try {
@@ -73,23 +77,10 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
     }
   }, [stakeAmount, onStake]);
 
-  const handleFullStake = useCallback(async () => {
-    try {
-      setRequestedFullStake(true);
-      const txHash = await onStake(tokenBalance.toString());
-      if (!txHash) {
-        setRequestedFullStake(false);
-      }
-    } catch (e) {
-      setRequestedFullStake(false);
-      console.log(e);
-    }
-  }, [stakeAmount, onStake]);
-
   const handleUnstake = useCallback(async () => {
     try {
       setRequestedUnstake(true);
-      const txHash = await onUnstake(stakeAmount);
+      const txHash = await onUnstake(unstakeAmount);
       if (!txHash) {
         setRequestedUnstake(false);
       }
@@ -97,20 +88,7 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
       setRequestedUnstake(false);
       console.log(e);
     }
-  }, [stakeAmount, onUnstake]);
-
-  const handleFullUnstake = useCallback(async () => {
-    try {
-      setRequestedFullUnstake(true);
-      const txHash = await onUnstake(stakedAmount.toString());
-      if (!txHash) {
-        setRequestedFullUnstake(false);
-      }
-    } catch (e) {
-      setRequestedFullUnstake(false);
-      console.log(e);
-    }
-  }, [stakeAmount, onUnstake]);
+  }, [unstakeAmount, onUnstake]);
 
   const handleExit = useCallback(async () => {
     try {
@@ -123,15 +101,16 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
       setRequestedExit(false);
       console.log(e);
     }
-  }, [stakeAmount, onUnstake]);
+  }, [onExit]);
 
-  const handleChange = (value: string) => setStakeAmount(value);
+  const handleStakeChange = (value: string) => setStakeAmount(value);
+  const handleUnstakeChange = (value: string) => setStakeAmount(value);
 
   return (
     <Stack>
       <Flex
         justifyContent="space-between"
-        my={4}
+        my={2}
         borderWidth={1}
         borderRadius={5}
         p={8}
@@ -141,9 +120,44 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
           {getDisplayBalance(tokenBalance)} {pool.tokenTicker.toUpperCase()}
         </Text>
       </Flex>
+      {allowance.toNumber() && (
+        <Stack>
+          <NumberInput value={stakeAmount} onChange={handleStakeChange}>
+            <NumberInputField />
+            <NumberInputStepper>
+              <NumberIncrementStepper />
+              <NumberDecrementStepper />
+            </NumberInputStepper>
+          </NumberInput>
+          <Flex justifyContent="space-between" my="2">
+            <Button onClick={() => handlePercentageStakeInputs(0.25)}>
+              25%
+            </Button>
+            <Button onClick={() => handlePercentageStakeInputs(0.5)}>
+              50%
+            </Button>
+            <Button onClick={() => handlePercentageStakeInputs(0.75)}>
+              75%
+            </Button>
+            <Button onClick={() => handlePercentageStakeInputs(1)}>100%</Button>
+          </Flex>
+          <Flex justifyContent="space-evenly">
+            <Button
+              colorScheme="green"
+              width="100%"
+              my="2"
+              disabled={requestedStake}
+              onClick={() => handleStake()}
+            >
+              Stake
+            </Button>
+          </Flex>
+        </Stack>
+      )}
+      <Divider />
       <Flex
         justifyContent="space-between"
-        my={4}
+        my={2}
         borderWidth={1}
         borderRadius={5}
         p={8}
@@ -163,59 +177,40 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
         </Button>
       ) : (
         <>
-          <NumberInput value={stakeAmount} onChange={handleChange}>
-            <NumberInputField />
-            <NumberInputStepper>
-              <NumberIncrementStepper />
-              <NumberDecrementStepper />
-            </NumberInputStepper>
-          </NumberInput>
-          {/* <Flex justifyContent="space-between" my="4">
-            <Button onClick={() => handlePercentageInputs(0.25)}>25%</Button>
-            <Button onClick={() => handlePercentageInputs(0.5)}>50%</Button>
-            <Button onClick={() => handlePercentageInputs(0.75)}>75%</Button>
-            <Button onClick={() => handlePercentageInputs(1)}>100%</Button>
-          </Flex> */}
-          <Flex justifyContent="space-evenly">
-            <Button
-              colorScheme="green"
-              width="50%"
-              mr="2"
-              disabled={requestedStake}
-              onClick={() => handleStake()}
-            >
-              Stake
-            </Button>
-            <Button
-              colorScheme="green"
-              width="50%"
-              ml="2"
-              disabled={requestedUnstake}
-              onClick={() => handleUnstake()}
-            >
-              Unstake
-            </Button>
-          </Flex>
-          <Flex justifyContent="space-evenly">
-            <Button
-              colorScheme="green"
-              width="50%"
-              mr="2"
-              disabled={requestedFullStake}
-              onClick={() => handleFullStake()}
-            >
-              Stake All
-            </Button>
-            <Button
-              colorScheme="green"
-              width="50%"
-              ml="2"
-              disabled={requestedFullUnstake}
-              onClick={() => handleFullUnstake()}
-            >
-              Unstake All
-            </Button>
-          </Flex>
+          <Stack>
+            <NumberInput value={unstakeAmount} onChange={handleUnstakeChange}>
+              <NumberInputField />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
+            <Flex justifyContent="space-between" my="2">
+              <Button onClick={() => handlePercentageUnstakeInput(0.25)}>
+                25%
+              </Button>
+              <Button onClick={() => handlePercentageUnstakeInput(0.5)}>
+                50%
+              </Button>
+              <Button onClick={() => handlePercentageUnstakeInput(0.75)}>
+                75%
+              </Button>
+              <Button onClick={() => handlePercentageUnstakeInput(1)}>
+                100%
+              </Button>
+            </Flex>
+            <Flex justifyContent="space-evenly">
+              <Button
+                colorScheme="green"
+                width="100%"
+                my="2"
+                disabled={requestedUnstake}
+                onClick={() => handleUnstake()}
+              >
+                Unstake
+              </Button>
+            </Flex>
+          </Stack>
           <Flex>
             <Button
               my="2"
