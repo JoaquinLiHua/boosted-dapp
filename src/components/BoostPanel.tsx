@@ -84,11 +84,19 @@ export const BoostPanel: React.FC<BoostPanelProps> = ({ pool }) => {
         </Text>
       </Flex>
       {!allowance.toNumber() ? (
-        <Button disabled={requestedApproval} onClick={() => handleApprove()}>
+        <Button
+          colorScheme="green"
+          disabled={requestedApproval}
+          onClick={() => handleApprove()}
+        >
           Approve BOOST
         </Button>
       ) : (
-        <Button disabled={requestedBoost} onClick={() => handleBoost()}>
+        <Button
+          colorScheme="green"
+          disabled={requestedBoost}
+          onClick={() => handleBoost()}
+        >
           Buy BOOSTER
         </Button>
       )}

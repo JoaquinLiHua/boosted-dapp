@@ -10,7 +10,7 @@ const useStake = (poolContract: string) => {
   }: { account: string | null; ethereum: provider } = useWallet();
 
   const handleStake = useCallback(
-    async (amount: number) => {
+    async (amount: string) => {
       const txHash = await stake(ethereum, poolContract, amount, account);
       return txHash;
     },
@@ -18,7 +18,7 @@ const useStake = (poolContract: string) => {
   );
 
   const handleUnstake = useCallback(
-    async (amount: number) => {
+    async (amount: string) => {
       const txHash = await unstake(ethereum, poolContract, amount, account);
       return txHash;
     },

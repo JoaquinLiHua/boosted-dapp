@@ -8,7 +8,6 @@ import { usePriceFeedContext } from "src/context/PriceFeedContext";
 export const useTotalValueLocked = () => {
   const [totalValueLockedInUSD, setTotalValueLockedInUSD] = useState<number>(0);
   const { coinGecko } = usePriceFeedContext();
-
   const {
     ethereum,
   }: { account: string | null; ethereum: provider } = useWallet();

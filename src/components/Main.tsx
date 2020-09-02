@@ -9,6 +9,7 @@ import { useTotalValueLocked } from "src/hooks/useTotalValueLocked";
 import { IPool } from "src/context/PoolContext";
 import { TableUI } from "./TableUI";
 import { TransactionModal } from "./TransactionModal";
+import formatCurrency from "format-currency";
 
 export const Main: React.FC = () => {
   const [showTransactionModal, setShowTransactionModal] = useState<boolean>(
@@ -39,7 +40,7 @@ export const Main: React.FC = () => {
           <StatBox
             title="TOTAL VALUE LOCKED"
             tokenTicker={"USD"}
-            value={totalValueLocked}
+            value={formatCurrency(totalValueLocked)}
           />
           <StatBox title="B00ST PRICE" tokenTicker={"BOOST"} />
           <StatBox
