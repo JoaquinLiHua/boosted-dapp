@@ -13,6 +13,7 @@ import { getDisplayBalance } from "src/utils/formatBalance";
 import { getNumber } from "src/utils/formatBigNumber";
 import { formatTimestamp } from "src/utils/formatTimestamp";
 import { useWallet } from "use-wallet";
+import formatCurrency from "format-currency";
 
 interface TableUIProps {
   setShowTransactionModal: Function;
@@ -74,7 +75,7 @@ export const TableUI: React.FC<TableUIProps> = ({
                 {e.tokenTicker.toUpperCase()}
               </Text>
               <Text sub={"true"} fontSize="xs">
-                ${e.poolPriceInUSD ? e.poolPriceInUSD : 0}
+                ${e.poolPriceInUSD ? formatCurrency(e.poolPriceInUSD) : 0}
               </Text>
             </TableCell>
             <TableCell>
