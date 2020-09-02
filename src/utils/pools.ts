@@ -2,13 +2,15 @@ import Web3 from "web3";
 import { provider } from "web3-core";
 import { AbiItem } from "web3-utils";
 import POOLABI from "../constants/abi/BoostPools.json";
-import { ethers } from "ethers";
 import BigNumber from "bignumber.js";
 import { getDisplayBalance } from "./formatBalance";
 
 const GAS_LIMIT = {
   STAKING: {
     DEFAULT: 250000,
+  },
+  EXIT: {
+    DEFAULT: 300000,
   },
 };
 
@@ -58,26 +60,18 @@ export const getPoolPriceInUSD = async (
 export const stake = async (
   provider: provider,
   poolAddress: string,
-  amount: number,
+  amount: string,
   account: string | null
 ) => {
   if (account) {
-    console.log("WIP");
-
     const poolContract = getContract(provider, poolAddress);
     const now = new Date().getTime() / 1000;
     const gas = GAS_LIMIT.STAKING.DEFAULT;
-    let amountBN;
     if (now >= 1597172400) {
-      if (amount < 1000) {
-        amountBN = ethers.BigNumber.from((amount * 1e18 - 100000).toString());
-      } else {
-        amountBN = ethers.BigNumber.from(Math.floor(amount).toString()).mul(
-          ethers.constants.WeiPerEther
-        );
-      }
       return poolContract.methods
-        .stake(amountBN)
+        .stake(
+          new BigNumber(amount).times(new BigNumber(10).pow(18)).toString()
+        )
         .send({ from: account, gas })
         .on("transactionHash", (tx) => {
           console.log(tx);
@@ -94,24 +88,18 @@ export const stake = async (
 export const unstake = async (
   provider: provider,
   poolAddress: string,
-  amount: number,
+  amount: string,
   account: string | null
 ) => {
   if (account) {
     const poolContract = getContract(provider, poolAddress);
     const gas = GAS_LIMIT.STAKING.DEFAULT;
     const now = new Date().getTime() / 1000;
-    let amountBN;
     if (now >= 1597172400) {
-      if (amount < 1000) {
-        amountBN = ethers.BigNumber.from((amount * 1e18 - 100000).toString());
-      } else {
-        amountBN = ethers.BigNumber.from(Math.floor(amount).toString()).mul(
-          ethers.constants.WeiPerEther
-        );
-      }
       return poolContract.methods
-        .withdraw(amountBN)
+        .withdraw(
+          new BigNumber(amount).times(new BigNumber(10).pow(18)).toString()
+        )
         .send({ from: account, gas: gas })
         .on("transactionHash", (tx) => {
           console.log(tx);
@@ -225,6 +213,31 @@ export const stakedAmount = async (
       return stakedAmount;
     } catch (e) {
       console.log(e);
+    }
+  } else {
+    alert("wallet not connected");
+  }
+};
+
+export const exit = async (
+  provider: provider,
+  poolAddress: string,
+  account: string | null
+) => {
+  if (account) {
+    const poolContract = getContract(provider, poolAddress);
+    const gas = GAS_LIMIT.EXIT.DEFAULT;
+    const now = new Date().getTime() / 1000;
+    if (now >= 1597172400) {
+      return poolContract.methods
+        .exit()
+        .send({ from: account, gas: gas })
+        .on("transactionHash", (tx) => {
+          console.log(tx);
+          return tx.transactionHash;
+        });
+    } else {
+      alert("pool not active");
     }
   } else {
     alert("wallet not connected");

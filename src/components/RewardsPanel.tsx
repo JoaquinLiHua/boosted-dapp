@@ -38,7 +38,12 @@ export const RewardsPanel: React.FC<RewardsPanelProps> = ({ pool }) => {
         <Text>Rewards earned</Text>
         <Text>{getDisplayBalance(rewardAmount)} BOOST</Text>
       </Flex>
-      <Button disabled={requestedClaim} onClick={() => handleClaim()}>
+      <Button
+        width="100%"
+        colorScheme="green"
+        disabled={requestedClaim}
+        onClick={() => handleClaim()}
+      >
         Claim Rewards
       </Button>
     </Stack>

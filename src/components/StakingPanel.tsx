@@ -18,6 +18,7 @@ import useApprove from "src/hooks/useApprove";
 import useStake from "src/hooks/useStake";
 import BigNumber from "bignumber.js";
 import useStakedAmount from "src/hooks/useStakedAmount";
+import useExit from "src/hooks/useExit";
 
 interface StakingPanelProps {
   pool: IPool;
@@ -29,10 +30,12 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
   const stakedAmount = useStakedAmount(pool.address);
   const { onApprove } = useApprove(pool.tokenContract, pool.address);
   const { onStake, onUnstake } = useStake(pool.address);
+  const { onExit } = useExit(pool.address);
   const [requestedApproval, setRequestedApproval] = useState<boolean>(false);
   const [requestedStake, setRequestedStake] = useState<boolean>(false);
   const [requestedUnstake, setRequestedUnstake] = useState<boolean>(false);
-  const [stakeAmount, setStakeAmount] = useState<number>(0);
+  const [requestedExit, setRequestedExit] = useState<boolean>(false);
+  const [stakeAmount, setStakeAmount] = useState<string>("");
 
   const handleApprove = useCallback(async () => {
     try {
@@ -51,7 +54,8 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
     const numberBalance = tokenBalance.dividedBy(
       new BigNumber(10).pow(new BigNumber(18))
     );
-    setStakeAmount(percentage * numberBalance.toNumber());
+    const stringValue = (percentage * numberBalance.toNumber()).toString();
+    setStakeAmount(stringValue);
   };
 
   const handleStake = useCallback(async () => {
@@ -80,7 +84,20 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
     }
   }, [stakeAmount, onUnstake]);
 
-  const handleChange = (_, value) => setStakeAmount(value);
+  const handleExit = useCallback(async () => {
+    try {
+      setRequestedExit(true);
+      const txHash = await onExit();
+      if (!txHash) {
+        setRequestedExit(false);
+      }
+    } catch (e) {
+      setRequestedExit(false);
+      console.log(e);
+    }
+  }, [stakeAmount, onUnstake]);
+
+  const handleChange = (value: string) => setStakeAmount(value);
 
   return (
     <Stack>
@@ -109,7 +126,11 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
         </Text>
       </Flex>
       {!allowance.toNumber() ? (
-        <Button disabled={requestedApproval} onClick={() => handleApprove()}>
+        <Button
+          colorScheme="green"
+          disabled={requestedApproval}
+          onClick={() => handleApprove()}
+        >
           Approve {pool.tokenTicker.toUpperCase()}
         </Button>
       ) : (
@@ -128,11 +149,34 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
             <Button onClick={() => handlePercentageInputs(1)}>100%</Button>
           </Flex>
           <Flex justifyContent="space-evenly">
-            <Button disabled={requestedStake} onClick={() => handleStake()}>
+            <Button
+              colorScheme="green"
+              width="50%"
+              mr="2"
+              disabled={requestedStake}
+              onClick={() => handleStake()}
+            >
               Stake
             </Button>
-            <Button disabled={requestedUnstake} onClick={() => handleUnstake()}>
+            <Button
+              colorScheme="green"
+              width="50%"
+              ml="2"
+              disabled={requestedUnstake}
+              onClick={() => handleUnstake()}
+            >
               Unstake
+            </Button>
+          </Flex>
+          <Flex>
+            <Button
+              my="2"
+              width="100%"
+              disabled={requestedExit}
+              onClick={() => handleExit()}
+              colorScheme="red"
+            >
+              Exit & Claim
             </Button>
           </Flex>
         </>
