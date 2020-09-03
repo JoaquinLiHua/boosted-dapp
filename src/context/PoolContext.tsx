@@ -7,7 +7,11 @@ import React, {
 } from "react";
 import { useWallet } from "use-wallet";
 import BN from "bignumber.js";
-import { getPoolStats, getPoolPriceInUSD } from "src/utils/pools";
+import {
+  getPoolStats,
+  getPoolPriceInUSD,
+  getApyCalculated,
+} from "src/utils/pools";
 import { provider } from "web3-core";
 import {
   yfiToken,
@@ -149,6 +153,7 @@ export interface IPool {
   periodFinish: BN | null;
   boosterPrice: BN | null;
   tokenTicker: string;
+  apy: number | null;
 }
 
 interface IPoolContext {
@@ -174,6 +179,12 @@ export const PoolProvider: React.FC = ({ children }) => {
         poolStats?.poolSize,
         coinGecko
       );
+      const apy = await getApyCalculated(
+        ethereum,
+        pool.address,
+        pool.tokenContract,
+        coinGecko
+      );
       return {
         name: pool.name,
         icon: pool.icon,
@@ -190,6 +201,7 @@ export const PoolProvider: React.FC = ({ children }) => {
         boosterPrice: poolStats?.boosterPrice
           ? new BN(poolStats.boosterPrice)
           : null,
+        apy: apy,
       };
     });
     const poolArr = await Promise.all(promisedPoolsArr);
