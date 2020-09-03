@@ -4,7 +4,7 @@ import { AbiItem } from "web3-utils";
 import ERC20ABI from "../constants/abi/ERC20.json";
 import { boostToken } from "src/constants/tokenAddresses";
 import { ethers } from "ethers";
-import { yCRVToken, kovanGovernance } from "src/constants/tokenAddresses";
+import { yCRVToken, governanceContract } from "src/constants/tokenAddresses";
 import { getDisplayBalance } from "./formatBalance";
 import BN from "bignumber.js";
 
@@ -83,7 +83,7 @@ export const getTreasuryBalance = async (provider: provider) => {
   const tokenContract = getContract(provider, yCRVToken);
   try {
     const balance = await tokenContract.methods
-      .balanceOf(kovanGovernance)
+      .balanceOf(governanceContract)
       .call();
     return balance;
   } catch (e) {
@@ -108,9 +108,7 @@ export const getPoolValue = async (
         vs_currencies: "usd",
       });
       const priceInUSD = data[tokenAddress].usd;
-      const poolSizeNumber = parseInt(
-        getDisplayBalance(new BN(poolSize))
-      );
+      const poolSizeNumber = parseInt(getDisplayBalance(new BN(poolSize)));
       return priceInUSD * poolSizeNumber;
     } catch (e) {
       return null;
