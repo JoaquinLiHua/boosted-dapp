@@ -4,7 +4,7 @@ import { StatBox } from "./StatBox";
 import { boostToken } from "../constants/tokenAddresses";
 import { useTokenBalance } from "src/hooks/useTokenBalance";
 import { useTotalSupply } from "src/hooks/useTotalSupply";
-// import { useTreasuryBalance } from "src/hooks/useTreasuryBalance";
+import { useTreasuryBalance } from "src/hooks/useTreasuryBalance";
 import { useTotalValueLocked } from "src/hooks/useTotalValueLocked";
 import { IPool } from "src/context/PoolContext";
 import { TableUI } from "./TableUI";
@@ -18,7 +18,7 @@ export const Main: React.FC = () => {
   const [pool, setPool] = useState<IPool | null>(null);
   const boostBalance = useTokenBalance(boostToken);
   const boostTotalSupply = useTotalSupply();
-  // const treasuryBalance = useTreasuryBalance();
+  const treasuryBalance = useTreasuryBalance();
   const totalValueLocked = useTotalValueLocked();
   const handleShowTransactionModal = (pool: IPool) => {
     setShowTransactionModal(true);
@@ -49,7 +49,12 @@ export const Main: React.FC = () => {
             value={boostTotalSupply}
             tokenTicker={"BOOST"}
           />
-          <StatBox title="TREASURY VALUE" bigNumber tokenTicker={"YCRV"} />
+          <StatBox
+            title="TREASURY VALUE"
+            bigNumber
+            tokenTicker={"YCRV"}
+            value={treasuryBalance}
+          />
         </Stack>
         <Box flex={4}>
           <TableUI setShowTransactionModal={handleShowTransactionModal} />
