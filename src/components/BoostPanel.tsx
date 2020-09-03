@@ -26,12 +26,14 @@ export const BoostPanel: React.FC<BoostPanelProps> = ({ pool }) => {
     try {
       setRequestedApproval(true);
       const txHash = await onApprove();
-      // user rejected tx or didn't go thru
       if (!txHash) {
+        throw "Transactions error";
+      } else {
         setRequestedApproval(false);
       }
     } catch (e) {
       console.log(e);
+      setRequestedApproval(false);
     }
   }, [onApprove, setRequestedApproval]);
 
@@ -40,10 +42,13 @@ export const BoostPanel: React.FC<BoostPanelProps> = ({ pool }) => {
       setRequestedBoost(true);
       const txHash = await onBoost();
       if (!txHash) {
-        setRequestedBoost(false);
+        throw "Transactions error";
+      } else {
+        setRequestedApproval(false);
       }
     } catch (e) {
       console.log(e);
+      setRequestedApproval(false);
     }
   }, [setRequestedBoost, onBoost]);
 
@@ -89,7 +94,7 @@ export const BoostPanel: React.FC<BoostPanelProps> = ({ pool }) => {
           disabled={requestedApproval}
           onClick={() => handleApprove()}
         >
-          Approve BOOST
+          {requestedApproval ? "Approving..." : "Approve BOOST"}
         </Button>
       ) : (
         <Button
@@ -97,7 +102,7 @@ export const BoostPanel: React.FC<BoostPanelProps> = ({ pool }) => {
           disabled={requestedBoost}
           onClick={() => handleBoost()}
         >
-          Buy BOOSTER
+          {requestedBoost ? "Boosting..." : "Buy BOOSTER"}
         </Button>
       )}
     </Stack>

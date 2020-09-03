@@ -44,11 +44,13 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
       setRequestedApproval(true);
       const txHash = await onApprove();
       if (!txHash) {
+        throw "Transactions error";
+      } else {
         setRequestedApproval(false);
       }
     } catch (e) {
-      setRequestedApproval(false);
       console.log(e);
+      setRequestedApproval(false);
     }
   }, [onApprove, setRequestedApproval]);
 
@@ -69,6 +71,8 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
       setRequestedStake(true);
       const txHash = await onStake(stakeAmount);
       if (!txHash) {
+        throw "Transactions error";
+      } else {
         setRequestedStake(false);
       }
     } catch (e) {
@@ -82,6 +86,8 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
       setRequestedUnstake(true);
       const txHash = await onUnstake(unstakeAmount);
       if (!txHash) {
+        throw "Transactions error";
+      } else {
         setRequestedUnstake(false);
       }
     } catch (e) {
@@ -95,11 +101,13 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
       setRequestedExit(true);
       const txHash = await onExit();
       if (!txHash) {
+        throw "Transactions error";
+      } else {
         setRequestedExit(false);
       }
     } catch (e) {
-      setRequestedExit(false);
       console.log(e);
+      setRequestedExit(false);
     }
   }, [onExit]);
 
@@ -149,7 +157,7 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
               disabled={requestedStake}
               onClick={() => handleStake()}
             >
-              Stake
+              {requestedStake ? "Staking" : "Stake"}
             </Button>
           </Flex>
         </Stack>
@@ -173,7 +181,9 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
           disabled={requestedApproval}
           onClick={() => handleApprove()}
         >
-          Approve {pool.tokenTicker.toUpperCase()}
+          {requestedApproval
+            ? "Approving..."
+            : `Approve ${pool.tokenTicker.toUpperCase()}`}
         </Button>
       ) : (
         <>
@@ -207,7 +217,7 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
                 disabled={requestedUnstake}
                 onClick={() => handleUnstake()}
               >
-                Unstake
+                {requestedUnstake ? "Unstaking..." : "Unstake"}
               </Button>
             </Flex>
           </Stack>
@@ -219,7 +229,7 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
               onClick={() => handleExit()}
               colorScheme="red"
             >
-              Exit & Claim
+              {requestedExit ? "Exiting..." : "Exit & Claim"}
             </Button>
           </Flex>
         </>
