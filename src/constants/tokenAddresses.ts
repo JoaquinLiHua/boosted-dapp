@@ -21,6 +21,7 @@ export const yfiPool = "0x3EE27441449B2DfC705E3C237FFd75826870120A";
 export const linkPool = "0x57fbd512a440CCE6832c62fD63c54A0A9f545F8a";
 export const bandPool = "0x3080869CF796d944cB4fb3C47D7084f8E8D3d22a";
 export const sushiPool = "0xC7491fcDfc8af10d5a8Bc9C13b60B85209C0dc59";
+export const uniswapPool = "0x8851d9b6c913309225947dda16e82e1854198c1e";
 
 // ERC20 Token Address of supported pools
 export const yfiToken = "0x0bc529c00c6401aef6d220be8c6ea1667f6ad93e";
@@ -33,3 +34,4 @@ export const lendToken = "0x80fb784b7ed66730e8b1dbd9820afd29931aab03";
 export const snxToken = "0xc011a73ee8576fb46f5e1c5751ca3b9fe0af2a6f";
 export const mkrToken = "0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2";
 export const renToken = "0x408e41876cccdc0f92210600ef50372656052a38";
+export const uniswapLPToken = "0x6b4a0bd2eee3ca06652f758844937daf91ea8422";
