@@ -4,6 +4,7 @@ import { AbiItem } from "web3-utils";
 import POOLABI from "../constants/abi/BoostPools.json";
 import BN from "bignumber.js";
 import { getDisplayBalance } from "./formatBalance";
+import { boostToken } from "src/constants/tokenAddresses";
 
 export const getContract = (provider: provider, address: string) => {
   const web3 = new Web3(provider);
@@ -217,22 +218,31 @@ export const exit = async (
   }
 };
 
-// const getApyCalculated = () => {};
-
-// const get_synth_weekly_rewards = async function(synth_contract_instance) {
-//   if (await isRewardPeriodOver(synth_contract_instance)) {
-//     return 0
-//   }
-
-//   const rewardRate = await synth_contract_instance.rewardRate()
-//   return Math.round((rewardRate / 1e18) * 604800)
-// }
-
-// const isRewardPeriodOver = async function(reward_contract_instance) {
-//   const now = Date.now() / 1000
-//   const periodFinish = await getPeriodFinishForReward(reward_contract_instance)
-//   return periodFinish < now
-// }
-
-// const weekly_reward = await get_synth_weekly_rewards(Y_STAKING_POOL);
-// const rewardPerToken = weekly_reward / totalStakedYAmount;
+export const getApyCalculated = async (
+  provider: provider,
+  poolAddress: string,
+  tokenAddress: string,
+  coinGecko: any
+) => {
+  try {
+    const poolContract = getContract(provider, poolAddress);
+    const rewardPerToken = await poolContract.methods.rewardPerToken().call();
+    const weeklyRewards = (rewardPerToken / 1e18) * 604800;
+    const { data } = await coinGecko.simple.fetchTokenPrice({
+      contract_addresses: [
+        tokenAddress,
+        "0x3e780920601D61cEdb860fe9c4a90c9EA6A35E78",
+      ],
+      vs_currencies: "usd",
+    });
+    const tokenPriceInUSD = data[tokenAddress].usd;
+    const apy =
+      ((weeklyRewards * tokenPriceInUSD * 100) / data[boostToken].usd) * 52;
+    console.log(weeklyRewards);
+    console.log(data[boostToken].usd);
+    console.log(apy);
+    return apy;
+  } catch (e) {
+    return null;
+  }
+};

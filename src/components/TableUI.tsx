@@ -84,7 +84,7 @@ export const TableUI: React.FC<TableUIProps> = ({
               </Text>
             </TableCell>
             <TableCell>
-              <Text fontSize="">{"-"}%</Text>
+              <Text fontSize="">{e.apy}%</Text>
             </TableCell>
             <TableCell textAlign="right">
               {!!account && (
