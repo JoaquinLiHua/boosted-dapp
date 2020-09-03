@@ -20,8 +20,6 @@ import {
   snxToken,
   mkrToken,
   renToken,
-  uniswapBoostToken,
-  uniswapPool,
   yfiPool,
   bandPool,
   compPool,
@@ -32,17 +30,19 @@ import {
   renPool,
   snxPool,
   sushiPool,
+  uniswapLPToken,
+  uniswapPool,
 } from "src/constants/tokenAddresses";
 import { usePriceFeedContext } from "./PriceFeedContext";
 
 export const ALL_POOLS = [
   {
-    name: "BOOST-ETH (UNI-ETH-BOOST)",
+    name: "BOOST-ETH (Uniswap BOOST-ETH)",
     code: "boost_pool",
-    order: 9,
+    order: 0,
     icon: "/images/boost-icon.png",
     address: uniswapPool,
-    tokenContract: uniswapBoostToken,
+    tokenContract: uniswapLPToken,
     tokenTicker: "boost",
   },
   {
