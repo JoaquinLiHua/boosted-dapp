@@ -2,7 +2,7 @@ import Web3 from "web3";
 import { provider } from "web3-core";
 import { AbiItem } from "web3-utils";
 import Governance from "../constants/abi/Governance.json";
-import { governanceContract } from "src/constants/tokenAddresses";
+// import { governanceContract } from "src/constants/tokenAddresses";
 import BN from "bignumber.js";
 
 export const getContract = (provider: provider, address: string) => {
