@@ -238,10 +238,9 @@ export const getApyCalculated = async (
     const tokenPriceInUSD = data[tokenAddress].usd;
     const boostPriceInUSD = data[boostToken.toLowerCase()].usd;
     const apy = (rewardPerToken * boostPriceInUSD) * 100 / (tokenPriceInUSD) * 52;
-    return apy.toFixed(2);
+    return Number(apy.toFixed(2));
   } catch (e) {
     console.log(e);
-    console.log("returning null");
     return null;
   }
 };
