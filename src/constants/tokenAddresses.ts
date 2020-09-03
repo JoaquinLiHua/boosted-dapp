@@ -31,4 +31,4 @@ export const lendToken = "0x80fb784b7ed66730e8b1dbd9820afd29931aab03";
 export const snxToken = "0xc011a73ee8576fb46f5e1c5751ca3b9fe0af2a6f";
 export const mkrToken = "0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2";
 export const renToken = "0x408e41876cccdc0f92210600ef50372656052a38";
-export const uniswapBoostToken = "0x6b4a0bd2eee3ca06652f758844937daf91ea8422";
+export const uniswapLPToken = "0x6b4a0bd2eee3ca06652f758844937daf91ea8422";
