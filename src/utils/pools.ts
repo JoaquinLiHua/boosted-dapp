@@ -226,23 +226,41 @@ export const getApyCalculated = async (
 ) => {
   try {
     const poolContract = getContract(provider, poolAddress);
-    const rewardPerToken = await poolContract.methods.rewardPerToken().call();
-    const weeklyRewards = (rewardPerToken / 1e18) * 604800;
+    const weeklyRewards = await getWeeklyRewards(poolContract);
+    const rewardPerToken = weeklyRewards / await poolContract.methods.totalSupply().call();
     const { data } = await coinGecko.simple.fetchTokenPrice({
       contract_addresses: [
         tokenAddress,
-        "0x3e780920601D61cEdb860fe9c4a90c9EA6A35E78",
+        boostToken,
       ],
       vs_currencies: "usd",
     });
     const tokenPriceInUSD = data[tokenAddress].usd;
-    const apy =
-      ((weeklyRewards * tokenPriceInUSD * 100) / data[boostToken].usd) * 52;
-    console.log(weeklyRewards);
-    console.log(data[boostToken].usd);
-    console.log(apy);
-    return apy;
+    const boostPriceInUSD = data[boostToken.toLowerCase()].usd;
+    const apy = (rewardPerToken * boostPriceInUSD) * 100 / (tokenPriceInUSD) * 52;
+    return apy.toFixed(2);
   } catch (e) {
+    console.log(e);
+    console.log("returning null");
     return null;
   }
 };
+
+const getWeeklyRewards = async function(synthContract) {
+  if (await isRewardPeriodOver(synthContract)) {
+    return 0;
+  }
+
+  const rewardRate = await synthContract.methods.rewardRate().call();
+  return Math.round(rewardRate * 604800);
+}
+
+const isRewardPeriodOver = async function(rewardContract) {
+  const now = Date.now() / 1000;
+  const periodFinish = await getPeriodFinishForReward(rewardContract);
+  return periodFinish < now;
+}
+
+const getPeriodFinishForReward = async function(rewardContract) {
+  return await rewardContract.methods.periodFinish().call();
+}
