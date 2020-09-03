@@ -5,15 +5,6 @@ import POOLABI from "../constants/abi/BoostPools.json";
 import BN from "bignumber.js";
 import { getDisplayBalance } from "./formatBalance";
 
-const GAS_LIMIT = {
-  STAKING: {
-    DEFAULT: 250000,
-  },
-  EXIT: {
-    DEFAULT: 300000,
-  },
-};
-
 export const getContract = (provider: provider, address: string) => {
   const web3 = new Web3(provider);
   const contract = new web3.eth.Contract(
@@ -66,14 +57,13 @@ export const stake = async (
   if (account) {
     const poolContract = getContract(provider, poolAddress);
     const now = new Date().getTime() / 1000;
-    const gas = GAS_LIMIT.STAKING.DEFAULT;
     const web3 = new Web3(provider);
     var tokens = web3.utils.toWei(amount.toString(), "ether");
     var bntokens = web3.utils.toBN(tokens);
     if (now >= 1598965200) {
       return poolContract.methods
         .stake(bntokens)
-        .send({ from: account, gas })
+        .send({ from: account })
         .on("transactionHash", (tx) => {
           console.log(tx);
           return tx.transactionHash;
@@ -94,13 +84,12 @@ export const unstake = async (
 ) => {
   if (account) {
     const poolContract = getContract(provider, poolAddress);
-    const gas = GAS_LIMIT.STAKING.DEFAULT;
     const web3 = new Web3(provider);
     var tokens = web3.utils.toWei(amount.toString(), "ether");
     var bntokens = web3.utils.toBN(tokens);
     return poolContract.methods
       .withdraw(bntokens)
-      .send({ from: account, gas: gas })
+      .send({ from: account })
       .on("transactionHash", (tx) => {
         console.log(tx);
         return tx.transactionHash;
@@ -135,10 +124,9 @@ export const claim = async (
 ) => {
   if (account) {
     const poolContract = getContract(provider, poolAddress);
-    const gas = GAS_LIMIT.STAKING.DEFAULT;
     return poolContract.methods
       .getReward()
-      .send({ from: account, gas: gas })
+      .send({ from: account })
       .on("transactionHash", (tx) => {
         console.log(tx);
         return tx.transactionHash;
@@ -155,12 +143,11 @@ export const boost = async (
 ) => {
   if (account) {
     const poolContract = getContract(provider, poolAddress);
-    const gas = GAS_LIMIT.STAKING.DEFAULT;
     const now = new Date().getTime() / 1000;
     if (now >= 1599138000) {
       return poolContract.methods
         .boost()
-        .send({ from: account, gas: gas })
+        .send({ from: account })
         .on("transactionHash", (tx) => {
           console.log(tx);
           return tx.transactionHash;
@@ -218,10 +205,9 @@ export const exit = async (
 ) => {
   if (account) {
     const poolContract = getContract(provider, poolAddress);
-    const gas = GAS_LIMIT.EXIT.DEFAULT;
     return poolContract.methods
       .exit()
-      .send({ from: account, gas: gas })
+      .send({ from: account })
       .on("transactionHash", (tx) => {
         console.log(tx);
         return tx.transactionHash;
