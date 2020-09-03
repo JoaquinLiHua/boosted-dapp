@@ -20,6 +20,16 @@ export const Header = () => (
           HOME
         </Link>
       </NextLink>
+      <Link
+        as="a"
+        target="_blank"
+        href="https://medium.com/@BoostedFinance/boosted-finance-its-not-rocket-science-it-s-alpha-81acf4af2887"
+        fontSize="lg"
+        m="4"
+        fontWeight="600"
+      >
+        ABOUT
+      </Link>
       <NextLink href="/vote">
         <Link fontSize="lg" m="4" fontWeight="600">
           VOTE
