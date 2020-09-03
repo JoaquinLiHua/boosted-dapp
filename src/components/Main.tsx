@@ -10,6 +10,7 @@ import { IPool } from "src/context/PoolContext";
 import { TableUI } from "./TableUI";
 import { TransactionModal } from "./TransactionModal";
 import formatCurrency from "format-currency";
+import useBoostPrice from "src/hooks/useBoostPrice";
 
 export const Main: React.FC = () => {
   const [showTransactionModal, setShowTransactionModal] = useState<boolean>(
@@ -20,6 +21,7 @@ export const Main: React.FC = () => {
   const boostTotalSupply = useTotalSupply();
   const treasuryBalance = useTreasuryBalance();
   const totalValueLocked = useTotalValueLocked();
+  const boostPrice = useBoostPrice();
   const handleShowTransactionModal = (pool: IPool) => {
     setShowTransactionModal(true);
     setPool(pool);
@@ -42,7 +44,7 @@ export const Main: React.FC = () => {
             tokenTicker={"USD"}
             value={formatCurrency(totalValueLocked)}
           />
-          <StatBox title="B00ST PRICE" tokenTicker={"BOOST"} />
+          <StatBox title="B00ST PRICE" tokenTicker={"USD"} value={boostPrice} />
           <StatBox
             title="TOTAL SUPPLY"
             bigNumber
