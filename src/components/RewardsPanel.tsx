@@ -19,10 +19,13 @@ export const RewardsPanel: React.FC<RewardsPanelProps> = ({ pool }) => {
       setRequestedClaim(true);
       const txHash = await onClaim();
       if (!txHash) {
+        throw "Transactions error";
+      } else {
         setRequestedClaim(false);
       }
     } catch (e) {
       console.log(e);
+      setRequestedClaim(false);
     }
   }, [onClaim, setRequestedClaim]);
 
@@ -44,7 +47,7 @@ export const RewardsPanel: React.FC<RewardsPanelProps> = ({ pool }) => {
         disabled={requestedClaim}
         onClick={() => handleClaim()}
       >
-        Claim Rewards
+        {requestedClaim ? "Claiming.." : "Claim Rewards"}
       </Button>
     </Stack>
   );
