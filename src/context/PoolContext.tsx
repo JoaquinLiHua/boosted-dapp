@@ -20,6 +20,8 @@ import {
   snxToken,
   mkrToken,
   renToken,
+  uniswapBoostToken,
+  uniswapPool,
   yfiPool,
   bandPool,
   compPool,
@@ -34,6 +36,15 @@ import {
 import { usePriceFeedContext } from "./PriceFeedContext";
 
 export const ALL_POOLS = [
+  {
+    name: "BOOST-ETH (UNI-ETH-BOOST)",
+    code: "boost_pool",
+    order: 9,
+    icon: "/images/boost-icon.png",
+    address: uniswapPool,
+    tokenContract: uniswapBoostToken,
+    tokenTicker: "boost",
+  },
   {
     name: "Yearn Alpha (YFI)",
     code: "yfi_pool",
@@ -172,9 +183,7 @@ export const PoolProvider: React.FC = ({ children }) => {
         address: pool.address,
         tokenContract: pool.tokenContract,
         tokenTicker: pool.tokenTicker,
-        poolSize: poolStats?.poolSize
-          ? new BN(poolStats?.poolSize)
-          : null,
+        poolSize: poolStats?.poolSize ? new BN(poolStats?.poolSize) : null,
         poolPriceInUSD: poolPriceInUSD ? poolPriceInUSD : null,
         periodFinish: poolStats?.periodFinish
           ? new BN(poolStats.periodFinish)
