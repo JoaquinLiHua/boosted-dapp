@@ -58,8 +58,8 @@ export const stake = async (
     const poolContract = getContract(provider, poolAddress);
     const now = new Date().getTime() / 1000;
     const web3 = new Web3(provider);
-    var tokens = web3.utils.toWei(amount.toString(), "ether");
-    var bntokens = web3.utils.toBN(tokens);
+    const tokens = web3.utils.toWei(amount.toString(), "ether");
+    const bntokens = web3.utils.toBN(tokens);
     if (now >= 1598965200) {
       return poolContract.methods
         .stake(bntokens)
@@ -85,8 +85,8 @@ export const unstake = async (
   if (account) {
     const poolContract = getContract(provider, poolAddress);
     const web3 = new Web3(provider);
-    var tokens = web3.utils.toWei(amount.toString(), "ether");
-    var bntokens = web3.utils.toBN(tokens);
+    const tokens = web3.utils.toWei(amount.toString(), "ether");
+    const bntokens = web3.utils.toBN(tokens);
     return poolContract.methods
       .withdraw(bntokens)
       .send({ from: account })

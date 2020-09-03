@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React from "react";
 import { ChakraProvider, CSSReset, Box } from "@chakra-ui/core";
 import theme from "../theme";
 import { MarqueeComponent } from "src/components/Marquee";
@@ -8,30 +8,10 @@ import { Footer } from "src/components/Footer";
 import { CTA } from "src/components/CTA";
 import { Container } from "src/components/Container";
 import { UseWalletProvider } from "use-wallet";
-import { ModalContext, useModal } from "src/context/ModalContext";
+import { ModalContext } from "src/context/ModalContext";
 import { PoolProvider } from "src/context/PoolContext";
 import { PriceFeedProvider } from "src/context/PriceFeedContext";
-import { DisclaimerModal } from "src/components/DisclaimerModal";
-
-const Disclaimer: React.FC = () => {
-  const markSeen = useCallback(() => {
-    localStorage.setItem("disclaimer", "seen");
-  }, []);
-
-  const [onPresentDisclaimerModal] = useModal(
-    <DisclaimerModal onConfirm={markSeen} />
-  );
-
-  useEffect(() => {
-    const seenDisclaimer = localStorage.getItem("disclaimer");
-    seenDisclaimer;
-    // if (!seenDisclaimer) {
-    //   onPresentDisclaimerModal();
-    // }
-  }, [onPresentDisclaimerModal]);
-
-  return <div />;
-};
+import { Socials } from "src/components/Socials";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -46,11 +26,11 @@ function MyApp({ Component, pageProps }) {
         >
           <PoolProvider>
             <ModalContext>
-              <Disclaimer />
               <Box>
                 <MarqueeComponent />
                 <Container>
                   <Header />
+                  <Socials />
                   <NewsBlock />
                   <Component {...pageProps} />
                   <Footer />
