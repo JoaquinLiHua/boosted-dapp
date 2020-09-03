@@ -51,8 +51,7 @@ export const Main: React.FC = () => {
           />
           <StatBox
             title="TREASURY VALUE"
-            bigNumber
-            tokenTicker={"YCRV"}
+            tokenTicker={"USD"}
             value={treasuryBalance}
           />
         </Stack>
