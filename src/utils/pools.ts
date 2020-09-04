@@ -227,17 +227,16 @@ export const getApyCalculated = async (
   try {
     const poolContract = getContract(provider, poolAddress);
     const weeklyRewards = await getWeeklyRewards(poolContract);
-    const rewardPerToken = weeklyRewards / await poolContract.methods.totalSupply().call();
+    const rewardPerToken =
+      weeklyRewards / (await poolContract.methods.totalSupply().call());
     const { data } = await coinGecko.simple.fetchTokenPrice({
-      contract_addresses: [
-        tokenAddress,
-        boostToken,
-      ],
+      contract_addresses: [tokenAddress, boostToken],
       vs_currencies: "usd",
     });
     const tokenPriceInUSD = data[tokenAddress].usd;
     const boostPriceInUSD = data[boostToken.toLowerCase()].usd;
-    const apy = (rewardPerToken * boostPriceInUSD) * 100 / (tokenPriceInUSD) * 52;
+    const apy =
+      ((rewardPerToken * boostPriceInUSD * 100) / tokenPriceInUSD) * 52;
     return Number(apy.toFixed(2));
   } catch (e) {
     console.log(e);
@@ -245,21 +244,38 @@ export const getApyCalculated = async (
   }
 };
 
-const getWeeklyRewards = async function(synthContract) {
+export const getBoostApy = async () => {
+  // const BOOST_WETH_UNI_TOKEN
+  // const totalUNIAmount = (await CREAM_WETH_UNI_TOKEN.totalSupply()) / 1e18;
+  // $1000 = 7.856 BOOST
+  // $2000 7.856 BOOST & 2.5882 Contributed to BOOST/ETH POOL
+  // Receive: 4.34442 LP tokens (0.1324% of Uniswap pool)
+  // Current total LP tokens staked 3157.43
+  // 4.34442/3157.43(total staked in internal pool) 0.001374% Ownership
+  // 0.001374%*2413 = 2.9447924252 BOOST/day
+  // 2.9447924252*127 = $373.98
+  // Daily Yield: 373.98/2000 = 0.18699 = 18.7%
+  // APY: 6,825.5%
+  // Find out how much boost $1000 buys
+  // const UNIPrice = CREAMPerUNI * CREAMPrice + WETHPerUNI * ETHPrice;
+  // const CREAMWeeklyROI = (rewardPerToken * CREAMPrice) * 100 / (UNIPrice);
+};
+
+const getWeeklyRewards = async function (synthContract) {
   if (await isRewardPeriodOver(synthContract)) {
     return 0;
   }
 
   const rewardRate = await synthContract.methods.rewardRate().call();
   return Math.round(rewardRate * 604800);
-}
+};
 
-const isRewardPeriodOver = async function(rewardContract) {
+const isRewardPeriodOver = async function (rewardContract) {
   const now = Date.now() / 1000;
   const periodFinish = await getPeriodFinishForReward(rewardContract);
   return periodFinish < now;
-}
+};
 
-const getPeriodFinishForReward = async function(rewardContract) {
+const getPeriodFinishForReward = async function (rewardContract) {
   return await rewardContract.methods.periodFinish().call();
-}
+};
