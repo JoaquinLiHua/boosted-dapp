@@ -22,8 +22,6 @@ const useGetRewardAmount = (poolAddress: string) => {
   useEffect(() => {
     if (account && ethereum) {
       fetchBalance();
-      const refreshInterval = setInterval(fetchBalance, 10000);
-      return () => clearInterval(refreshInterval);
     } else {
       return;
     }

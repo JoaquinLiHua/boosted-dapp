@@ -34,7 +34,7 @@ export const useTotalValueLocked = () => {
   useEffect(() => {
     if (ethereum) {
       fetchAllPoolSizes();
-      const refreshInterval = setInterval(fetchAllPoolSizes, 10000);
+      const refreshInterval = setInterval(fetchAllPoolSizes, 30000);
       return () => clearInterval(refreshInterval);
     } else {
       return;

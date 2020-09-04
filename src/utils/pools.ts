@@ -16,8 +16,8 @@ export const getContract = (provider: provider, address: string) => {
 };
 
 export const getPoolStats = async (provider: provider, poolAddress: string) => {
-  const poolContract = getContract(provider, poolAddress);
   try {
+    const poolContract = getContract(provider, poolAddress);
     const periodFinish = await poolContract.methods.periodFinish().call();
     const poolSize = await poolContract.methods.totalSupply().call();
     const boosterPrice = await poolContract.methods.boosterPrice().call();
@@ -105,9 +105,9 @@ export const rewardAmount = async (
   poolAddress: string,
   account: string | null
 ) => {
-  if (account) {
-    const poolContract = getContract(provider, poolAddress);
+  if (account && provider) {
     try {
+      const poolContract = getContract(provider, poolAddress);
       const earnedRewards = await poolContract.methods.earned(account).call();
       return earnedRewards;
     } catch (e) {
@@ -123,15 +123,19 @@ export const claim = async (
   poolAddress: string,
   account: string | null
 ) => {
-  if (account) {
-    const poolContract = getContract(provider, poolAddress);
-    return poolContract.methods
-      .getReward()
-      .send({ from: account })
-      .on("transactionHash", (tx) => {
-        console.log(tx);
-        return tx.transactionHash;
-      });
+  if (account && provider) {
+    try {
+      const poolContract = getContract(provider, poolAddress);
+      return poolContract.methods
+        .getReward()
+        .send({ from: account })
+        .on("transactionHash", (tx) => {
+          console.log(tx);
+          return tx.transactionHash;
+        });
+    } catch (e) {
+      return null;
+    }
   } else {
     alert("wallet not connected");
   }
@@ -224,42 +228,49 @@ export const getApyCalculated = async (
   tokenAddress: string,
   coinGecko: any
 ) => {
-  try {
-    const poolContract = getContract(provider, poolAddress);
-    const weeklyRewards = await getWeeklyRewards(poolContract);
-    const rewardPerToken = weeklyRewards / await poolContract.methods.totalSupply().call();
-    const { data } = await coinGecko.simple.fetchTokenPrice({
-      contract_addresses: [
-        tokenAddress,
-        boostToken,
-      ],
-      vs_currencies: "usd",
-    });
-    const tokenPriceInUSD = data[tokenAddress].usd;
-    const boostPriceInUSD = data[boostToken.toLowerCase()].usd;
-    const apy = (rewardPerToken * boostPriceInUSD) * 100 / (tokenPriceInUSD) * 52;
-    return Number(apy.toFixed(2));
-  } catch (e) {
-    console.log(e);
+  if (provider && coinGecko) {
+    try {
+      const poolContract = getContract(provider, poolAddress);
+      const weeklyRewards = await getWeeklyRewards(poolContract);
+      const rewardPerToken =
+        weeklyRewards / (await poolContract.methods.totalSupply().call());
+      const { data } = await coinGecko.simple.fetchTokenPrice({
+        contract_addresses: [tokenAddress, boostToken],
+        vs_currencies: "usd",
+      });
+      if (data && data[tokenAddress]) {
+        const tokenPriceInUSD = data[tokenAddress].usd;
+        const boostPriceInUSD = data[boostToken.toLowerCase()].usd;
+        const apy =
+          ((rewardPerToken * boostPriceInUSD * 100) / tokenPriceInUSD) * 52;
+        return Number(apy.toFixed(2));
+      } else {
+        return null;
+      }
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
+  } else {
     return null;
   }
 };
 
-const getWeeklyRewards = async function(synthContract) {
+const getWeeklyRewards = async function (synthContract) {
   if (await isRewardPeriodOver(synthContract)) {
     return 0;
   }
 
   const rewardRate = await synthContract.methods.rewardRate().call();
   return Math.round(rewardRate * 604800);
-}
+};
 
-const isRewardPeriodOver = async function(rewardContract) {
+const isRewardPeriodOver = async function (rewardContract) {
   const now = Date.now() / 1000;
   const periodFinish = await getPeriodFinishForReward(rewardContract);
   return periodFinish < now;
-}
+};
 
-const getPeriodFinishForReward = async function(rewardContract) {
+const getPeriodFinishForReward = async function (rewardContract) {
   return await rewardContract.methods.periodFinish().call();
-}
+};

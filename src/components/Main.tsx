@@ -11,6 +11,7 @@ import { TableUI } from "./TableUI";
 import { TransactionModal } from "./TransactionModal";
 import formatCurrency from "format-currency";
 import useBoostPrice from "src/hooks/useBoostPrice";
+import useGetTotalRewardAmount from "src/hooks/useGetTotalRewardAmount";
 
 export const Main: React.FC = () => {
   const [showTransactionModal, setShowTransactionModal] = useState<boolean>(
@@ -21,6 +22,7 @@ export const Main: React.FC = () => {
   const boostTotalSupply = useTotalSupply();
   const treasuryBalance = useTreasuryBalance();
   const totalValueLocked = useTotalValueLocked();
+  const totalRewardsAvailable = useGetTotalRewardAmount();
   const boostPrice = useBoostPrice();
   const handleShowTransactionModal = (pool: IPool) => {
     setShowTransactionModal(true);
@@ -37,6 +39,12 @@ export const Main: React.FC = () => {
             title="BALANCE"
             value={boostBalance}
             bigNumber
+            tokenTicker={"BOOST"}
+          />
+          <StatBox
+            title="READY FOR CLAIM"
+            bigNumber
+            value={totalRewardsAvailable}
             tokenTicker={"BOOST"}
           />
           <StatBox
