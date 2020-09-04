@@ -4,7 +4,13 @@ import { AbiItem } from "web3-utils";
 import POOLABI from "../constants/abi/BoostPools.json";
 import BN from "bignumber.js";
 import { getDisplayBalance } from "./formatBalance";
-import { boostToken } from "src/constants/tokenAddresses";
+import {
+  boostToken,
+  uniswapPool,
+  wethToken,
+  uniswapLPToken,
+} from "src/constants/tokenAddresses";
+import { getContract as getERC20Contract } from "./erc20";
 
 export const getContract = (provider: provider, address: string) => {
   const web3 = new Web3(provider);
@@ -243,6 +249,60 @@ export const getApyCalculated = async (
         const boostPriceInUSD = data[boostToken.toLowerCase()].usd;
         const apy =
           ((rewardPerToken * boostPriceInUSD * 100) / tokenPriceInUSD) * 52;
+        return Number(apy.toFixed(2));
+      } else {
+        return null;
+      }
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
+  } else {
+    return null;
+  }
+};
+
+export const getBoostApy = async (provider: provider, coinGecko: any) => {
+  if (provider && coinGecko) {
+    try {
+      const poolContract = getContract(provider, uniswapPool);
+      const boostTokenContract = getERC20Contract(provider, boostToken);
+      const wethTokenContract = getERC20Contract(provider, wethToken);
+      const boostWethUniContract = getERC20Contract(provider, uniswapLPToken);
+
+      const weeklyRewards = await getWeeklyRewards(poolContract);
+
+      const rewardPerToken =
+        weeklyRewards / (await poolContract.methods.totalSupply().call());
+
+      const totalUNIAmount =
+        (await boostWethUniContract.methods.totalSupply().call()) / 1e18;
+
+      const totalBoostAmount =
+        (await boostTokenContract.methods.balanceOf(uniswapLPToken).call()) /
+        1e18;
+      const totalWETHAmount =
+        (await wethTokenContract.methods.balanceOf(uniswapLPToken).call()) /
+        1e18;
+
+      const boostPerUNI = totalBoostAmount / totalUNIAmount;
+      const WETHPerUNI = totalWETHAmount / totalUNIAmount;
+
+      const { data } = await coinGecko.simple.fetchTokenPrice({
+        contract_addresses: [wethToken, boostToken],
+        vs_currencies: "usd",
+      });
+      if (data) {
+        const boostPriceInUSD = data[boostToken.toLowerCase()].usd;
+        const wethPriceInUSD = data[wethToken.toLowerCase()].usd;
+
+        const UNIPrice =
+          boostPerUNI * boostPriceInUSD + WETHPerUNI * wethPriceInUSD;
+
+        const BoostWeeklyROI =
+          (rewardPerToken * boostPriceInUSD * 100) / UNIPrice;
+
+        const apy = BoostWeeklyROI * 52;
         return Number(apy.toFixed(2));
       } else {
         return null;

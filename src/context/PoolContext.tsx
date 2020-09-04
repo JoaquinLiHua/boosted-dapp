@@ -11,6 +11,7 @@ import {
   getPoolStats,
   getPoolPriceInUSD,
   getApyCalculated,
+  getBoostApy,
 } from "src/utils/pools";
 import { provider } from "web3-core";
 import {
@@ -179,12 +180,17 @@ export const PoolProvider: React.FC = ({ children }) => {
         poolStats?.poolSize,
         coinGecko
       );
-      const apy = await getApyCalculated(
-        ethereum,
-        pool.address,
-        pool.tokenContract,
-        coinGecko
-      );
+      let apy;
+      if (pool.code === "boost_pool") {
+        apy = await getBoostApy(ethereum, coinGecko);
+      } else {
+        apy = await getApyCalculated(
+          ethereum,
+          pool.address,
+          pool.tokenContract,
+          coinGecko
+        );
+      }
       return {
         name: pool.name,
         icon: pool.icon,
