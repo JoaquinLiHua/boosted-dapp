@@ -169,7 +169,6 @@ export const PoolProvider: React.FC = ({ children }) => {
   const { coinGecko } = usePriceFeedContext();
   const [pools, setPools] = useState<IPool[]>([]);
   const {
-    account,
     ethereum,
   }: { account: string | null; ethereum: provider } = useWallet();
   const getStats = useCallback(async () => {
@@ -216,7 +215,9 @@ export const PoolProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     getStats();
-  }, [setPools, account, getStats]);
+    const refreshInterval = setInterval(getStats, 30000);
+    return () => clearInterval(refreshInterval);
+  }, [setPools, getStats]);
   return (
     <PoolContext.Provider
       value={{

@@ -5,7 +5,6 @@ import {
   StatNumber,
   StatLabel,
   StatHelpText,
-  StatArrow,
 } from "@chakra-ui/core";
 import { getDisplayBalance } from "src/utils/formatBalance";
 import BN from "bignumber.js";

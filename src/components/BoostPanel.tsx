@@ -8,7 +8,6 @@ import { IPool } from "src/context/PoolContext";
 import useApprove from "src/hooks/useApprove";
 import useBoost from "src/hooks/useBooster";
 import useGetBoosterBalance from "src/hooks/useBoosterCount";
-
 interface BoostPanelProps {
   pool: IPool;
 }
@@ -88,7 +87,8 @@ export const BoostPanel: React.FC<BoostPanelProps> = ({ pool }) => {
           {pool.boosterPrice ? getDisplayBalance(pool.boosterPrice) : 0} BOOST
         </Text>
       </Flex>
-      {!allowance.toNumber() ? (
+
+      {allowance.toNumber() ? (
         <Button
           colorScheme="green"
           disabled={requestedApproval}
@@ -99,10 +99,17 @@ export const BoostPanel: React.FC<BoostPanelProps> = ({ pool }) => {
       ) : (
         <Button
           colorScheme="green"
-          disabled={requestedBoost}
+          disabled={
+            boostBalance.toNumber() <
+              (pool.boosterPrice?.toNumber() ?? 99999) || requestedBoost
+          }
           onClick={() => handleBoost()}
         >
-          {requestedBoost ? "Boosting..." : "Buy BOOSTER"}
+          {boostBalance.toNumber() < (pool.boosterPrice?.toNumber() ?? 99999)
+            ? "Insufficient Balance"
+            : requestedBoost
+            ? "Boosting..."
+            : "Buy BOOSTER"}
         </Button>
       )}
     </Stack>
