@@ -32,3 +32,4 @@ export const snxToken = "0xc011a73ee8576fb46f5e1c5751ca3b9fe0af2a6f";
 export const mkrToken = "0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2";
 export const renToken = "0x408e41876cccdc0f92210600ef50372656052a38";
 export const uniswapLPToken = "0x6b4a0bd2eee3ca06652f758844937daf91ea8422";
+export const wethToken = "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2";
