@@ -31,8 +31,9 @@ export const ProposalFormModal: React.FC<ModalProps> = () => {
     if (!value) {
       error = `Stake amount is required`;
       return error;
-    } else if (parseInt(value) <= 13.77) {
+    } else if (parseFloat(value) < 13.77) {
       error = `You must stake atleast 13.77 Boost`;
+      return error;
     }
   };
 
