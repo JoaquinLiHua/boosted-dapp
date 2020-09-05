@@ -169,9 +169,7 @@ export const PoolContext = createContext<IPoolContext>({
 export const PoolProvider: React.FC = ({ children }) => {
   const { coinGecko } = usePriceFeedContext();
   const [pools, setPools] = useState<IPool[]>([]);
-  const {
-    ethereum,
-  }: { account: string | null; ethereum: provider } = useWallet();
+  const { ethereum }: { ethereum: provider } = useWallet();
   const getStats = useCallback(async () => {
     const promisedPoolsArr = ALL_POOLS.map(async (pool) => {
       const poolStats = await getPoolStats(ethereum, pool.address);

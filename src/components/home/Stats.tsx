@@ -11,9 +11,7 @@ import { Stack } from "@chakra-ui/core";
 import formatCurrency from "format-currency";
 import { getDisplayBalance } from "src/utils/formatBalance";
 
-interface StatsProps {}
-
-export const Stats: React.FC<StatsProps> = ({}) => {
+export const Stats: React.FC = () => {
   const boostBalance: string = getDisplayBalance(useTokenBalance(boostToken));
   const totalRewardsAvailable: string = getDisplayBalance(
     useGetTotalRewardAmount()

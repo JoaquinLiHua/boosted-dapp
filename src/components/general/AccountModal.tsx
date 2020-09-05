@@ -5,9 +5,7 @@ import {
   ModalHeader,
   ModalCloseButton,
   ModalBody,
-  Text,
   Stack,
-  Flex,
 } from "@chakra-ui/core";
 import { useWallet } from "use-wallet";
 import { ModalProps } from "src/context/ModalContext";
@@ -25,21 +23,13 @@ export const AccountModal: React.FC<AccountModalProps> = ({ onDismiss }) => {
 
   return (
     <ModalContent>
-      <ModalHeader>Wallet Details</ModalHeader>
+      <ModalHeader>Wallet Settings</ModalHeader>
       <ModalCloseButton />
       <ModalBody>
         <Stack>
-          <Flex
-            justifyContent="space-between"
-            my={4}
-            borderWidth={1}
-            borderRadius={5}
-            p={8}
-          >
-            <Text>Wallet Address</Text>
-            <Text>{account}</Text>
-          </Flex>
-          <Button onClick={() => reset()}>Sign out</Button>
+          <Button my={4} onClick={() => reset()}>
+            Sign out
+          </Button>
         </Stack>
       </ModalBody>
     </ModalContent>

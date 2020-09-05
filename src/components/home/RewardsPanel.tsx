@@ -2,8 +2,8 @@ import React, { useState, useCallback } from "react";
 import { Stack, Flex, Text, Button } from "@chakra-ui/core";
 import { IPool } from "src/context/PoolContext";
 import { getDisplayBalance } from "src/utils/formatBalance";
-import useGetRewardAmount from "src/hooks/useGetRewardAmount";
-import useClaimRewards from "src/hooks/useClaimRewards";
+import { useGetRewardAmount } from "src/hooks/useGetRewardAmount";
+import { useClaimRewards } from "src/hooks/useClaimRewards";
 
 interface RewardsPanelProps {
   pool: IPool;
@@ -44,10 +44,11 @@ export const RewardsPanel: React.FC<RewardsPanelProps> = ({ pool }) => {
       <Button
         width="100%"
         colorScheme="green"
+        isLoading={requestedClaim}
         disabled={requestedClaim}
         onClick={() => handleClaim()}
       >
-        {requestedClaim ? "Claiming.." : "Claim Rewards"}
+        Claim Rewards
       </Button>
     </Stack>
   );

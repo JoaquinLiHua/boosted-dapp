@@ -13,7 +13,7 @@ export const useAllowance = (tokenContract: string, poolAddress: string) => {
     ethereum,
   }: { account: any; ethereum: provider } = useWallet();
   const fetchAllowance = useCallback(async () => {
-    let allowance = new BN(
+    const allowance = new BN(
       await getAllowance(ethereum, tokenContract, poolAddress, account)
     );
     setAllowance(allowance);

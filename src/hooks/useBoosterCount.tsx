@@ -5,8 +5,8 @@ import { provider } from "web3-core";
 import { boostCount } from "../utils/boost";
 import BN from "bignumber.js";
 
-const useGetBoosterBalance = (poolAddress: string) => {
-  const [amount, setAmount] = useState(new BN(0));
+export const useGetBoosterBalance = (poolAddress: string) => {
+  const [amount, setAmount] = useState(new BN("0"));
   const {
     account,
     ethereum,
@@ -14,8 +14,8 @@ const useGetBoosterBalance = (poolAddress: string) => {
 
   const fetchBalance = useCallback(async () => {
     if (account) {
-      const amount = await boostCount(ethereum, poolAddress, account);
-      setAmount(new BN(amount));
+      const amount = new BN(await boostCount(ethereum, poolAddress, account));
+      setAmount(amount);
     }
   }, [account, ethereum, poolAddress]);
 
@@ -31,5 +31,3 @@ const useGetBoosterBalance = (poolAddress: string) => {
 
   return amount;
 };
-
-export default useGetBoosterBalance;

@@ -22,7 +22,7 @@ export const useTokenBalance = (tokenAddress: string) => {
       );
       setBalance(balance);
     }
-  }, [account, ethereum]);
+  }, [account, ethereum, tokenAddress]);
 
   useEffect(() => {
     if (account && ethereum) {

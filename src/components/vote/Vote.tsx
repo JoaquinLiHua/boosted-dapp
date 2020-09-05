@@ -17,9 +17,7 @@ import { useModal } from "src/context/ModalContext";
 import { ProposalFormModal } from "src/components/vote/ProposalFormModal";
 import { useWallet } from "use-wallet";
 
-interface VoteProps {}
-
-export const Vote: React.FC<VoteProps> = ({}) => {
+export const Vote: React.FC = () => {
   const proposals = useProposals();
   const [onPresentProposalForm] = useModal(<ProposalFormModal />);
   const { account } = useWallet();

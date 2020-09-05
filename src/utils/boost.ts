@@ -282,21 +282,17 @@ export const claim = async (
   poolAddress: string,
   account: string | null
 ) => {
-  if (account && provider) {
-    try {
-      const poolContract = getPoolContract(provider, poolAddress);
-      return poolContract.methods
-        .getReward()
-        .send({ from: account })
-        .on("transactionHash", (tx) => {
-          console.log(tx);
-          return tx.transactionHash;
-        });
-    } catch (e) {
-      return null;
-    }
-  } else {
-    alert("wallet not connected");
+  try {
+    const poolContract = getPoolContract(provider, poolAddress);
+    return poolContract.methods
+      .getReward()
+      .send({ from: account })
+      .on("transactionHash", (tx) => {
+        console.log(tx);
+        return tx.transactionHash;
+      });
+  } catch (e) {
+    console.log(e);
   }
 };
 
@@ -305,7 +301,7 @@ export const boost = async (
   poolAddress: string,
   account: string | null
 ) => {
-  if (account) {
+  try {
     const poolContract = getPoolContract(provider, poolAddress);
     const now = new Date().getTime() / 1000;
     if (now >= 1599138000) {
@@ -317,30 +313,27 @@ export const boost = async (
           return tx.transactionHash;
         });
     } else {
-      alert("pool not active");
+      alert("Pool not active");
     }
-  } else {
-    alert("wallet not connected");
+  } catch (e) {
+    console.log(e);
   }
 };
 
 export const boostCount = async (
   provider: provider,
   poolAddress: string,
-  account: string | null
-) => {
-  if (account) {
-    const poolContract = getPoolContract(provider, poolAddress);
-    try {
-      const boosterCount = await poolContract.methods
-        .numBoostersBought(account)
-        .call();
-      return boosterCount;
-    } catch (e) {
-      console.log(e);
-    }
-  } else {
-    alert("wallet not connected");
+  account: string
+): Promise<string> => {
+  const poolContract = getPoolContract(provider, poolAddress);
+  try {
+    const boosterCount = await poolContract.methods
+      .numBoostersBought(account)
+      .call();
+    return boosterCount;
+  } catch (e) {
+    console.log(e);
+    return "0";
   }
 };
 
@@ -366,9 +359,9 @@ export const stakedAmount = async (
 export const exit = async (
   provider: provider,
   poolAddress: string,
-  account: string | null
+  account: string
 ) => {
-  if (account) {
+  try {
     const poolContract = getPoolContract(provider, poolAddress);
     return poolContract.methods
       .exit()
@@ -377,8 +370,8 @@ export const exit = async (
         console.log(tx);
         return tx.transactionHash;
       });
-  } else {
-    alert("wallet not connected");
+  } catch (e) {
+    console.log(e);
   }
 };
 

@@ -11,15 +11,15 @@ import {
   NumberDecrementStepper,
   Divider,
 } from "@chakra-ui/core";
+import BN from "bignumber.js";
 import { getDisplayBalance } from "src/utils/formatBalance";
 import { useTokenBalance } from "src/hooks/useTokenBalance";
 import { useAllowance } from "src/hooks/useAllowance";
 import { IPool } from "src/context/PoolContext";
 import { useApprove } from "src/hooks/useApprove";
 import { useStake } from "src/hooks/useStake";
-import BN from "bignumber.js";
 import { useStakedAmount } from "src/hooks/useStakedAmount";
-import useExit from "src/hooks/useExit";
+import { useExit } from "src/hooks/useExit";
 
 interface StakingPanelProps {
   pool: IPool;

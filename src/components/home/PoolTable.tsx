@@ -10,13 +10,11 @@ import {
 import React, { useState } from "react";
 import { usePoolContext, IPool } from "src/context/PoolContext";
 import { getDisplayBalance } from "src/utils/formatBalance";
-import { getNumber } from "src/utils/formatBigNumber";
 import { formatTimestamp } from "src/utils/formatTimestamp";
 import { useWallet } from "use-wallet";
 import formatCurrency from "format-currency";
+import BN from "bignumber.js";
 import { TransactionModal } from "./TransactionModal";
-
-interface PoolTableProps {}
 
 /**
  * Represents tabular data - that is, information presented in a
@@ -95,7 +93,7 @@ function TableCell(props: BoxProps) {
   );
 }
 
-export const PoolTable: React.FC<PoolTableProps> = ({}) => {
+export const PoolTable: React.FC = () => {
   const [showTransactionModal, setShowTransactionModal] = useState<boolean>(
     false
   );
@@ -150,7 +148,7 @@ export const PoolTable: React.FC<PoolTableProps> = ({}) => {
                 <Text sub={"true"} fontSize="xs">
                   Pool ends:{" "}
                   {e.periodFinish
-                    ? formatTimestamp(parseInt(getNumber(e.periodFinish)))
+                    ? formatTimestamp(new BN(e.periodFinish).toNumber())
                     : 0}
                 </Text>
               </TableCell>
