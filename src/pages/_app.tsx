@@ -1,5 +1,14 @@
 import React from "react";
-import { ChakraProvider, CSSReset, Box } from "@chakra-ui/core";
+import {
+  ChakraProvider,
+  CSSReset,
+  Box,
+  Center,
+  Heading,
+  HStack,
+  Image,
+  Flex,
+} from "@chakra-ui/core";
 import theme from "../theme";
 import { MarqueeComponent } from "src/components/general/Marquee";
 import { Header } from "src/components/general/Header";
@@ -12,6 +21,7 @@ import { ModalContext } from "src/context/ModalContext";
 import { PoolProvider } from "src/context/PoolContext";
 import { PriceFeedProvider } from "src/context/PriceFeedContext";
 import { Socials } from "src/components/general/Socials";
+import { isMobile } from "react-device-detect";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -28,14 +38,30 @@ function MyApp({ Component, pageProps }) {
             <ModalContext>
               <Box>
                 <MarqueeComponent />
-                <Container>
-                  <Header />
-                  <Socials />
-                  <NewsBlock />
-                  <Component {...pageProps} />
-                  <Footer />
-                  <CTA />
-                </Container>
+                {isMobile ? (
+                  <HStack>
+                    <Flex pt={8} flexDirection="column" justifyContent="center">
+                      <Center>
+                        <Image py={4} src="/images/boost-icon.png" w="32" />
+                      </Center>
+                      <Heading py={4} px={4} textAlign="center" fontSize="md">
+                        It looks like you&apos;re using a mobile device.
+                      </Heading>
+                      <Heading py={4} px={4} textAlign="center" fontSize="md">
+                        Please switch to a desktop device to use Boosted.Finance
+                      </Heading>
+                    </Flex>
+                  </HStack>
+                ) : (
+                  <Container>
+                    <Header />
+                    <Socials />
+                    <NewsBlock />
+                    <Component {...pageProps} />
+                    <Footer />
+                    <CTA />
+                  </Container>
+                )}
               </Box>
             </ModalContext>
           </PoolProvider>
