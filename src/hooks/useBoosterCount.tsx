@@ -22,7 +22,7 @@ const useGetBoosterBalance = (poolAddress: string) => {
   useEffect(() => {
     if (account && ethereum) {
       fetchBalance();
-      const refreshInterval = setInterval(fetchBalance, 10000);
+      const refreshInterval = setInterval(fetchBalance, 30000);
       return () => clearInterval(refreshInterval);
     } else {
       return;

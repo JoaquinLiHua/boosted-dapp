@@ -22,7 +22,7 @@ const useStakedAmount = (poolAddress: string) => {
   useEffect(() => {
     if (account && ethereum) {
       fetchStakedAmount();
-      const refreshInterval = setInterval(fetchStakedAmount, 10000);
+      const refreshInterval = setInterval(fetchStakedAmount, 30000);
       return () => clearInterval(refreshInterval);
     } else {
       return;

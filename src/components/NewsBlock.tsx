@@ -3,6 +3,9 @@ import { Text, Box } from "@chakra-ui/core";
 
 export const NewsBlock = () => (
   <Box my="4">
-    <Text fontSize="xs">LATEST: GET B00STED! VOTE FOR B00ST! STAKE B00ST!</Text>
+    <Text fontSize="sm">
+      LATEST: PURCHASE B00STERS! BOOST-ETH POOL LIVE (3.75X REWARDS)! COMMUNITY
+      GOVERNED!
+    </Text>
   </Box>
 );

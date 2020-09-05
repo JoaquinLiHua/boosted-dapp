@@ -1,8 +1,5 @@
-// export const boostToken = "0x6347E1d08015abb60952e7d1f24551b5762f2a44";
-// export const kovanDaiPool = "0x6d45157D4a6345266cd2B4f24803B29c8Ad3C521";
-// export const kovanWETHPool = "0x3c943BBe120DfD55721a6fB3068D27CfaEaB3aa5";
-// export const kovanUniswapLPPool = "0x10a8f94FAE63E99cC822d312Fe0Cba7eb44bD2b4";
-export const kovanGovernance = "0xfbf19c4a71d71348748d828bb01a77faa6ce4bd6";
+//Governance Contract
+export const governanceContract = "0xc3859cb576f7e8a0a8537a5ce4700c95802daf81";
 
 //Boost token
 export const boostToken = "0x3e780920601D61cEdb860fe9c4a90c9EA6A35E78";
@@ -35,3 +32,4 @@ export const snxToken = "0xc011a73ee8576fb46f5e1c5751ca3b9fe0af2a6f";
 export const mkrToken = "0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2";
 export const renToken = "0x408e41876cccdc0f92210600ef50372656052a38";
 export const uniswapLPToken = "0x6b4a0bd2eee3ca06652f758844937daf91ea8422";
+export const wethToken = "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2";

@@ -7,7 +7,13 @@ import React, {
 } from "react";
 import { useWallet } from "use-wallet";
 import BN from "bignumber.js";
-import { getPoolStats, getPoolPriceInUSD } from "src/utils/pools";
+import {
+  getPoolStats,
+  getPoolValueInUSD,
+  getApyCalculated,
+  getBoostApy,
+  getBoostPoolPriceInUSD,
+} from "src/utils/pools";
 import { provider } from "web3-core";
 import {
   yfiToken,
@@ -149,6 +155,7 @@ export interface IPool {
   periodFinish: BN | null;
   boosterPrice: BN | null;
   tokenTicker: string;
+  apy: number | null;
 }
 
 interface IPoolContext {
@@ -160,21 +167,33 @@ export const PoolContext = createContext<IPoolContext>({
 });
 
 export const PoolProvider: React.FC = ({ children }) => {
+  const { coinGecko } = usePriceFeedContext();
   const [pools, setPools] = useState<IPool[]>([]);
   const {
-    account,
     ethereum,
   }: { account: string | null; ethereum: provider } = useWallet();
-  const { coinGecko } = usePriceFeedContext();
-
   const getStats = useCallback(async () => {
     const promisedPoolsArr = ALL_POOLS.map(async (pool) => {
       const poolStats = await getPoolStats(ethereum, pool.address);
-      const poolPriceInUSD = await getPoolPriceInUSD(
-        pool.tokenContract,
-        poolStats?.poolSize,
-        coinGecko
-      );
+      let apy;
+      let poolPriceInUSD;
+      if (pool.code === "boost_pool") {
+        apy = await getBoostApy(ethereum, coinGecko);
+        poolPriceInUSD = await getBoostPoolPriceInUSD(ethereum, coinGecko);
+      } else {
+        apy = await getApyCalculated(
+          ethereum,
+          pool.address,
+          pool.tokenContract,
+          coinGecko
+        );
+        poolPriceInUSD = await getPoolValueInUSD(
+          ethereum,
+          pool.address,
+          pool.tokenContract,
+          coinGecko
+        );
+      }
       return {
         name: pool.name,
         icon: pool.icon,
@@ -191,6 +210,7 @@ export const PoolProvider: React.FC = ({ children }) => {
         boosterPrice: poolStats?.boosterPrice
           ? new BN(poolStats.boosterPrice)
           : null,
+        apy: apy,
       };
     });
     const poolArr = await Promise.all(promisedPoolsArr);
@@ -199,7 +219,9 @@ export const PoolProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     getStats();
-  }, [setPools, account, getStats]);
+    const refreshInterval = setInterval(getStats, 30000);
+    return () => clearInterval(refreshInterval);
+  }, [setPools, getStats]);
   return (
     <PoolContext.Provider
       value={{
