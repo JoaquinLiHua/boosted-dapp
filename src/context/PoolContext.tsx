@@ -49,7 +49,7 @@ export const ALL_POOLS = [
     icon: "/images/boost-icon.png",
     address: uniswapPool,
     tokenContract: uniswapLPToken,
-    tokenTicker: "boost",
+    tokenTicker: "boost-eth-lp",
   },
   {
     name: "Yearn Alpha (YFI)",
