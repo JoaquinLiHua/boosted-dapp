@@ -88,7 +88,7 @@ export const BoostPanel: React.FC<BoostPanelProps> = ({ pool }) => {
         </Text>
       </Flex>
 
-      {allowance.toNumber() ? (
+      {!allowance.toNumber() ? (
         <Button
           colorScheme="green"
           disabled={requestedApproval}

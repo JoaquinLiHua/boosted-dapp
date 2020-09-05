@@ -34,7 +34,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
             <ModalHeader>{pool.name} Staking Pool</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              <Tabs isFitted variant="enclosed">
+              <Tabs isFitted={true} variant="enclosed">
                 <TabList mb="1em">
                   <Tab>Staking</Tab>
                   <Tab>Rewards</Tab>
