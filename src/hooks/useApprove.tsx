@@ -3,9 +3,8 @@ import { useCallback } from "react";
 import { useWallet } from "use-wallet";
 import { provider } from "web3-core";
 import { approve } from "src/utils/boost";
-import { approve as governanceApprove } from "src/utils/governance";
 
-const useApprove = (tokenContract: string, poolAddress: string) => {
+export const useApprove = (tokenContract: string, poolAddress: string) => {
   const {
     account,
     ethereum,
@@ -20,19 +19,7 @@ const useApprove = (tokenContract: string, poolAddress: string) => {
     }
   }, [account, tokenContract, poolAddress, ethereum]);
 
-  const handleGovernanceApprove = useCallback(async () => {
-    try {
-      const tx = await governanceApprove(ethereum, account);
-      return tx;
-    } catch (e) {
-      return false;
-    }
-  }, [ethereum, account]);
-
   return {
     onApprove: handleApprove,
-    onGovernanceApprove: handleGovernanceApprove,
   };
 };
-
-export default useApprove;

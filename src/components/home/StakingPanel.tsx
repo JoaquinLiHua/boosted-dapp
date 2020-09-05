@@ -13,12 +13,12 @@ import {
 } from "@chakra-ui/core";
 import { getDisplayBalance } from "src/utils/formatBalance";
 import { useTokenBalance } from "src/hooks/useTokenBalance";
-import useAllowance from "src/hooks/useAllowance";
+import { useAllowance } from "src/hooks/useAllowance";
 import { IPool } from "src/context/PoolContext";
-import useApprove from "src/hooks/useApprove";
-import useStake from "src/hooks/useStake";
+import { useApprove } from "src/hooks/useApprove";
+import { useStake } from "src/hooks/useStake";
 import BN from "bignumber.js";
-import useStakedAmount from "src/hooks/useStakedAmount";
+import { useStakedAmount } from "src/hooks/useStakedAmount";
 import useExit from "src/hooks/useExit";
 
 interface StakingPanelProps {
@@ -26,12 +26,14 @@ interface StakingPanelProps {
 }
 
 export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
-  const allowance = useAllowance(pool.tokenContract, pool.address);
-  const tokenBalance: BN = useTokenBalance(pool.tokenContract);
-  const stakedAmount: BN = useStakedAmount(pool.address);
   const { onApprove } = useApprove(pool.tokenContract, pool.address);
   const { onStake, onUnstake } = useStake(pool.address);
   const { onExit } = useExit(pool.address);
+
+  const allowance: BN = useAllowance(pool.tokenContract, pool.address);
+  const tokenBalance: BN = useTokenBalance(pool.tokenContract);
+  const stakedAmount: BN = useStakedAmount(pool.address);
+
   const [requestedApproval, setRequestedApproval] = useState<boolean>(false);
   const [requestedStake, setRequestedStake] = useState<boolean>(false);
   const [requestedUnstake, setRequestedUnstake] = useState<boolean>(false);
@@ -44,7 +46,7 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
       setRequestedApproval(true);
       const txHash = await onApprove();
       if (!txHash) {
-        throw "Transactions error";
+        throw "Transaction error";
       } else {
         setRequestedApproval(false);
       }
@@ -71,13 +73,13 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
       setRequestedStake(true);
       const txHash = await onStake(stakeAmount);
       if (!txHash) {
-        throw "Transactions error";
+        throw "Transaction error";
       } else {
         setRequestedStake(false);
       }
     } catch (e) {
-      setRequestedStake(false);
       console.log(e);
+      setRequestedStake(false);
     }
   }, [stakeAmount, onStake]);
 
@@ -86,13 +88,13 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
       setRequestedUnstake(true);
       const txHash = await onUnstake(unstakeAmount);
       if (!txHash) {
-        throw "Transactions error";
+        throw "Transaction error";
       } else {
         setRequestedUnstake(false);
       }
     } catch (e) {
-      setRequestedUnstake(false);
       console.log(e);
+      setRequestedUnstake(false);
     }
   }, [unstakeAmount, onUnstake]);
 
@@ -101,7 +103,7 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
       setRequestedExit(true);
       const txHash = await onExit();
       if (!txHash) {
-        throw "Transactions error";
+        throw "Transaction error";
       } else {
         setRequestedExit(false);
       }
@@ -128,7 +130,7 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
           {getDisplayBalance(tokenBalance)} {pool.tokenTicker.toUpperCase()}
         </Text>
       </Flex>
-      {allowance.toNumber() && (
+      {allowance.toNumber() > 0 && (
         <Stack>
           <NumberInput value={stakeAmount} onChange={handleStakeChange}>
             <NumberInputField />
@@ -156,10 +158,11 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
               colorScheme="green"
               width="100%"
               my="2"
+              isLoading={requestedStake}
               disabled={requestedStake}
               onClick={() => handleStake()}
             >
-              {requestedStake ? "Staking" : "Stake"}
+              Stake
             </Button>
           </Flex>
         </Stack>
@@ -181,11 +184,10 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
         <Button
           colorScheme="green"
           disabled={requestedApproval}
+          isLoading={requestedApproval}
           onClick={() => handleApprove()}
         >
-          {requestedApproval
-            ? "Approving..."
-            : `Approve ${pool.tokenTicker.toUpperCase()}`}
+          Approve
         </Button>
       ) : (
         <>
@@ -213,25 +215,27 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
             </Flex>
             <Flex justifyContent="space-evenly">
               <Button
+                isLoading={requestedUnstake}
                 colorScheme="green"
                 width="100%"
                 my="2"
                 disabled={requestedUnstake}
                 onClick={() => handleUnstake()}
               >
-                {requestedUnstake ? "Unstaking..." : "Unstake"}
+                Unstake
               </Button>
             </Flex>
           </Stack>
           <Flex>
             <Button
-              my="2"
+              my={2}
+              isLoading={requestedExit}
               width="100%"
               disabled={requestedExit}
               onClick={() => handleExit()}
               colorScheme="red"
             >
-              {requestedExit ? "Exiting..." : "Exit & Claim"}
+              Exit & Claim
             </Button>
           </Flex>
         </>

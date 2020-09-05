@@ -213,27 +213,23 @@ export const stake = async (
   provider: provider,
   poolAddress: string,
   amount: string,
-  account: string | null
+  account: string
 ) => {
-  if (account) {
-    const poolContract = getPoolContract(provider, poolAddress);
-    const now = new Date().getTime() / 1000;
-    const web3 = new Web3(provider);
-    const tokens = web3.utils.toWei(amount.toString(), "ether");
-    const bntokens = web3.utils.toBN(tokens);
-    if (now >= 1598965200) {
-      return poolContract.methods
-        .stake(bntokens)
-        .send({ from: account })
-        .on("transactionHash", (tx) => {
-          console.log(tx);
-          return tx.transactionHash;
-        });
-    } else {
-      alert("pool not active");
-    }
+  const poolContract = getPoolContract(provider, poolAddress);
+  const now = new Date().getTime() / 1000;
+  const web3 = new Web3(provider);
+  const tokens = web3.utils.toWei(amount.toString(), "ether");
+  const bntokens = web3.utils.toBN(tokens);
+  if (now >= 1598965200) {
+    return poolContract.methods
+      .stake(bntokens)
+      .send({ from: account })
+      .on("transactionHash", (tx) => {
+        console.log(tx);
+        return tx.transactionHash;
+      });
   } else {
-    alert("wallet not connected");
+    alert("Pool no longer active");
   }
 };
 
@@ -241,9 +237,9 @@ export const unstake = async (
   provider: provider,
   poolAddress: string,
   amount: string,
-  account: string | null
+  account: string
 ) => {
-  if (account) {
+  try {
     const poolContract = getPoolContract(provider, poolAddress);
     const web3 = new Web3(provider);
     const tokens = web3.utils.toWei(amount.toString(), "ether");
@@ -255,8 +251,8 @@ export const unstake = async (
         console.log(tx);
         return tx.transactionHash;
       });
-  } else {
-    alert("wallet not connected");
+  } catch (e) {
+    console.log(e);
   }
 };
 
@@ -352,17 +348,18 @@ export const stakedAmount = async (
   provider: provider,
   poolAddress: string,
   account: string | null
-) => {
+): Promise<string> => {
   if (account) {
-    const poolContract = getPoolContract(provider, poolAddress);
     try {
+      const poolContract = getPoolContract(provider, poolAddress);
       const stakedAmount = await poolContract.methods.balanceOf(account).call();
       return stakedAmount;
     } catch (e) {
       console.log(e);
+      return "0";
     }
   } else {
-    alert("wallet not connected");
+    return "0";
   }
 };
 

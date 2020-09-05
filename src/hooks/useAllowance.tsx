@@ -6,39 +6,26 @@ import { provider } from "web3-core";
 
 import { getAllowance } from "../utils/boost";
 
-const useAllowance = (
-  tokenContract: string | null,
-  poolAddress: string | null
-) => {
-  const [allowance, setAllowance] = useState(new BN(0));
+export const useAllowance = (tokenContract: string, poolAddress: string) => {
+  const [allowance, setAllowance] = useState(new BN("0"));
   const {
     account,
     ethereum,
   }: { account: any; ethereum: provider } = useWallet();
-
   const fetchAllowance = useCallback(async () => {
-    let allowance;
-    if (tokenContract && poolAddress) {
-      allowance = await getAllowance(
-        ethereum,
-        tokenContract,
-        poolAddress,
-        account
-      );
-    }
-
-    setAllowance(new BN(allowance));
+    let allowance = new BN(
+      await getAllowance(ethereum, tokenContract, poolAddress, account)
+    );
+    setAllowance(allowance);
   }, [account, poolAddress, tokenContract, ethereum]);
 
   useEffect(() => {
-    if (account && poolAddress && tokenContract) {
+    if (account) {
       fetchAllowance();
     }
     const refreshInterval = setInterval(fetchAllowance, 10000);
     return () => clearInterval(refreshInterval);
-  }, [account, poolAddress, tokenContract, fetchAllowance]);
+  }, [account, fetchAllowance]);
 
   return allowance;
 };
-
-export default useAllowance;

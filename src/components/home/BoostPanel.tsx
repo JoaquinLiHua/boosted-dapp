@@ -3,9 +3,10 @@ import { Stack, Flex, Button, Text } from "@chakra-ui/core";
 import { getDisplayBalance } from "src/utils/formatBalance";
 import { useTokenBalance } from "src/hooks/useTokenBalance";
 import { boostToken } from "src/constants/tokenAddresses";
-import useAllowance from "src/hooks/useAllowance";
+import { useAllowance } from "src/hooks/useAllowance";
 import { IPool } from "src/context/PoolContext";
-import useApprove from "src/hooks/useApprove";
+import { useApprove } from "src/hooks/useApprove";
+
 import useBoost from "src/hooks/useBooster";
 import useGetBoosterBalance from "src/hooks/useBoosterCount";
 interface BoostPanelProps {

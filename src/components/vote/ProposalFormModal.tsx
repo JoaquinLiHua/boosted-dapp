@@ -20,9 +20,9 @@ import { ModalProps } from "src/context/ModalContext";
 import { useGovernanceStakedBalance } from "src/hooks/useGovernanceStakedBalance";
 import useGovernanceStake from "src/hooks/useGovernanceStake";
 import { boostToken, governanceContract } from "src/constants/tokenAddresses";
-import useApprove from "src/hooks/useApprove";
-import { useTokenBalance } from "src/hooks/stats/useTokenBalance";
-import useAllowance from "src/hooks/useAllowance";
+import { useApprove } from "src/hooks/useApprove";
+import { useTokenBalance } from "src/hooks/useTokenBalance";
+import { useAllowance } from "src/hooks/useAllowance";
 
 export const ProposalFormModal: React.FC<ModalProps> = () => {
   const [step, setStep] = useState<number>(0);
@@ -30,7 +30,7 @@ export const ProposalFormModal: React.FC<ModalProps> = () => {
   const stakedBalance = useGovernanceStakedBalance();
   const { onStake } = useGovernanceStake();
   const boostBalance = useTokenBalance(boostToken);
-  const { onGovernanceApprove } = useApprove(boostToken, governanceContract);
+  const { onApprove } = useApprove(boostToken, governanceContract);
   const [requestedApproval, setRequestedApproval] = useState<boolean>(false);
 
   const allowance = useAllowance(boostToken, governanceContract);
@@ -85,7 +85,7 @@ export const ProposalFormModal: React.FC<ModalProps> = () => {
   const handleApprove = useCallback(async () => {
     try {
       setRequestedApproval(true);
-      const txHash = await onGovernanceApprove();
+      const txHash = await onApprove();
       if (!txHash) {
         throw "Transactions error";
       } else {
@@ -95,7 +95,7 @@ export const ProposalFormModal: React.FC<ModalProps> = () => {
       console.log(e);
       setRequestedApproval(false);
     }
-  }, [onGovernanceApprove, setRequestedApproval]);
+  }, [onApprove, setRequestedApproval]);
 
   const firstStep = () => {
     return (
@@ -150,10 +150,11 @@ export const ProposalFormModal: React.FC<ModalProps> = () => {
                       <Button
                         my={2}
                         mr={2}
+                        isLoading={requestedApproval}
                         disabled={requestedApproval}
                         onClick={() => handleApprove()}
                       >
-                        {requestedApproval ? "Approving..." : `Approve BOOST`}
+                        Approve BOOST
                       </Button>
                     ) : (
                       <Button
@@ -164,7 +165,7 @@ export const ProposalFormModal: React.FC<ModalProps> = () => {
                         type="submit"
                         w="50%"
                       >
-                        {isSubmitting ? "Staking..." : "Stake"}
+                        Stake
                       </Button>
                     )}
 

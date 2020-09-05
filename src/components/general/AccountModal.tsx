@@ -37,7 +37,7 @@ export const AccountModal: React.FC<AccountModalProps> = ({ onDismiss }) => {
             p={8}
           >
             <Text>Wallet Address</Text>
-            <Text>{address}</Text>
+            <Text>{account}</Text>
           </Flex>
           <Button onClick={() => reset()}>Sign out</Button>
         </Stack>
