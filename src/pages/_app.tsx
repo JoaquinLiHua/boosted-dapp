@@ -3,10 +3,9 @@ import {
   ChakraProvider,
   CSSReset,
   Box,
-  Center,
   Heading,
-  HStack,
   Image,
+  Text,
   Flex,
 } from "@chakra-ui/core";
 import theme from "../theme";
@@ -39,19 +38,26 @@ function MyApp({ Component, pageProps }) {
               <Box>
                 <MarqueeComponent />
                 {isMobile ? (
-                  <HStack>
-                    <Flex pt={8} flexDirection="column" justifyContent="center">
-                      <Center>
-                        <Image py={4} src="/images/boost-icon.png" w="32" />
-                      </Center>
-                      <Heading py={4} px={4} textAlign="center" fontSize="md">
-                        It looks like you&apos;re using a mobile device.
-                      </Heading>
-                      <Heading py={4} px={4} textAlign="center" fontSize="md">
-                        Please switch to a desktop device to use Boosted.Finance
-                      </Heading>
-                    </Flex>
-                  </HStack>
+                  <Flex
+                    direction="column"
+                    alignItems="center"
+                    margin="auto"
+                    px={8}
+                    py={8}
+                  >
+                    <Image
+                      py={4}
+                      src="/images/boost-icon.png"
+                      w="32"
+                      align="center"
+                    />
+                    <Heading py={2} px={2} textAlign="center" fontSize="md">
+                      It looks like you&apos;re using a mobile device.
+                    </Heading>
+                    <Text py={2} px={2} textAlign="center" fontSize="md">
+                      Please switch to a desktop device to use Boosted.Finance
+                    </Text>
+                  </Flex>
                 ) : (
                   <Container>
                     <Header />
