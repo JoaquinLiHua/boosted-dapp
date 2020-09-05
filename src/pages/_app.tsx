@@ -1,17 +1,17 @@
 import React from "react";
 import { ChakraProvider, CSSReset, Box } from "@chakra-ui/core";
 import theme from "../theme";
-import { MarqueeComponent } from "src/components/Marquee";
-import { Header } from "src/components/Header";
-import { NewsBlock } from "src/components/NewsBlock";
-import { Footer } from "src/components/Footer";
-import { CTA } from "src/components/CTA";
-import { Container } from "src/components/Container";
+import { MarqueeComponent } from "src/components/general/Marquee";
+import { Header } from "src/components/general/Header";
+import { NewsBlock } from "src/components/general/NewsBlock";
+import { Footer } from "src/components/general/Footer";
+import { CTA } from "src/components/general/CTA";
+import { Container } from "src/components/general/Container";
 import { UseWalletProvider } from "use-wallet";
 import { ModalContext } from "src/context/ModalContext";
 import { PoolProvider } from "src/context/PoolContext";
 import { PriceFeedProvider } from "src/context/PriceFeedContext";
-import { Socials } from "src/components/Socials";
+import { Socials } from "src/components/general/Socials";
 
 function MyApp({ Component, pageProps }) {
   return (

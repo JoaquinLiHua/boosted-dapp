@@ -11,7 +11,7 @@ import {
   useToast,
 } from "@chakra-ui/core";
 import { useWallet } from "use-wallet";
-import { ModalProps } from "../context/ModalContext";
+import { ModalProps } from "../../context/ModalContext";
 
 type WalletSelectModalProps = ModalProps;
 
