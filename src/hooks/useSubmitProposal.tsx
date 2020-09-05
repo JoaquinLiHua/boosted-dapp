@@ -4,18 +4,21 @@ import { provider } from "web3-core";
 import { submitProposal } from "src/utils/governance";
 
 const useSubmitProposal = () => {
-  const { ethereum }: { ethereum: provider } = useWallet();
+  const {
+    ethereum,
+    account,
+  }: { ethereum: provider; account: string | null } = useWallet();
 
   const handleSubmitProposal = useCallback(
     async (values) => {
       try {
-        const tx = await submitProposal(ethereum, values);
+        const tx = await submitProposal(ethereum, account, values);
         return tx;
       } catch (e) {
         return false;
       }
     },
-    [ethereum]
+    [ethereum, account]
   );
 
   return { onSubmitProposal: (values) => handleSubmitProposal(values) };
