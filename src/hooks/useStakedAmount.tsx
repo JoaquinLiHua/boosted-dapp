@@ -2,7 +2,7 @@ import { useCallback, useState, useEffect } from "react";
 
 import { useWallet } from "use-wallet";
 import { provider } from "web3-core";
-import { stakedAmount } from "../utils/pools";
+import { stakedAmount } from "../utils/boost";
 import BN from "bignumber.js";
 
 const useStakedAmount = (poolAddress: string) => {

@@ -21,7 +21,7 @@ import { useGovernanceStakedBalance } from "src/hooks/useGovernanceStakedBalance
 import useGovernanceStake from "src/hooks/useGovernanceStake";
 import { boostToken, governanceContract } from "src/constants/tokenAddresses";
 import useApprove from "src/hooks/useApprove";
-import { useTokenBalance } from "src/hooks/useTokenBalance";
+import { useTokenBalance } from "src/hooks/stats/useTokenBalance";
 import useAllowance from "src/hooks/useAllowance";
 
 export const ProposalFormModal: React.FC<ModalProps> = () => {

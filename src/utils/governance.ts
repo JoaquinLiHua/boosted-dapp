@@ -3,7 +3,7 @@ import { provider } from "web3-core";
 import { AbiItem } from "web3-utils";
 import Governance from "../constants/abi/Governance.json";
 import { governanceContract, boostToken } from "src/constants/tokenAddresses";
-import { getContract as getERC20Contract } from "src/utils/erc20";
+import { getERC20Contract } from "src/utils/boost";
 import { ethers } from "ethers";
 
 export const getContract = (provider: provider, address: string) => {

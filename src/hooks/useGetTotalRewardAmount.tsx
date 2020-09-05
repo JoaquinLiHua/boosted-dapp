@@ -1,31 +1,29 @@
 import { useCallback, useState, useEffect } from "react";
-
 import { useWallet } from "use-wallet";
 import { provider } from "web3-core";
-import { rewardAmount } from "../utils/pools";
+import { rewardAmount } from "../utils/boost";
 import BN from "bignumber.js";
 import { ALL_POOLS } from "src/context/PoolContext";
 
-const useGetTotalRewardAmount = () => {
-  const [amount, setAmount] = useState(new BN(0));
+export const useGetTotalRewardAmount = () => {
+  const [amount, setAmount] = useState(new BN("0"));
   const {
     account,
     ethereum,
   }: { account: string | null; ethereum: provider } = useWallet();
-
   const fetchReadyToHarvest = useCallback(async () => {
     if (account) {
       const totalAmount = ALL_POOLS.map(async (pool) => {
-        return (await rewardAmount(ethereum, pool.address, account)) ?? 0;
+        return new BN(await rewardAmount(ethereum, pool.address, account));
       });
       const totalValueResolved = await Promise.all(totalAmount).then(
         (values) => {
-          return values.reduce(function (a: any, b: any) {
-            return new BN(a).toNumber() + new BN(b).toNumber();
-          }, 0);
+          return values.reduce(function (a: BN, b: BN) {
+            return a.plus(b);
+          }, new BN("0"));
         }
       );
-      setAmount(new BN(totalValueResolved));
+      setAmount(totalValueResolved);
     }
   }, [account, ethereum]);
 
@@ -39,5 +37,3 @@ const useGetTotalRewardAmount = () => {
 
   return amount;
 };
-
-export default useGetTotalRewardAmount;

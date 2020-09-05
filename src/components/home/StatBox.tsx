@@ -6,34 +6,24 @@ import {
   StatLabel,
   StatHelpText,
 } from "@chakra-ui/core";
-import { getDisplayBalance } from "src/utils/formatBalance";
-import BN from "bignumber.js";
 
 interface StatBoxProps {
   title: string;
   tokenTicker: string;
-  value?: BN | number;
-  showRelativePercentage?: boolean;
-  relativePercentage?: number;
-  bigNumber?: boolean;
+  value: string;
 }
 
 export const StatBox: React.FC<StatBoxProps> = ({
   title,
   value,
   tokenTicker,
-  showRelativePercentage,
-  relativePercentage,
-  bigNumber = false,
   ...rest
 }) => {
   return (
     <Box p={5} boxShadow="md" borderWidth="1px" {...rest}>
       <Stat>
         <StatLabel>{title}</StatLabel>
-        <StatNumber>
-          {value ? (bigNumber ? getDisplayBalance(value as BN) : value) : "-"}
-        </StatNumber>
+        <StatNumber>{value}</StatNumber>
         <StatHelpText>{tokenTicker}</StatHelpText>
       </Stat>
     </Box>

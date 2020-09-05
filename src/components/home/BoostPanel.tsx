@@ -13,10 +13,10 @@ interface BoostPanelProps {
 }
 
 export const BoostPanel: React.FC<BoostPanelProps> = ({ pool }) => {
-  const allowance = useAllowance(boostToken, pool.address);
-  const boostBalance = useTokenBalance(boostToken);
   const { onApprove } = useApprove(boostToken, pool.address);
   const { onBoost } = useBoost(pool.address);
+  const allowance = useAllowance(boostToken, pool.address);
+  const boostBalance: string = getDisplayBalance(useTokenBalance(boostToken));
   const boosterBalance = useGetBoosterBalance(pool.address);
   const [requestedApproval, setRequestedApproval] = useState<boolean>(false);
   const [requestedBoost, setRequestedBoost] = useState<boolean>(false);
@@ -62,7 +62,7 @@ export const BoostPanel: React.FC<BoostPanelProps> = ({ pool }) => {
         width={"100%"}
       >
         <Text>BOOST Balance</Text>
-        <Text>{getDisplayBalance(boostBalance)} BOOST</Text>
+        <Text>{boostBalance} BOOST</Text>
       </Flex>
       <Flex
         justifyContent="space-between"

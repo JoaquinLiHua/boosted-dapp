@@ -4,7 +4,7 @@ import BN from "bignumber.js";
 import { useWallet } from "use-wallet";
 import { provider } from "web3-core";
 
-import { getAllowance } from "../utils/erc20";
+import { getAllowance } from "../utils/boost";
 
 const useAllowance = (
   tokenContract: string | null,

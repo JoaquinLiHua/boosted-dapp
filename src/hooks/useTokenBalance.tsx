@@ -1,24 +1,28 @@
 import { useCallback, useEffect, useState } from "react";
-
-import BN from "bignumber.js";
 import { useWallet } from "use-wallet";
 import { provider } from "web3-core";
+import { getTokenBalance } from "src/utils/boost";
+import BigNumber from "bignumber.js";
 
-import { getBalance } from "../utils/erc20";
-
-export const useTokenBalance = (tokenAddress: string | null) => {
-  const [balance, setBalance] = useState(new BN(0));
+/**
+ * Hooks for getting a token balance of a user
+ * @param tokenAddress
+ */
+export const useTokenBalance = (tokenAddress: string) => {
+  const [balance, setBalance] = useState<BigNumber>(new BigNumber("0"));
   const {
     account,
     ethereum,
   }: { account: string | null; ethereum: provider } = useWallet();
 
   const fetchBalance = useCallback(async () => {
-    if (account && tokenAddress) {
-      const balance = await getBalance(ethereum, tokenAddress, account);
-      setBalance(new BN(balance));
+    if (account) {
+      const balance: BigNumber = new BigNumber(
+        await getTokenBalance(ethereum, tokenAddress, account)
+      );
+      setBalance(balance);
     }
-  }, [account, ethereum, tokenAddress]);
+  }, [account, ethereum]);
 
   useEffect(() => {
     if (account && ethereum) {

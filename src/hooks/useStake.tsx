@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useWallet } from "use-wallet";
 import { provider } from "web3-core";
-import { stake, unstake } from "../utils/pools";
+import { stake, unstake } from "../utils/boost";
 
 const useStake = (poolContract: string) => {
   const {

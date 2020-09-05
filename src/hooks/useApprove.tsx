@@ -2,7 +2,7 @@ import { useCallback } from "react";
 
 import { useWallet } from "use-wallet";
 import { provider } from "web3-core";
-import { approve } from "src/utils/erc20";
+import { approve } from "src/utils/boost";
 import { approve as governanceApprove } from "src/utils/governance";
 
 const useApprove = (tokenContract: string, poolAddress: string) => {

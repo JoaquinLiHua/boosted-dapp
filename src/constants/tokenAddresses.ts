@@ -2,7 +2,7 @@
 export const governanceContract = "0xc3859cb576f7e8a0a8537a5ce4700c95802daf81";
 
 //Boost token
-export const boostToken = "0x3e780920601D61cEdb860fe9c4a90c9EA6A35E78";
+export const boostToken = "0x3e780920601d61cedb860fe9c4a90c9ea6a35e78";
 
 // Treasury token holds yCRV
 export const yCRVToken = "0xdf5e0e81dff6faf3a7e52ba697820c5e32d806a8";

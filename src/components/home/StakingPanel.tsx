@@ -27,8 +27,8 @@ interface StakingPanelProps {
 
 export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
   const allowance = useAllowance(pool.tokenContract, pool.address);
-  const tokenBalance = useTokenBalance(pool.tokenContract);
-  const stakedAmount = useStakedAmount(pool.address);
+  const tokenBalance: BN = useTokenBalance(pool.tokenContract);
+  const stakedAmount: BN = useStakedAmount(pool.address);
   const { onApprove } = useApprove(pool.tokenContract, pool.address);
   const { onStake, onUnstake } = useStake(pool.address);
   const { onExit } = useExit(pool.address);

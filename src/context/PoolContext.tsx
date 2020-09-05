@@ -13,7 +13,7 @@ import {
   getApyCalculated,
   getBoostApy,
   getBoostPoolPriceInUSD,
-} from "src/utils/pools";
+} from "src/utils/boost";
 import { provider } from "web3-core";
 import {
   yfiToken,

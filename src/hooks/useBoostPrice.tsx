@@ -2,8 +2,8 @@ import { useCallback, useEffect, useState } from "react";
 import { usePriceFeedContext } from "src/context/PriceFeedContext";
 import { boostToken } from "src/constants/tokenAddresses";
 
-const useBoostPrice = () => {
-  const [price, setPrice] = useState(0);
+export const useBoostPrice = () => {
+  const [price, setPrice] = useState<string>("0");
   const { coinGecko }: { coinGecko: any } = usePriceFeedContext();
   const fetchPrice = useCallback(async () => {
     if (coinGecko) {
@@ -12,9 +12,8 @@ const useBoostPrice = () => {
           contract_addresses: boostToken,
           vs_currencies: "usd",
         });
-        const priceInUSD =
-          data["0x3e780920601d61cedb860fe9c4a90c9ea6a35e78"].usd;
-        setPrice(priceInUSD);
+        const priceInUSD: number = data[boostToken.toLowerCase()].usd;
+        setPrice(priceInUSD.toString());
       } catch (e) {
         console.log(e);
       }
@@ -27,5 +26,3 @@ const useBoostPrice = () => {
 
   return price;
 };
-
-export default useBoostPrice;
