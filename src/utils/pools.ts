@@ -37,20 +37,82 @@ export const getPoolStats = async (provider: provider, poolAddress: string) => {
   }
 };
 
-export const getPoolPriceInUSD = async (
+export const getPoolValueInUSD = async (
+  provider: provider,
+  poolAddress: string | null,
   tokenAddress: string,
-  poolSize: BN,
   coinGecko: any
 ) => {
-  try {
-    const { data } = await coinGecko.simple.fetchTokenPrice({
-      contract_addresses: tokenAddress,
-      vs_currencies: "usd",
-    });
-    const priceInUSD = data[tokenAddress].usd;
-    const poolSizeNumber = parseInt(getDisplayBalance(new BN(poolSize)));
-    return priceInUSD * poolSizeNumber;
-  } catch (e) {
+  if (poolAddress && coinGecko) {
+    const tokenContract = getContract(provider, tokenAddress);
+    try {
+      const poolSize = await tokenContract.methods
+        .balanceOf(poolAddress)
+        .call();
+      const { data } = await coinGecko.simple.fetchTokenPrice({
+        contract_addresses: tokenAddress,
+        vs_currencies: "usd",
+      });
+      const priceInUSD = data[tokenAddress].usd;
+      const poolSizeNumber = parseInt(getDisplayBalance(new BN(poolSize)));
+      return priceInUSD * poolSizeNumber;
+    } catch (e) {
+      return null;
+    }
+  } else {
+    return null;
+  }
+};
+export const getBoostPoolPriceInUSD = async (
+  provider: provider,
+  coinGecko: any
+) => {
+  if (provider && coinGecko) {
+    try {
+      const poolContract = getContract(provider, uniswapPool);
+      const boostTokenContract = getERC20Contract(provider, boostToken);
+      const wethTokenContract = getERC20Contract(provider, wethToken);
+      const boostWethUniContract = getERC20Contract(provider, uniswapLPToken);
+
+      const totalUNIAmount =
+        (await boostWethUniContract.methods.totalSupply().call()) / 1e18;
+
+      const totalBoostAmount =
+        (await boostTokenContract.methods.balanceOf(uniswapLPToken).call()) /
+        1e18;
+      const totalWETHAmount =
+        (await wethTokenContract.methods.balanceOf(uniswapLPToken).call()) /
+        1e18;
+
+      const boostPoolSize = await poolContract.methods.totalSupply().call();
+
+      const boostPerUNI = totalBoostAmount / totalUNIAmount;
+      const WETHPerUNI = totalWETHAmount / totalUNIAmount;
+
+      const { data } = await coinGecko.simple.fetchTokenPrice({
+        contract_addresses: [wethToken, boostToken],
+        vs_currencies: "usd",
+      });
+      if (data) {
+        const boostPriceInUSD = data[boostToken.toLowerCase()].usd;
+        const wethPriceInUSD = data[wethToken.toLowerCase()].usd;
+
+        const UNIPrice =
+          boostPerUNI * boostPriceInUSD + WETHPerUNI * wethPriceInUSD;
+
+        const poolSizeNumber = parseInt(
+          getDisplayBalance(new BN(boostPoolSize))
+        );
+
+        return UNIPrice * poolSizeNumber;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
+  } else {
     return null;
   }
 };

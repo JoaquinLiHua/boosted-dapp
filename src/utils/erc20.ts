@@ -5,8 +5,6 @@ import ERC20ABI from "../constants/abi/ERC20.json";
 import { boostToken } from "src/constants/tokenAddresses";
 import { ethers } from "ethers";
 import { yCRVToken, governanceContract } from "src/constants/tokenAddresses";
-import { getDisplayBalance } from "./formatBalance";
-import BN from "bignumber.js";
 
 export const getContract = (provider: provider, address: string) => {
   const web3 = new Web3(provider);
@@ -88,32 +86,5 @@ export const getTreasuryBalance = async (provider: provider) => {
     return balance;
   } catch (e) {
     return "0";
-  }
-};
-
-export const getPoolValue = async (
-  provider: provider,
-  poolAddress: string | null,
-  tokenAddress: string,
-  coinGecko: any
-) => {
-  if (poolAddress && coinGecko) {
-    const tokenContract = getContract(provider, tokenAddress);
-    try {
-      const poolSize = await tokenContract.methods
-        .balanceOf(poolAddress)
-        .call();
-      const { data } = await coinGecko.simple.fetchTokenPrice({
-        contract_addresses: tokenAddress,
-        vs_currencies: "usd",
-      });
-      const priceInUSD = data[tokenAddress].usd;
-      const poolSizeNumber = parseInt(getDisplayBalance(new BN(poolSize)));
-      return priceInUSD * poolSizeNumber;
-    } catch (e) {
-      return null;
-    }
-  } else {
-    return null;
   }
 };

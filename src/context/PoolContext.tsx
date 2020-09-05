@@ -9,9 +9,10 @@ import { useWallet } from "use-wallet";
 import BN from "bignumber.js";
 import {
   getPoolStats,
-  getPoolPriceInUSD,
+  getPoolValueInUSD,
   getApyCalculated,
   getBoostApy,
+  getBoostPoolPriceInUSD,
 } from "src/utils/pools";
 import { provider } from "web3-core";
 import {
@@ -174,16 +175,19 @@ export const PoolProvider: React.FC = ({ children }) => {
   const getStats = useCallback(async () => {
     const promisedPoolsArr = ALL_POOLS.map(async (pool) => {
       const poolStats = await getPoolStats(ethereum, pool.address);
-      const poolPriceInUSD = await getPoolPriceInUSD(
-        pool.tokenContract,
-        poolStats?.poolSize,
-        coinGecko
-      );
       let apy;
+      let poolPriceInUSD;
       if (pool.code === "boost_pool") {
         apy = await getBoostApy(ethereum, coinGecko);
+        poolPriceInUSD = await getBoostPoolPriceInUSD(ethereum, coinGecko);
       } else {
         apy = await getApyCalculated(
+          ethereum,
+          pool.address,
+          pool.tokenContract,
+          coinGecko
+        );
+        poolPriceInUSD = await getPoolValueInUSD(
           ethereum,
           pool.address,
           pool.tokenContract,
