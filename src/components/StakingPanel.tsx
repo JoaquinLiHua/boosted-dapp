@@ -147,7 +147,7 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
             <Button onClick={() => handlePercentageStakeInputs(0.75)}>
               75%
             </Button>
-            <Button onClick={() => handlePercentageStakeInputs(0.98)}>
+            <Button onClick={() => handlePercentageStakeInputs(0.99999)}>
               100%
             </Button>
           </Flex>
@@ -207,7 +207,7 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
               <Button onClick={() => handlePercentageUnstakeInput(0.75)}>
                 75%
               </Button>
-              <Button onClick={() => handlePercentageUnstakeInput(0.98)}>
+              <Button onClick={() => handlePercentageUnstakeInput(0.99999)}>
                 100%
               </Button>
             </Flex>
