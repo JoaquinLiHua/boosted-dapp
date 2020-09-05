@@ -117,7 +117,7 @@ export const ProposalFormModal: React.FC<ModalProps> = () => {
                     );
                   }}
                 </Field>
-                <Flex>
+                <Flex my={4}>
                   <Button
                     my={2}
                     mr={2}
