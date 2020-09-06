@@ -30,6 +30,8 @@ export const useGetTotalRewardAmount = () => {
   useEffect(() => {
     if (account && ethereum) {
       fetchReadyToHarvest();
+      const refreshInterval = setInterval(fetchReadyToHarvest, 60000);
+      return () => clearInterval(refreshInterval);
     } else {
       return;
     }

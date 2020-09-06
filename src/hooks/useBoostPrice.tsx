@@ -22,6 +22,8 @@ export const useBoostPrice = () => {
 
   useEffect(() => {
     fetchPrice();
+    const refreshInterval = setInterval(fetchPrice, 30000);
+    return () => clearInterval(refreshInterval);
   }, [fetchPrice]);
 
   return price;

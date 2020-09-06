@@ -26,6 +26,8 @@ export const useTreasuryBalance = () => {
   useEffect(() => {
     if (ethereum) {
       fetchTreasuryBalance();
+      const refreshInterval = setInterval(fetchTreasuryBalance, 60000);
+      return () => clearInterval(refreshInterval);
     } else {
       return;
     }
