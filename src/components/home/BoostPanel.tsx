@@ -55,10 +55,9 @@ export const BoostPanel: React.FC<BoostPanelProps> = ({ pool }) => {
   }, [setRequestedBoost, onBoost]);
 
   return (
-    <Stack>
+    <Stack spacing={4}>
       <Flex
         justifyContent="space-between"
-        my={4}
         borderWidth={1}
         borderRadius={5}
         p={8}
@@ -69,7 +68,6 @@ export const BoostPanel: React.FC<BoostPanelProps> = ({ pool }) => {
       </Flex>
       <Flex
         justifyContent="space-between"
-        my={4}
         borderWidth={1}
         borderRadius={5}
         p={8}
@@ -80,7 +78,6 @@ export const BoostPanel: React.FC<BoostPanelProps> = ({ pool }) => {
       </Flex>
       <Flex
         justifyContent="space-between"
-        my={4}
         borderWidth={1}
         borderRadius={5}
         p={8}

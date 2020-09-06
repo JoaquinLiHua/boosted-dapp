@@ -117,81 +117,78 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
   const handleUnstakeChange = (value: string) => setUnstakeAmount(value);
 
   return (
-    <Stack>
-      <Flex
-        justifyContent="space-between"
-        my={2}
-        borderWidth={1}
-        borderRadius={5}
-        p={8}
-      >
-        <Text>{pool.tokenTicker.toUpperCase()} balance</Text>
-        <Text>
-          {getDisplayBalance(tokenBalance)} {pool.tokenTicker.toUpperCase()}
-        </Text>
-      </Flex>
-      {allowance.toNumber() > 0 && (
-        <Stack>
-          <NumberInput value={stakeAmount} onChange={handleStakeChange}>
-            <NumberInputField />
-            <NumberInputStepper>
-              <NumberIncrementStepper />
-              <NumberDecrementStepper />
-            </NumberInputStepper>
-          </NumberInput>
-          <Flex justifyContent="space-between" my="2">
-            <Button onClick={() => handlePercentageStakeInputs(0.25)}>
-              25%
-            </Button>
-            <Button onClick={() => handlePercentageStakeInputs(0.5)}>
-              50%
-            </Button>
-            <Button onClick={() => handlePercentageStakeInputs(0.75)}>
-              75%
-            </Button>
-            <Button onClick={() => handlePercentageStakeInputs(0.99999)}>
-              100%
-            </Button>
-          </Flex>
-          <Flex justifyContent="space-evenly">
+    <Stack direction={["row", "row", "column"]} overflow="scroll">
+      <Stack flexDirection={["column"]}>
+        <Flex
+          justifyContent="space-between"
+          borderWidth={1}
+          borderRadius={5}
+          p={8}
+        >
+          <Text>{pool.tokenTicker.toUpperCase()} balance</Text>
+          <Text>
+            {getDisplayBalance(tokenBalance)} {pool.tokenTicker.toUpperCase()}
+          </Text>
+        </Flex>
+        {allowance.toNumber() > 0 && (
+          <Stack spacing={4}>
+            <NumberInput value={stakeAmount} onChange={handleStakeChange}>
+              <NumberInputField />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
+            <Flex justifyContent="space-between">
+              <Button onClick={() => handlePercentageStakeInputs(0.25)}>
+                25%
+              </Button>
+              <Button onClick={() => handlePercentageStakeInputs(0.5)}>
+                50%
+              </Button>
+              <Button onClick={() => handlePercentageStakeInputs(0.75)}>
+                75%
+              </Button>
+              <Button onClick={() => handlePercentageStakeInputs(0.99999)}>
+                100%
+              </Button>
+            </Flex>
             <Button
               colorScheme="green"
               width="100%"
-              my="2"
               isLoading={requestedStake}
               disabled={requestedStake}
               onClick={() => handleStake()}
             >
               Stake
             </Button>
-          </Flex>
-        </Stack>
-      )}
-      <Divider />
-      <Flex
-        justifyContent="space-between"
-        my={2}
-        borderWidth={1}
-        borderRadius={5}
-        p={8}
-      >
-        <Text>{pool.tokenTicker.toUpperCase()} staked</Text>
-        <Text>
-          {getDisplayBalance(stakedAmount)} {pool.tokenTicker.toUpperCase()}
-        </Text>
-      </Flex>
-      {!allowance.toNumber() ? (
-        <Button
-          colorScheme="green"
-          disabled={requestedApproval}
-          isLoading={requestedApproval}
-          onClick={() => handleApprove()}
+          </Stack>
+        )}
+      </Stack>
+      <Divider display={["none", "none", "flex"]} />
+      <Stack direction={["column"]}>
+        <Flex
+          justifyContent="space-between"
+          borderWidth={1}
+          borderRadius={5}
+          p={8}
         >
-          Approve
-        </Button>
-      ) : (
-        <>
-          <Stack>
+          <Text>{pool.tokenTicker.toUpperCase()} staked</Text>
+          <Text>
+            {getDisplayBalance(stakedAmount)} {pool.tokenTicker.toUpperCase()}
+          </Text>
+        </Flex>
+        {!allowance.toNumber() ? (
+          <Button
+            colorScheme="green"
+            disabled={requestedApproval}
+            isLoading={requestedApproval}
+            onClick={() => handleApprove()}
+          >
+            Approve
+          </Button>
+        ) : (
+          <Stack spacing={4}>
             <NumberInput value={unstakeAmount} onChange={handleUnstakeChange}>
               <NumberInputField />
               <NumberInputStepper>
@@ -199,7 +196,7 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
                 <NumberDecrementStepper />
               </NumberInputStepper>
             </NumberInput>
-            <Flex justifyContent="space-between" my="2">
+            <Flex justifyContent="space-between">
               <Button onClick={() => handlePercentageUnstakeInput(0.25)}>
                 25%
               </Button>
@@ -213,22 +210,16 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
                 100%
               </Button>
             </Flex>
-            <Flex justifyContent="space-evenly">
-              <Button
-                isLoading={requestedUnstake}
-                colorScheme="green"
-                width="100%"
-                my="2"
-                disabled={requestedUnstake}
-                onClick={() => handleUnstake()}
-              >
-                Unstake
-              </Button>
-            </Flex>
-          </Stack>
-          <Flex>
             <Button
-              my={2}
+              isLoading={requestedUnstake}
+              colorScheme="green"
+              width="100%"
+              disabled={requestedUnstake}
+              onClick={() => handleUnstake()}
+            >
+              Unstake
+            </Button>
+            <Button
               isLoading={requestedExit}
               width="100%"
               disabled={requestedExit}
@@ -237,9 +228,9 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
             >
               Exit & Claim
             </Button>
-          </Flex>
-        </>
-      )}
+          </Stack>
+        )}
+      </Stack>
     </Stack>
   );
 };
