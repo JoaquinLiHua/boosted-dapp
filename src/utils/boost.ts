@@ -481,3 +481,20 @@ const isRewardPeriodOver = async function (rewardContract) {
 const getPeriodFinishForReward = async function (rewardContract) {
   return await rewardContract.methods.periodFinish().call();
 };
+
+export const getNextBoosterAvailable = async (
+  provider: provider,
+  poolAddress: string,
+  account: string
+): Promise<string> => {
+  try {
+    const poolContract = getPoolContract(provider, poolAddress);
+    const periodFinish = await poolContract.methods
+      .nextBoostPurchaseTime(account)
+      .call();
+    return periodFinish;
+  } catch (e) {
+    console.log(e);
+    return "9999";
+  }
+};
