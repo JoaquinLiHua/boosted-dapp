@@ -74,7 +74,7 @@ export const BoostPanel: React.FC<BoostPanelProps> = ({ pool }) => {
         width={"100%"}
       >
         <Text>BOOSTERS</Text>
-        <Text>{getDisplayBalance(boosterBalance)} / 5.0000 BOOST</Text>
+        <Text>{boosterBalance.toNumber()} / 5 BOOST</Text>
       </Flex>
       <Flex
         justifyContent="space-between"
