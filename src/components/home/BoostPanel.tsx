@@ -10,7 +10,8 @@ import { useApprove } from "src/hooks/useApprove";
 import { useBoost } from "src/hooks/useBooster";
 import { useGetBoosterBalance } from "src/hooks/useBoosterCount";
 import BN from "bignumber.js";
-
+import { useGetNextBoosterAvailable } from "src/hooks/useNextBoosterAvailable";
+import { formatTimestamp } from "src/utils/formatTimestamp";
 interface BoostPanelProps {
   pool: IPool;
 }
@@ -23,6 +24,7 @@ export const BoostPanel: React.FC<BoostPanelProps> = ({ pool }) => {
   const boosterBalance: BN = useGetBoosterBalance(pool.address);
   const [requestedApproval, setRequestedApproval] = useState<boolean>(false);
   const [requestedBoost, setRequestedBoost] = useState<boolean>(false);
+  const nextBoostAvailable: BN = useGetNextBoosterAvailable(pool.address);
 
   const handleApprove = useCallback(async () => {
     try {
@@ -75,6 +77,20 @@ export const BoostPanel: React.FC<BoostPanelProps> = ({ pool }) => {
       >
         <Text>BOOSTERS</Text>
         <Text>{getDisplayBalance(boosterBalance)} / 5.0000 BOOST</Text>
+      </Flex>
+      <Flex
+        justifyContent="space-between"
+        borderWidth={1}
+        borderRadius={5}
+        p={8}
+        width={"100%"}
+      >
+        <Text>Boosting Locked Till</Text>
+        <Text>
+          {nextBoostAvailable.toNumber() === 0
+            ? "No Restriction"
+            : formatTimestamp(nextBoostAvailable.toNumber())}
+        </Text>
       </Flex>
       <Flex
         justifyContent="space-between"
