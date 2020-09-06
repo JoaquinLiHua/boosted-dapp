@@ -20,10 +20,18 @@ export const StatBox: React.FC<StatBoxProps> = ({
   ...rest
 }) => {
   return (
-    <Box p={5} boxShadow="md" borderWidth="1px" {...rest}>
+    <Box
+      p={5}
+      boxShadow="md"
+      borderWidth="1px"
+      {...rest}
+      minWidth={[200, 200, "100%"]}
+    >
       <Stat>
-        <StatLabel>{title}</StatLabel>
-        <StatNumber>{value}</StatNumber>
+        <StatLabel fontSize={["xs", "xs", "s"]} mb={[4, 4, 2]}>
+          {title}
+        </StatLabel>
+        <StatNumber fontSize={["xs", "xs", "lg"]}>{value}</StatNumber>
         <StatHelpText>{tokenTicker}</StatHelpText>
       </Stat>
     </Box>

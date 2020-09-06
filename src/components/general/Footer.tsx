@@ -1,11 +1,18 @@
 import React from "react";
-import { Flex, Text } from "@chakra-ui/core";
+import { Text, Stack } from "@chakra-ui/core";
 
 export const Footer = (props) => (
-  <Flex as="footer" py="8rem" {...props}>
+  <Stack
+    as="footer"
+    pt={["2rem", "2rem", "8rem"]}
+    pb={"8rem"}
+    direction={["column", "column", "row"]}
+    alignItems={["center", "flex-start", "flex-start"]}
+    spacing={4}
+    {...props}
+  >
     <Text
       as="a"
-      mx="2"
       fontSize="xs"
       color="gray.400"
       target="_blank"
@@ -15,7 +22,6 @@ export const Footer = (props) => (
     </Text>
     <Text
       as="a"
-      mx="2"
       fontSize="xs"
       color="gray.400"
       target="_blank"
@@ -25,7 +31,6 @@ export const Footer = (props) => (
     </Text>
     <Text
       as="a"
-      mx="2"
       fontSize="xs"
       target="_blank"
       color="gray.400"
@@ -38,13 +43,12 @@ export const Footer = (props) => (
       color="gray.400"
       target="_blank"
       as="a"
-      mx="2"
       href="https://uniswap.info/pair/0x6b4a0bd2eee3ca06652f758844937daf91ea8422"
     >
       Uniswap BOOST-ETH
     </Text>
-    <Text mx="2" as="a" fontSize="xs" color="gray.400" target="_blank">
+    <Text as="a" fontSize="xs" color="gray.400" target="_blank">
       Audit (coming soon)
     </Text>
-  </Flex>
+  </Stack>
 );

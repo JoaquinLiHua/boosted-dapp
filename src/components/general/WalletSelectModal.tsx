@@ -29,15 +29,6 @@ export const WalletSelectModal: React.FC<WalletSelectModalProps> = ({
         connect("injected"), setAttempts((prevState) => prevState + 1);
       },
     },
-    // {
-    //   img: "/images/ledger-icon.svg",
-    //   copy: "Ledger",
-    //   connectMethod: connect("injected")
-    // },
-    // {
-    //   img: "/images/coinbase-icon.svg",
-    //   copy: "Coinbase Wallet",
-    // },
     {
       img: "/images/walletconnect-icon.svg",
       copy: "Wallet Connect",
@@ -73,9 +64,11 @@ export const WalletSelectModal: React.FC<WalletSelectModalProps> = ({
         borderWidth={1}
         borderRadius={5}
         p={8}
+        justifyContent="center"
+        alignItems="center"
         onClick={() => e.connectMethod()}
       >
-        <Text width={150} mr={8}>
+        <Text width={150} mr={8} fontSize={["xs", "xs", "md"]}>
           {e.copy}
         </Text>
         <Image src={e.img} />

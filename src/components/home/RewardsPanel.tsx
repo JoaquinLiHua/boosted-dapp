@@ -30,10 +30,9 @@ export const RewardsPanel: React.FC<RewardsPanelProps> = ({ pool }) => {
   }, [onClaim, setRequestedClaim]);
 
   return (
-    <Stack>
+    <Stack spacing={4}>
       <Flex
         justifyContent="space-between"
-        my={4}
         borderWidth={1}
         borderRadius={5}
         p={8}

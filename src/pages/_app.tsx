@@ -20,9 +20,10 @@ import { ModalContext } from "src/context/ModalContext";
 import { PoolProvider } from "src/context/PoolContext";
 import { PriceFeedProvider } from "src/context/PriceFeedContext";
 import { Socials } from "src/components/general/Socials";
-import { isMobile } from "react-device-detect";
+import { useWeb3Presence } from "src/hooks/useWeb3Presence";
 
 function MyApp({ Component, pageProps }) {
+  const web3Present = useWeb3Presence();
   return (
     <ChakraProvider theme={theme}>
       <CSSReset />
@@ -37,7 +38,7 @@ function MyApp({ Component, pageProps }) {
             <ModalContext>
               <Box>
                 <MarqueeComponent />
-                {isMobile ? (
+                {!web3Present ? (
                   <Flex
                     direction="column"
                     alignItems="center"
@@ -52,10 +53,12 @@ function MyApp({ Component, pageProps }) {
                       align="center"
                     />
                     <Heading py={2} px={2} textAlign="center" fontSize="md">
-                      It looks like you&apos;re using a mobile device.
+                      It looks like you&apos;re using device without a valid
+                      web3 provider.
                     </Heading>
                     <Text py={2} px={2} textAlign="center" fontSize="md">
-                      Please switch to a desktop device to use Boosted.Finance
+                      Please switch to a web3 compatible browser to use
+                      Boosted.Finance
                     </Text>
                   </Flex>
                 ) : (
