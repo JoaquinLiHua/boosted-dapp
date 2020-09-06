@@ -23,7 +23,7 @@ export const useAllowance = (tokenContract: string, poolAddress: string) => {
     if (account) {
       fetchAllowance();
     }
-    const refreshInterval = setInterval(fetchAllowance, 10000);
+    const refreshInterval = setInterval(fetchAllowance, 5000);
     return () => clearInterval(refreshInterval);
   }, [account, fetchAllowance]);
 
