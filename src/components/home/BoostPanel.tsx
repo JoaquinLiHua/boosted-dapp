@@ -66,7 +66,7 @@ export const BoostPanel: React.FC<BoostPanelProps> = ({ pool }) => {
         width={"100%"}
       >
         <Text>BOOST Balance</Text>
-        <Text>{getDisplayBalance(boostBalance)} BOOST</Text>
+        <Text textAlign="right">{getDisplayBalance(boostBalance)} BOOST</Text>
       </Flex>
       <Flex
         justifyContent="space-between"
@@ -76,7 +76,7 @@ export const BoostPanel: React.FC<BoostPanelProps> = ({ pool }) => {
         width={"100%"}
       >
         <Text>BOOSTERS</Text>
-        <Text>{boosterBalance.toNumber()} / 5 BOOST</Text>
+        <Text textAlign="right">{boosterBalance.toNumber()} / 5 BOOST</Text>
       </Flex>
       <Flex
         justifyContent="space-between"
@@ -86,7 +86,7 @@ export const BoostPanel: React.FC<BoostPanelProps> = ({ pool }) => {
         width={"100%"}
       >
         <Text>Boosting Locked Till</Text>
-        <Text>
+        <Text textAlign="right">
           {nextBoostAvailable.toNumber() === 0
             ? "No Restriction"
             : formatTimestamp(nextBoostAvailable.toNumber())}
@@ -99,7 +99,7 @@ export const BoostPanel: React.FC<BoostPanelProps> = ({ pool }) => {
         p={8}
       >
         <Text>Cost of BOOSTER</Text>
-        <Text>
+        <Text textAlign="right">
           {pool.boosterPrice ? getDisplayBalance(pool.boosterPrice) : 0} BOOST
         </Text>
       </Flex>
