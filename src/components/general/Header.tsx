@@ -2,6 +2,7 @@ import React from "react";
 import { Flex, Heading, Box, Link } from "@chakra-ui/core";
 import { DarkModeSwitch } from "./DarkModeSwitch";
 import NextLink from "next/link";
+import { isMobile } from "react-device-detect";
 
 export const Header = () => (
   <Flex
@@ -12,11 +13,11 @@ export const Header = () => (
     width="100%"
   >
     <Box flex="1">
-      <Heading fontSize="lg">🚀 B00STED FINANCE</Heading>
+      <Heading fontSize={"lg"}>🚀 {!isMobile && "B00STED FINANCE"}</Heading>
     </Box>
     <Flex flex="2" justifyContent="center">
       <NextLink href="/">
-        <Link fontSize="lg" m="4" fontWeight="600">
+        <Link fontSize={["sm", "lg"]} m="4" fontWeight="600">
           HOME
         </Link>
       </NextLink>
@@ -24,14 +25,14 @@ export const Header = () => (
         as="a"
         target="_blank"
         href="https://medium.com/@BoostedFinance/boosted-finance-its-not-rocket-science-it-s-alpha-81acf4af2887"
-        fontSize="lg"
+        fontSize={["sm", "lg"]}
         m="4"
         fontWeight="600"
       >
         ABOUT
       </Link>
       <NextLink href="/vote">
-        <Link fontSize="lg" m="4" fontWeight="600">
+        <Link fontSize={["sm", "lg"]} m="4" fontWeight="600">
           VOTE
         </Link>
       </NextLink>

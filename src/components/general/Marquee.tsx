@@ -2,11 +2,12 @@ import React from "react";
 import Marquee from "react-marquee-slider";
 import times from "lodash/times";
 import { Text } from "@chakra-ui/core";
+import { isMobile } from "react-device-detect";
 
 export const MarqueeComponent = () => {
   return (
     <Marquee
-      velocity={72}
+      velocity={!isMobile ? 72 : 36}
       resetAfterTries={200}
       direction="rtl"
       onFinish={() => {}}
