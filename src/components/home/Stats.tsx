@@ -22,7 +22,14 @@ export const Stats: React.FC = () => {
   const boostPrice: string = useBoostPrice();
 
   return (
-    <Stack spacing="1.5rem" mr="4" mt="4">
+    <Stack
+      direction={["row", "row", "column"]}
+      spacing={4}
+      mr={4}
+      mt={4}
+      flexDirection={["row", "row", "column"]}
+      overflow={["scroll"]}
+    >
       <StatBox title="BALANCE" value={boostBalance} tokenTicker={"BOOST"} />
       <StatBox
         title="READY FOR CLAIM"
