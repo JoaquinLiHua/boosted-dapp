@@ -18,7 +18,7 @@ export const proposals = async (provider: provider) => {
   try {
     const proposalCount = await getProposalCount(provider);
     const proposals: any[] = [];
-    for (let i = 0; i < proposalCount - 1; i++) {
+    for (let i = 0; i < proposalCount; i++) {
       const proposal = await contract.methods.proposals(i).call();
       proposals.push(proposal);
     }
