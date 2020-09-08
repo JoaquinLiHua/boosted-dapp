@@ -123,23 +123,20 @@ const Proposal: React.FC = () => {
           </Text>
           <Text>{proposal.withdrawAddress}</Text>
         </Flex>
-
         <Divider />
-
         <Stack>
-          <FormLabel htmlFor={"Stake Amount"} fontWeight="bold">
-            Stake Amount
-          </FormLabel>
+          <FormLabel fontWeight="bold">Governance Proposal Stake</FormLabel>
           <Input
             type="number"
             id={"stakeAmount"}
             onChange={(e) => handleStakeChange(e.target.value)}
             placeholder={"Stake Amount"}
+            mb={4}
           />
           {!allowance.toNumber() ? (
             <Button
-              my={2}
-              mr={2}
+              mt={4}
+              colorScheme="green"
               isLoading={requestedApproval}
               disabled={requestedApproval}
               onClick={() => handleApprove()}
@@ -148,8 +145,8 @@ const Proposal: React.FC = () => {
             </Button>
           ) : (
             <Button
-              my={2}
-              mr={2}
+              mt={4}
+              colorScheme="green"
               isLoading={requestedStaking}
               disabled={requestedStaking}
               type="submit"
