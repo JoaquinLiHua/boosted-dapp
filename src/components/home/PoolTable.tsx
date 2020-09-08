@@ -146,10 +146,13 @@ export const PoolTable: React.FC = () => {
                   </Text>
                 </Flex>
                 <Text sub={"true"} fontSize="xs">
-                  Pool ends:{" "}
-                  {e.periodFinish
-                    ? formatTimestamp(new BN(e.periodFinish).toNumber())
-                    : 0}
+                  {e.code === "boost_pool"
+                    ? `Pool ends: ${
+                        e.periodFinish
+                          ? formatTimestamp(new BN(e.periodFinish).toNumber())
+                          : 0
+                      }`
+                    : `POOL ENDED`}
                 </Text>
               </TableCell>
               <TableCell>
@@ -168,7 +171,9 @@ export const PoolTable: React.FC = () => {
                 </Text>
               </TableCell>
               <TableCell>
-                <Text fontSize="">{e.apy}%</Text>
+                <Text fontSize="">
+                  {e.code === "boost_pool" ? `${e.apy ? e.apy : 0}%` : "ENDED"}
+                </Text>
               </TableCell>
               <TableCell textAlign="right">
                 {!!account && (
