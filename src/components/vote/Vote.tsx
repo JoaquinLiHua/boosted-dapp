@@ -44,14 +44,29 @@ export const Vote: React.FC = () => {
         </Flex>
         <Tabs variant="enclosed">
           <TabList mb="1em">
-            <Tab>All</Tab>
+            <Tab>Core</Tab>
+            <Tab>Community</Tab>
           </TabList>
           <TabPanels>
             <TabPanel w="100%">
               {proposals &&
-                proposals.map((e, i) => (
-                  <ProposalRow key={i} pid={i} proposal={e} />
-                ))}
+                proposals.map((e, i) => {
+                  if (i === 0) {
+                    return <ProposalRow key={i} pid={i} proposal={e} />;
+                  } else {
+                    return;
+                  }
+                })}
+            </TabPanel>
+            <TabPanel w="100%">
+              {proposals &&
+                proposals.map((e, i) => {
+                  if (i > 0) {
+                    return <ProposalRow key={i} pid={i} proposal={e} />;
+                  } else {
+                    return;
+                  }
+                })}
             </TabPanel>
           </TabPanels>
         </Tabs>
