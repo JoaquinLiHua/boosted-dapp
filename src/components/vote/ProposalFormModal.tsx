@@ -47,7 +47,7 @@ export const ProposalFormModal: React.FC<ModalProps> = () => {
   };
 
   const handleProceed = () => {
-    if (stakedBalance.toNumber() < 13.37) {
+    if (stakedBalance.toNumber() >= 13.37) {
       setStep(1);
     } else {
       console.log("user's minimum stake not reached");
