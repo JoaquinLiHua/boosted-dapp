@@ -122,6 +122,20 @@ const Proposal: React.FC = () => {
           </Text>
           <Text>{proposal.withdrawAddress}</Text>
         </Flex>
+        {parseInt(pid.toString()) === 0 && (
+          <Flex flexDirection={"column"}>
+            <Text fontWeight="bold" fontSize="sm">
+              Simple Summary:&nbsp;
+            </Text>
+            <Text>
+              The Boosted Finance team is requesting for funding of 60,000 yCRV
+              to bootstrap an ecosystem fund for the payment of contract audits
+              and fast-tracking the development resources required to construct
+              BoostVaults (bVaults), optimize the existing booster mechanism, or
+              other governance proposals to be passed by the community.
+            </Text>
+          </Flex>
+        )}
         <Divider />
         <Stack>
           <FormLabel fontWeight="bold">Governance Proposal Stake</FormLabel>
