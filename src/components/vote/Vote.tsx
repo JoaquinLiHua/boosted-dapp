@@ -12,7 +12,7 @@ import {
   Heading,
 } from "@chakra-ui/core";
 import { ProposalRow } from "src/components/vote/ProposalRow";
-import useProposals from "src/hooks/useProposals";
+import { useProposals } from "src/hooks/useProposals";
 import { useModal } from "src/context/ModalContext";
 import { ProposalFormModal } from "src/components/vote/ProposalFormModal";
 import { useWallet } from "use-wallet";
@@ -49,7 +49,9 @@ export const Vote: React.FC = () => {
           <TabPanels>
             <TabPanel>
               {proposals &&
-                proposals.map((e, i) => <ProposalRow key={i} proposal={e} />)}
+                proposals.map((e, i) => (
+                  <ProposalRow key={i} pid={i} proposal={e} />
+                ))}
             </TabPanel>
           </TabPanels>
         </Tabs>

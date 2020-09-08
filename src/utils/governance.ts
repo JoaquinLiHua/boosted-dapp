@@ -20,10 +20,19 @@ export const proposals = async (provider: provider) => {
     const proposals: any[] = [];
     for (let i = 0; i < proposalCount - 1; i++) {
       const proposal = await contract.methods.proposals(i).call();
-      console.log(proposal);
       proposals.push(proposal);
     }
     return proposals;
+  } catch (e) {
+    return null;
+  }
+};
+
+export const getSingleProposal = async (provider: provider, id: number) => {
+  try {
+    const contract = getContract(provider, governanceContract);
+    const proposal = await contract.methods.proposals(id).call();
+    return proposal;
   } catch (e) {
     return null;
   }
@@ -98,6 +107,54 @@ export const getStaked = async (provider: provider, account: string) => {
       const contract = getContract(provider, governanceContract);
       const stakedAmount = await contract.methods.balanceOf(account).call();
       return stakedAmount;
+    } catch (e) {
+      return null;
+    }
+  } else {
+    alert("wallet not connected");
+    return null;
+  }
+};
+
+export const voteFor = async (
+  provider: provider,
+  account: string,
+  id: string | string[] | undefined
+) => {
+  if (account) {
+    try {
+      const contract = getContract(provider, governanceContract);
+      return await contract.methods
+        .voteFor(id)
+        .send({ from: account })
+        .on("transactionHash", (tx) => {
+          console.log(tx);
+          return tx.transactionHash;
+        });
+    } catch (e) {
+      return null;
+    }
+  } else {
+    alert("wallet not connected");
+    return null;
+  }
+};
+
+export const voteAgainst = async (
+  provider: provider,
+  account: string,
+  id: string | string[] | undefined
+) => {
+  if (account) {
+    try {
+      const contract = getContract(provider, governanceContract);
+      return await contract.methods
+        .voteAgainst(id)
+        .send({ from: account })
+        .on("transactionHash", (tx) => {
+          console.log(tx);
+          return tx.transactionHash;
+        });
     } catch (e) {
       return null;
     }

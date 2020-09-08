@@ -12,6 +12,7 @@ import {
   Input,
   FormErrorMessage,
   Flex,
+  Divider,
 } from "@chakra-ui/core";
 import { Formik, Field } from "formik";
 import { FormInput } from "./FormInput";
@@ -69,7 +70,6 @@ export const ProposalFormModal: React.FC<ModalProps> = () => {
 
   const handleSubmit = async (values, actions) => {
     try {
-      console.log(values);
       const tx = onSubmitProposal(values);
       if (!tx) {
         throw "Error in transaction";
@@ -99,13 +99,15 @@ export const ProposalFormModal: React.FC<ModalProps> = () => {
 
   const firstStep = () => {
     return (
-      <Stack>
+      <Stack spacing={4}>
         <Text fontSize="md">Proposal Stake</Text>
         <Text fontSize="sm">
           You must stake a minimum of 13.37 Boost to submit a proposal
         </Text>
+        <Divider />
+        <Text>You have staked: {stakedBalance.toNumber()} BOOST</Text>
         {parseFloat(boostBalance.toString()) < 13.37 ? (
-          <Text>You do not have enough Boost</Text>
+          <Text mb={4}>You do not have enough Boost</Text>
         ) : (
           <Formik
             initialValues={{
