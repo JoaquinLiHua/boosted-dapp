@@ -23,7 +23,7 @@ export const Vote: React.FC = () => {
   const { account } = useWallet();
   return (
     <Flex justifyContent="space-between" width="100%">
-      <Stack spacing="1.5rem" mr="4" mt="4" flex={1}>
+      <Stack spacing="1.5rem" mr="4" mt="4" flex={1} width="100%">
         <Flex justifyContent="space-between">
           <Heading size="md">PROPOSALS</Heading>
           {account && (
@@ -47,7 +47,7 @@ export const Vote: React.FC = () => {
             <Tab>All</Tab>
           </TabList>
           <TabPanels>
-            <TabPanel>
+            <TabPanel w="100%">
               {proposals &&
                 proposals.map((e, i) => (
                   <ProposalRow key={i} pid={i} proposal={e} />

@@ -22,7 +22,10 @@ interface ProposalRowProps {
 export const ProposalRow: React.FC<ProposalRowProps> = ({ proposal, pid }) => {
   return (
     <Link href="/vote/[pid]" as={`/vote/${pid}`}>
-      <Flex borderBottomWidth={1} py={4} cursor="pointer">
+      <Flex borderBottomWidth={1} py={4} cursor="pointer" overflow="scroll">
+        <VStack mx={4} px={4} whiteSpace="nowrap">
+          <Text textAlign="center" fontWeight="bold">{`BFIP-${pid + 2}`}</Text>
+        </VStack>
         <VStack mx={4}>
           {new Date(proposal.end * 1000) < new Date() ? (
             <Tag colorScheme="red" size="md">
