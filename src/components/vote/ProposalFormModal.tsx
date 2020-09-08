@@ -100,14 +100,21 @@ export const ProposalFormModal: React.FC<ModalProps> = () => {
   const firstStep = () => {
     return (
       <Stack spacing={4}>
-        <Text fontSize="md">Proposal Stake</Text>
+        <Text fontWeight="bold" fontSize="md">
+          Proposal Stake
+        </Text>
+        <Text fontSize="sm">
+          You have staked: {stakedBalance.toNumber()} BOOST
+        </Text>
         <Text fontSize="sm">
           You must stake a minimum of 13.37 Boost to submit a proposal
         </Text>
         <Divider />
-        <Text>You have staked: {stakedBalance.toNumber()} BOOST</Text>
+
         {parseFloat(boostBalance.toString()) < 13.37 ? (
-          <Text mb={4}>You do not have enough Boost</Text>
+          <Text textAlign="center" mb={4}>
+            Insufficient BOOST Balance to Propose
+          </Text>
         ) : (
           <Formik
             initialValues={{
