@@ -101,11 +101,10 @@ const Proposal: React.FC = () => {
     }
   }, [onApprove, setRequestedApproval]);
 
-  if (proposal) {
+  if (proposal && pid) {
     return (
       <Stack colorScheme="white" spacing={4} width="100%" mt={8}>
-        {/* @TODO REMOVE HARDCODE AS CONFUSING */}
-        <Heading>BFIP-02</Heading>
+        <Heading>BFIP-{parseInt(pid?.toString()) + 2}</Heading>
         <Text as="a" href={proposal.url} target="_blank">
           {proposal.url}
         </Text>
@@ -122,19 +121,6 @@ const Proposal: React.FC = () => {
             Withdrawal Address:&nbsp;
           </Text>
           <Text>{proposal.withdrawAddress}</Text>
-        </Flex>
-
-        <Flex flexDirection={"column"}>
-          <Text fontWeight="bold" fontSize="sm">
-            Simple Summary:&nbsp;
-          </Text>
-          <Text>
-            The Boosted Finance team is requesting for funding of 60,000 yCRV to
-            bootstrap an ecosystem fund for the payment of contract audits and
-            fast-tracking the development resources required to construct
-            BoostVaults (bVaults), optimize the existing booster mechanism, or
-            other governance proposals to be passed by the community.
-          </Text>
         </Flex>
         <Divider />
         <Stack>
