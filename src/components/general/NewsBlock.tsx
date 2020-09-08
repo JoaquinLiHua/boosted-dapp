@@ -1,11 +1,16 @@
 import React from "react";
-import { Text, Box } from "@chakra-ui/core";
+import { Text, Stack } from "@chakra-ui/core";
 
 export const NewsBlock = () => (
-  <Box my="4">
+  <Stack my="4" spacing={2}>
     <Text fontSize="sm" textAlign="center">
-      LATEST: FIRST GOVERNANCE PROPOSAL (BFIP-02) LIVE, VISIT /VOTE! BOOST-ETH
-      POOL LIVE (3.75X REWARDS)!
+      LATEST: FIRST GOVERNANCE PROPOSAL (BFIP-02) LIVE
     </Text>
-  </Box>
+    <Text fontSize="sm" textAlign="center">
+      BOOST-ETH POOL LIVE (3.75X REWARDS!
+    </Text>
+    <Text fontSize="sm" textAlign="center">
+      GENESIS POOLS HAVE ENDED, WITHDRAW YOUR STAKED ASSETS!
+    </Text>
+  </Stack>
 );
