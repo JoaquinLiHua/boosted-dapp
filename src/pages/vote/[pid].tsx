@@ -1,11 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { useRouter } from "next/router";
-import { Text, Stack, Heading, Flex, Button } from "@chakra-ui/core";
+import {
+  Text,
+  Stack,
+  Heading,
+  Flex,
+  Button,
+  FormLabel,
+  Input,
+  Divider,
+} from "@chakra-ui/core";
 import { useSingleProposal } from "src/hooks/useSingleProposal";
 import BN from "bignumber.js";
 import { getFullDisplayBalance } from "src/utils/formatBalance";
 import { useVoteAgainst } from "src/hooks/useVoteAgainst";
 import { useVoteFor } from "src/hooks/useVoteFor";
+import { useGovernanceStakedBalance } from "src/hooks/useGovernanceStakedBalance";
+import useGovernanceStake from "src/hooks/useGovernanceStake";
+// import { useTokenBalance } from "src/hooks/useTokenBalance";
+import { boostToken, governanceContract } from "src/constants/tokenAddresses";
+import { useApprove } from "src/hooks/useApprove";
+import { useAllowance } from "src/hooks/useAllowance";
 
 const Proposal: React.FC = () => {
   const router = useRouter();
@@ -15,6 +30,15 @@ const Proposal: React.FC = () => {
   const { onVoteAgainst } = useVoteAgainst(pid);
   const [requestedFor, setRequestedFor] = useState<boolean>(false);
   const [requestedAgainst, setRequestedAgainst] = useState<boolean>(false);
+  const stakedBalance = useGovernanceStakedBalance();
+  const { onStake } = useGovernanceStake();
+  // const boostBalance = useTokenBalance(boostToken);
+  const { onApprove } = useApprove(boostToken, governanceContract);
+  const [requestedApproval, setRequestedApproval] = useState<boolean>(false);
+  const [requestedStaking, setRequestedStaking] = useState<boolean>(false);
+  const [stakeAmount, setStakeAmount] = useState<string>("");
+
+  const allowance = useAllowance(boostToken, governanceContract);
 
   const handleVoteFor = async () => {
     try {
@@ -46,14 +70,46 @@ const Proposal: React.FC = () => {
     }
   };
 
+  const handleStake = async () => {
+    setRequestedStaking(true);
+    try {
+      const tx = await onStake(stakeAmount);
+      if (!tx) {
+        throw "Transaction error";
+      } else {
+        setRequestedStaking(false);
+      }
+    } catch (e) {
+      setRequestedStaking(false);
+    }
+  };
+
+  const handleStakeChange = (value: string) => setStakeAmount(value);
+
+  const handleApprove = useCallback(async () => {
+    try {
+      setRequestedApproval(true);
+      const txHash = await onApprove();
+      if (!txHash) {
+        throw "Transactions error";
+      } else {
+        setRequestedApproval(false);
+      }
+    } catch (e) {
+      console.log(e);
+      setRequestedApproval(false);
+    }
+  }, [onApprove, setRequestedApproval]);
+
   if (proposal) {
     return (
-      <Stack colorScheme="white" spacing={4} width="100%">
-        <Heading>BFIP-0</Heading>
+      <Stack colorScheme="white" spacing={4} width="100%" mt={8}>
+        {/* @TODO REMOVE HARDCODE AS CONFUSING */}
+        <Heading>BFIP-02</Heading>
         <Text as="a" href={proposal.url} target="_blank">
           {proposal.url}
         </Text>
-        <Flex>
+        <Flex flexDirection={["column", "column", "row"]}>
           <Text fontWeight="bold" fontSize="sm">
             Requested Amount:&nbsp;
           </Text>
@@ -61,20 +117,61 @@ const Proposal: React.FC = () => {
             {getFullDisplayBalance(new BN(proposal.withdrawAmount))} yCRV
           </Text>
         </Flex>
-        <Flex>
+        <Flex flexDirection={["column", "column", "row"]}>
           <Text fontWeight="bold" fontSize="sm">
             Withdrawal Address:&nbsp;
           </Text>
           <Text>{proposal.withdrawAddress}</Text>
         </Flex>
 
-        <Flex w="100%">
+        <Divider />
+
+        <Stack>
+          <FormLabel htmlFor={"Stake Amount"} fontWeight="bold">
+            Stake Amount
+          </FormLabel>
+          <Input
+            type="number"
+            id={"stakeAmount"}
+            onChange={(e) => handleStakeChange(e.target.value)}
+            placeholder={"Stake Amount"}
+          />
+          {!allowance.toNumber() ? (
+            <Button
+              my={2}
+              mr={2}
+              isLoading={requestedApproval}
+              disabled={requestedApproval}
+              onClick={() => handleApprove()}
+            >
+              Approve BOOST
+            </Button>
+          ) : (
+            <Button
+              my={2}
+              mr={2}
+              isLoading={requestedStaking}
+              disabled={requestedStaking}
+              type="submit"
+              onClick={() => handleStake()}
+            >
+              Stake
+            </Button>
+          )}
+          <Text pt={4}>
+            You must stake BOOST to vote, voting will lock your staked boost for
+            the duration of the proposal.
+          </Text>
+        </Stack>
+
+        <Flex w="100%" pt={8}>
           <Stack w="50%" spacing={2}>
             <Button
               isLoading={requestedFor}
               onClick={() => handleVoteFor()}
               colorScheme="green"
               mr={4}
+              isDisabled={requestedFor || stakedBalance.toNumber() === 0}
             >
               Vote For
             </Button>
@@ -87,6 +184,7 @@ const Proposal: React.FC = () => {
               isLoading={requestedAgainst}
               onClick={() => handleVoteAgainst()}
               colorScheme="red"
+              isDisabled={requestedAgainst || stakedBalance.toNumber() === 0}
               ml={4}
             >
               Vote Against
