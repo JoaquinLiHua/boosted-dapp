@@ -1,7 +1,5 @@
 //Governance Contract
-// export const governanceContract = "0xc3859cb576f7e8a0a8537a5ce4700c95802daf81";
-
-export const governanceContract = "0xfbf19c4a71d71348748d828bb01a77faa6ce4bd6";
+export const governanceContract = "0xc3859cb576f7e8a0a8537a5ce4700c95802daf81";
 
 //Boost token
 export const boostToken = "0x3e780920601d61cedb860fe9c4a90c9ea6a35e78";

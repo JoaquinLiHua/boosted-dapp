@@ -29,7 +29,7 @@ function MyApp({ Component, pageProps }) {
       <CSSReset />
       <PriceFeedProvider>
         <UseWalletProvider
-          chainId={42}
+          chainId={1}
           connectors={{
             walletconnect: { rpcUrl: "https://mainnet.eth.aragon.network/" },
           }}

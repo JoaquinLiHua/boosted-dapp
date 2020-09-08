@@ -49,7 +49,7 @@ const Proposal: React.FC = () => {
   if (proposal) {
     return (
       <Stack colorScheme="white" spacing={4} width="100%">
-        <Heading>BIP-{pid}</Heading>
+        <Heading>BFIP-0</Heading>
         <Text as="a" href={proposal.url} target="_blank">
           {proposal.url}
         </Text>
@@ -65,20 +65,7 @@ const Proposal: React.FC = () => {
           <Text fontWeight="bold" fontSize="sm">
             Withdrawal Address:&nbsp;
           </Text>
-          <Text>{proposal.proposer}</Text>
-        </Flex>
-        <Flex>
-          <Text fontWeight="bold" fontSize="sm">
-            Etherscan:&nbsp;
-          </Text>
-          <Text
-            fontSize="sm"
-            as="a"
-            target="_blank"
-            href={`https://etherscan.io/address/${proposal.proposer}`}
-          >
-            {`https://etherscan.io/address/${proposal.proposer}`}
-          </Text>
+          <Text>{proposal.withdrawAddress}</Text>
         </Flex>
 
         <Flex w="100%">
