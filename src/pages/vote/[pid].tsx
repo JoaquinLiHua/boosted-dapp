@@ -101,11 +101,21 @@ const Proposal: React.FC = () => {
     }
   }, [onApprove, setRequestedApproval]);
 
+  const parseUrl = (url) => {
+    let parsed;
+    var urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
+    url.replace(urlRegex, (link) => {
+      parsed = link;
+    });
+    return parsed;
+  };
+
   if (proposal && pid) {
+    const getProposalUrl = parseUrl(proposal.url);
     return (
       <Stack colorScheme="white" spacing={4} width="100%" mt={8}>
         <Heading>BFIP-{parseInt(pid?.toString()) + 2}</Heading>
-        <Text as="a" href={proposal.url} target="_blank">
+        <Text as="a" href={getProposalUrl} target="_blank">
           {proposal.url}
         </Text>
         <Flex flexDirection={["column", "column", "row"]}>
