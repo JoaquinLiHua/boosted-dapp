@@ -122,40 +122,42 @@ const Proposal: React.FC = () => {
     const totalVotes = totalForVotes.plus(totalAgainstVotes);
     return (
       <Stack colorScheme="white" spacing={4} width="100%" mt={8}>
-        <Heading>BFIP-{parseInt(pid?.toString()) + 2}</Heading>
-        <Text as="a" href={getProposalUrl} target="_blank">
-          {proposal.url}
-        </Text>
-        <Flex flexDirection={["column", "column", "row"]}>
-          <Text fontWeight="bold" fontSize="sm">
-            Requested Amount:&nbsp;
+        <Stack boxShadow="md" p={6} borderWidth="1px">
+          <Heading>BFIP-{parseInt(pid?.toString()) + 2}</Heading>
+          <Text as="a" href={getProposalUrl} target="_blank">
+            {proposal.url}
           </Text>
-          <Text>
-            {getFullDisplayBalance(new BN(proposal.withdrawAmount))} yCRV
-          </Text>
-        </Flex>
-        <Flex flexDirection={["column", "column", "row"]}>
-          <Text fontWeight="bold" fontSize="sm">
-            Withdrawal Address:&nbsp;
-          </Text>
-          <Text>{proposal.withdrawAddress}</Text>
-        </Flex>
-        {parseInt(pid.toString()) === 0 && (
-          <Flex flexDirection={"column"}>
+          <Flex flexDirection={["column", "column", "row"]}>
             <Text fontWeight="bold" fontSize="sm">
-              Simple Summary:&nbsp;
+              Requested Amount:&nbsp;
             </Text>
             <Text>
-              The Boosted Finance team is requesting for funding of 60,000 yCRV
-              to bootstrap an ecosystem fund for the payment of contract audits
-              and fast-tracking the development resources required to construct
-              BoostVaults (bVaults), optimize the existing booster mechanism, or
-              other governance proposals to be passed by the community.
+              {getFullDisplayBalance(new BN(proposal.withdrawAmount))} yCRV
             </Text>
           </Flex>
-        )}
-        <Divider />
-        <Stack>
+          <Flex flexDirection={["column", "column", "row"]}>
+            <Text fontWeight="bold" fontSize="sm">
+              Withdrawal Address:&nbsp;
+            </Text>
+            <Text>{proposal.withdrawAddress}</Text>
+          </Flex>
+          {parseInt(pid.toString()) === 0 && (
+            <Flex flexDirection={"column"}>
+              <Text fontWeight="bold" fontSize="sm">
+                Simple Summary:&nbsp;
+              </Text>
+              <Text>
+                The Boosted Finance team is requesting for funding of 60,000
+                yCRV to bootstrap an ecosystem fund for the payment of contract
+                audits and fast-tracking the development resources required to
+                construct BoostVaults (bVaults), optimize the existing booster
+                mechanism, or other governance proposals to be passed by the
+                community.
+              </Text>
+            </Flex>
+          )}
+        </Stack>
+        <Stack boxShadow="md" p={6} borderWidth="1px">
           <FormLabel fontWeight="bold">Governance Proposal Stake</FormLabel>
           <Input
             type="number"
@@ -190,32 +192,32 @@ const Proposal: React.FC = () => {
             You must stake BOOST to vote, voting will lock your staked boost for
             the duration of the proposal.
           </Text>
+          <Flex w="100%" py={4}>
+            <Stack w="50%" spacing={2}>
+              <Button
+                isLoading={requestedFor}
+                onClick={() => handleVoteFor()}
+                colorScheme="green"
+                mr={4}
+                isDisabled={requestedFor || stakedBalance.toNumber() === 0}
+              >
+                Vote For
+              </Button>
+            </Stack>
+            <Stack w="50%" spacing={2}>
+              <Button
+                isLoading={requestedAgainst}
+                onClick={() => handleVoteAgainst()}
+                colorScheme="red"
+                isDisabled={requestedAgainst || stakedBalance.toNumber() === 0}
+                ml={4}
+              >
+                Vote Against
+              </Button>
+            </Stack>
+          </Flex>
         </Stack>
 
-        <Flex w="100%" py={8}>
-          <Stack w="50%" spacing={2}>
-            <Button
-              isLoading={requestedFor}
-              onClick={() => handleVoteFor()}
-              colorScheme="green"
-              mr={4}
-              isDisabled={requestedFor || stakedBalance.toNumber() === 0}
-            >
-              Vote For
-            </Button>
-          </Stack>
-          <Stack w="50%" spacing={2}>
-            <Button
-              isLoading={requestedAgainst}
-              onClick={() => handleVoteAgainst()}
-              colorScheme="red"
-              isDisabled={requestedAgainst || stakedBalance.toNumber() === 0}
-              ml={4}
-            >
-              Vote Against
-            </Button>
-          </Stack>
-        </Flex>
         <Stack
           w="100%"
           direction="column"
@@ -241,7 +243,7 @@ const Proposal: React.FC = () => {
           <Progress
             hasStripe
             value={totalForVotes.div(totalVotes).toNumber() * 100}
-            colorScheme="yellow"
+            colorScheme="green"
           />
           <Flex justifyContent="space-between">
             <Flex flexDirection={["column", "column", "row"]}>
@@ -259,7 +261,7 @@ const Proposal: React.FC = () => {
           <Progress
             hasStripe
             value={totalAgainstVotes.div(totalVotes).toNumber() * 100}
-            colorScheme="yellow"
+            colorScheme="red"
           />
           <Flex justifyContent="space-between">
             <Flex flexDirection={["column", "column", "row"]}>
