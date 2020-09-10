@@ -227,7 +227,6 @@ const Proposal: React.FC = () => {
           <Text fontWeight="bold" fontSize="lg">
             Voting Stats
           </Text>
-          M
           <Flex justifyContent="space-between">
             <Flex>
               <Text mr={4} fontWeight="bold">
@@ -268,8 +267,8 @@ const Proposal: React.FC = () => {
                 Quorum (minimum 30%)
               </Text>
               <Text sub={true}>
-                {getDisplayBalance(totalVotes)} /{" "}
-                {getDisplayBalance(totalStaked)} BOOST
+                {getDisplayBalance(totalVotes)} Votes/{" "}
+                {getDisplayBalance(totalStaked)} Total Staked
               </Text>
             </Flex>
             <Text>
