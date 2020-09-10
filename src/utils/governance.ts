@@ -13,6 +13,16 @@ export const getContract = (provider: provider, address: string) => {
   return contract;
 };
 
+export const getTotalStaked = async (provider: provider) => {
+  try {
+    const contract = getContract(provider, governanceContract);
+    const totalStaked = await contract.methods.totalSupply().call();
+    return totalStaked;
+  } catch (e) {
+    return null;
+  }
+};
+
 export const proposals = async (provider: provider) => {
   const contract = getContract(provider, governanceContract);
   try {

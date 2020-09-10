@@ -9,10 +9,14 @@ import {
   FormLabel,
   Input,
   Divider,
+  Progress,
 } from "@chakra-ui/core";
 import { useSingleProposal } from "src/hooks/useSingleProposal";
 import BN from "bignumber.js";
-import { getFullDisplayBalance } from "src/utils/formatBalance";
+import {
+  getFullDisplayBalance,
+  getDisplayBalance,
+} from "src/utils/formatBalance";
 import { useVoteAgainst } from "src/hooks/useVoteAgainst";
 import { useVoteFor } from "src/hooks/useVoteFor";
 import { useGovernanceStakedBalance } from "src/hooks/useGovernanceStakedBalance";
@@ -21,6 +25,7 @@ import useGovernanceStake from "src/hooks/useGovernanceStake";
 import { boostToken, governanceContract } from "src/constants/tokenAddresses";
 import { useApprove } from "src/hooks/useApprove";
 import { useAllowance } from "src/hooks/useAllowance";
+import { useGetTotalGovernanceStaked } from "src/hooks/useGetTotalGovernanceStaked";
 
 const Proposal: React.FC = () => {
   const router = useRouter();
@@ -37,8 +42,8 @@ const Proposal: React.FC = () => {
   const [requestedApproval, setRequestedApproval] = useState<boolean>(false);
   const [requestedStaking, setRequestedStaking] = useState<boolean>(false);
   const [stakeAmount, setStakeAmount] = useState<string>("");
-
-  const allowance = useAllowance(boostToken, governanceContract);
+  const allowance: BN = useAllowance(boostToken, governanceContract);
+  const totalStaked: BN = useGetTotalGovernanceStaked();
 
   const handleVoteFor = async () => {
     try {
@@ -112,6 +117,9 @@ const Proposal: React.FC = () => {
 
   if (proposal && pid) {
     const getProposalUrl = parseUrl(proposal.url);
+    const totalForVotes = new BN(proposal.totalForVotes);
+    const totalAgainstVotes = new BN(proposal.totalAgainstVotes);
+    const totalVotes = totalForVotes.plus(totalAgainstVotes);
     return (
       <Stack colorScheme="white" spacing={4} width="100%" mt={8}>
         <Heading>BFIP-{parseInt(pid?.toString()) + 2}</Heading>
@@ -184,7 +192,7 @@ const Proposal: React.FC = () => {
           </Text>
         </Stack>
 
-        <Flex w="100%" pt={8}>
+        <Flex w="100%" py={8}>
           <Stack w="50%" spacing={2}>
             <Button
               isLoading={requestedFor}
@@ -195,9 +203,6 @@ const Proposal: React.FC = () => {
             >
               Vote For
             </Button>
-            <Text textAlign="center" mt={4}>
-              {proposal.totalForVotes / 1e18} votes
-            </Text>
           </Stack>
           <Stack w="50%" spacing={2}>
             <Button
@@ -209,11 +214,74 @@ const Proposal: React.FC = () => {
             >
               Vote Against
             </Button>
-            <Text textAlign="center" mt={4}>
-              {proposal.totalAgainstVotes / 1e18} votes
-            </Text>
           </Stack>
         </Flex>
+        <Stack
+          w="100%"
+          direction="column"
+          spacing={4}
+          boxShadow="md"
+          p={6}
+          borderWidth="1px"
+        >
+          <Text fontWeight="bold" fontSize="lg">
+            Voting Stats
+          </Text>
+          M
+          <Flex justifyContent="space-between">
+            <Flex>
+              <Text mr={4} fontWeight="bold">
+                For
+              </Text>
+              <Text sub={true}>{getDisplayBalance(totalForVotes)} BOOST</Text>
+            </Flex>
+            <Text>
+              {(totalForVotes.div(totalVotes).toNumber() * 100).toFixed(2)}%
+            </Text>
+          </Flex>
+          <Progress
+            hasStripe
+            value={totalForVotes.div(totalVotes).toNumber() * 100}
+            colorScheme="green"
+          />
+          <Flex justifyContent="space-between">
+            <Flex>
+              <Text mr={4} fontWeight="bold">
+                Against
+              </Text>
+              <Text sub={true}>
+                {getDisplayBalance(totalAgainstVotes)} BOOST
+              </Text>
+            </Flex>
+            <Text>
+              {(totalAgainstVotes.div(totalVotes).toNumber() * 100).toFixed(2)}%
+            </Text>
+          </Flex>
+          <Progress
+            hasStripe
+            value={totalAgainstVotes.div(totalVotes).toNumber() * 100}
+            colorScheme="green"
+          />
+          <Flex justifyContent="space-between">
+            <Flex>
+              <Text mr={4} fontWeight="bold">
+                Quorum (minimum 30%)
+              </Text>
+              <Text sub={true}>
+                {getDisplayBalance(totalVotes)} /{" "}
+                {getDisplayBalance(totalStaked)} BOOST
+              </Text>
+            </Flex>
+            <Text>
+              {(totalVotes.div(totalStaked).toNumber() * 100).toFixed(2)}%
+            </Text>
+          </Flex>
+          <Progress
+            hasStripe
+            value={totalVotes.div(totalStaked).toNumber() * 100}
+            colorScheme="red"
+          />
+        </Stack>
       </Stack>
     );
   } else {
