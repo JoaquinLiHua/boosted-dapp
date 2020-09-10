@@ -63,7 +63,8 @@ export const WalletSelectModal: React.FC<WalletSelectModalProps> = ({
         my={4}
         borderWidth={1}
         borderRadius={5}
-        p={8}
+        display="flex"
+        height={75}
         justifyContent="center"
         alignItems="center"
         onClick={() => e.connectMethod()}
@@ -71,7 +72,7 @@ export const WalletSelectModal: React.FC<WalletSelectModalProps> = ({
         <Text width={150} mr={8} fontSize={["xs", "xs", "md"]}>
           {e.copy}
         </Text>
-        <Image src={e.img} />
+        <Image src={e.img} width={25} />
       </Button>
     ));
 
