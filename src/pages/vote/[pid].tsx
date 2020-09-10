@@ -8,7 +8,6 @@ import {
   Button,
   FormLabel,
   Input,
-  Divider,
   Progress,
 } from "@chakra-ui/core";
 import { useSingleProposal } from "src/hooks/useSingleProposal";
@@ -21,7 +20,6 @@ import { useVoteAgainst } from "src/hooks/useVoteAgainst";
 import { useVoteFor } from "src/hooks/useVoteFor";
 import { useGovernanceStakedBalance } from "src/hooks/useGovernanceStakedBalance";
 import useGovernanceStake from "src/hooks/useGovernanceStake";
-// import { useTokenBalance } from "src/hooks/useTokenBalance";
 import { boostToken, governanceContract } from "src/constants/tokenAddresses";
 import { useApprove } from "src/hooks/useApprove";
 import { useAllowance } from "src/hooks/useAllowance";
@@ -37,7 +35,6 @@ const Proposal: React.FC = () => {
   const [requestedAgainst, setRequestedAgainst] = useState<boolean>(false);
   const stakedBalance = useGovernanceStakedBalance();
   const { onStake } = useGovernanceStake();
-  // const boostBalance = useTokenBalance(boostToken);
   const { onApprove } = useApprove(boostToken, governanceContract);
   const [requestedApproval, setRequestedApproval] = useState<boolean>(false);
   const [requestedStaking, setRequestedStaking] = useState<boolean>(false);

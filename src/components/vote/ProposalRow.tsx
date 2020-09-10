@@ -52,10 +52,10 @@ export const ProposalRow: React.FC<ProposalRowProps> = ({ proposal, pid }) => {
             </Text>
           </Flex>
           <Flex>
-            <Text mr={4} fontSize="sm" bold>
+            <Text mr={4} fontSize="sm" fontWeight="bold">
               start {formatTimestamp(proposal.start)}
             </Text>
-            <Text fontSize="sm" bold>
+            <Text fontSize="sm" fontWeight="bold">
               end {formatTimestamp(proposal.end)}
             </Text>
           </Flex>
