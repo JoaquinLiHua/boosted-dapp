@@ -228,7 +228,7 @@ const Proposal: React.FC = () => {
             Voting Stats
           </Text>
           <Flex justifyContent="space-between">
-            <Flex>
+            <Flex flexDirection={["column", "column", "row"]}>
               <Text mr={4} fontWeight="bold">
                 For
               </Text>
@@ -244,7 +244,7 @@ const Proposal: React.FC = () => {
             colorScheme="green"
           />
           <Flex justifyContent="space-between">
-            <Flex>
+            <Flex flexDirection={["column", "column", "row"]}>
               <Text mr={4} fontWeight="bold">
                 Against
               </Text>
@@ -262,7 +262,7 @@ const Proposal: React.FC = () => {
             colorScheme="green"
           />
           <Flex justifyContent="space-between">
-            <Flex>
+            <Flex flexDirection={["column", "column", "row"]}>
               <Text mr={4} fontWeight="bold">
                 Quorum (minimum 30%)
               </Text>
