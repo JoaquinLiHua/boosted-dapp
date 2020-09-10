@@ -108,7 +108,7 @@ const Proposal: React.FC = () => {
 
   const parseUrl = (url) => {
     let parsed;
-    var urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
+    const urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
     url.replace(urlRegex, (link) => {
       parsed = link;
     });

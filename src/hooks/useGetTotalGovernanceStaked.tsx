@@ -13,7 +13,7 @@ export const useGetTotalGovernanceStaked = () => {
   const fetchStaked = useCallback(async () => {
     const staked = await getTotalStaked(ethereum);
     setStaked(new BN(staked));
-  }, [getTotalStaked, ethereum]);
+  }, [ethereum]);
 
   useEffect(() => {
     if (ethereum) {
