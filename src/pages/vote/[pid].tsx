@@ -241,7 +241,7 @@ const Proposal: React.FC = () => {
           <Progress
             hasStripe
             value={totalForVotes.div(totalVotes).toNumber() * 100}
-            colorScheme="green"
+            colorScheme="yellow"
           />
           <Flex justifyContent="space-between">
             <Flex flexDirection={["column", "column", "row"]}>
@@ -259,7 +259,7 @@ const Proposal: React.FC = () => {
           <Progress
             hasStripe
             value={totalAgainstVotes.div(totalVotes).toNumber() * 100}
-            colorScheme="green"
+            colorScheme="yellow"
           />
           <Flex justifyContent="space-between">
             <Flex flexDirection={["column", "column", "row"]}>
@@ -278,7 +278,7 @@ const Proposal: React.FC = () => {
           <Progress
             hasStripe
             value={totalVotes.div(totalStaked).toNumber() * 100}
-            colorScheme="red"
+            colorScheme="yellow"
           />
         </Stack>
       </Stack>
