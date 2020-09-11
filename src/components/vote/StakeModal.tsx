@@ -20,6 +20,7 @@ import { useApprove } from "src/hooks/useApprove";
 import { useAllowance } from "src/hooks/useAllowance";
 import { useGovernanceStake } from "src/hooks/useGovernanceStake";
 import { useGovernanceStakedBalance } from "src/hooks/useGovernanceStakedBalance";
+import { getDisplayBalance } from "src/utils/formatBalance";
 
 export const StakeModal: React.FC = () => {
   const boostBalance = useTokenBalance(boostToken);
@@ -76,7 +77,7 @@ export const StakeModal: React.FC = () => {
           ) : (
             <>
               <Text fontSize="sm">
-                You have staked: {stakedBalance.toNumber()} BOOST
+                You have staked: {getDisplayBalance(stakedBalance)} BOOST
               </Text>
               <Formik
                 initialValues={{

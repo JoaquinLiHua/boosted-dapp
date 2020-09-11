@@ -17,6 +17,7 @@ import { useGovernanceStake } from "src/hooks/useGovernanceStake";
 import { useVoteLockedPeriod } from "src/hooks/useVoteLockedPeriod";
 import { Formik, Field } from "formik";
 import { formatTimestamp } from "src/utils/formatTimestamp";
+import { getDisplayBalance } from "src/utils/formatBalance";
 
 export const UnstakeModal: React.FC = () => {
   const stakedBalance = useGovernanceStakedBalance();
@@ -82,7 +83,7 @@ export const UnstakeModal: React.FC = () => {
           ) : (
             <>
               <Text fontSize="sm">
-                You have staked: {stakedBalance.toNumber()} BOOST
+                You have staked: {getDisplayBalance(stakedBalance)} BOOST
               </Text>
               <Formik
                 initialValues={{
