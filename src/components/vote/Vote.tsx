@@ -17,12 +17,14 @@ import { useProposals } from "src/hooks/useProposals";
 import { useModal } from "src/context/ModalContext";
 import { ProposalFormModal } from "src/components/vote/ProposalFormModal";
 import { useWallet } from "use-wallet";
+import { StakeModal } from "./StakeModal";
+import { UnstakeModal } from "./UnstakeModal";
 
 export const Vote: React.FC = () => {
   const proposals = useProposals();
   const [onPresentProposalForm] = useModal(<ProposalFormModal />);
-  // const [onPresentProposalForm] = useModal(<ProposalFormModal />);
-  // const [onPresentProposalForm] = useModal(<ProposalFormModal />);
+  const [onPresentStakeModal] = useModal(<StakeModal />);
+  const [onPresentUnstakeModal] = useModal(<UnstakeModal />);
   const { account } = useWallet();
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -30,7 +32,8 @@ export const Vote: React.FC = () => {
     if (proposals && account) {
       setLoading(false);
     }
-  }, [proposals]);
+  }, [proposals, account]);
+
   return (
     <Flex justifyContent="space-between" width="100%">
       <Stack spacing="1.5rem" mr="4" mt="4" flex={1} width="100%">
@@ -40,22 +43,14 @@ export const Vote: React.FC = () => {
             <Button onClick={() => onPresentProposalForm()} size="sm" w={125}>
               + PROPOSE
             </Button>
-            <Button onClick={() => onPresentProposalForm()} size="sm" w={125}>
+            <Button onClick={() => onPresentStakeModal()} size="sm" w={125}>
               STAKE
             </Button>
-            <Button onClick={() => onPresentProposalForm()} size="sm" w={125}>
+            <Button onClick={() => onPresentUnstakeModal()} size="sm" w={125}>
               WITHDRAW
             </Button>
           </Stack>
         )}
-        {/* <Text
-          fontSize="sm"
-          as="a"
-          href="https://github.com/Boosted-Finance/BFIPs"
-          target="_blank"
-        >
-          Create a proposal template here
-        </Text> */}
         <Tabs variant="enclosed">
           <TabList mb="1em">
             <Tab>Core</Tab>

@@ -1,15 +1,6 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
-import {
-  Text,
-  Stack,
-  Heading,
-  Flex,
-  Button,
-  FormLabel,
-  Input,
-  Progress,
-} from "@chakra-ui/core";
+import { Text, Stack, Heading, Flex, Button, Progress } from "@chakra-ui/core";
 import { useSingleProposal } from "src/hooks/useSingleProposal";
 import BN from "bignumber.js";
 import {
@@ -19,10 +10,6 @@ import {
 import { useVoteAgainst } from "src/hooks/useVoteAgainst";
 import { useVoteFor } from "src/hooks/useVoteFor";
 import { useGovernanceStakedBalance } from "src/hooks/useGovernanceStakedBalance";
-import useGovernanceStake from "src/hooks/useGovernanceStake";
-import { boostToken, governanceContract } from "src/constants/tokenAddresses";
-import { useApprove } from "src/hooks/useApprove";
-import { useAllowance } from "src/hooks/useAllowance";
 import { useGetTotalGovernanceStaked } from "src/hooks/useGetTotalGovernanceStaked";
 
 const Proposal: React.FC = () => {
@@ -34,12 +21,6 @@ const Proposal: React.FC = () => {
   const [requestedFor, setRequestedFor] = useState<boolean>(false);
   const [requestedAgainst, setRequestedAgainst] = useState<boolean>(false);
   const stakedBalance = useGovernanceStakedBalance();
-  const { onStake } = useGovernanceStake();
-  const { onApprove } = useApprove(boostToken, governanceContract);
-  const [requestedApproval, setRequestedApproval] = useState<boolean>(false);
-  const [requestedStaking, setRequestedStaking] = useState<boolean>(false);
-  const [stakeAmount, setStakeAmount] = useState<string>("");
-  const allowance: BN = useAllowance(boostToken, governanceContract);
   const totalStaked: BN = useGetTotalGovernanceStaked();
 
   const handleVoteFor = async () => {
@@ -71,37 +52,6 @@ const Proposal: React.FC = () => {
       setRequestedAgainst(false);
     }
   };
-
-  const handleStake = async () => {
-    setRequestedStaking(true);
-    try {
-      const tx = await onStake(stakeAmount);
-      if (!tx) {
-        throw "Transaction error";
-      } else {
-        setRequestedStaking(false);
-      }
-    } catch (e) {
-      setRequestedStaking(false);
-    }
-  };
-
-  const handleStakeChange = (value: string) => setStakeAmount(value);
-
-  const handleApprove = useCallback(async () => {
-    try {
-      setRequestedApproval(true);
-      const txHash = await onApprove();
-      if (!txHash) {
-        throw "Transactions error";
-      } else {
-        setRequestedApproval(false);
-      }
-    } catch (e) {
-      console.log(e);
-      setRequestedApproval(false);
-    }
-  }, [onApprove, setRequestedApproval]);
 
   const parseUrl = (url) => {
     let parsed;
@@ -155,39 +105,9 @@ const Proposal: React.FC = () => {
           )}
         </Stack>
         <Stack boxShadow="md" p={6} borderWidth="1px">
-          <FormLabel fontWeight="bold">Governance Proposal Stake</FormLabel>
-          <Input
-            type="number"
-            id={"stakeAmount"}
-            onChange={(e) => handleStakeChange(e.target.value)}
-            placeholder={"Stake Amount"}
-            mb={4}
-          />
-          {!allowance.toNumber() ? (
-            <Button
-              mt={4}
-              colorScheme="green"
-              isLoading={requestedApproval}
-              disabled={requestedApproval}
-              onClick={() => handleApprove()}
-            >
-              Approve BOOST
-            </Button>
-          ) : (
-            <Button
-              mt={4}
-              colorScheme="green"
-              isLoading={requestedStaking}
-              disabled={requestedStaking}
-              type="submit"
-              onClick={() => handleStake()}
-            >
-              Stake
-            </Button>
-          )}
           <Text pt={4}>
             You must stake BOOST to vote, voting will lock your staked boost for
-            the duration of the proposal.
+            the 72 hours.
           </Text>
           <Flex w="100%" py={4}>
             <Stack w="50%" spacing={2}>

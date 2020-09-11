@@ -28,12 +28,12 @@ export const ProposalRow: React.FC<ProposalRowProps> = ({ proposal, pid }) => {
         </VStack>
         <VStack mx={4}>
           {new Date(proposal.end * 1000) < new Date() ? (
-            <Tag colorScheme="red" size="md">
+            <Tag background="red.400" size="md">
               <TagLeftIcon color="white" boxSize="12px" as={AiOutlineClose} />
               <TagLabel color="white">Closed</TagLabel>
             </Tag>
           ) : (
-            <Tag colorScheme="green" size="md">
+            <Tag background="green.400" size="md">
               <TagLeftIcon
                 color="white"
                 boxSize="12px"

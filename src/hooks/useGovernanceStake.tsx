@@ -1,9 +1,9 @@
 import { useCallback } from "react";
 import { useWallet } from "use-wallet";
 import { provider } from "web3-core";
-import { stakeForProposal } from "../utils/governance";
+import { stakeForProposal, withdrawStaked } from "../utils/governance";
 
-const useGovernanceStake = () => {
+export const useGovernanceStake = () => {
   const {
     account,
     ethereum,
@@ -17,7 +17,13 @@ const useGovernanceStake = () => {
     [account, ethereum]
   );
 
-  return { onStake: handleStake };
-};
+  const handleUnstake = useCallback(
+    async (amount: string) => {
+      const txHash = await withdrawStaked(ethereum, account, amount);
+      return txHash;
+    },
+    [account, ethereum]
+  );
 
-export default useGovernanceStake;
+  return { onStake: handleStake, onUnstake: handleUnstake };
+};

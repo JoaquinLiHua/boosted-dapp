@@ -173,3 +173,44 @@ export const voteAgainst = async (
     return null;
   }
 };
+
+export const voteLockedPeriod = async (provider: provider, account: string) => {
+  if (account) {
+    try {
+      const contract = getContract(provider, governanceContract);
+      return await contract.methods.voteLock(account).call();
+    } catch (e) {
+      return null;
+    }
+  } else {
+    alert("wallet not connected");
+    return null;
+  }
+};
+
+export const withdrawStaked = async (
+  provider: provider,
+  account: string | null,
+  amount: string
+) => {
+  if (account) {
+    try {
+      const contract = getContract(provider, governanceContract);
+      const web3 = new Web3(provider);
+      const tokens = web3.utils.toWei(amount.toString(), "ether");
+      const bntokens = web3.utils.toBN(tokens);
+      return await contract.methods
+        .withdraw(bntokens)
+        .send({ from: account })
+        .on("transactionHash", (tx) => {
+          console.log(tx);
+          return tx.transactionHash;
+        });
+    } catch (e) {
+      return null;
+    }
+  } else {
+    alert("wallet not connected");
+    return null;
+  }
+};
