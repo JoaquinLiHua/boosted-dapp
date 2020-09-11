@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   ChakraProvider,
   CSSReset,
@@ -21,9 +21,29 @@ import { PoolProvider } from "src/context/PoolContext";
 import { PriceFeedProvider } from "src/context/PriceFeedContext";
 import { Socials } from "src/components/general/Socials";
 import { useWeb3Presence } from "src/hooks/useWeb3Presence";
+import Router from "next/router";
 
 function MyApp({ Component, pageProps }) {
+  const [changingRoute, setChangingRoute] = useState<boolean>(false);
   const web3Present = useWeb3Presence();
+
+  useEffect(() => {
+    const changeStart = () =>
+      Router.events.on("routeChangeStart", () => setChangingRoute(true));
+    const changeComplete = () =>
+      Router.events.on("routeChangeComplete", () => setChangingRoute(false));
+    const changeError = () =>
+      Router.events.on("routeChangeError", () => setChangingRoute(false));
+    changeStart();
+    changeComplete();
+    changeError();
+    return () => {
+      changeStart();
+      changeComplete();
+      changeError();
+    };
+  }, []);
+
   return (
     <ChakraProvider theme={theme}>
       <CSSReset />
@@ -63,7 +83,7 @@ function MyApp({ Component, pageProps }) {
                   </Flex>
                 ) : (
                   <Container>
-                    <Header />
+                    <Header changingRoute={changingRoute} />
                     <Socials />
                     <NewsBlock />
                     <Component {...pageProps} />

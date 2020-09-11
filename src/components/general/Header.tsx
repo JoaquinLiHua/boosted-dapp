@@ -1,10 +1,10 @@
 import React from "react";
-import { Flex, Heading, Box, Link } from "@chakra-ui/core";
+import { Flex, Heading, Link, Spinner } from "@chakra-ui/core";
 import { DarkModeSwitch } from "./DarkModeSwitch";
 import NextLink from "next/link";
 import { isMobile } from "react-device-detect";
 
-export const Header = () => (
+export const Header = ({ changingRoute }) => (
   <Flex
     my="16px"
     position="relative"
@@ -12,9 +12,10 @@ export const Header = () => (
     alignItems="center"
     width="100%"
   >
-    <Box flex="1">
+    <Flex flex="1" alignItems="center">
       <Heading fontSize={"lg"}>🚀 {!isMobile && "B00STED FINANCE"}</Heading>
-    </Box>
+      {changingRoute && <Spinner ml={4} color="grey.500" size="sm" />}
+    </Flex>
     <Flex flex="2" justifyContent="center">
       <NextLink href="/">
         <Link fontSize={["sm", "lg"]} m="4" fontWeight="600">
