@@ -226,7 +226,7 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
               onClick={() => handleExit()}
               colorScheme="red"
             >
-              Exit & Claim
+              Exit All & Claim
             </Button>
           </Stack>
         )}
