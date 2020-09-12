@@ -34,7 +34,7 @@ export const UnstakeModal: React.FC = () => {
       return error;
     } else if (
       lockedPeriod.toNumber() !== 0 &&
-      new Date(lockedPeriod.toNumber() * 1000) < new Date()
+      new Date(lockedPeriod.toNumber() * 1000) > new Date()
     ) {
       error = `Stake amount still locked until ${formatTimestamp(
         lockedPeriod.toNumber()
@@ -76,7 +76,7 @@ export const UnstakeModal: React.FC = () => {
       <ModalCloseButton />
       <ModalBody>
         <Stack pb={8} spacing={4}>
-          {parseFloat(stakedBalance.toString()) === 0 ? (
+          {parseFloat(stakedBalance.toString()) !== 0 ? (
             <Text textAlign="center" fontWeight="bold">
               You have not staked any BOOST yet.
             </Text>
