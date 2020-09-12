@@ -106,8 +106,7 @@ const Proposal: React.FC = () => {
         </Stack>
         <Stack boxShadow="md" p={6} borderWidth="1px">
           <Text pt={4}>
-            You must stake BOOST to vote, voting will lock your staked boost for
-            the 72 hours.
+            You must stake BOOST to vote, voting will lock your staked BOOST for 72 hours after your latest vote.
           </Text>
           <Flex w="100%" py={4}>
             <Stack w="50%" spacing={2}>
