@@ -20,7 +20,7 @@ export const HeaderCountdown: React.FC<HeaderCountdownProps> = ({}) => {
       return (
         <Stack mt={4}>
           <Text fontSize="lg" textAlign="center" fontWeight="bold">
-            🚀 Wave 3 POOL 🚀
+            🚀 WAVE 3 POOLS START 🚀
           </Text>
           <Text textAlign="center">
             {" "}
@@ -31,5 +31,5 @@ export const HeaderCountdown: React.FC<HeaderCountdownProps> = ({}) => {
     }
   };
 
-  return <Countdown date={new Date(1600174800 * 1000)} renderer={renderer} />;
+  return <Countdown date={new Date(1600347600 * 1000)} renderer={renderer} />;
 };
