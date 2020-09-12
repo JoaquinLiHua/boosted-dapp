@@ -26,6 +26,7 @@ export const UnstakeModal: React.FC = () => {
   const [requestedUnstakeAll, setRequestedUnstakeAll] = useState<boolean>(
     false
   );
+  const [unstakeAllError, setUnstakeAllError] = useState<string>("");
 
   const validateStakeAmount = (value: string) => {
     let error;
@@ -40,7 +41,29 @@ export const UnstakeModal: React.FC = () => {
         lockedPeriod.toNumber()
       )}`;
       return error;
+    } else if (lockedPeriod.toNumber() === 0) {
+      error = `Withdraw all error: No lock period`;
+      return error;
     }
+  };
+
+  const isUnlocked = () => {
+    let error;
+    if (
+      lockedPeriod.toNumber() !== 0 &&
+      new Date(lockedPeriod.toNumber() * 1000) > new Date()
+    ) {
+      error = `Withdraw all error: Stake amount still locked until ${formatTimestamp(
+        lockedPeriod.toNumber()
+      )}`;
+      setUnstakeAllError(error);
+      return false;
+    } else if (lockedPeriod.toNumber() === 0) {
+      error = `Withdraw all error: No lock period`;
+      setUnstakeAllError(error);
+      return false;
+    }
+    return true;
   };
 
   const handleUnstakeAmount = async (values, actions) => {
@@ -57,16 +80,20 @@ export const UnstakeModal: React.FC = () => {
   };
 
   const handleUnstakeAll = async () => {
-    try {
-      setRequestedUnstakeAll(true);
-      const tx = await onUnstake(stakedBalance.toString());
-      if (!tx) {
-        throw "Transaction error";
-      } else {
+    if (isUnlocked()) {
+      try {
+        setRequestedUnstakeAll(true);
+        const tx = await onUnstake(stakedBalance.toString());
+        if (!tx) {
+          throw "Transaction error";
+        } else {
+          setRequestedUnstakeAll(false);
+        }
+      } catch (e) {
         setRequestedUnstakeAll(false);
       }
-    } catch (e) {
-      setRequestedUnstakeAll(false);
+    } else {
+      console.log("Error: Tokens are still locked");
     }
   };
 
@@ -76,7 +103,7 @@ export const UnstakeModal: React.FC = () => {
       <ModalCloseButton />
       <ModalBody>
         <Stack pb={8} spacing={4}>
-          {parseFloat(stakedBalance.toString()) !== 0 ? (
+          {parseFloat(stakedBalance.toString()) === 0 ? (
             <Text textAlign="center" fontWeight="bold">
               You have not staked any BOOST yet.
             </Text>
@@ -104,49 +131,49 @@ export const UnstakeModal: React.FC = () => {
                         >
                           {({ field, form }) => {
                             return (
-                              <>
-                                <FormControl
-                                  isInvalid={
-                                    form.errors["stakeAmount"] &&
-                                    form.touched["stakeAmount"]
-                                  }
-                                >
-                                  <FormLabel htmlFor={"Stake Amount"}>
-                                    Stake Amount
-                                  </FormLabel>
-                                  <Input
-                                    type="number"
-                                    {...field}
-                                    id={"stakeAmount"}
-                                    placeholder={"Stake Amount"}
-                                  />
-                                  <FormErrorMessage>
-                                    {form.errors["stakeAmount"]}
-                                  </FormErrorMessage>
-                                </FormControl>
-                                <Button
-                                  w="100%"
-                                  colorScheme="green"
-                                  isLoading={isSubmitting}
-                                  disabled={isSubmitting}
-                                  type="submit"
-                                >
-                                  Unstake
-                                </Button>
-                                <Button
-                                  colorScheme="red"
-                                  isLoading={requestedUnstakeAll}
-                                  disabled={requestedUnstakeAll}
-                                  type="submit"
-                                  w="100%"
-                                  onClick={() => handleUnstakeAll()}
-                                >
-                                  Withdraw All
-                                </Button>
-                              </>
+                              <FormControl
+                                isInvalid={
+                                  form.errors["stakeAmount"] &&
+                                  form.touched["stakeAmount"]
+                                }
+                              >
+                                <FormLabel htmlFor={"Stake Amount"}>
+                                  Stake Amount
+                                </FormLabel>
+                                <Input
+                                  type="number"
+                                  {...field}
+                                  id={"stakeAmount"}
+                                  placeholder={"Stake Amount"}
+                                />
+                                <FormErrorMessage>
+                                  {form.errors["stakeAmount"]}
+                                </FormErrorMessage>
+                              </FormControl>
                             );
                           }}
                         </Field>
+                        <Button
+                          w="100%"
+                          colorScheme="green"
+                          isLoading={isSubmitting}
+                          disabled={isSubmitting}
+                          type="submit"
+                        >
+                          Unstake
+                        </Button>
+                        <Button
+                          colorScheme="red"
+                          isLoading={requestedUnstakeAll}
+                          disabled={requestedUnstakeAll}
+                          w="100%"
+                          onClick={() => handleUnstakeAll()}
+                        >
+                          Withdraw All
+                        </Button>
+                        <Text fontSize="xs" color="red.300">
+                          {unstakeAllError}
+                        </Text>
                       </Stack>
                     </form>
                   );
