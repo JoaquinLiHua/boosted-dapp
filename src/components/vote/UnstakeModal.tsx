@@ -41,9 +41,6 @@ export const UnstakeModal: React.FC = () => {
         lockedPeriod.toNumber()
       )}`;
       return error;
-    } else if (lockedPeriod.toNumber() === 0) {
-      error = `Withdraw all error: No lock period`;
-      return error;
     }
   };
 
@@ -56,10 +53,6 @@ export const UnstakeModal: React.FC = () => {
       error = `Withdraw all error: Stake amount still locked until ${formatTimestamp(
         lockedPeriod.toNumber()
       )}`;
-      setUnstakeAllError(error);
-      return false;
-    } else if (lockedPeriod.toNumber() === 0) {
-      error = `Withdraw all error: No lock period`;
       setUnstakeAllError(error);
       return false;
     }
