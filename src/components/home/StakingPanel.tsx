@@ -111,7 +111,7 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
       console.log(e);
       setRequestedExit(false);
     }
-  }, [onExit]);
+  }, [onExit, pool]);
 
   const handleStakeChange = (value: string) => setStakeAmount(value);
   const handleUnstakeChange = (value: string) => setUnstakeAmount(value);

@@ -2,9 +2,7 @@ import { Stack, Text } from "@chakra-ui/core";
 import React from "react";
 import Countdown from "react-countdown";
 
-interface HeaderCountdownProps {}
-
-export const HeaderCountdown: React.FC<HeaderCountdownProps> = ({}) => {
+export const HeaderCountdown: React.FC = () => {
   const Completionist = () => (
     <Stack mt={4}>
       <Text fontSize="lg" fontWeight="bold">

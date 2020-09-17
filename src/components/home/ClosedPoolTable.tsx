@@ -99,7 +99,6 @@ export const ClosedPoolTable: React.FC = () => {
         const txHash = await onExit(poolContract);
         if (!txHash) {
           throw "Transaction error";
-        } else {
         }
       } catch (e) {
         console.log(e);
