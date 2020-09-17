@@ -10,6 +10,7 @@ import {
   wethToken,
   uniswapLPToken,
   uniswapPoolV2,
+  treasuryV2Contract,
 } from "src/constants/tokenAddresses";
 import { ethers } from "ethers";
 import { yCRVToken, governanceContract } from "src/constants/tokenAddresses";
@@ -111,6 +112,20 @@ export const getTreasuryBalance = async (
   try {
     const balance = await tokenContract.methods
       .balanceOf(governanceContract)
+      .call();
+    return balance;
+  } catch (e) {
+    return "0";
+  }
+};
+
+export const getTreasuryV2Balance = async (
+  provider: provider
+): Promise<string> => {
+  const tokenContract = getERC20Contract(provider, yCRVToken);
+  try {
+    const balance = await tokenContract.methods
+      .balanceOf(treasuryV2Contract)
       .call();
     return balance;
   } catch (e) {

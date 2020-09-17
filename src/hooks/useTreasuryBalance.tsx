@@ -4,7 +4,7 @@ import BN from "bignumber.js";
 import { useWallet } from "use-wallet";
 import { provider } from "web3-core";
 
-import { getTreasuryBalance } from "src/utils/boost";
+import { getTreasuryBalance, getTreasuryV2Balance } from "src/utils/boost";
 import { usePriceFeedContext } from "src/context/PriceFeedContext";
 import { yCRVToken } from "src/constants/tokenAddresses";
 
@@ -19,7 +19,9 @@ export const useTreasuryBalance = () => {
     });
     const priceInUSD = data[yCRVToken].usd;
     const balance = new BN(await getTreasuryBalance(ethereum));
-    const usdBalance = new BN(priceInUSD).multipliedBy(balance);
+    const newTreasuryBalance = new BN(await getTreasuryV2Balance(ethereum));
+    const totalBalance = balance.plus(newTreasuryBalance);
+    const usdBalance = new BN(priceInUSD).multipliedBy(totalBalance);
     setBalance(usdBalance);
   }, [ethereum, coinGecko]);
 

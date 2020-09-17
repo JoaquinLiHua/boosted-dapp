@@ -3,7 +3,11 @@ import { useWallet } from "use-wallet";
 import { provider } from "web3-core";
 import { ALL_POOLS } from "src/context/PoolContext";
 import { usePriceFeedContext } from "src/context/PriceFeedContext";
-import { getBoostPoolPriceInUSD, getPoolValueInUSD } from "src/utils/boost";
+import {
+  getBalancerPoolPriceInUSD,
+  getBoostPoolPriceInUSD,
+  getPoolValueInUSD,
+} from "src/utils/boost";
 
 export const useTotalValueLocked = () => {
   const [totalValueLockedInUSD, setTotalValueLockedInUSD] = useState<string>(
@@ -17,14 +21,26 @@ export const useTotalValueLocked = () => {
       if (pool.code === "boost_pool") {
         return (await getBoostPoolPriceInUSD(ethereum, coinGecko)) ?? 0;
       } else {
-        return (
-          (await getPoolValueInUSD(
-            ethereum,
-            pool.address,
-            pool.tokenContract,
-            coinGecko
-          )) ?? 0
-        );
+        if (pool.open) {
+          return (
+            (await getBalancerPoolPriceInUSD(
+              ethereum,
+              coinGecko,
+              pool.address,
+              pool.tokenContract,
+              pool.underlyingToken
+            )) ?? 0
+          );
+        } else {
+          return (
+            (await getPoolValueInUSD(
+              ethereum,
+              pool.address,
+              pool.tokenContract,
+              coinGecko
+            )) ?? 0
+          );
+        }
       }
     });
     const totalValueResolved = await Promise.all(totalValue).then((values) => {
