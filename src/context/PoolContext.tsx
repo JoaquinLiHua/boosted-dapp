@@ -15,6 +15,8 @@ import {
   getBoostV2Apy,
   getBoostPoolPriceInUSD,
   getBoostPoolV2PriceInUSD,
+  getBalancerAPY,
+  getBalancerPoolPriceInUSD,
 } from "src/utils/boost";
 import { provider } from "web3-core";
 import {
@@ -51,6 +53,9 @@ import {
   usdcBoostPool,
   usdcBoostToken,
   uniswapPoolV2,
+  usdcToken,
+  creamToken,
+  uniToken,
 } from "src/constants/tokenAddresses";
 import { usePriceFeedContext } from "./PriceFeedContext";
 
@@ -174,6 +179,7 @@ export const ALL_POOLS = [
     tokenContract: uniswapBoostToken,
     tokenTicker: "UNI",
     open: true,
+    underlyingToken: uniToken,
   },
   {
     name: "Wifey (YFI-BOOST)",
@@ -184,6 +190,7 @@ export const ALL_POOLS = [
     tokenContract: yfiBoostToken,
     tokenTicker: "yfi-boost-lp",
     open: true,
+    underlyingToken: yfiToken,
   },
   {
     name: "Creampie (CREAM-BOOST)",
@@ -194,16 +201,18 @@ export const ALL_POOLS = [
     tokenContract: creamBoostToken,
     tokenTicker: "cream-boost-lp",
     open: true,
+    underlyingToken: creamToken,
   },
   {
     name: "Sushi (SUSHI-BOOST)",
     code: "sushi_boost_pool",
     order: 12,
-    icon: "/images/sushi-logo.png",
+    icon: "/images/sushi-icon.png",
     address: sushiBoostPool,
     tokenContract: sushiBoostToken,
     tokenTicker: "sushi-boost-lp",
     open: true,
+    underlyingToken: sushiToken,
   },
   {
     name: "Stability (USDC-BOOST)",
@@ -214,6 +223,7 @@ export const ALL_POOLS = [
     tokenContract: usdcBoostToken,
     tokenTicker: "usdc-boost-lp",
     open: true,
+    underlyingToken: usdcToken,
   },
   {
     name: "OG (ETH-BOOST V2)",
@@ -241,6 +251,7 @@ export interface IPool {
   tokenTicker: string;
   apy: number | null;
   open: boolean;
+  underlyingToken?: string;
 }
 
 interface IPoolContext {
@@ -313,17 +324,19 @@ export const PoolProvider: React.FC = ({ children }) => {
         apy = await getBoostV2Apy(ethereum, coinGecko);
         poolPriceInUSD = await getBoostPoolV2PriceInUSD(ethereum, coinGecko);
       } else {
-        apy = await getApyCalculated(
+        apy = await getBalancerAPY(
           ethereum,
+          coinGecko,
           pool.address,
           pool.tokenContract,
-          coinGecko
+          pool.underlyingToken
         );
-        poolPriceInUSD = await getPoolValueInUSD(
+        poolPriceInUSD = await getBalancerPoolPriceInUSD(
           ethereum,
+          coinGecko,
           pool.address,
           pool.tokenContract,
-          coinGecko
+          pool.underlyingToken
         );
       }
       return {

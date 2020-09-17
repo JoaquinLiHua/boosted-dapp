@@ -277,6 +277,55 @@ export const getBoostPoolV2PriceInUSD = async (
   }
 };
 
+export const getBalancerPoolPriceInUSD = async (
+  provider: provider,
+  coinGecko: any,
+  poolAddress: string,
+  lpTokenAddress: string,
+  tokenTwo?: string
+): Promise<number> => {
+  if (provider && coinGecko && tokenTwo) {
+    try {
+      const { data } = await coinGecko.simple.fetchTokenPrice({
+        contract_addresses: [tokenTwo, boostToken],
+        vs_currencies: "usd",
+      });
+      const poolContract = getPoolContract(provider, poolAddress);
+      const boostTokenContract = getERC20Contract(provider, boostToken);
+      const tokenTwoContract = getERC20Contract(provider, tokenTwo);
+      const lpTokenContract = getERC20Contract(provider, lpTokenAddress);
+      const totalBalancerAmount =
+        (await lpTokenContract.methods.totalSupply().call()) / 1e18;
+      const totalBoostAmount =
+        (await boostTokenContract.methods.balanceOf(lpTokenAddress).call()) /
+        1e18;
+      const totalTokenTwoAmount =
+        (await tokenTwoContract.methods.balanceOf(lpTokenAddress).call()) /
+        1e18;
+      const boostPoolSize =
+        (await poolContract.methods.totalSupply().call()) / 1e18;
+      const boostPerBalancer = totalBoostAmount / totalBalancerAmount;
+      const tokenTwoPerBalancer = totalTokenTwoAmount / totalBalancerAmount;
+      if (data) {
+        const boostPriceInUSD = data[boostToken.toLowerCase()].usd;
+        const tokenTwoPriceInUSD = data[tokenTwo.toLowerCase()].usd;
+        const balancerPrice =
+          boostPerBalancer * boostPriceInUSD +
+          tokenTwoPerBalancer * tokenTwoPriceInUSD;
+        const poolSizeNumber = new BN(boostPoolSize).toNumber();
+        return balancerPrice * poolSizeNumber;
+      } else {
+        return 0;
+      }
+    } catch (e) {
+      console.log(e);
+      return 0;
+    }
+  } else {
+    return 0;
+  }
+};
+
 export const stake = async (
   provider: provider,
   poolAddress: string,
@@ -570,6 +619,68 @@ export const getBoostV2Apy = async (provider: provider, coinGecko: any) => {
 
         const BoostWeeklyROI =
           (rewardPerToken * boostPriceInUSD * 100) / UNIPrice;
+
+        const apy = BoostWeeklyROI * 52;
+        return Number(apy.toFixed(2));
+      } else {
+        return null;
+      }
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
+  } else {
+    return null;
+  }
+};
+
+export const getBalancerAPY = async (
+  provider: provider,
+  coinGecko: any,
+  poolAddress: string,
+  lpTokenContract: string,
+  tokenTwo?: string
+) => {
+  if (provider && coinGecko && tokenTwo) {
+    try {
+      const poolContract = getPoolV2Contract(provider, poolAddress);
+      const boostContract = getERC20Contract(provider, boostToken);
+      const tokenTwoContract = getERC20Contract(provider, tokenTwo);
+      const balancerTokenContract = getERC20Contract(provider, lpTokenContract);
+
+      const weeklyRewards = await getWeeklyRewards(poolContract);
+
+      const rewardPerToken =
+        weeklyRewards / (await poolContract.methods.totalSupply().call());
+
+      const totalBalancerAmount =
+        (await balancerTokenContract.methods.totalSupply().call()) / 1e18;
+
+      const totalBoostAmount =
+        (await boostContract.methods.balanceOf(balancerTokenContract).call()) /
+        1e18;
+      const totalTokenTwoAmount =
+        (await tokenTwoContract.methods
+          .balanceOf(balancerTokenContract)
+          .call()) / 1e18;
+
+      const boostPerBalancer = totalBoostAmount / totalBalancerAmount;
+      const totalTwoPerBalancer = totalTokenTwoAmount / totalBalancerAmount;
+
+      const { data } = await coinGecko.simple.fetchTokenPrice({
+        contract_addresses: [tokenTwo, boostToken],
+        vs_currencies: "usd",
+      });
+      if (data) {
+        const boostPriceInUSD = data[boostToken.toLowerCase()].usd;
+        const tokenTwoPriceInUSD = data[tokenTwo.toLowerCase()].usd;
+
+        const balancerPrice =
+          boostPerBalancer * boostPriceInUSD +
+          totalTwoPerBalancer * tokenTwoPriceInUSD;
+
+        const BoostWeeklyROI =
+          (rewardPerToken * boostPriceInUSD * 100) / balancerPrice;
 
         const apy = BoostWeeklyROI * 52;
         return Number(apy.toFixed(2));

@@ -40,6 +40,9 @@ export const mkrToken = "0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2";
 export const renToken = "0x408e41876cccdc0f92210600ef50372656052a38";
 export const uniswapLPToken = "0x6b4a0bd2eee3ca06652f758844937daf91ea8422";
 export const wethToken = "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2";
+export const usdcToken = "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48";
+export const creamToken = "0x2ba592F78dB6436527729929AAf6c908497cB200";
+export const uniToken = "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984";
 
 // Wave 3 Pool Tokens + old uniswapLPToken
 export const uniswapBoostToken = "0x004e74ff81239c8f2ec0e2815defb970f3754d86";
