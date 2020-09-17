@@ -337,23 +337,20 @@ export const PoolProvider: React.FC = ({ children }) => {
         apy = await getBoostV2Apy(ethereum, coinGecko);
         poolPriceInUSD = await getBoostPoolV2PriceInUSD(ethereum, coinGecko);
       } else {
-        apy = "--";
-        poolPriceInUSD = "--";
-
-        // apy = await getBalancerAPY(
-        //   ethereum,
-        //   coinGecko,
-        //   pool.address,
-        //   pool.tokenContract,
-        //   pool.underlyingToken
-        // );
-        // poolPriceInUSD = await getBalancerPoolPriceInUSD(
-        //   ethereum,
-        //   coinGecko,
-        //   pool.address,
-        //   pool.tokenContract,
-        //   pool.underlyingToken
-        // );
+        apy = await getBalancerAPY(
+          ethereum,
+          coinGecko,
+          pool.address,
+          pool.tokenContract,
+          pool.underlyingToken
+        );
+        poolPriceInUSD = await getBalancerPoolPriceInUSD(
+          ethereum,
+          coinGecko,
+          pool.address,
+          pool.tokenContract,
+          pool.underlyingToken
+        );
       }
       return {
         name: pool.name,
