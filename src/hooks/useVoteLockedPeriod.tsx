@@ -23,7 +23,7 @@ export const useVoteLockedPeriod = () => {
   useEffect(() => {
     if (ethereum) {
       fetchLockedPeriod();
-      const refreshInterval = setInterval(fetchLockedPeriod, 60000);
+      const refreshInterval = setInterval(fetchLockedPeriod, 30000);
       return () => clearInterval(refreshInterval);
     } else {
       return;

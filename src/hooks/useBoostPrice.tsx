@@ -22,7 +22,7 @@ export const useBoostPrice = () => {
 
   useEffect(() => {
     fetchPrice();
-    const refreshInterval = setInterval(fetchPrice, 30000);
+    const refreshInterval = setInterval(fetchPrice, 10000);
     return () => clearInterval(refreshInterval);
   }, [fetchPrice]);
 

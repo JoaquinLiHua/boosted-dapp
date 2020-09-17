@@ -24,7 +24,7 @@ export const useGetNextBoosterAvailable = (poolAddress: string) => {
   useEffect(() => {
     if (account && ethereum) {
       fetchTime();
-      const refreshInterval = setInterval(fetchTime, 30000);
+      const refreshInterval = setInterval(fetchTime, 10000);
       return () => clearInterval(refreshInterval);
     } else {
       return;

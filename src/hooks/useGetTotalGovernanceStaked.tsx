@@ -18,7 +18,7 @@ export const useGetTotalGovernanceStaked = () => {
   useEffect(() => {
     if (ethereum) {
       fetchStaked();
-      const refreshInterval = setInterval(fetchStaked, 30000);
+      const refreshInterval = setInterval(fetchStaked, 10000);
       return () => clearInterval(refreshInterval);
     } else {
       return;

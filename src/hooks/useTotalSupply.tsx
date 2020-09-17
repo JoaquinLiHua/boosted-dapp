@@ -18,7 +18,7 @@ export const useTotalSupply = () => {
   useEffect(() => {
     if (ethereum) {
       fetchTotalSupply();
-      const refreshInterval = setInterval(fetchTotalSupply, 60000);
+      const refreshInterval = setInterval(fetchTotalSupply, 30000);
       return () => clearInterval(refreshInterval);
     } else {
       return;

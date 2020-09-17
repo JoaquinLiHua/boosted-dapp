@@ -381,7 +381,7 @@ export const PoolProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     getStats();
-    const refreshInterval = setInterval(getStats, 30000);
+    const refreshInterval = setInterval(getStats, 10000);
     return () => clearInterval(refreshInterval);
   }, [getStats]);
   return (
