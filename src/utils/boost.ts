@@ -288,7 +288,7 @@ export const stake = async (
   const web3 = new Web3(provider);
   const tokens = web3.utils.toWei(amount.toString(), "ether");
   const bntokens = web3.utils.toBN(tokens);
-  if (now >= 1598965200) {
+  if (now >= 1601557200) {
     return poolContract.methods
       .stake(bntokens)
       .send({ from: account })
@@ -372,7 +372,7 @@ export const boost = async (
   try {
     const poolContract = getPoolContract(provider, poolAddress);
     const now = new Date().getTime() / 1000;
-    if (now >= 1599138000) {
+    if (now >= 1601557200) {
       return poolContract.methods
         .boost()
         .send({ from: account })
@@ -534,7 +534,7 @@ export const getBoostApy = async (provider: provider, coinGecko: any) => {
 export const getBoostV2Apy = async (provider: provider, coinGecko: any) => {
   if (provider && coinGecko) {
     try {
-      const poolContract = getPoolContract(provider, uniswapPoolV2);
+      const poolContract = getPoolV2Contract(provider, uniswapPoolV2);
       const boostTokenContract = getERC20Contract(provider, boostToken);
       const wethTokenContract = getERC20Contract(provider, wethToken);
       const boostWethUniContract = getERC20Contract(provider, uniswapLPToken);
@@ -589,7 +589,6 @@ const getWeeklyRewards = async function (synthContract) {
   if (await isRewardPeriodOver(synthContract)) {
     return 0;
   }
-
   const rewardRate = await synthContract.methods.rewardRate().call();
   return Math.round(rewardRate * 604800);
 };
