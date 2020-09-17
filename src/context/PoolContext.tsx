@@ -56,6 +56,7 @@ import {
   usdcToken,
   creamToken,
   uniToken,
+  wethToken,
 } from "src/constants/tokenAddresses";
 import { usePriceFeedContext } from "./PriceFeedContext";
 
@@ -234,6 +235,7 @@ export const ALL_POOLS = [
     tokenContract: uniswapLPToken,
     tokenTicker: "boost-eth-lp",
     open: true,
+    underlyingToken: wethToken,
   },
 ];
 
@@ -268,14 +270,22 @@ export const PoolProvider: React.FC = ({ children }) => {
   const { coinGecko } = usePriceFeedContext();
   const [closedPools, setClosedPools] = useState<IPool[]>([]);
   const [openPools, setOpenPools] = useState<IPool[]>([]);
-  const { ethereum }: { ethereum: provider } = useWallet();
+  const {
+    ethereum,
+    account,
+  }: { ethereum: provider; account: string | null } = useWallet();
 
   const getStats = useCallback(async () => {
     const CLOSED_POOLS = ALL_POOLS.filter((e) => !e.open);
     const OPEN_POOLS = ALL_POOLS.filter((e) => e.open);
 
     const promisedClosedPoolsArr = CLOSED_POOLS.map(async (pool) => {
-      const poolStats = await getPoolStats(ethereum, pool.address, true);
+      const poolStats = await getPoolStats(
+        ethereum,
+        pool.address,
+        true,
+        account
+      );
       let apy;
       let poolPriceInUSD;
       if (pool.code === "boost_pool") {
@@ -308,36 +318,42 @@ export const PoolProvider: React.FC = ({ children }) => {
         periodFinish: poolStats?.periodFinish
           ? new BN(poolStats.periodFinish)
           : null,
-        boosterPrice: poolStats?.boosterPrice
-          ? new BN(poolStats.boosterPrice)
-          : null,
+        boosterPrice: null,
         apy: apy,
         open: pool.open,
       };
     });
 
     const promisedOpenPoolsArr = OPEN_POOLS.map(async (pool) => {
-      const poolStats = await getPoolStats(ethereum, pool.address, false);
+      const poolStats = await getPoolStats(
+        ethereum,
+        pool.address,
+        false,
+        account
+      );
       let apy;
       let poolPriceInUSD;
       if (pool.code === "eth_boost_v2_pool") {
         apy = await getBoostV2Apy(ethereum, coinGecko);
         poolPriceInUSD = await getBoostPoolV2PriceInUSD(ethereum, coinGecko);
       } else {
-        apy = await getBalancerAPY(
-          ethereum,
-          coinGecko,
-          pool.address,
-          pool.tokenContract,
-          pool.underlyingToken
-        );
-        poolPriceInUSD = await getBalancerPoolPriceInUSD(
-          ethereum,
-          coinGecko,
-          pool.address,
-          pool.tokenContract,
-          pool.underlyingToken
-        );
+        apy = "--";
+        poolPriceInUSD = "--";
+
+        // apy = await getBalancerAPY(
+        //   ethereum,
+        //   coinGecko,
+        //   pool.address,
+        //   pool.tokenContract,
+        //   pool.underlyingToken
+        // );
+        // poolPriceInUSD = await getBalancerPoolPriceInUSD(
+        //   ethereum,
+        //   coinGecko,
+        //   pool.address,
+        //   pool.tokenContract,
+        //   pool.underlyingToken
+        // );
       }
       return {
         name: pool.name,
