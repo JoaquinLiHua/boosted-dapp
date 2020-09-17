@@ -127,9 +127,10 @@ interface PoolStats {
 export const getPoolStats = async (
   provider: provider,
   poolAddress: string,
-  v1: boolean
+  v1: boolean,
+  account: string | null
 ): Promise<PoolStats | null> => {
-  if (provider) {
+  if (provider && account) {
     try {
       let poolContract;
       let periodFinish;
@@ -137,14 +138,15 @@ export const getPoolStats = async (
       let boosterPrice;
       if (v1) {
         poolContract = getPoolContract(provider, poolAddress);
-        periodFinish = await poolContract.methods.periodFinish().call();
         poolSize = await poolContract.methods.totalSupply().call();
-        boosterPrice = await poolContract.methods.boosterPrice().call();
       } else {
         poolContract = getPoolV2Contract(provider, poolAddress);
         periodFinish = await poolContract.methods.periodFinish().call();
         poolSize = await poolContract.methods.totalSupply().call();
-        // boosterPrice = await poolContract.methods.boosterPrice().call();
+        const boosterInfo = await poolContract.methods
+          .getBoosterPrice(account)
+          .call();
+        boosterPrice = boosterInfo["boosterPrice"];
       }
       return {
         periodFinish,
