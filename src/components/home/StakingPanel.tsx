@@ -28,7 +28,7 @@ interface StakingPanelProps {
 export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
   const { onApprove } = useApprove(pool.tokenContract, pool.address);
   const { onStake, onUnstake } = useStake(pool.address);
-  const { onExit } = useExit(pool.address);
+  const { onExit } = useExit();
 
   const allowance: BN = useAllowance(pool.tokenContract, pool.address);
   const tokenBalance: BN = useTokenBalance(pool.tokenContract);
@@ -101,7 +101,7 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
   const handleExit = useCallback(async () => {
     try {
       setRequestedExit(true);
-      const txHash = await onExit();
+      const txHash = await onExit(pool.address);
       if (!txHash) {
         throw "Transaction error";
       } else {
