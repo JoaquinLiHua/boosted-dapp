@@ -118,7 +118,9 @@ export const BoostPanel: React.FC<BoostPanelProps> = ({ pool }) => {
           isLoading={requestedBoost}
           disabled={
             boostBalance.toNumber() <
-              (pool.boosterPrice?.toNumber() ?? 99999) || requestedBoost
+              (pool.boosterPrice?.toNumber() ?? 99999) ||
+            new Date() <= new Date(nextBoostAvailable.toNumber() * 1000) ||
+            requestedBoost
           }
           onClick={() => handleBoost()}
         >
