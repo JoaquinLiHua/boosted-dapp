@@ -93,7 +93,7 @@ function TableCell(props: BoxProps) {
   );
 }
 
-export const PoolTable: React.FC = () => {
+export const ClosedPoolTable: React.FC = () => {
   const [showTransactionModal, setShowTransactionModal] = useState<boolean>(
     false
   );
@@ -103,7 +103,7 @@ export const PoolTable: React.FC = () => {
     setPool(pool);
   };
   const { account } = useWallet();
-  const { pools } = usePoolContext();
+  const { closedPools } = usePoolContext();
   const { colorMode } = useColorMode();
   return (
     <>
@@ -121,7 +121,7 @@ export const PoolTable: React.FC = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {pools.map((e, i) => (
+          {closedPools.map((e, i) => (
             <TableRow key={i}>
               <TableCell>
                 <Flex alignItems="center">

@@ -50,6 +50,7 @@ export const ALL_POOLS = [
     address: uniswapPool,
     tokenContract: uniswapLPToken,
     tokenTicker: "boost-eth-lp",
+    open: false,
   },
   {
     name: "Yearn Alpha (YFI)",
@@ -59,6 +60,7 @@ export const ALL_POOLS = [
     address: yfiPool,
     tokenContract: yfiToken,
     tokenTicker: "yfi",
+    open: false,
   },
   {
     name: "Omakase (SUSHI)",
@@ -68,6 +70,7 @@ export const ALL_POOLS = [
     address: sushiPool,
     tokenContract: sushiToken,
     tokenTicker: "sushi",
+    open: false,
   },
   {
     name: "Band Wagons (BAND)",
@@ -77,6 +80,7 @@ export const ALL_POOLS = [
     address: bandPool,
     tokenContract: bandToken,
     tokenTicker: "band",
+    open: false,
   },
   {
     name: "Kyber Corp (KNC)",
@@ -86,6 +90,7 @@ export const ALL_POOLS = [
     address: kncPool,
     tokenContract: kncToken,
     tokenTicker: "knc",
+    open: false,
   },
   {
     name: "Compound Soils (COMP)",
@@ -95,6 +100,7 @@ export const ALL_POOLS = [
     address: compPool,
     tokenContract: compToken,
     tokenTicker: "comp",
+    open: false,
   },
   {
     name: "Marine Corps (LINK)",
@@ -104,6 +110,7 @@ export const ALL_POOLS = [
     address: linkPool,
     tokenContract: linkToken,
     tokenTicker: "link",
+    open: false,
   },
   {
     name: "Aave Nauts (LEND)",
@@ -113,6 +120,7 @@ export const ALL_POOLS = [
     address: lendPool,
     tokenContract: lendToken,
     tokenTicker: "lend",
+    open: false,
   },
   {
     name: "Synth Spartans (SNX)",
@@ -122,6 +130,7 @@ export const ALL_POOLS = [
     address: snxPool,
     tokenContract: snxToken,
     tokenTicker: "snx",
+    open: false,
   },
   {
     name: "Maker Mountain (MKR)",
@@ -131,6 +140,7 @@ export const ALL_POOLS = [
     address: mkrPool,
     tokenContract: mkrToken,
     tokenTicker: "mkr",
+    open: false,
   },
   {
     name: "Ren Moon (REN)",
@@ -140,6 +150,7 @@ export const ALL_POOLS = [
     address: renPool,
     tokenContract: renToken,
     tokenTicker: "ren",
+    open: false,
   },
 ];
 
@@ -156,22 +167,30 @@ export interface IPool {
   boosterPrice: BN | null;
   tokenTicker: string;
   apy: number | null;
+  open: boolean;
 }
 
 interface IPoolContext {
-  pools: IPool[];
+  closedPools: IPool[];
+  openPools: IPool[];
 }
 
 export const PoolContext = createContext<IPoolContext>({
-  pools: [],
+  closedPools: [],
+  openPools: [],
 });
 
 export const PoolProvider: React.FC = ({ children }) => {
   const { coinGecko } = usePriceFeedContext();
-  const [pools, setPools] = useState<IPool[]>([]);
+  const [closedPools, setClosedPools] = useState<IPool[]>([]);
+  const [openPools, setOpenPools] = useState<IPool[]>([]);
   const { ethereum }: { ethereum: provider } = useWallet();
+
   const getStats = useCallback(async () => {
-    const promisedPoolsArr = ALL_POOLS.map(async (pool) => {
+    const CLOSED_POOLS = ALL_POOLS.filter((e) => !e.open);
+    const OPEN_POOLS = ALL_POOLS.filter((e) => e.open);
+
+    const promisedClosedPoolsArr = CLOSED_POOLS.map(async (pool) => {
       const poolStats = await getPoolStats(ethereum, pool.address);
       let apy;
       let poolPriceInUSD;
@@ -209,21 +228,67 @@ export const PoolProvider: React.FC = ({ children }) => {
           ? new BN(poolStats.boosterPrice)
           : null,
         apy: apy,
+        open: pool.open,
       };
     });
-    const poolArr = await Promise.all(promisedPoolsArr);
-    setPools(poolArr);
+
+    const promisedOpenPoolsArr = OPEN_POOLS.map(async (pool) => {
+      const poolStats = await getPoolStats(ethereum, pool.address);
+      let apy;
+      let poolPriceInUSD;
+      if (pool.code === "boost_pool") {
+        apy = await getBoostApy(ethereum, coinGecko);
+        poolPriceInUSD = await getBoostPoolPriceInUSD(ethereum, coinGecko);
+      } else {
+        apy = await getApyCalculated(
+          ethereum,
+          pool.address,
+          pool.tokenContract,
+          coinGecko
+        );
+        poolPriceInUSD = await getPoolValueInUSD(
+          ethereum,
+          pool.address,
+          pool.tokenContract,
+          coinGecko
+        );
+      }
+      return {
+        name: pool.name,
+        icon: pool.icon,
+        code: pool.code,
+        order: pool.order,
+        address: pool.address,
+        tokenContract: pool.tokenContract,
+        tokenTicker: pool.tokenTicker,
+        poolSize: poolStats?.poolSize ? new BN(poolStats?.poolSize) : null,
+        poolPriceInUSD: poolPriceInUSD ? poolPriceInUSD : null,
+        periodFinish: poolStats?.periodFinish
+          ? new BN(poolStats.periodFinish)
+          : null,
+        boosterPrice: poolStats?.boosterPrice
+          ? new BN(poolStats.boosterPrice)
+          : null,
+        apy: apy,
+        open: pool.open,
+      };
+    });
+    const resolvedClosedPool = await Promise.all(promisedClosedPoolsArr);
+    const resolvedOpenPool = await Promise.all(promisedOpenPoolsArr);
+    setClosedPools(resolvedClosedPool);
+    setOpenPools(resolvedOpenPool);
   }, [ethereum, coinGecko]);
 
   useEffect(() => {
     getStats();
     const refreshInterval = setInterval(getStats, 30000);
     return () => clearInterval(refreshInterval);
-  }, [setPools, getStats]);
+  }, [getStats]);
   return (
     <PoolContext.Provider
       value={{
-        pools,
+        closedPools,
+        openPools,
       }}
     >
       {children}
