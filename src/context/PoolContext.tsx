@@ -178,7 +178,7 @@ export const ALL_POOLS = [
     icon: "/images/uni-logo.png",
     address: uniBoostPool,
     tokenContract: uniswapBoostToken,
-    tokenTicker: "UNI",
+    tokenTicker: "uni-boost-lp",
     open: true,
     underlyingToken: uniToken,
   },
