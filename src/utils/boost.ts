@@ -313,14 +313,14 @@ export const getBalancerPoolPriceInUSD = async (
       const lpTokenContract = getERC20Contract(provider, lpTokenAddress);
       const totalBalancerAmount =
         (await lpTokenContract.methods.totalSupply().call()) / 1e18;
+      const boostPoolSize =
+        (await poolContract.methods.totalSupply().call()) / 1e18;
       const totalBoostAmount =
         (await boostTokenContract.methods.balanceOf(lpTokenAddress).call()) /
         1e18;
       const totalTokenTwoAmount =
         (await tokenTwoContract.methods.balanceOf(lpTokenAddress).call()) /
-        1e18;
-      const boostPoolSize =
-        (await poolContract.methods.totalSupply().call()) / 1e18;
+        10 ** (await tokenTwoContract.methods.decimals().call());
       const boostPerBalancer = totalBoostAmount / totalBalancerAmount;
       const tokenTwoPerBalancer = totalTokenTwoAmount / totalBalancerAmount;
       if (data) {
@@ -667,7 +667,7 @@ export const getBalancerAPY = async (
         (await boostContract.methods.balanceOf(lpTokenContract).call()) / 1e18;
       const totalTokenTwoAmount =
         (await tokenTwoContract.methods.balanceOf(lpTokenContract).call()) /
-        1e18;
+        10 ** (await tokenTwoContract.methods.decimals().call());
 
       const boostPerBalancer = totalBoostAmount / totalBalancerAmount;
       const totalTwoPerBalancer = totalTokenTwoAmount / totalBalancerAmount;
