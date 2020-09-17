@@ -377,7 +377,7 @@ export const PoolProvider: React.FC = ({ children }) => {
     const resolvedOpenPool = await Promise.all(promisedOpenPoolsArr);
     setClosedPools(resolvedClosedPool);
     setOpenPools(resolvedOpenPool);
-  }, [ethereum, coinGecko]);
+  }, [ethereum, coinGecko, account]);
 
   useEffect(() => {
     getStats();

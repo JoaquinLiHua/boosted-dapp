@@ -664,12 +664,10 @@ export const getBalancerAPY = async (
         (await balancerTokenContract.methods.totalSupply().call()) / 1e18;
 
       const totalBoostAmount =
-        (await boostContract.methods.balanceOf(balancerTokenContract).call()) /
-        1e18;
+        (await boostContract.methods.balanceOf(lpTokenContract).call()) / 1e18;
       const totalTokenTwoAmount =
-        (await tokenTwoContract.methods
-          .balanceOf(balancerTokenContract)
-          .call()) / 1e18;
+        (await tokenTwoContract.methods.balanceOf(lpTokenContract).call()) /
+        1e18;
 
       const boostPerBalancer = totalBoostAmount / totalBalancerAmount;
       const totalTwoPerBalancer = totalTokenTwoAmount / totalBalancerAmount;
