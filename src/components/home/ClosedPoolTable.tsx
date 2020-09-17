@@ -10,10 +10,8 @@ import {
 import React, { useState } from "react";
 import { usePoolContext, IPool } from "src/context/PoolContext";
 import { getDisplayBalance } from "src/utils/formatBalance";
-import { formatTimestamp } from "src/utils/formatTimestamp";
 import { useWallet } from "use-wallet";
 import formatCurrency from "format-currency";
-import BN from "bignumber.js";
 import { TransactionModal } from "./TransactionModal";
 
 /**
@@ -146,13 +144,7 @@ export const ClosedPoolTable: React.FC = () => {
                   </Text>
                 </Flex>
                 <Text sub={"true"} fontSize="xs">
-                  {e.code === "boost_pool"
-                    ? `Pool ends: ${
-                        e.periodFinish
-                          ? formatTimestamp(new BN(e.periodFinish).toNumber())
-                          : 0
-                      }`
-                    : `POOL ENDED`}
+                  POOL ENDED - WITHDRAW FUNDS
                 </Text>
               </TableCell>
               <TableCell>
@@ -171,9 +163,7 @@ export const ClosedPoolTable: React.FC = () => {
                 </Text>
               </TableCell>
               <TableCell>
-                <Text fontSize="">
-                  {e.code === "boost_pool" ? `${e.apy ? e.apy : 0}%` : "ENDED"}
-                </Text>
+                <Text fontSize="">ENDED</Text>
               </TableCell>
               <TableCell textAlign="right">
                 {!!account && (

@@ -19,6 +19,13 @@ export const linkPool = "0x57fbd512a440CCE6832c62fD63c54A0A9f545F8a";
 export const bandPool = "0x3080869CF796d944cB4fb3C47D7084f8E8D3d22a";
 export const sushiPool = "0xC7491fcDfc8af10d5a8Bc9C13b60B85209C0dc59";
 export const uniswapPool = "0x8851d9b6c913309225947dda16e82e1854198c1e";
+// Wave 3 Pool Addresses
+export const uniswapPoolV2 = "0x115b9f50f6a13c70792737e2c2990e7b7ac5ea28";
+export const yfiBoostPool = "0x06281eb6014bED89bD9f252f72796a6cbe7349d8";
+export const usdcBoostPool = "0x80128f108922482C5d2dfe745AF1d89D7Cf39BDC";
+export const creamBoostPool = "0x32C21af450d9905151e9cE28a430d4FDAb11b261";
+export const sushiBoostPool = "0xDf1731418e1f8bF2FE336732355d35917aFD9267";
+export const uniBoostPool = "0xfb4468f90991a7b4e9af7ef33e5603d8ea99f2ad";
 
 // ERC20 Token Address of supported pools
 export const yfiToken = "0x0bc529c00c6401aef6d220be8c6ea1667f6ad93e";
@@ -33,3 +40,9 @@ export const mkrToken = "0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2";
 export const renToken = "0x408e41876cccdc0f92210600ef50372656052a38";
 export const uniswapLPToken = "0x6b4a0bd2eee3ca06652f758844937daf91ea8422";
 export const wethToken = "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2";
+// Wave 3 Pool Tokens + old uniswapLPToken
+export const uniswapBoostToken = "0x004e74ff81239c8f2ec0e2815defb970f3754d86";
+export const yfiBoostToken = "0xd3a38eaeae085b04d4da3614c870c3b985067c40";
+export const sushiBoostToken = "0x53b0a526e67aec8f151297f8b6b20d0d8a7b9129";
+export const usdcBoostToken = "0xc0f0ab9767ec5117cc640127255fad744ddc55b0";
+export const creamBoostToken = "0xafd541e91b5bf792ae36f7ea1213c878e6feb1d3";

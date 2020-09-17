@@ -12,7 +12,9 @@ import {
   getPoolValueInUSD,
   getApyCalculated,
   getBoostApy,
+  getBoostV2Apy,
   getBoostPoolPriceInUSD,
+  getBoostPoolV2PriceInUSD,
 } from "src/utils/boost";
 import { provider } from "web3-core";
 import {
@@ -38,6 +40,17 @@ import {
   sushiPool,
   uniswapLPToken,
   uniswapPool,
+  uniBoostPool,
+  uniswapBoostToken,
+  yfiBoostPool,
+  yfiBoostToken,
+  creamBoostPool,
+  creamBoostToken,
+  sushiBoostPool,
+  sushiBoostToken,
+  usdcBoostPool,
+  usdcBoostToken,
+  uniswapPoolV2,
 } from "src/constants/tokenAddresses";
 import { usePriceFeedContext } from "./PriceFeedContext";
 
@@ -152,6 +165,66 @@ export const ALL_POOLS = [
     tokenTicker: "ren",
     open: false,
   },
+  {
+    name: "Unicorn (UNI-BOOST)",
+    code: "uni_boost_pool",
+    order: 9,
+    icon: "/images/uni-logo.png",
+    address: uniBoostPool,
+    tokenContract: uniswapBoostToken,
+    tokenTicker: "UNI",
+    open: true,
+  },
+  {
+    name: "Wifey (YFI-BOOST)",
+    code: "yfi_boost_pool",
+    order: 10,
+    icon: "/images/yfi-icon.png",
+    address: yfiBoostPool,
+    tokenContract: yfiBoostToken,
+    tokenTicker: "yfi-boost-lp",
+    open: true,
+  },
+  {
+    name: "Creampie (CREAM-BOOST)",
+    code: "cream_boost_pool",
+    order: 11,
+    icon: "/images/cream-logo.png",
+    address: creamBoostPool,
+    tokenContract: creamBoostToken,
+    tokenTicker: "cream-boost-lp",
+    open: true,
+  },
+  {
+    name: "Sushi (SUSHI-BOOST)",
+    code: "sushi_boost_pool",
+    order: 12,
+    icon: "/images/sushi-logo.png",
+    address: sushiBoostPool,
+    tokenContract: sushiBoostToken,
+    tokenTicker: "sushi-boost-lp",
+    open: true,
+  },
+  {
+    name: "Stability (USDC-BOOST)",
+    code: "usdc_boost_pool",
+    order: 13,
+    icon: "/images/usdc-logo.png",
+    address: usdcBoostPool,
+    tokenContract: usdcBoostToken,
+    tokenTicker: "usdc-boost-lp",
+    open: true,
+  },
+  {
+    name: "OG (ETH-BOOST V2)",
+    code: "eth_boost_v2_pool",
+    order: 14,
+    icon: "/images/boost-icon.png",
+    address: uniswapPoolV2,
+    tokenContract: uniswapLPToken,
+    tokenTicker: "boost-eth-lp",
+    open: true,
+  },
 ];
 
 export interface IPool {
@@ -191,7 +264,7 @@ export const PoolProvider: React.FC = ({ children }) => {
     const OPEN_POOLS = ALL_POOLS.filter((e) => e.open);
 
     const promisedClosedPoolsArr = CLOSED_POOLS.map(async (pool) => {
-      const poolStats = await getPoolStats(ethereum, pool.address);
+      const poolStats = await getPoolStats(ethereum, pool.address, true);
       let apy;
       let poolPriceInUSD;
       if (pool.code === "boost_pool") {
@@ -233,12 +306,12 @@ export const PoolProvider: React.FC = ({ children }) => {
     });
 
     const promisedOpenPoolsArr = OPEN_POOLS.map(async (pool) => {
-      const poolStats = await getPoolStats(ethereum, pool.address);
+      const poolStats = await getPoolStats(ethereum, pool.address, false);
       let apy;
       let poolPriceInUSD;
-      if (pool.code === "boost_pool") {
-        apy = await getBoostApy(ethereum, coinGecko);
-        poolPriceInUSD = await getBoostPoolPriceInUSD(ethereum, coinGecko);
+      if (pool.code === "eth_boost_v2_pool") {
+        apy = await getBoostV2Apy(ethereum, coinGecko);
+        poolPriceInUSD = await getBoostPoolV2PriceInUSD(ethereum, coinGecko);
       } else {
         apy = await getApyCalculated(
           ethereum,
@@ -273,6 +346,7 @@ export const PoolProvider: React.FC = ({ children }) => {
         open: pool.open,
       };
     });
+
     const resolvedClosedPool = await Promise.all(promisedClosedPoolsArr);
     const resolvedOpenPool = await Promise.all(promisedOpenPoolsArr);
     setClosedPools(resolvedClosedPool);

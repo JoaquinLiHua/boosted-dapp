@@ -3,11 +3,13 @@ import { provider } from "web3-core";
 import { AbiItem } from "web3-utils";
 import ERC20ABI from "../constants/abi/ERC20.json";
 import POOLABI from "../constants/abi/BoostPools.json";
+import POOLV2ABI from "../constants/abi/BoostPoolV2.json";
 import {
   boostToken,
   uniswapPool,
   wethToken,
   uniswapLPToken,
+  uniswapPoolV2,
 } from "src/constants/tokenAddresses";
 import { ethers } from "ethers";
 import { yCRVToken, governanceContract } from "src/constants/tokenAddresses";
@@ -26,6 +28,15 @@ export const getPoolContract = (provider: provider, address: string) => {
   const web3 = new Web3(provider);
   const contract = new web3.eth.Contract(
     (POOLABI as unknown) as AbiItem,
+    address
+  );
+  return contract;
+};
+
+export const getPoolV2Contract = (provider: provider, address: string) => {
+  const web3 = new Web3(provider);
+  const contract = new web3.eth.Contract(
+    (POOLV2ABI as unknown) as AbiItem,
     address
   );
   return contract;
@@ -115,14 +126,26 @@ interface PoolStats {
 
 export const getPoolStats = async (
   provider: provider,
-  poolAddress: string
+  poolAddress: string,
+  v1: boolean
 ): Promise<PoolStats | null> => {
   if (provider) {
     try {
-      const poolContract = getPoolContract(provider, poolAddress);
-      const periodFinish = await poolContract.methods.periodFinish().call();
-      const poolSize = await poolContract.methods.totalSupply().call();
-      const boosterPrice = await poolContract.methods.boosterPrice().call();
+      let poolContract;
+      let periodFinish;
+      let poolSize;
+      let boosterPrice;
+      if (v1) {
+        poolContract = getPoolContract(provider, poolAddress);
+        periodFinish = await poolContract.methods.periodFinish().call();
+        poolSize = await poolContract.methods.totalSupply().call();
+        boosterPrice = await poolContract.methods.boosterPrice().call();
+      } else {
+        poolContract = getPoolV2Contract(provider, poolAddress);
+        periodFinish = await poolContract.methods.periodFinish().call();
+        poolSize = await poolContract.methods.totalSupply().call();
+        // boosterPrice = await poolContract.methods.boosterPrice().call();
+      }
       return {
         periodFinish,
         poolSize,
@@ -175,6 +198,51 @@ export const getBoostPoolPriceInUSD = async (
         vs_currencies: "usd",
       });
       const poolContract = getPoolContract(provider, uniswapPool);
+      const boostTokenContract = getERC20Contract(provider, boostToken);
+      const wethTokenContract = getERC20Contract(provider, wethToken);
+      const boostWethUniContract = getERC20Contract(provider, uniswapLPToken);
+      const totalUNIAmount =
+        (await boostWethUniContract.methods.totalSupply().call()) / 1e18;
+      const totalBoostAmount =
+        (await boostTokenContract.methods.balanceOf(uniswapLPToken).call()) /
+        1e18;
+      const totalWETHAmount =
+        (await wethTokenContract.methods.balanceOf(uniswapLPToken).call()) /
+        1e18;
+      const boostPoolSize =
+        (await poolContract.methods.totalSupply().call()) / 1e18;
+      const boostPerUNI = totalBoostAmount / totalUNIAmount;
+      const WETHPerUNI = totalWETHAmount / totalUNIAmount;
+      if (data) {
+        const boostPriceInUSD = data[boostToken.toLowerCase()].usd;
+        const wethPriceInUSD = data[wethToken.toLowerCase()].usd;
+        const UNIPrice =
+          boostPerUNI * boostPriceInUSD + WETHPerUNI * wethPriceInUSD;
+        const poolSizeNumber = new BN(boostPoolSize).toNumber();
+        return UNIPrice * poolSizeNumber;
+      } else {
+        return 0;
+      }
+    } catch (e) {
+      console.log(e);
+      return 0;
+    }
+  } else {
+    return 0;
+  }
+};
+
+export const getBoostPoolV2PriceInUSD = async (
+  provider: provider,
+  coinGecko: any
+): Promise<number> => {
+  if (provider && coinGecko) {
+    try {
+      const { data } = await coinGecko.simple.fetchTokenPrice({
+        contract_addresses: [wethToken, boostToken],
+        vs_currencies: "usd",
+      });
+      const poolContract = getPoolContract(provider, uniswapPoolV2);
       const boostTokenContract = getERC20Contract(provider, boostToken);
       const wethTokenContract = getERC20Contract(provider, wethToken);
       const boostWethUniContract = getERC20Contract(provider, uniswapLPToken);
@@ -413,6 +481,60 @@ export const getBoostApy = async (provider: provider, coinGecko: any) => {
   if (provider && coinGecko) {
     try {
       const poolContract = getPoolContract(provider, uniswapPool);
+      const boostTokenContract = getERC20Contract(provider, boostToken);
+      const wethTokenContract = getERC20Contract(provider, wethToken);
+      const boostWethUniContract = getERC20Contract(provider, uniswapLPToken);
+
+      const weeklyRewards = await getWeeklyRewards(poolContract);
+
+      const rewardPerToken =
+        weeklyRewards / (await poolContract.methods.totalSupply().call());
+
+      const totalUNIAmount =
+        (await boostWethUniContract.methods.totalSupply().call()) / 1e18;
+
+      const totalBoostAmount =
+        (await boostTokenContract.methods.balanceOf(uniswapLPToken).call()) /
+        1e18;
+      const totalWETHAmount =
+        (await wethTokenContract.methods.balanceOf(uniswapLPToken).call()) /
+        1e18;
+
+      const boostPerUNI = totalBoostAmount / totalUNIAmount;
+      const WETHPerUNI = totalWETHAmount / totalUNIAmount;
+
+      const { data } = await coinGecko.simple.fetchTokenPrice({
+        contract_addresses: [wethToken, boostToken],
+        vs_currencies: "usd",
+      });
+      if (data) {
+        const boostPriceInUSD = data[boostToken.toLowerCase()].usd;
+        const wethPriceInUSD = data[wethToken.toLowerCase()].usd;
+
+        const UNIPrice =
+          boostPerUNI * boostPriceInUSD + WETHPerUNI * wethPriceInUSD;
+
+        const BoostWeeklyROI =
+          (rewardPerToken * boostPriceInUSD * 100) / UNIPrice;
+
+        const apy = BoostWeeklyROI * 52;
+        return Number(apy.toFixed(2));
+      } else {
+        return null;
+      }
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
+  } else {
+    return null;
+  }
+};
+
+export const getBoostV2Apy = async (provider: provider, coinGecko: any) => {
+  if (provider && coinGecko) {
+    try {
+      const poolContract = getPoolContract(provider, uniswapPoolV2);
       const boostTokenContract = getERC20Contract(provider, boostToken);
       const wethTokenContract = getERC20Contract(provider, wethToken);
       const boostWethUniContract = getERC20Contract(provider, uniswapLPToken);
