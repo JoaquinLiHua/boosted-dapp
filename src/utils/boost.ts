@@ -350,21 +350,16 @@ export const stake = async (
   account: string
 ) => {
   const poolContract = getPoolContract(provider, poolAddress);
-  const now = new Date().getTime() / 1000;
   const web3 = new Web3(provider);
   const tokens = web3.utils.toWei(amount.toString(), "ether");
   const bntokens = web3.utils.toBN(tokens);
-  if (now >= 1601557200) {
-    return poolContract.methods
-      .stake(bntokens)
-      .send({ from: account })
-      .on("transactionHash", (tx) => {
-        console.log(tx);
-        return tx.transactionHash;
-      });
-  } else {
-    alert("Pool no longer active");
-  }
+  return poolContract.methods
+    .stake(bntokens)
+    .send({ from: account })
+    .on("transactionHash", (tx) => {
+      console.log(tx);
+      return tx.transactionHash;
+    });
 };
 
 export const unstake = async (
@@ -437,18 +432,13 @@ export const boost = async (
 ) => {
   try {
     const poolContract = getPoolContract(provider, poolAddress);
-    const now = new Date().getTime() / 1000;
-    if (now >= 1601557200) {
-      return poolContract.methods
-        .boost()
-        .send({ from: account })
-        .on("transactionHash", (tx) => {
-          console.log(tx);
-          return tx.transactionHash;
-        });
-    } else {
-      alert("Pool not active");
-    }
+    return poolContract.methods
+      .boost()
+      .send({ from: account })
+      .on("transactionHash", (tx) => {
+        console.log(tx);
+        return tx.transactionHash;
+      });
   } catch (e) {
     console.log(e);
   }
