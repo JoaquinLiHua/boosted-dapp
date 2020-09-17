@@ -7,12 +7,12 @@ import {
   BoxProps,
   Box,
 } from "@chakra-ui/core";
-import React, { useState } from "react";
-import { usePoolContext, IPool } from "src/context/PoolContext";
+import React, { useCallback } from "react";
+import { usePoolContext } from "src/context/PoolContext";
 import { getDisplayBalance } from "src/utils/formatBalance";
 import { useWallet } from "use-wallet";
 import formatCurrency from "format-currency";
-import { TransactionModal } from "./TransactionModal";
+import { useExit } from "src/hooks/useExit";
 
 /**
  * Represents tabular data - that is, information presented in a
@@ -92,22 +92,26 @@ function TableCell(props: BoxProps) {
 }
 
 export const ClosedPoolTable: React.FC = () => {
-  const [showTransactionModal, setShowTransactionModal] = useState<boolean>(
-    false
+  const { onExit } = useExit();
+  const handleExit = useCallback(
+    async (poolContract) => {
+      try {
+        const txHash = await onExit(poolContract);
+        if (!txHash) {
+          throw "Transaction error";
+        } else {
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    [onExit]
   );
-  const [pool, setPool] = useState<IPool | null>(null);
-  const handleShowTransactionModal = (pool: IPool) => {
-    setShowTransactionModal(true);
-    setPool(pool);
-  };
   const { account } = useWallet();
   const { closedPools } = usePoolContext();
   const { colorMode } = useColorMode();
   return (
     <>
-      {showTransactionModal && (
-        <TransactionModal pool={pool} onClose={setShowTransactionModal} />
-      )}
       <Table boxShadow="md" p={5} borderWidth="1px" mt="4">
         <TableHead>
           <TableRow>
@@ -168,13 +172,13 @@ export const ClosedPoolTable: React.FC = () => {
               <TableCell textAlign="right">
                 {!!account && (
                   <Button
-                    onClick={() => handleShowTransactionModal(e)}
+                    onClick={() => handleExit(e.address)}
                     size="sm"
                     fontSize="sm"
                     fontWeight="medium"
-                    colorScheme="green"
+                    colorScheme="red"
                   >
-                    Stake/Boost
+                    Exit All & Claim
                   </Button>
                 )}
               </TableCell>
