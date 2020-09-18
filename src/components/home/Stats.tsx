@@ -8,7 +8,6 @@ import { useTotalValueLocked } from "src/hooks/useTotalValueLocked";
 import { useGetTotalRewardAmount } from "src/hooks/useGetTotalRewardAmount";
 import { useBoostPrice } from "src/hooks/useBoostPrice";
 import { Stack } from "@chakra-ui/core";
-import formatCurrency from "format-currency";
 import { getDisplayBalance } from "src/utils/formatBalance";
 
 export const Stats: React.FC = () => {
@@ -39,13 +38,9 @@ export const Stats: React.FC = () => {
       <StatBox
         title="TOTAL VALUE LOCKED"
         tokenTicker={"USD"}
-        value={formatCurrency(totalValueLocked)}
+        value={totalValueLocked}
       />
-      <StatBox
-        title="B00ST PRICE"
-        tokenTicker={"USD"}
-        value={formatCurrency(boostPrice)}
-      />
+      <StatBox title="B00ST PRICE" tokenTicker={"USD"} value={boostPrice} />
       <StatBox
         title="TOTAL SUPPLY"
         value={boostTotalSupply}

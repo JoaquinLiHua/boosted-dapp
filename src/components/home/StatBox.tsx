@@ -23,10 +23,10 @@ export const StatBox: React.FC<StatBoxProps> = ({
   const [start, updateStart] = useState(0);
   const [end, updateEnd] = useState(0);
 
-  console.log(value);
   useEffect(() => {
     updateStart(end);
-    updateEnd(parseInt(value));
+    updateEnd(parseFloat(value));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   return (
@@ -45,8 +45,9 @@ export const StatBox: React.FC<StatBoxProps> = ({
           <CountUp
             start={start}
             end={end}
-            decimals={end < 0 ? 4 : end > 1e5 ? 0 : 3}
+            decimals={end < 1 ? 4 : 2}
             duration={1}
+            separator={","}
           />
         </StatNumber>
         <StatHelpText>{tokenTicker}</StatHelpText>
