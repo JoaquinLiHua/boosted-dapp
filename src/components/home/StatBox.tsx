@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Stat,
@@ -6,6 +6,7 @@ import {
   StatLabel,
   StatHelpText,
 } from "@chakra-ui/core";
+import CountUp from "react-countup";
 
 interface StatBoxProps {
   title: string;
@@ -19,6 +20,15 @@ export const StatBox: React.FC<StatBoxProps> = ({
   tokenTicker,
   ...rest
 }) => {
+  const [start, updateStart] = useState(0);
+  const [end, updateEnd] = useState(0);
+
+  useEffect(() => {
+    updateStart(end);
+    updateEnd(parseFloat(value));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
+
   return (
     <Box
       p={5}
@@ -31,7 +41,15 @@ export const StatBox: React.FC<StatBoxProps> = ({
         <StatLabel fontSize={["xs", "xs", "s"]} mb={[4, 4, 2]}>
           {title}
         </StatLabel>
-        <StatNumber fontSize={["xs", "xs", "lg"]}>{value}</StatNumber>
+        <StatNumber fontSize={["xs", "xs", "lg"]}>
+          <CountUp
+            start={start}
+            end={end}
+            decimals={end < 1 ? 4 : 2}
+            duration={1}
+            separator={","}
+          />
+        </StatNumber>
         <StatHelpText>{tokenTicker}</StatHelpText>
       </Stat>
     </Box>
