@@ -233,7 +233,7 @@ export const ALL_POOLS = [
     icon: "/images/boost-icon.png",
     address: uniswapPoolV2,
     tokenContract: uniswapLPToken,
-    tokenTicker: "boost-eth-blp",
+    tokenTicker: "boost-eth-lp",
     open: true,
     underlyingToken: wethToken,
   },
