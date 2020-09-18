@@ -48,11 +48,11 @@ export const BoostPanel: React.FC<BoostPanelProps> = ({ pool }) => {
       if (!txHash) {
         throw "Transactions error";
       } else {
-        setRequestedApproval(false);
+        setRequestedBoost(false);
       }
     } catch (e) {
       console.log(e);
-      setRequestedApproval(false);
+      setRequestedBoost(false);
     }
   }, [setRequestedBoost, onBoost]);
 
