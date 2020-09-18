@@ -22,7 +22,6 @@ import { PriceFeedProvider } from "src/context/PriceFeedContext";
 import { Socials } from "src/components/general/Socials";
 import { useWeb3Presence } from "src/hooks/useWeb3Presence";
 import Router from "next/router";
-import { HeaderCountdown } from "src/components/general/Countdown";
 
 function MyApp({ Component, pageProps }) {
   const [changingRoute, setChangingRoute] = useState<boolean>(false);
@@ -87,8 +86,6 @@ function MyApp({ Component, pageProps }) {
                     <Header changingRoute={changingRoute} />
                     <Socials />
                     <NewsBlock />
-                    <HeaderCountdown />
-
                     <Component {...pageProps} />
                     <Footer />
                     <CTA />

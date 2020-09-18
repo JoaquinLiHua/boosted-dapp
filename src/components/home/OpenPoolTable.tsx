@@ -15,6 +15,7 @@ import { useWallet } from "use-wallet";
 import formatCurrency from "format-currency";
 import BN from "bignumber.js";
 import { TransactionModal } from "./TransactionModal";
+import Link from "next/link";
 
 /**
  * Represents tabular data - that is, information presented in a
@@ -173,15 +174,17 @@ export const OpenPoolTable: React.FC = () => {
               </TableCell>
               <TableCell textAlign="right">
                 {!!account && (
-                  <Button
-                    onClick={() => handleShowTransactionModal(e)}
-                    size="sm"
-                    fontSize="sm"
-                    fontWeight="medium"
-                    colorScheme="green"
-                  >
-                    Stake/Boost
-                  </Button>
+                  <Link href="/pool/[id]" as={`/pool/${e.code}`}>
+                    <Button
+                      // onClick={() => handleShowTransactionModal(e)}
+                      size="sm"
+                      fontSize="sm"
+                      fontWeight="medium"
+                      colorScheme="green"
+                    >
+                      Stake/Boost
+                    </Button>
+                  </Link>
                 )}
               </TableCell>
             </TableRow>

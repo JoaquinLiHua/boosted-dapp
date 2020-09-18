@@ -99,12 +99,7 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
       )}
       <Stack direction={["row", "row", "column"]} overflow="scroll">
         <Stack flexDirection={["column"]}>
-          <Flex
-            justifyContent="space-between"
-            borderWidth={1}
-            borderRadius={5}
-            p={8}
-          >
+          <Flex justifyContent="space-between" py={8}>
             <Text>{pool.tokenTicker.toUpperCase()} balance</Text>
             <Text>
               {getDisplayBalance(tokenBalance)} {pool.tokenTicker.toUpperCase()}
@@ -119,21 +114,37 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
                   <NumberDecrementStepper />
                 </NumberInputStepper>
               </NumberInput>
-              <Flex justifyContent="space-between">
-                <Button onClick={() => handlePercentageStakeInputs(0.25)}>
+              <Flex width="100%">
+                <Button
+                  w="25%"
+                  mr={1}
+                  onClick={() => handlePercentageStakeInputs(0.25)}
+                >
                   25%
                 </Button>
-                <Button onClick={() => handlePercentageStakeInputs(0.5)}>
+                <Button
+                  w="25%"
+                  mx={1}
+                  onClick={() => handlePercentageStakeInputs(0.5)}
+                >
                   50%
                 </Button>
-                <Button onClick={() => handlePercentageStakeInputs(0.75)}>
+                <Button
+                  w="25%"
+                  mx={1}
+                  onClick={() => handlePercentageStakeInputs(0.75)}
+                >
                   75%
                 </Button>
-                <Button onClick={() => handlePercentageStakeInputs(0.99999)}>
+                <Button
+                  w="25%"
+                  ml={1}
+                  onClick={() => handlePercentageStakeInputs(0.99999)}
+                >
                   100%
                 </Button>
               </Flex>
-              <Text fontSize="xs" textAlign="center">
+              <Text fontSize="sm" my={2} textAlign="center">
                 Staking LP tokens will claim your available rewards.
               </Text>
               <Button
@@ -148,14 +159,9 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
             </Stack>
           )}
         </Stack>
-        <Divider display={["none", "none", "flex"]} />
+        <Divider display={["none", "none", "flex"]} py={4} />
         <Stack direction={["column"]}>
-          <Flex
-            justifyContent="space-between"
-            borderWidth={1}
-            borderRadius={5}
-            p={8}
-          >
+          <Flex justifyContent="space-between" py={8}>
             <Text>{pool.tokenTicker.toUpperCase()} staked</Text>
             <Text>
               {getDisplayBalance(stakedAmount)} {pool.tokenTicker.toUpperCase()}
@@ -179,17 +185,33 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
                   <NumberDecrementStepper />
                 </NumberInputStepper>
               </NumberInput>
-              <Flex justifyContent="space-between">
-                <Button onClick={() => handlePercentageUnstakeInput(0.25)}>
+              <Flex justifyContent="space-between" width="100%">
+                <Button
+                  w="25%"
+                  mr={1}
+                  onClick={() => handlePercentageUnstakeInput(0.25)}
+                >
                   25%
                 </Button>
-                <Button onClick={() => handlePercentageUnstakeInput(0.5)}>
+                <Button
+                  w="25%"
+                  mx={1}
+                  onClick={() => handlePercentageUnstakeInput(0.5)}
+                >
                   50%
                 </Button>
-                <Button onClick={() => handlePercentageUnstakeInput(0.75)}>
+                <Button
+                  w="25%"
+                  mx={1}
+                  onClick={() => handlePercentageUnstakeInput(0.75)}
+                >
                   75%
                 </Button>
-                <Button onClick={() => handlePercentageUnstakeInput(0.99999)}>
+                <Button
+                  w="25%"
+                  ml={1}
+                  onClick={() => handlePercentageUnstakeInput(0.99999)}
+                >
                   100%
                 </Button>
               </Flex>
