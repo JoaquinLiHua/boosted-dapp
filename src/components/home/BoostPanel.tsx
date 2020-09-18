@@ -75,8 +75,10 @@ export const BoostPanel: React.FC<BoostPanelProps> = ({ pool }) => {
         p={8}
         width={"100%"}
       >
-        <Text>BOOSTERS BOUGHT</Text>
-        <Text textAlign="right">{boosterBalance.toNumber()}</Text>
+        <Text>Cost of BOOSTER</Text>
+        <Text textAlign="right">
+          {pool.boosterPrice ? getDisplayBalance(pool.boosterPrice) : 0} BOOST
+        </Text>
       </Flex>
       <Flex
         justifyContent="space-between"
@@ -85,24 +87,26 @@ export const BoostPanel: React.FC<BoostPanelProps> = ({ pool }) => {
         p={8}
         width={"100%"}
       >
-        <Text>Boosting Locked Till</Text>
-        <Text textAlign="right">
-          {nextBoostAvailable.toNumber() === 0
-            ? "No Restriction"
-            : formatTimestamp(nextBoostAvailable.toNumber())}
-        </Text>
+        <Text>BOOSTERS IN EFFECT</Text>
+        <Text textAlign="right">{boosterBalance.toNumber()}</Text>
       </Flex>
-      <Flex
-        justifyContent="space-between"
-        borderWidth={1}
-        borderRadius={5}
-        p={8}
-      >
-        <Text>Cost of BOOSTER</Text>
-        <Text textAlign="right">
-          {pool.boosterPrice ? getDisplayBalance(pool.boosterPrice) : 0} BOOST
-        </Text>
-      </Flex>
+      {nextBoostAvailable.toNumber() !== 0 && (
+        <Flex
+          justifyContent="space-between"
+          borderWidth={1}
+          borderRadius={5}
+          p={8}
+          width={"100%"}
+        >
+          <Text>BOOSTING locked until</Text>
+          <Text textAlign="right">
+            {formatTimestamp(nextBoostAvailable.toNumber())}
+          </Text>
+        </Flex>
+      )}
+      <Text fontSize="xs" textAlign="center">
+        BOOSTING will automatically claim your available rewards.
+      </Text>
       {!allowance.toNumber() ? (
         <Button
           colorScheme="green"

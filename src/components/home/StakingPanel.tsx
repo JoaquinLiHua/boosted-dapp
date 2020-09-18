@@ -133,6 +133,9 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
                   100%
                 </Button>
               </Flex>
+              <Text fontSize="xs" textAlign="center">
+                Staking LP tokens will claim your available rewards.
+              </Text>
               <Button
                 colorScheme="green"
                 width="100%"
