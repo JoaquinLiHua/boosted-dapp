@@ -104,7 +104,7 @@ export const BoostPanel: React.FC<BoostPanelProps> = ({ pool }) => {
           </Text>
         </Flex>
       )}
-      <Text fontSize="xs" textAlign="center">
+      <Text fontSize="sm" my={2} textAlign="center">
         BOOSTING will automatically claim your available rewards.
       </Text>
       {!allowance.toNumber() ? (

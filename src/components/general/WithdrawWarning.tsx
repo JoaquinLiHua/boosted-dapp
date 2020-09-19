@@ -32,6 +32,7 @@ export const WithdrawWarning = ({
         throw "Transaction error";
       } else {
         setRequestedUnstake(false);
+        setShowExitModal(false);
       }
     } catch (e) {
       console.log(e);
@@ -47,6 +48,7 @@ export const WithdrawWarning = ({
         throw "Transaction error";
       } else {
         setRequestedExit(false);
+        setShowExitModal(false);
       }
     } catch (e) {
       console.log(e);
@@ -74,7 +76,7 @@ export const WithdrawWarning = ({
             <AlertDialogFooter>
               <Button onClick={() => setShowExitModal(false)}>Cancel</Button>
               <Button
-                disbaled={requestedUnstake || requestedExit}
+                disabled={requestedUnstake || requestedExit}
                 colorScheme="red"
                 onClick={() => {
                   type === "exit" ? handleExit() : handleUnstake();

@@ -1,15 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { useRouter } from "next/router";
 import {
-  Text,
   Stack,
   Heading,
-  Flex,
-  Button,
-  Progress,
   Tabs,
-  Box,
-  Image,
   Tab,
   TabList,
   TabPanel,
@@ -30,7 +24,9 @@ const Pool: React.FC = () => {
   if (id && openPools && currentPool) {
     return (
       <Stack mt={4} width="100%" p={4} borderWidth={1} borderRadius={5}>
-        <Heading>{currentPool[0].name} Pool</Heading>
+        <Heading fontSize="lg" p={4}>
+          {currentPool[0].name} Pool
+        </Heading>
         <Tabs>
           <TabList>
             <Tab>Staking</Tab>

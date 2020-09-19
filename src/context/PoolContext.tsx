@@ -177,6 +177,8 @@ export const ALL_POOLS = [
     tokenTicker: "uni-boost-blp",
     open: true,
     underlyingToken: uniToken,
+    url:
+      "https://pools.balancer.exchange/#/pool/0x004e74ff81239c8f2ec0e2815defb970f3754d86",
   },
   {
     name: "Wifey (YFI-BOOST)",
@@ -188,6 +190,8 @@ export const ALL_POOLS = [
     tokenTicker: "yfi-boost-blp",
     open: true,
     underlyingToken: yfiToken,
+    url:
+      "https://pools.balancer.exchange/#/pool/0xd3a38eaeae085b04d4da3614c870c3b985067c40",
   },
   {
     name: "Creampie (CREAM-BOOST)",
@@ -199,6 +203,8 @@ export const ALL_POOLS = [
     tokenTicker: "cream-boost-blp",
     open: true,
     underlyingToken: creamToken,
+    url:
+      "https://pools.balancer.exchange/#/pool/0xafd541e91b5bf792ae36f7ea1213c878e6feb1d3",
   },
   {
     name: "Sushi (SUSHI-BOOST)",
@@ -210,6 +216,8 @@ export const ALL_POOLS = [
     tokenTicker: "sushi-boost-blp",
     open: true,
     underlyingToken: sushiToken,
+    url:
+      "https://pools.balancer.exchange/#/pool/0x53b0a526e67aec8f151297f8b6b20d0d8a7b9129",
   },
   {
     name: "Stability (USDC-BOOST)",
@@ -221,6 +229,8 @@ export const ALL_POOLS = [
     tokenTicker: "usdc-boost-blp",
     open: true,
     underlyingToken: usdcToken,
+    url:
+      "https://pools.balancer.exchange/#/pool/0xc0f0ab9767ec5117cc640127255fad744ddc55b0",
   },
   {
     name: "OG (ETH-BOOST V2)",
@@ -232,6 +242,8 @@ export const ALL_POOLS = [
     tokenTicker: "boost-eth-blp",
     open: true,
     underlyingToken: wethToken,
+    url:
+      "https://app.uniswap.org/#/add/ETH/0x3e780920601D61cEdb860fe9c4a90c9EA6A35E78",
   },
 ];
 
@@ -250,6 +262,7 @@ export interface IPool {
   apy: number | null;
   open: boolean;
   underlyingToken?: string;
+  url?: string;
 }
 
 interface IPoolContext {
@@ -339,6 +352,7 @@ export const PoolProvider: React.FC = ({ children }) => {
           : null,
         apy: apy,
         open: pool.open,
+        url: pool.url,
       };
     });
 

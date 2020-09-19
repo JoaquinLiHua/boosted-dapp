@@ -6,6 +6,7 @@ import {
   useColorMode,
   BoxProps,
   Box,
+  Link as URL,
 } from "@chakra-ui/core";
 import React, { useState } from "react";
 import { usePoolContext, IPool } from "src/context/PoolContext";
@@ -95,102 +96,95 @@ function TableCell(props: BoxProps) {
 }
 
 export const OpenPoolTable: React.FC = () => {
-  const [showTransactionModal, setShowTransactionModal] = useState<boolean>(
-    false
-  );
   const [pool, setPool] = useState<IPool | null>(null);
-  const handleShowTransactionModal = (pool: IPool) => {
-    setShowTransactionModal(true);
-    setPool(pool);
-  };
   const { account } = useWallet();
   const { openPools } = usePoolContext();
   const { colorMode } = useColorMode();
   return (
-    <>
-      {showTransactionModal && (
-        <TransactionModal pool={pool} onClose={setShowTransactionModal} />
-      )}
-      <Table boxShadow="md" p={5} borderWidth="1px" mt="4">
-        <TableHead>
-          <TableRow>
-            <TableHeader>POOL</TableHeader>
-            <TableHeader>POOL SIZE</TableHeader>
-            <TableHeader>BOOSTER COST</TableHeader>
-            <TableHeader>EST. APY</TableHeader>
-            <TableHeader />
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {openPools.map((e, i) => (
-            <TableRow key={i}>
-              <TableCell>
-                <Flex alignItems="center">
-                  <Flex
-                    w="30px"
-                    h="30px"
-                    borderRadius="15px"
-                    background={colorMode === "dark" ? "white" : "transparent"}
-                    borderWidth={colorMode !== "dark" ? "1px" : 0}
-                    borderColor={
-                      colorMode !== "dark" ? "grey.100" : "transparent"
-                    }
-                    alignItems="center"
-                    justifyContent="center"
-                    mr="2"
-                    mb="2"
-                  >
-                    <Image src={e.icon} width="5" height="5" />
-                  </Flex>
-                  <Text fontWeight="bold" fontSize="sm">
-                    {e.name}
-                  </Text>
+    <Table boxShadow="md" p={5} borderWidth="1px" mt="4">
+      <TableHead>
+        <TableRow>
+          <TableHeader>POOL</TableHeader>
+          <TableHeader>POOL SIZE</TableHeader>
+          <TableHeader>BOOSTER COST</TableHeader>
+          <TableHeader>EST. APY</TableHeader>
+          <TableHeader />
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {openPools.map((e, i) => (
+          <TableRow key={i}>
+            <TableCell>
+              <Flex alignItems="center">
+                <Flex
+                  w="30px"
+                  h="30px"
+                  borderRadius="15px"
+                  background={colorMode === "dark" ? "white" : "transparent"}
+                  borderWidth={colorMode !== "dark" ? "1px" : 0}
+                  borderColor={
+                    colorMode !== "dark" ? "grey.100" : "transparent"
+                  }
+                  alignItems="center"
+                  justifyContent="center"
+                  mr="2"
+                  mb="2"
+                >
+                  <Image src={e.icon} width="5" height="5" />
                 </Flex>
-                <Text sub={"true"} fontSize="xs">
-                  {`Pool ends: ${
-                    e.periodFinish
-                      ? formatTimestamp(new BN(e.periodFinish).toNumber())
-                      : 0
-                  }`}
-                </Text>
-              </TableCell>
-              <TableCell>
-                <Text fontSize="sm">
-                  {" "}
-                  {e.poolSize ? getDisplayBalance(e.poolSize) : 0} &nbsp;
-                  {e.tokenTicker.toUpperCase()}
-                </Text>
-                <Text sub={"true"} fontSize="xs">
-                  ${e.poolPriceInUSD ? formatCurrency(e.poolPriceInUSD) : 0}
-                </Text>
-              </TableCell>
-              <TableCell>
-                <Text fontSize="sm">
-                  {e.boosterPrice ? getDisplayBalance(e.boosterPrice) : 0} BOOST
-                </Text>
-              </TableCell>
-              <TableCell>
-                <Text fontSize="sm">{`${e.apy ? e.apy : 0}%`}</Text>
-              </TableCell>
-              <TableCell textAlign="right">
-                {!!account && (
-                  <Link href="/pool/[id]" as={`/pool/${e.code}`}>
-                    <Button
-                      // onClick={() => handleShowTransactionModal(e)}
-                      size="sm"
-                      fontSize="sm"
-                      fontWeight="medium"
-                      colorScheme="green"
-                    >
-                      Stake/Boost
-                    </Button>
-                  </Link>
-                )}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </>
+                <URL
+                  fontWeight="bold"
+                  fontSize="sm"
+                  isExternal
+                  href={e.url ? e.url : ""}
+                  target="_blank"
+                >
+                  {e.name}
+                </URL>
+              </Flex>
+              <Text sub={"true"} fontSize="xs">
+                {`Pool ends: ${
+                  e.periodFinish
+                    ? formatTimestamp(new BN(e.periodFinish).toNumber())
+                    : 0
+                }`}
+              </Text>
+            </TableCell>
+            <TableCell>
+              <Text fontSize="sm">
+                {" "}
+                {e.poolSize ? getDisplayBalance(e.poolSize) : 0} &nbsp;
+                {e.tokenTicker.toUpperCase()}
+              </Text>
+              <Text sub={"true"} fontSize="xs">
+                ${e.poolPriceInUSD ? formatCurrency(e.poolPriceInUSD) : 0}
+              </Text>
+            </TableCell>
+            <TableCell>
+              <Text fontSize="sm">
+                {e.boosterPrice ? getDisplayBalance(e.boosterPrice) : 0} BOOST
+              </Text>
+            </TableCell>
+            <TableCell>
+              <Text fontSize="sm">{`${e.apy ? e.apy : 0}%`}</Text>
+            </TableCell>
+            <TableCell textAlign="right">
+              {!!account && (
+                <Link href="/pool/[id]" as={`/pool/${e.code}`}>
+                  <Button
+                    size="sm"
+                    fontSize="sm"
+                    fontWeight="medium"
+                    colorScheme="green"
+                  >
+                    Stake/Boost
+                  </Button>
+                </Link>
+              )}
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   );
 };

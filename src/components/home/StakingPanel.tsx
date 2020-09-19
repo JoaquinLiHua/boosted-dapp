@@ -97,145 +97,147 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
           unstakeAmount={unstakeAmount}
         />
       )}
-      <Stack direction={["row", "row", "column"]} overflow="scroll">
-        <Stack flexDirection={["column"]}>
-          <Flex justifyContent="space-between" py={8}>
-            <Text>{pool.tokenTicker.toUpperCase()} balance</Text>
-            <Text>
-              {getDisplayBalance(tokenBalance)} {pool.tokenTicker.toUpperCase()}
-            </Text>
-          </Flex>
-          {allowance.toNumber() > 0 && (
-            <Stack spacing={4}>
-              <NumberInput value={stakeAmount} onChange={handleStakeChange}>
-                <NumberInputField />
-                <NumberInputStepper>
-                  <NumberIncrementStepper />
-                  <NumberDecrementStepper />
-                </NumberInputStepper>
-              </NumberInput>
-              <Flex width="100%">
-                <Button
-                  w="25%"
-                  mr={1}
-                  onClick={() => handlePercentageStakeInputs(0.25)}
-                >
-                  25%
-                </Button>
-                <Button
-                  w="25%"
-                  mx={1}
-                  onClick={() => handlePercentageStakeInputs(0.5)}
-                >
-                  50%
-                </Button>
-                <Button
-                  w="25%"
-                  mx={1}
-                  onClick={() => handlePercentageStakeInputs(0.75)}
-                >
-                  75%
-                </Button>
-                <Button
-                  w="25%"
-                  ml={1}
-                  onClick={() => handlePercentageStakeInputs(0.99999)}
-                >
-                  100%
-                </Button>
-              </Flex>
-              <Text fontSize="sm" my={2} textAlign="center">
-                Staking LP tokens will claim your available rewards.
-              </Text>
+      <Stack>
+        <Flex justifyContent="space-between" py={8}>
+          <Text>{pool.tokenTicker.toUpperCase()} balance</Text>
+          <Text>
+            {getDisplayBalance(tokenBalance)} {pool.tokenTicker.toUpperCase()}
+          </Text>
+        </Flex>
+        {allowance.toNumber() > 0 && (
+          <Stack spacing={4}>
+            <NumberInput value={stakeAmount} onChange={handleStakeChange}>
+              <NumberInputField />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
+            <Flex width="100%">
               <Button
-                colorScheme="green"
-                width="100%"
-                isLoading={requestedStake}
-                disabled={requestedStake}
-                onClick={() => handleStake()}
+                w="25%"
+                mr={1}
+                onClick={() => handlePercentageStakeInputs(0.25)}
               >
-                Stake
+                25%
               </Button>
-            </Stack>
-          )}
-        </Stack>
-        <Divider display={["none", "none", "flex"]} py={4} />
-        <Stack direction={["column"]}>
-          <Flex justifyContent="space-between" py={8}>
-            <Text>{pool.tokenTicker.toUpperCase()} staked</Text>
-            <Text>
-              {getDisplayBalance(stakedAmount)} {pool.tokenTicker.toUpperCase()}
+              <Button
+                w="25%"
+                mx={1}
+                onClick={() => handlePercentageStakeInputs(0.5)}
+              >
+                50%
+              </Button>
+              <Button
+                w="25%"
+                mx={1}
+                onClick={() => handlePercentageStakeInputs(0.75)}
+              >
+                75%
+              </Button>
+              <Button
+                w="25%"
+                ml={1}
+                onClick={() => handlePercentageStakeInputs(0.99999)}
+              >
+                100%
+              </Button>
+            </Flex>
+            <Text fontSize="sm" my={2} textAlign="center">
+              Staking LP tokens will claim your available rewards.
             </Text>
-          </Flex>
-          {!allowance.toNumber() ? (
             <Button
               colorScheme="green"
-              disabled={requestedApproval}
-              isLoading={requestedApproval}
-              onClick={() => handleApprove()}
+              width="100%"
+              isLoading={requestedStake}
+              disabled={requestedStake}
+              onClick={() => handleStake()}
             >
-              Approve
+              Stake
             </Button>
-          ) : (
-            <Stack spacing={4}>
-              <NumberInput value={unstakeAmount} onChange={handleUnstakeChange}>
-                <NumberInputField />
-                <NumberInputStepper>
-                  <NumberIncrementStepper />
-                  <NumberDecrementStepper />
-                </NumberInputStepper>
-              </NumberInput>
-              <Flex justifyContent="space-between" width="100%">
-                <Button
-                  w="25%"
-                  mr={1}
-                  onClick={() => handlePercentageUnstakeInput(0.25)}
-                >
-                  25%
-                </Button>
-                <Button
-                  w="25%"
-                  mx={1}
-                  onClick={() => handlePercentageUnstakeInput(0.5)}
-                >
-                  50%
-                </Button>
-                <Button
-                  w="25%"
-                  mx={1}
-                  onClick={() => handlePercentageUnstakeInput(0.75)}
-                >
-                  75%
-                </Button>
-                <Button
-                  w="25%"
-                  ml={1}
-                  onClick={() => handlePercentageUnstakeInput(0.99999)}
-                >
-                  100%
-                </Button>
-              </Flex>
+          </Stack>
+        )}
+      </Stack>
+      <Divider py={4} />
+      <Stack>
+        <Flex justifyContent="space-between" py={8}>
+          <Text>{pool.tokenTicker.toUpperCase()} staked</Text>
+          <Text>
+            {getDisplayBalance(stakedAmount)} {pool.tokenTicker.toUpperCase()}
+          </Text>
+        </Flex>
+        {!allowance.toNumber() ? (
+          <Button
+            colorScheme="green"
+            disabled={requestedApproval}
+            isLoading={requestedApproval}
+            onClick={() => handleApprove()}
+          >
+            Approve
+          </Button>
+        ) : (
+          <Stack spacing={4}>
+            <NumberInput value={unstakeAmount} onChange={handleUnstakeChange}>
+              <NumberInputField />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
+            <Flex justifyContent="space-between" width="100%">
               <Button
-                colorScheme="green"
-                width="100%"
-                onClick={() => {
-                  setExitType("unstake"), setShowExitModal(true);
-                }}
+                w="25%"
+                mr={1}
+                onClick={() => handlePercentageUnstakeInput(0.25)}
               >
-                Unstake
+                25%
               </Button>
               <Button
-                width="100%"
-                onClick={() => {
-                  setExitType("exit"), setShowExitModal(true);
-                }}
-                colorScheme="red"
+                w="25%"
+                mx={1}
+                onClick={() => handlePercentageUnstakeInput(0.5)}
               >
-                Exit All & Claim
+                50%
               </Button>
-            </Stack>
-          )}
-        </Stack>
+              <Button
+                w="25%"
+                mx={1}
+                onClick={() => handlePercentageUnstakeInput(0.75)}
+              >
+                75%
+              </Button>
+              <Button
+                w="25%"
+                ml={1}
+                onClick={() => handlePercentageUnstakeInput(0.99999)}
+              >
+                100%
+              </Button>
+            </Flex>
+            <Text fontSize="sm" my={2} textAlign="center">
+              Unstaking and/or Exiting do not automatically claim your rewards.
+              Please do so manually in "rewards".
+            </Text>
+            <Button
+              colorScheme="green"
+              width="100%"
+              onClick={() => {
+                setExitType("unstake"), setShowExitModal(true);
+              }}
+            >
+              Unstake
+            </Button>
+            <Button
+              width="100%"
+              onClick={() => {
+                setExitType("exit"), setShowExitModal(true);
+              }}
+              colorScheme="red"
+            >
+              Exit
+            </Button>
+          </Stack>
+        )}
       </Stack>
     </>
   );
