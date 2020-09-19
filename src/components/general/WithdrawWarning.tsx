@@ -38,7 +38,7 @@ export const WithdrawWarning = ({
       console.log(e);
       setRequestedUnstake(false);
     }
-  }, [unstakeAmount, onUnstake]);
+  }, [unstakeAmount, onUnstake, setRequestedUnstake, setShowExitModal]);
 
   const handleExit = useCallback(async () => {
     try {
@@ -54,7 +54,7 @@ export const WithdrawWarning = ({
       console.log(e);
       setRequestedExit(false);
     }
-  }, [onExit, pool]);
+  }, [onExit, pool, setRequestedExit, setShowExitModal]);
 
   return (
     <>

@@ -20,6 +20,8 @@ import { useApprove } from "src/hooks/useApprove";
 import { useStake } from "src/hooks/useStake";
 import { useStakedAmount } from "src/hooks/useStakedAmount";
 import { WithdrawWarning } from "../general/WithdrawWarning";
+import { useClaimRewards } from "src/hooks/useClaimRewards";
+import { useGetRewardAmount } from "src/hooks/useGetRewardAmount";
 
 interface StakingPanelProps {
   pool: IPool;
@@ -41,6 +43,25 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
 
   const [stakeAmount, setStakeAmount] = useState<string>("");
   const [unstakeAmount, setUnstakeAmount] = useState<string>("");
+
+  const [requestedClaim, setRequestedClaim] = useState<boolean>(false);
+  const rewardAmount = useGetRewardAmount(pool.address);
+  const { onClaim } = useClaimRewards(pool.address);
+
+  const handleClaim = useCallback(async () => {
+    try {
+      setRequestedClaim(true);
+      const txHash = await onClaim();
+      if (!txHash) {
+        throw "Transactions error";
+      } else {
+        setRequestedClaim(false);
+      }
+    } catch (e) {
+      console.log(e);
+      setRequestedClaim(false);
+    }
+  }, [onClaim, setRequestedClaim]);
 
   const handleApprove = useCallback(async () => {
     try {
@@ -98,8 +119,13 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
         />
       )}
       <Stack>
-        <Flex justifyContent="space-between" py={8}>
-          <Text>{pool.tokenTicker.toUpperCase()} balance</Text>
+        <Text fontSize="md" fontWeight="bold" py={8} as="u">
+          STAKING
+        </Text>
+        <Flex justifyContent="space-between">
+          <Text fontWeight="bold">
+            {pool.tokenTicker.toUpperCase()} Balance
+          </Text>
           <Text>
             {getDisplayBalance(tokenBalance)} {pool.tokenTicker.toUpperCase()}
           </Text>
@@ -160,8 +186,11 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
       </Stack>
       <Divider py={4} />
       <Stack>
-        <Flex justifyContent="space-between" py={8}>
-          <Text>{pool.tokenTicker.toUpperCase()} staked</Text>
+        <Text fontSize="md" fontWeight="bold" py={8} as="u">
+          UNSTAKING/WITHDRAW
+        </Text>
+        <Flex justifyContent="space-between">
+          <Text fontWeight="bold">{pool.tokenTicker.toUpperCase()} Staked</Text>
           <Text>
             {getDisplayBalance(stakedAmount)} {pool.tokenTicker.toUpperCase()}
           </Text>
@@ -216,7 +245,7 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
             </Flex>
             <Text fontSize="sm" my={2} textAlign="center">
               Unstaking and/or Exiting do not automatically claim your rewards.
-              Please do so manually in "rewards".
+              Please do so manually below.
             </Text>
             <Button
               colorScheme="green"
@@ -238,6 +267,25 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
             </Button>
           </Stack>
         )}
+        <Divider py={4} />
+        <Stack spacing={4}>
+          <Text fontSize="md" fontWeight="bold" py={8} as="u">
+            CLAIM REWARDS
+          </Text>
+          <Flex justifyContent="space-between">
+            <Text fontWeight="bold">Rewards Claimable</Text>
+            <Text>{getDisplayBalance(rewardAmount)} BOOST</Text>
+          </Flex>
+          <Button
+            width="100%"
+            colorScheme="green"
+            isLoading={requestedClaim}
+            disabled={requestedClaim}
+            onClick={() => handleClaim()}
+          >
+            Claim
+          </Button>
+        </Stack>
       </Stack>
     </>
   );

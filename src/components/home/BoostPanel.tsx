@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { Stack, Flex, Button, Text } from "@chakra-ui/core";
 import { getDisplayBalance } from "src/utils/formatBalance";
 import { useTokenBalance } from "src/hooks/useTokenBalance";
@@ -12,6 +12,9 @@ import { useGetBoosterBalance } from "src/hooks/useBoosterCount";
 import BN from "bignumber.js";
 import { useGetNextBoosterAvailable } from "src/hooks/useNextBoosterAvailable";
 import { formatTimestamp } from "src/utils/formatTimestamp";
+import { usePriceFeedContext } from "src/context/PriceFeedContext";
+import formatCurrency from "format-currency";
+import { useStakedAmount } from "src/hooks/useStakedAmount";
 interface BoostPanelProps {
   pool: IPool;
 }
@@ -25,6 +28,25 @@ export const BoostPanel: React.FC<BoostPanelProps> = ({ pool }) => {
   const [requestedApproval, setRequestedApproval] = useState<boolean>(false);
   const [requestedBoost, setRequestedBoost] = useState<boolean>(false);
   const nextBoostAvailable: BN = useGetNextBoosterAvailable(pool.address);
+  const { coinGecko }: { coinGecko: any } = usePriceFeedContext();
+  const [usdBoosterPrice, setUSDBoosterPrice] = useState<number>(0);
+  const stakedAmount: BN = useStakedAmount(pool.address);
+
+  useEffect(() => {
+    const getUSDValueOfBoosting = async () => {
+      const { data } = await coinGecko.simple.fetchTokenPrice({
+        contract_addresses: [boostToken],
+        vs_currencies: "usd",
+      });
+      const priceInUSD = new BN(data[boostToken.toLowerCase()].usd);
+      setUSDBoosterPrice(
+        pool.boosterPrice
+          ? pool.boosterPrice.multipliedBy(priceInUSD).toNumber()
+          : 0
+      );
+    };
+    getUSDValueOfBoosting();
+  }, [coinGecko, pool]);
 
   const handleApprove = useCallback(async () => {
     try {
@@ -57,48 +79,49 @@ export const BoostPanel: React.FC<BoostPanelProps> = ({ pool }) => {
   }, [setRequestedBoost, onBoost]);
 
   return (
-    <Stack spacing={4}>
-      <Flex
-        justifyContent="space-between"
-        borderWidth={1}
-        borderRadius={5}
-        p={8}
-        width={"100%"}
-      >
-        <Text>BOOST Balance</Text>
+    <Stack spacing={12} py={8}>
+      <Flex justifyContent="space-between">
+        <Text fontWeight="bold">BOOST Balance</Text>
         <Text textAlign="right">{getDisplayBalance(boostBalance)} BOOST</Text>
       </Flex>
-      <Flex
-        justifyContent="space-between"
-        borderWidth={1}
-        borderRadius={5}
-        p={8}
-        width={"100%"}
-      >
-        <Text>Cost of BOOSTER</Text>
+      <Flex justifyContent="space-between">
+        <Text fontWeight="bold">Cost of BOOSTER</Text>
         <Text textAlign="right">
           {pool.boosterPrice ? getDisplayBalance(pool.boosterPrice) : 0} BOOST
         </Text>
       </Flex>
-      <Flex
-        justifyContent="space-between"
-        borderWidth={1}
-        borderRadius={5}
-        p={8}
-        width={"100%"}
-      >
-        <Text>BOOSTERS IN EFFECT</Text>
+      <Flex justifyContent="space-between">
+        <Text fontWeight="bold">Cost of BOOSTER (USD)</Text>
+        <Text textAlign="right">${formatCurrency(usdBoosterPrice)}</Text>
+      </Flex>
+      <Flex justifyContent="space-between">
+        <Text fontWeight="bold">BOOSTERS currently active</Text>
         <Text textAlign="right">{boosterBalance.toNumber()}</Text>
       </Flex>
+      <Flex justifyContent="space-between">
+        <Text fontWeight="bold">Current BOOSTED stake value</Text>
+        <Text textAlign="right">
+          {stakedAmount
+            .multipliedBy(new BN(1).plus(boosterBalance.multipliedBy(0.05)))
+            .toNumber()}{" "}
+          {pool.tokenTicker.toUpperCase()}
+        </Text>
+      </Flex>
+      <Flex justifyContent="space-between">
+        <Text fontWeight="bold">Staked value after next BOOSTER</Text>
+        <Text textAlign="right">
+          {" "}
+          {stakedAmount
+            .multipliedBy(
+              new BN(1).plus(boosterBalance.plus(1).multipliedBy(0.05))
+            )
+            .toNumber()}{" "}
+          {pool.tokenTicker.toUpperCase()}
+        </Text>
+      </Flex>
       {nextBoostAvailable.toNumber() !== 0 && (
-        <Flex
-          justifyContent="space-between"
-          borderWidth={1}
-          borderRadius={5}
-          p={8}
-          width={"100%"}
-        >
-          <Text>BOOSTING locked until</Text>
+        <Flex justifyContent="space-between">
+          <Text fontWeight="bold">BOOSTING unlocked after</Text>
           <Text textAlign="right">
             {formatTimestamp(nextBoostAvailable.toNumber())}
           </Text>

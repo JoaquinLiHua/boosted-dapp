@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Button,
   Text,
@@ -8,14 +9,12 @@ import {
   Box,
   Link as URL,
 } from "@chakra-ui/core";
-import React, { useState } from "react";
-import { usePoolContext, IPool } from "src/context/PoolContext";
+import { usePoolContext } from "src/context/PoolContext";
 import { getDisplayBalance } from "src/utils/formatBalance";
 import { formatTimestamp } from "src/utils/formatTimestamp";
 import { useWallet } from "use-wallet";
 import formatCurrency from "format-currency";
 import BN from "bignumber.js";
-import { TransactionModal } from "./TransactionModal";
 import Link from "next/link";
 
 /**
@@ -96,7 +95,6 @@ function TableCell(props: BoxProps) {
 }
 
 export const OpenPoolTable: React.FC = () => {
-  const [pool, setPool] = useState<IPool | null>(null);
   const { account } = useWallet();
   const { openPools } = usePoolContext();
   const { colorMode } = useColorMode();

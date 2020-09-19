@@ -8,10 +8,11 @@ import {
   TabList,
   TabPanel,
   TabPanels,
+  Flex,
+  Image,
 } from "@chakra-ui/core";
 import { usePoolContext } from "src/context/PoolContext";
 import { StakingPanel } from "src/components/home/StakingPanel";
-import { RewardsPanel } from "src/components/home/RewardsPanel";
 import { BoostPanel } from "src/components/home/BoostPanel";
 
 const Pool: React.FC = () => {
@@ -21,24 +22,23 @@ const Pool: React.FC = () => {
 
   const currentPool = openPools.filter((e) => e.code === id);
 
-  if (id && openPools && currentPool) {
+  if (id && openPools && currentPool.length > 0) {
     return (
       <Stack mt={4} width="100%" p={4} borderWidth={1} borderRadius={5}>
-        <Heading fontSize="lg" p={4}>
-          {currentPool[0].name} Pool
-        </Heading>
+        <Flex alignItems="center">
+          <Image src={currentPool[0].icon} width="10" height="10" />
+          <Heading fontSize="lg" p={4}>
+            {currentPool[0].name} Pool
+          </Heading>
+        </Flex>
         <Tabs>
           <TabList>
             <Tab>Staking</Tab>
-            <Tab>Rewards</Tab>
             <Tab>Boosting</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>
               <StakingPanel pool={currentPool[0]} />
-            </TabPanel>
-            <TabPanel>
-              <RewardsPanel pool={currentPool[0]} />
             </TabPanel>
             <TabPanel>
               <BoostPanel pool={currentPool[0]} />
