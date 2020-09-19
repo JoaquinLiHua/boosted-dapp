@@ -7,12 +7,14 @@ import {
   BoxProps,
   Box,
 } from "@chakra-ui/core";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { usePoolContext } from "src/context/PoolContext";
 import { getDisplayBalance } from "src/utils/formatBalance";
 import { useWallet } from "use-wallet";
-import formatCurrency from "format-currency";
 import { useExit } from "src/hooks/useExit";
+import { stakedAmount } from "src/utils/boost";
+import BN from "bignumber.js";
+import { provider } from "web3-core";
 
 /**
  * Represents tabular data - that is, information presented in a
@@ -92,7 +94,17 @@ function TableCell(props: BoxProps) {
 }
 
 export const ClosedPoolTable: React.FC = () => {
+  const [poolsWithBalances, setPoolsWithBalances] = useState<any[] | null>(
+    null
+  );
   const { onExit } = useExit();
+  const {
+    account,
+    ethereum,
+  }: { account: string | null; ethereum: provider } = useWallet();
+  const { closedPools } = usePoolContext();
+  const { colorMode } = useColorMode();
+
   const handleExit = useCallback(
     async (poolContract) => {
       try {
@@ -106,85 +118,108 @@ export const ClosedPoolTable: React.FC = () => {
     },
     [onExit]
   );
-  const { account } = useWallet();
-  const { closedPools } = usePoolContext();
-  const { colorMode } = useColorMode();
-  return (
-    <>
+
+  const fetchStakedAmount = useCallback(
+    async (poolAddress) => {
+      if (account) {
+        const amount = new BN(
+          await stakedAmount(ethereum, poolAddress, account)
+        );
+        return amount;
+      } else {
+        return new BN("0");
+      }
+    },
+    [account, ethereum]
+  );
+
+  useEffect(() => {
+    const fetchAllStakedBalances = async () => {
+      const mappedPools = closedPools.map(async (e) => {
+        return {
+          ...e,
+          stakedBalance: await fetchStakedAmount(e.address),
+        };
+      });
+      const resolvedPromises = await Promise.all(mappedPools);
+      setPoolsWithBalances(resolvedPromises);
+    };
+    fetchAllStakedBalances();
+  }, [account, closedPools, fetchStakedAmount]);
+
+  if (account) {
+    return (
       <Table boxShadow="md" p={5} borderWidth="1px" mt="4">
         <TableHead>
           <TableRow>
             <TableHeader>POOL</TableHeader>
-            <TableHeader>POOL SIZE</TableHeader>
-            <TableHeader>BOOSTER COST</TableHeader>
-            <TableHeader>EST. APY</TableHeader>
+            <TableHeader>YOUR STAKED BALANCE</TableHeader>
             <TableHeader />
           </TableRow>
         </TableHead>
         <TableBody>
-          {closedPools.map((e, i) => (
-            <TableRow key={i}>
-              <TableCell>
-                <Flex alignItems="center">
-                  <Flex
-                    w="30px"
-                    h="30px"
-                    borderRadius="15px"
-                    background={colorMode === "dark" ? "white" : "transparent"}
-                    borderWidth={colorMode !== "dark" ? "1px" : 0}
-                    borderColor={
-                      colorMode !== "dark" ? "grey.100" : "transparent"
-                    }
-                    alignItems="center"
-                    justifyContent="center"
-                    mr="2"
-                    mb="2"
-                  >
-                    <Image src={e.icon} width="5" height="5" />
+          {poolsWithBalances &&
+            poolsWithBalances.map((e, i) => (
+              <TableRow key={i}>
+                <TableCell>
+                  <Flex alignItems="center">
+                    <Flex
+                      w="30px"
+                      h="30px"
+                      borderRadius="15px"
+                      background={
+                        colorMode === "dark" ? "white" : "transparent"
+                      }
+                      borderWidth={colorMode !== "dark" ? "1px" : 0}
+                      borderColor={
+                        colorMode !== "dark" ? "grey.100" : "transparent"
+                      }
+                      alignItems="center"
+                      justifyContent="center"
+                      mr="2"
+                      mb="2"
+                    >
+                      <Image src={e.icon} width="5" height="5" />
+                    </Flex>
+                    <Text fontWeight="bold" fontSize="sm">
+                      {e.name}
+                    </Text>
                   </Flex>
-                  <Text fontWeight="bold" fontSize="sm">
-                    {e.name}
+                  <Text sub={"true"} fontSize="xs">
+                    POOL ENDED - WITHDRAW FUNDS
                   </Text>
-                </Flex>
-                <Text sub={"true"} fontSize="xs">
-                  POOL ENDED - WITHDRAW FUNDS
-                </Text>
-              </TableCell>
-              <TableCell>
-                <Text fontSize="sm">
-                  {" "}
-                  {e.poolSize ? getDisplayBalance(e.poolSize) : 0} &nbsp;
-                  {e.tokenTicker.toUpperCase()}
-                </Text>
-                <Text sub={"true"} fontSize="xs">
-                  ${e.poolPriceInUSD ? formatCurrency(e.poolPriceInUSD) : 0}
-                </Text>
-              </TableCell>
-              <TableCell>
-                <Text fontSize="sm">
-                  {e.boosterPrice ? getDisplayBalance(e.boosterPrice) : 0} BOOST
-                </Text>
-              </TableCell>
-              <TableCell>
-                <Text fontSize="">ENDED</Text>
-              </TableCell>
-              <TableCell textAlign="right">
-                {!!account && (
-                  <Button
-                    onClick={() => handleExit(e.address)}
-                    size="sm"
-                    fontSize="sm"
-                    fontWeight="medium"
-                    colorScheme="red"
-                  >
-                    Exit All & Claim
-                  </Button>
-                )}
-              </TableCell>
-            </TableRow>
-          ))}
+                </TableCell>
+                <TableCell>
+                  <Text fontSize="sm">
+                    {e.stakedBalance ? getDisplayBalance(e.stakedBalance) : 0}{" "}
+                    {e.tokenTicker.toUpperCase()}
+                  </Text>
+                </TableCell>
+                <TableCell textAlign="right">
+                  {!!account && (
+                    <Button
+                      onClick={() => handleExit(e.address)}
+                      size="sm"
+                      fontSize="sm"
+                      fontWeight="medium"
+                      colorScheme="red"
+                    >
+                      Exit All & Claim
+                    </Button>
+                  )}
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
-    </>
-  );
+    );
+  } else {
+    return (
+      <Table boxShadow="md" p={5} borderWidth="1px" mt="4">
+        <Text textAlign="center" p={8}>
+          Unlock your wallet to view closed pools
+        </Text>
+      </Table>
+    );
+  }
 };

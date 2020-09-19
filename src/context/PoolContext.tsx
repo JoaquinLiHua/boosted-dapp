@@ -9,11 +9,7 @@ import { useWallet } from "use-wallet";
 import BN from "bignumber.js";
 import {
   getPoolStats,
-  getPoolValueInUSD,
-  getApyCalculated,
-  getBoostApy,
   getBoostV2Apy,
-  getBoostPoolPriceInUSD,
   getBoostPoolV2PriceInUSD,
   getBalancerAPY,
   getBalancerPoolPriceInUSD,
@@ -280,31 +276,6 @@ export const PoolProvider: React.FC = ({ children }) => {
     const OPEN_POOLS = ALL_POOLS.filter((e) => e.open);
 
     const promisedClosedPoolsArr = CLOSED_POOLS.map(async (pool) => {
-      const poolStats = await getPoolStats(
-        ethereum,
-        pool.address,
-        true,
-        account
-      );
-      let apy;
-      let poolPriceInUSD;
-      if (pool.code === "boost_pool") {
-        apy = await getBoostApy(ethereum, coinGecko);
-        poolPriceInUSD = await getBoostPoolPriceInUSD(ethereum, coinGecko);
-      } else {
-        apy = await getApyCalculated(
-          ethereum,
-          pool.address,
-          pool.tokenContract,
-          coinGecko
-        );
-        poolPriceInUSD = await getPoolValueInUSD(
-          ethereum,
-          pool.address,
-          pool.tokenContract,
-          coinGecko
-        );
-      }
       return {
         name: pool.name,
         icon: pool.icon,
@@ -313,13 +284,11 @@ export const PoolProvider: React.FC = ({ children }) => {
         address: pool.address,
         tokenContract: pool.tokenContract,
         tokenTicker: pool.tokenTicker,
-        poolSize: poolStats?.poolSize ? new BN(poolStats?.poolSize) : null,
-        poolPriceInUSD: poolPriceInUSD ? poolPriceInUSD : null,
-        periodFinish: poolStats?.periodFinish
-          ? new BN(poolStats.periodFinish)
-          : null,
+        poolSize: null,
+        poolPriceInUSD: null,
+        periodFinish: null,
         boosterPrice: null,
-        apy: apy,
+        apy: null,
         open: pool.open,
       };
     });
