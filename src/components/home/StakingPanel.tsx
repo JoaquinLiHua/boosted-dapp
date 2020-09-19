@@ -280,7 +280,7 @@ export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
             width="100%"
             colorScheme="green"
             isLoading={requestedClaim}
-            disabled={requestedClaim}
+            disabled={requestedClaim || rewardAmount.toNumber() === 0}
             onClick={() => handleClaim()}
           >
             Claim
