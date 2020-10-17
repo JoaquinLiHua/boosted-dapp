@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import {
   ChakraProvider,
   CSSReset,
-  Box,
   Heading,
   Image,
   Text,
@@ -11,14 +10,12 @@ import {
 import theme from "../theme";
 import { MarqueeComponent } from "src/components/general/Marquee";
 import { Header } from "src/components/general/Header";
-import { NewsBlock } from "src/components/general/NewsBlock";
 import { Footer } from "src/components/general/Footer";
 import { Container } from "src/components/general/Container";
 import { UseWalletProvider } from "use-wallet";
 import { ModalContext } from "src/context/ModalContext";
 import { PoolProvider } from "src/context/PoolContext";
 import { PriceFeedProvider } from "src/context/PriceFeedContext";
-import { Socials } from "src/components/general/Socials";
 import { useWeb3Presence } from "src/hooks/useWeb3Presence";
 import Router from "next/router";
 
@@ -55,8 +52,9 @@ function MyApp({ Component, pageProps }) {
         >
           <PoolProvider>
             <ModalContext>
-              <Box>
+              <>
                 <MarqueeComponent />
+                <Header changingRoute={changingRoute} />
                 {!web3Present ? (
                   <Flex
                     direction="column"
@@ -82,14 +80,11 @@ function MyApp({ Component, pageProps }) {
                   </Flex>
                 ) : (
                   <Container>
-                    <Header changingRoute={changingRoute} />
-                    <Socials />
-                    <NewsBlock />
                     <Component {...pageProps} />
-                    <Footer />
                   </Container>
                 )}
-              </Box>
+                <Footer />
+              </>
             </ModalContext>
           </PoolProvider>
         </UseWalletProvider>

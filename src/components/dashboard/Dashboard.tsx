@@ -10,7 +10,7 @@ import { useBoostPrice } from "src/hooks/useBoostPrice";
 import { Stack } from "@chakra-ui/core";
 import { getDisplayBalance } from "src/utils/formatBalance";
 
-export const Stats: React.FC = () => {
+export const Dashboard: React.FC = () => {
   const boostBalance: string = getDisplayBalance(useTokenBalance(boostToken));
   const totalRewardsAvailable: string = getDisplayBalance(
     useGetTotalRewardAmount()

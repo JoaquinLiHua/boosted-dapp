@@ -175,7 +175,7 @@ export const ALL_POOLS = [
     address: uniBoostPool,
     tokenContract: uniswapBoostToken,
     tokenTicker: "uni-boost-blp",
-    open: true,
+    open: false,
     underlyingToken: uniToken,
     url:
       "https://pools.balancer.exchange/#/pool/0x004e74ff81239c8f2ec0e2815defb970f3754d86",
@@ -188,7 +188,7 @@ export const ALL_POOLS = [
     address: yfiBoostPool,
     tokenContract: yfiBoostToken,
     tokenTicker: "yfi-boost-blp",
-    open: true,
+    open: false,
     underlyingToken: yfiToken,
     url:
       "https://pools.balancer.exchange/#/pool/0xd3a38eaeae085b04d4da3614c870c3b985067c40",
@@ -201,7 +201,7 @@ export const ALL_POOLS = [
     address: creamBoostPool,
     tokenContract: creamBoostToken,
     tokenTicker: "cream-boost-blp",
-    open: true,
+    open: false,
     underlyingToken: creamToken,
     url:
       "https://pools.balancer.exchange/#/pool/0xafd541e91b5bf792ae36f7ea1213c878e6feb1d3",
@@ -214,7 +214,7 @@ export const ALL_POOLS = [
     address: sushiBoostPool,
     tokenContract: sushiBoostToken,
     tokenTicker: "sushi-boost-blp",
-    open: true,
+    open: false,
     underlyingToken: sushiToken,
     url:
       "https://pools.balancer.exchange/#/pool/0x53b0a526e67aec8f151297f8b6b20d0d8a7b9129",
@@ -227,7 +227,7 @@ export const ALL_POOLS = [
     address: usdcBoostPool,
     tokenContract: usdcBoostToken,
     tokenTicker: "usdc-boost-blp",
-    open: true,
+    open: false,
     underlyingToken: usdcToken,
     url:
       "https://pools.balancer.exchange/#/pool/0xc0f0ab9767ec5117cc640127255fad744ddc55b0",
@@ -240,7 +240,7 @@ export const ALL_POOLS = [
     address: uniswapPoolV2,
     tokenContract: uniswapLPToken,
     tokenTicker: "boost-eth-lp",
-    open: true,
+    open: false,
     underlyingToken: wethToken,
     url:
       "https://app.uniswap.org/#/add/ETH/0x3e780920601D61cEdb860fe9c4a90c9EA6A35E78",

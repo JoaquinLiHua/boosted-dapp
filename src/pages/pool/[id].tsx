@@ -12,8 +12,8 @@ import {
   Image,
 } from "@chakra-ui/core";
 import { usePoolContext } from "src/context/PoolContext";
-import { StakingPanel } from "src/components/home/StakingPanel";
-import { BoostPanel } from "src/components/home/BoostPanel";
+import { StakingPanel } from "src/components/pools/StakingPanel";
+import { BoostPanel } from "src/components/pools/BoostPanel";
 
 const Pool: React.FC = () => {
   const router = useRouter();

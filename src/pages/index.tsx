@@ -1,8 +1,8 @@
 import React from "react";
-import { Home } from "src/components/home/Home";
+import { Dashboard } from "src/components/dashboard/Dashboard";
 
 const Index: React.FC = () => {
-  return <Home />;
+  return <Dashboard />;
 };
 
 export default Index;

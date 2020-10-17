@@ -10,9 +10,11 @@ import {
 import NextLink from "next/link";
 import { SettingsMenus } from "./SettingsMenu";
 import { FaMoon, FaSun } from "react-icons/fa";
+import { useRouter } from "next/router";
 
 export const Header = ({ changingRoute }) => {
   const { colorMode, toggleColorMode } = useColorMode();
+  const router = useRouter();
   const isDark = colorMode === "dark";
   const ROUTES = [
     {
@@ -28,8 +30,8 @@ export const Header = ({ changingRoute }) => {
       link: "/gov",
     },
     {
-      copy: "Farms",
-      link: "/farms",
+      copy: "Pools",
+      link: "/pools",
     },
 
     {
@@ -37,31 +39,39 @@ export const Header = ({ changingRoute }) => {
       link: "/stake",
     },
   ];
-
   return (
     <Flex
-      my={8}
+      py={8}
       position="relative"
       justifyContent="space-between"
       alignItems="center"
-      width="100%"
+      maxWidth="1200px"
+      margin="auto"
     >
       <Flex alignItems="center">
-        {changingRoute && <Spinner ml={4} color="grey.500" size="sm" />}
         {ROUTES.map((route) => (
           <NextLink href={route.link}>
-            <Link fontSize={["sm", "lg"]} mx={4} fontWeight="600">
+            <Link
+              borderBottomColor={
+                router.pathname === route.link ? "blue.300" : "transparent"
+              }
+              borderBottomWidth={1}
+              fontSize={["sm", "lg"]}
+              mr={8}
+              fontWeight="600"
+            >
               {route.copy}
             </Link>
           </NextLink>
         ))}
+        {changingRoute && <Spinner mr={4} color="grey.500" size="sm" />}
       </Flex>
       <Flex>
         <SettingsMenus />
         <Tooltip label="Toggle dark mode">
           <IconButton
             size="sm"
-            mx={4}
+            ml={4}
             onClick={() => toggleColorMode()}
             aria-label="toggle-dark-mode"
             isRound={true}
