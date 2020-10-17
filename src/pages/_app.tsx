@@ -13,7 +13,6 @@ import { MarqueeComponent } from "src/components/general/Marquee";
 import { Header } from "src/components/general/Header";
 import { NewsBlock } from "src/components/general/NewsBlock";
 import { Footer } from "src/components/general/Footer";
-import { CTA } from "src/components/general/CTA";
 import { Container } from "src/components/general/Container";
 import { UseWalletProvider } from "use-wallet";
 import { ModalContext } from "src/context/ModalContext";
@@ -88,7 +87,6 @@ function MyApp({ Component, pageProps }) {
                     <NewsBlock />
                     <Component {...pageProps} />
                     <Footer />
-                    <CTA />
                   </Container>
                 )}
               </Box>
