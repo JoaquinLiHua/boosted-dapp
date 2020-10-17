@@ -33,11 +33,10 @@ export const Header = ({ changingRoute }) => {
       copy: "Pools",
       link: "/pools",
     },
-
-    {
-      copy: "Stake",
-      link: "/stake",
-    },
+    // {
+    //   copy: "Stake",
+    //   link: "/stake",
+    // },
   ];
   return (
     <Flex
@@ -47,8 +46,9 @@ export const Header = ({ changingRoute }) => {
       alignItems="center"
       maxWidth="1200px"
       margin="auto"
+      flexDirection={["column", "column", "row"]}
     >
-      <Flex alignItems="center">
+      <Flex alignItems="center" my={[4, 4, 0]}>
         {ROUTES.map((route) => (
           <NextLink href={route.link}>
             <Link

@@ -9,6 +9,7 @@ import {
   Box,
   Link as URL,
   Heading,
+  Center,
 } from "@chakra-ui/core";
 import { usePoolContext } from "src/context/PoolContext";
 import { getDisplayBalance } from "src/utils/formatBalance";
@@ -191,11 +192,11 @@ export const OpenPoolTable: React.FC = () => {
           </TableBody>
         </Table>
       ) : (
-        <Box p={8} justifyContent="center">
-          <Heading textAlign="center" size="md">
-            There are currently no pools open
+        <Center p={8}>
+          <Heading my={8} textAlign="center" size="md">
+            There are currently no pools open.
           </Heading>
-        </Box>
+        </Center>
       )}
     </>
   );

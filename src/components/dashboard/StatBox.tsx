@@ -4,6 +4,7 @@ import {
   Stat,
   StatNumber,
   StatLabel,
+  Text,
   StatHelpText,
 } from "@chakra-ui/core";
 import CountUp from "react-countup";
@@ -12,12 +13,16 @@ interface StatBoxProps {
   title: string;
   tokenTicker: string;
   value: string;
+  isCurrency?: boolean;
+  helperText?: string;
 }
 
 export const StatBox: React.FC<StatBoxProps> = ({
   title,
   value,
   tokenTicker,
+  isCurrency = false,
+  helperText,
   ...rest
 }) => {
   const [start, updateStart] = useState(0);
@@ -30,18 +35,20 @@ export const StatBox: React.FC<StatBoxProps> = ({
   }, [value]);
 
   return (
-    <Box
-      p={5}
-      boxShadow="md"
-      borderWidth="1px"
-      {...rest}
-      minWidth={[200, 200, "100%"]}
-    >
+    <Box p={5} boxShadow="md" borderWidth="1px" {...rest} width="100%">
       <Stat>
-        <StatLabel fontSize={["xs", "xs", "s"]} mb={[4, 4, 2]}>
+        <StatLabel fontSize="sm" mb={2} fontWeight="bold">
           {title}
         </StatLabel>
-        <StatNumber fontSize={["xs", "xs", "lg"]}>
+        <StatNumber
+          fontSize={["xs", "xs", "lg"]}
+          color="blue.500"
+          fontWeight="300"
+          display="flex"
+          mb={2}
+        >
+          {isCurrency && <Text mr={2}>$</Text>}
+
           <CountUp
             start={start}
             end={end}
@@ -49,8 +56,9 @@ export const StatBox: React.FC<StatBoxProps> = ({
             duration={1}
             separator={","}
           />
+          <Text ml={2}>{tokenTicker}</Text>
         </StatNumber>
-        <StatHelpText>{tokenTicker}</StatHelpText>
+        <StatHelpText>{helperText}</StatHelpText>
       </Stat>
     </Box>
   );

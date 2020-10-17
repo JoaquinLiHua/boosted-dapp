@@ -1,15 +1,23 @@
 import React from "react";
-import { Text, Stack, Flex, Box } from "@chakra-ui/core";
+import { Text, Stack, Flex, Box, Image } from "@chakra-ui/core";
 
 export const Footer = (props) => (
   <Box as="footer" borderTopWidth={1} {...props} py={8}>
-    <Flex pb={8} maxWidth="1200px" margin="auto" justifyContent="space-between">
-      <Flex>
-        <Stack>
-          <Text>Logo</Text>
-        </Stack>
+    <Flex
+      pb={8}
+      maxWidth="1200px"
+      margin="auto"
+      justifyContent="space-between"
+      flexDirection={["column", "column", "row"]}
+    >
+      <Flex justifyContent={["center", "center", "flex-start"]} mb={4}>
+        <Image h={50} src="/images/boost-icon.png" />
       </Flex>
-      <Stack direction="row" spacing={16}>
+      <Stack
+        spacing={[4, 4, 16]}
+        direction={["column", "column", "row"]}
+        textAlign={["center", "center", "left"]}
+      >
         <Stack>
           <Text fontWeight="bold">Links</Text>
           <Text

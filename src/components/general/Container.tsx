@@ -11,6 +11,8 @@ export const Container = (props) => {
       margin="auto"
       minHeight="100vh"
       {...props}
+      my={[4]}
+      p={[4, 4, 0]}
     />
   );
 };
