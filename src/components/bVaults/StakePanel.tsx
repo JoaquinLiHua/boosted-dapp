@@ -1,3 +1,4 @@
+import React, { useCallback, useState } from "react";
 import {
   Box,
   Text,
@@ -10,55 +11,120 @@ import {
   NumberInputField,
   NumberInputStepper,
 } from "@chakra-ui/core";
-
 import BN from "bignumber.js";
-import React, { useState } from "react";
 import { IVault } from "src/constants/bVaults";
+import { useAllowance } from "src/hooks/useAllowance";
+import { useApprove } from "src/hooks/useApprove";
 import { useStakedAmount } from "src/hooks/useStakedAmount";
 import { useTokenBalance } from "src/hooks/useTokenBalance";
 import { getDisplayBalance } from "src/utils/formatBalance";
+import { useVaultRewardsStake } from "src/hooks/useVaultRewardsStake";
+import { useGetVaultRewardsAmount } from "src/hooks/useGetVaultRewardsAmount";
+import { useClaimVaultRewards } from "src/hooks/useClaimVaultRewards";
 
 interface StakePanelProps {
   vault: IVault;
 }
 
 export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
-  const [depositAmount, setDepositAmount] = useState<string>("");
-  const [withdrawAmount, setWithdrawAmount] = useState<string>("");
-  const [requestedDeposit, setRequestedDeposit] = useState<boolean>(false);
-  const [requestedWithdraw, setRequestedWithdraw] = useState<boolean>(false);
+  const [stakeAmount, setStakeAmount] = useState<string>("");
+  const [unstakeAmount, setUnstakeAmount] = useState<string>("");
+  const [requestedStake, setRequestedStake] = useState<boolean>(false);
+  const [requestedUnstake, setRequestedUnstake] = useState<boolean>(false);
+  const [requestedApproval, setRequestedApproval] = useState<boolean>(false);
   const [requestedClaim, setRequestedClaim] = useState<boolean>(false);
 
   const vaultTokenBalance: BN = useTokenBalance(vault.vaultRewardAddress);
   const stakedAmount: BN = useStakedAmount(vault.vaultRewardAddress);
-  const claimableRewards: BN = new BN(1 * 1e18);
 
-  const handleClaim = () => {
-    setRequestedClaim(true);
-  };
+  const claimableRewards = useGetVaultRewardsAmount(vault.vaultRewardAddress);
+  const { onClaim } = useClaimVaultRewards(vault.vaultRewardAddress);
 
-  const handleDeposit = () => {
-    setRequestedDeposit(true);
-  };
+  const handleClaim = useCallback(async () => {
+    try {
+      setRequestedClaim(true);
+      const txHash = await onClaim();
+      if (!txHash) {
+        throw "Transactions error";
+      } else {
+        setRequestedClaim(false);
+      }
+    } catch (e) {
+      console.log(e);
+      setRequestedClaim(false);
+    }
+  }, [onClaim, setRequestedClaim]);
 
-  const handleWithdraw = () => {
-    setRequestedWithdraw(true);
-  };
+  const { onVaultRewardsStake, onVaultRewardsUnstake } = useVaultRewardsStake(
+    vault.vaultAddress
+  );
+  const { onApprove } = useApprove(
+    vault.vaultAddress,
+    vault.vaultRewardAddress
+  );
+  const allowance: BN = useAllowance(
+    vault.vaultAddress,
+    vault.vaultRewardAddress
+  );
+
+  const handleApprove = useCallback(async () => {
+    try {
+      setRequestedApproval(true);
+      const txHash = await onApprove();
+      if (!txHash) {
+        throw "Transaction error";
+      } else {
+        setRequestedApproval(false);
+      }
+    } catch (e) {
+      console.log(e);
+      setRequestedApproval(false);
+    }
+  }, [onApprove, setRequestedApproval]);
+
+  const handleUnstake = useCallback(async () => {
+    try {
+      setRequestedUnstake(true);
+      const txHash = await onVaultRewardsUnstake(unstakeAmount);
+      if (!txHash) {
+        throw "Transaction error";
+      } else {
+        setRequestedUnstake(false);
+      }
+    } catch (e) {
+      console.log(e);
+      setRequestedUnstake(false);
+    }
+  }, [unstakeAmount, onVaultRewardsUnstake]);
+
+  const handleStake = useCallback(async () => {
+    try {
+      setRequestedStake(true);
+      const txHash = await onVaultRewardsStake(stakeAmount);
+      if (!txHash) {
+        throw "Transaction error";
+      } else {
+        setRequestedStake(false);
+      }
+    } catch (e) {
+      console.log(e);
+      setRequestedStake(false);
+    }
+  }, [stakeAmount, onVaultRewardsStake]);
 
   const handlePercentageDepositInputs = (percentage) => {
     const bnValue: BN = vaultTokenBalance.dividedBy(percentage);
     const stringValue = bnValue.toString();
-    setDepositAmount(stringValue);
+    setStakeAmount(stringValue);
   };
 
   const handlePercentageWithdrawInput = (percentage: number) => {
     const bnValue: BN = stakedAmount.dividedBy(percentage);
     const stringValue = bnValue.toString();
-    setWithdrawAmount(stringValue);
+    setUnstakeAmount(stringValue);
   };
-  const handleDepositAmountChange = (value: string) => setDepositAmount(value);
-  const handleWithdrawAmountChange = (value: string) =>
-    setWithdrawAmount(value);
+  const handleStakeAmountChange = (value: string) => setStakeAmount(value);
+  const handleUnstakeAmountChange = (value: string) => setUnstakeAmount(value);
 
   return (
     <Stack spacing={8}>
@@ -77,7 +143,7 @@ export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
           colorScheme="blue"
           width="100%"
           isLoading={requestedClaim}
-          disabled={requestedClaim}
+          disabled={!allowance.toNumber() || requestedClaim}
           onClick={() => handleClaim()}
         >
           Claim
@@ -85,7 +151,7 @@ export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
       </Stack>
       <Flex justifyContent="space-between">
         <Text fontWeight="bold">
-          {vault.vaultTokenTicker.toUpperCase()} available to deposit
+          {vault.vaultTokenTicker.toUpperCase()} available to stake
         </Text>
         <Text>
           {getDisplayBalance(vaultTokenBalance)}{" "}
@@ -93,7 +159,7 @@ export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
         </Text>
       </Flex>
       <Stack spacing={4}>
-        <NumberInput value={depositAmount} onChange={handleDepositAmountChange}>
+        <NumberInput value={stakeAmount} onChange={handleStakeAmountChange}>
           <NumberInputField />
           <NumberInputStepper>
             <NumberIncrementStepper />
@@ -130,19 +196,30 @@ export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
             100%
           </Button>
         </Flex>
-        <Button
-          colorScheme="blue"
-          width="100%"
-          isLoading={requestedDeposit}
-          disabled={requestedDeposit}
-          onClick={() => handleDeposit()}
-        >
-          Deposit
-        </Button>
+        {!allowance.toNumber() ? (
+          <Button
+            colorScheme="blue"
+            disabled={requestedApproval}
+            isLoading={requestedApproval}
+            onClick={() => handleApprove()}
+          >
+            Approve
+          </Button>
+        ) : (
+          <Button
+            colorScheme="blue"
+            width="100%"
+            isLoading={requestedStake}
+            disabled={requestedStake}
+            onClick={() => handleStake()}
+          >
+            Stake
+          </Button>
+        )}
       </Stack>
       <Flex justifyContent="space-between">
         <Text fontWeight="bold">
-          {vault.vaultTokenTicker.toUpperCase()} available to withdraw
+          {vault.vaultTokenTicker.toUpperCase()} available to unstake
         </Text>
         <Text>
           {getDisplayBalance(stakedAmount)}{" "}
@@ -150,10 +227,7 @@ export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
         </Text>
       </Flex>
       <Stack spacing={4}>
-        <NumberInput
-          value={withdrawAmount}
-          onChange={handleWithdrawAmountChange}
-        >
+        <NumberInput value={unstakeAmount} onChange={handleUnstakeAmountChange}>
           <NumberInputField />
           <NumberInputStepper>
             <NumberIncrementStepper />
@@ -193,11 +267,11 @@ export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
         <Button
           colorScheme="blue"
           width="100%"
-          isLoading={requestedWithdraw}
-          disabled={requestedWithdraw}
-          onClick={() => handleWithdraw()}
+          isLoading={requestedUnstake}
+          disabled={!allowance.toNumber() || requestedUnstake}
+          onClick={() => handleUnstake()}
         >
-          Withdraw
+          Unstake
         </Button>
       </Stack>
     </Stack>

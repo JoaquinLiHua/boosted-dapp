@@ -31,11 +31,11 @@ export const deposit = async (
   amount: string,
   account: string
 ) => {
-  const poolContract = getVaultContract(provider, vaultAddress);
+  const vaultContract = getVaultContract(provider, vaultAddress);
   const web3 = new Web3(provider);
   const tokens = web3.utils.toWei(amount.toString(), "ether");
   const bntokens = web3.utils.toBN(tokens);
-  return poolContract.methods
+  return vaultContract.methods
     .deposit(bntokens)
     .send({ from: account })
     .on("transactionHash", (tx) => {
@@ -50,15 +50,58 @@ export const withdraw = async (
   amount: string,
   account: string
 ) => {
-  const poolContract = getVaultContract(provider, vaultAddress);
+  const vaultContract = getVaultContract(provider, vaultAddress);
   const web3 = new Web3(provider);
   const tokens = web3.utils.toWei(amount.toString(), "ether");
   const bntokens = web3.utils.toBN(tokens);
-  return poolContract.methods
+  return vaultContract.methods
     .withdraw(bntokens)
     .send({ from: account })
     .on("transactionHash", (tx) => {
       console.log(tx);
       return tx.transactionHash;
     });
+};
+
+export const getRewardAmount = async (
+  provider: provider,
+  poolAddress: string,
+  account: string | null
+): Promise<string> => {
+  if (account && provider) {
+    try {
+      const vaultRewardsContract = getVaultRewardsContract(
+        provider,
+        poolAddress
+      );
+      const claimableRewards: string = await vaultRewardsContract.methods
+        .earned(account)
+        .call();
+      return claimableRewards;
+    } catch (e) {
+      console.log(e);
+      return "0";
+    }
+  } else {
+    return "0";
+  }
+};
+
+export const claim = async (
+  provider: provider,
+  poolAddress: string,
+  account: string | null
+) => {
+  try {
+    const vaultRewardsContract = getVaultRewardsContract(provider, poolAddress);
+    return vaultRewardsContract.methods
+      .getReward()
+      .send({ from: account })
+      .on("transactionHash", (tx) => {
+        console.log(tx);
+        return tx.transactionHash;
+      });
+  } catch (e) {
+    console.log(e);
+  }
 };
