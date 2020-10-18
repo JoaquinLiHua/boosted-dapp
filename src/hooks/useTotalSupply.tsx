@@ -4,16 +4,16 @@ import BN from "bignumber.js";
 import { useWallet } from "use-wallet";
 import { provider } from "web3-core";
 
-import { getTotalSupply } from "src/utils/boost";
+import { getTotalSupply } from "src/utils/erc20";
 
-export const useTotalSupply = () => {
+export const useTotalSupply = (tokenAddress: string) => {
   const [totalSupply, setTotalSupply] = useState(new BN(0));
   const { ethereum }: { ethereum: provider } = useWallet();
 
   const fetchTotalSupply = useCallback(async () => {
-    const totalSupply = new BN(await getTotalSupply(ethereum));
+    const totalSupply = new BN(await getTotalSupply(ethereum, tokenAddress));
     setTotalSupply(totalSupply);
-  }, [ethereum]);
+  }, [ethereum, tokenAddress]);
 
   useEffect(() => {
     if (ethereum) {

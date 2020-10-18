@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useWallet } from "use-wallet";
 import { provider } from "web3-core";
-import { getTokenBalance } from "src/utils/boost";
+import { getBalanceOf } from "src/utils/erc20";
 import BigNumber from "bignumber.js";
 
 /**
@@ -18,7 +18,7 @@ export const useTokenBalance = (tokenAddress: string) => {
   const fetchBalance = useCallback(async () => {
     if (account) {
       const balance: BigNumber = new BigNumber(
-        await getTokenBalance(ethereum, tokenAddress, account)
+        await getBalanceOf(ethereum, tokenAddress, account)
       );
       setBalance(balance);
     }

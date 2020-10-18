@@ -1,36 +1,18 @@
 import Web3 from "web3";
 import { provider } from "web3-core";
 import { AbiItem } from "web3-utils";
-import ERC20ABI from "../constants/abi/ERC20.json";
-import POOLABI from "../constants/abi/BoostPools.json";
-import POOLV2ABI from "../constants/abi/BoostPoolV2.json";
-import {
-  wethToken,
-  uniswapLPToken,
-  yCRVToken,
-} from "src/constants/tokenAddresses";
-import { ethers } from "ethers";
+import BoostPoolsV1 from "../constants/abi/BoostPoolsV1.json";
+import BoostPoolsV2 from "../constants/abi/BoostPoolsV2.json";
+import { wethToken, uniswapLPToken } from "src/constants/tokenAddresses";
 import { uniswapPool, uniswapPoolV2 } from "src/constants/pools";
-import {
-  treasuryV2Contract,
-  governanceContract,
-  boostToken,
-} from "src/constants/bfAddresses";
+import { boostToken } from "src/constants/bfAddresses";
 import BN from "bignumber.js";
-
-export const getERC20Contract = (provider: provider, address: string) => {
-  const web3 = new Web3(provider);
-  const contract = new web3.eth.Contract(
-    (ERC20ABI.abi as unknown) as AbiItem,
-    address
-  );
-  return contract;
-};
+import { getERC20Contract } from "./erc20";
 
 export const getPoolContract = (provider: provider, address: string) => {
   const web3 = new Web3(provider);
   const contract = new web3.eth.Contract(
-    (POOLABI as unknown) as AbiItem,
+    (BoostPoolsV1 as unknown) as AbiItem,
     address
   );
   return contract;
@@ -39,100 +21,10 @@ export const getPoolContract = (provider: provider, address: string) => {
 export const getPoolV2Contract = (provider: provider, address: string) => {
   const web3 = new Web3(provider);
   const contract = new web3.eth.Contract(
-    (POOLV2ABI as unknown) as AbiItem,
+    (BoostPoolsV2 as unknown) as AbiItem,
     address
   );
   return contract;
-};
-
-export const getAllowance = async (
-  provider: provider,
-  tokenAddress: string,
-  poolAddress: string,
-  account: string
-): Promise<string> => {
-  try {
-    const tokenContract = getERC20Contract(provider, tokenAddress);
-    const allowance: string = await tokenContract.methods
-      .allowance(account, poolAddress)
-      .call();
-    return allowance;
-  } catch (e) {
-    return "0";
-  }
-};
-
-export const getTokenBalance = async (
-  provider: provider,
-  tokenAddress: string,
-  userAddress: string
-): Promise<string> => {
-  try {
-    const tokenContract = getERC20Contract(provider, tokenAddress);
-    const balance: string = await tokenContract.methods
-      .balanceOf(userAddress)
-      .call();
-    return balance;
-  } catch (e) {
-    return "0";
-  }
-};
-
-export const getTotalSupply = async (provider: provider): Promise<string> => {
-  const tokenContract = getERC20Contract(provider, boostToken);
-  try {
-    const totalSupply: string = await tokenContract.methods
-      .totalSupply()
-      .call();
-    return totalSupply;
-  } catch (e) {
-    return "0";
-  }
-};
-
-export const approve = async (
-  provider: provider,
-  tokenAddress: string,
-  poolAddress: string,
-  account: string | null
-) => {
-  const tokenContract = getERC20Contract(provider, tokenAddress);
-  const maxApprovalAmount = ethers.constants.MaxUint256.toString();
-  try {
-    return tokenContract.methods
-      .approve(poolAddress, maxApprovalAmount)
-      .send({ from: account, gas: 80000 });
-  } catch (e) {
-    console.log(e);
-  }
-};
-
-export const getTreasuryBalance = async (
-  provider: provider
-): Promise<string> => {
-  const tokenContract = getERC20Contract(provider, yCRVToken);
-  try {
-    const balance = await tokenContract.methods
-      .balanceOf(governanceContract)
-      .call();
-    return balance;
-  } catch (e) {
-    return "0";
-  }
-};
-
-export const getTreasuryV2Balance = async (
-  provider: provider
-): Promise<string> => {
-  const tokenContract = getERC20Contract(provider, yCRVToken);
-  try {
-    const balance = await tokenContract.methods
-      .balanceOf(treasuryV2Contract)
-      .call();
-    return balance;
-  } catch (e) {
-    return "0";
-  }
 };
 
 interface PoolStats {

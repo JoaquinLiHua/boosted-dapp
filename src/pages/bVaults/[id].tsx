@@ -46,10 +46,10 @@ const Vault: React.FC = () => {
         </Box>
         <Tabs>
           <TabList>
-            <Tab>Convert</Tab>
+            <Tab>Deposit</Tab>
             <Tab>Stake</Tab>
-            <Tab>Boost</Tab>
-            <Tab>Harvest</Tab>
+            {/* <Tab>Boost</Tab>
+            <Tab>Harvest</Tab> */}
           </TabList>
           <TabPanels>
             <TabPanel>
@@ -58,12 +58,12 @@ const Vault: React.FC = () => {
             <TabPanel>
               <StakePanel vault={currentVault} />
             </TabPanel>
-            <TabPanel>
+            {/* <TabPanel>
               <BoostPanel vault={currentVault} />
             </TabPanel>
             <TabPanel>
               <HarvestPanel vault={currentVault} />
-            </TabPanel>
+            </TabPanel> */}
           </TabPanels>
         </Tabs>
       </Stack>

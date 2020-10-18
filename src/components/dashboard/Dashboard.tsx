@@ -15,7 +15,9 @@ export const Dashboard: React.FC = () => {
   const totalRewardsAvailable: string = getDisplayBalance(
     useGetTotalRewardAmount()
   );
-  const boostTotalSupply: string = getDisplayBalance(useTotalSupply());
+  const boostTotalSupply: string = getDisplayBalance(
+    useTotalSupply(boostToken)
+  );
   const treasuryBalance: string = getDisplayBalance(useTreasuryBalance());
   const totalValueLocked: string = useTotalValueLocked();
   const boostPrice: string = useBoostPrice();

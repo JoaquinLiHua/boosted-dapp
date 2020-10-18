@@ -63,7 +63,7 @@ export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
   return (
     <Stack spacing={8}>
       <Box mt={4} fontWeight="bold" fontSize="lg" textTransform="uppercase">
-        Stake {vault.vaultTokenTicker} in vault to receive rewards
+        Stake {vault.vaultTokenTicker} in vault to receive rewards.
       </Box>
       <Flex justifyContent="space-between">
         <Text fontWeight="bold">Rewards available to claim</Text>

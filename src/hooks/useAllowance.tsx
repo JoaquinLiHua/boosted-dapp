@@ -4,9 +4,12 @@ import BN from "bignumber.js";
 import { useWallet } from "use-wallet";
 import { provider } from "web3-core";
 
-import { getAllowance } from "../utils/boost";
+import { getAllowance } from "../utils/erc20";
 
-export const useAllowance = (tokenContract: string, poolAddress: string) => {
+export const useAllowance = (
+  tokenContract: string,
+  contractToCheck: string
+) => {
   const [allowance, setAllowance] = useState(new BN("0"));
   const {
     account,
@@ -14,10 +17,10 @@ export const useAllowance = (tokenContract: string, poolAddress: string) => {
   }: { account: any; ethereum: provider } = useWallet();
   const fetchAllowance = useCallback(async () => {
     const allowance = new BN(
-      await getAllowance(ethereum, tokenContract, poolAddress, account)
+      await getAllowance(ethereum, tokenContract, contractToCheck, account)
     );
     setAllowance(allowance);
-  }, [account, poolAddress, tokenContract, ethereum]);
+  }, [account, contractToCheck, tokenContract, ethereum]);
 
   useEffect(() => {
     if (account) {

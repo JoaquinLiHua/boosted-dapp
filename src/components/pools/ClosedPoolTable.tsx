@@ -14,7 +14,7 @@ import { usePoolContext } from "src/context/PoolContext";
 import { getDisplayBalance } from "src/utils/formatBalance";
 import { useWallet } from "use-wallet";
 import { useExit } from "src/hooks/useExit";
-import { stakedAmount } from "src/utils/boost";
+import { stakedAmount } from "src/utils/pool";
 import BN from "bignumber.js";
 import { provider } from "web3-core";
 

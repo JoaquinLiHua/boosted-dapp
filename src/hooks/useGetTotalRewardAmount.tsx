@@ -1,7 +1,7 @@
 import { useCallback, useState, useEffect } from "react";
 import { useWallet } from "use-wallet";
 import { provider } from "web3-core";
-import { rewardAmount } from "../utils/boost";
+import { rewardAmount } from "../utils/pool";
 import BN from "bignumber.js";
 import { ALL_POOLS } from "src/constants/pools";
 

@@ -2,7 +2,7 @@ import { useCallback, useState, useEffect } from "react";
 
 import { useWallet } from "use-wallet";
 import { provider } from "web3-core";
-import { boostCount } from "../utils/boost";
+import { boostCount } from "../utils/pool";
 import BN from "bignumber.js";
 
 export const useGetBoosterBalance = (poolAddress: string) => {

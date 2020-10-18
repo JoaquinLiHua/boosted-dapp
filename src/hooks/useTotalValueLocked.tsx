@@ -6,7 +6,7 @@ import {
   getBalancerPoolPriceInUSD,
   getBoostPoolPriceInUSD,
   getPoolValueInUSD,
-} from "src/utils/boost";
+} from "src/utils/pool";
 import { ALL_POOLS } from "src/constants/pools";
 
 export const useTotalValueLocked = () => {

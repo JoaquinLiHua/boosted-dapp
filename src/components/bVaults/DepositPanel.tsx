@@ -11,8 +11,11 @@ import {
   NumberInputStepper,
 } from "@chakra-ui/core";
 import BN from "bignumber.js";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { IVault } from "src/constants/bVaults";
+import { useAllowance } from "src/hooks/useAllowance";
+import { useApprove } from "src/hooks/useApprove";
+import { useVaultDeposit } from "src/hooks/useDeposit";
 import { useStakedAmount } from "src/hooks/useStakedAmount";
 import { useTokenBalance } from "src/hooks/useTokenBalance";
 import { getDisplayBalance } from "src/utils/formatBalance";
@@ -26,18 +29,65 @@ export const DepositPanel: React.FC<DepositPanelProps> = ({ vault }) => {
   const [withdrawAmount, setWithdrawAmount] = useState<string>("");
   const [requestedDeposit, setRequestedDeposit] = useState<boolean>(false);
   const [requestedWithdraw, setRequestedWithdraw] = useState<boolean>(false);
+  const [requestedApproval, setRequestedApproval] = useState<boolean>(false);
 
   const wantTokenBalance: BN = useTokenBalance(vault.wantTokenTicker);
   const vaultTokenBalance: BN = useTokenBalance(vault.vaultAddress);
   const stakedAmount: BN = useStakedAmount(vault.vaultAddress);
 
-  const handleDeposit = () => {
-    setRequestedDeposit(true);
-  };
+  const { onVaultDeposit, onVaultWithdraw } = useVaultDeposit(
+    vault.vaultAddress
+  );
+  const { onApprove } = useApprove(vault.wantTokenAddress, vault.vaultAddress);
+  const allowance: BN = useAllowance(
+    vault.wantTokenAddress,
+    vault.vaultAddress
+  );
 
-  const handleWithdraw = () => {
-    setRequestedWithdraw(true);
-  };
+  const handleApprove = useCallback(async () => {
+    try {
+      setRequestedApproval(true);
+      const txHash = await onApprove();
+      if (!txHash) {
+        throw "Transaction error";
+      } else {
+        setRequestedApproval(false);
+      }
+    } catch (e) {
+      console.log(e);
+      setRequestedApproval(false);
+    }
+  }, [onApprove, setRequestedApproval]);
+
+  const handleDeposit = useCallback(async () => {
+    try {
+      setRequestedDeposit(true);
+      const txHash = await onVaultDeposit(depositAmount);
+      if (!txHash) {
+        throw "Transaction error";
+      } else {
+        setRequestedDeposit(false);
+      }
+    } catch (e) {
+      console.log(e);
+      setRequestedDeposit(false);
+    }
+  }, [depositAmount, onVaultDeposit]);
+
+  const handleWithdraw = useCallback(async () => {
+    try {
+      setRequestedWithdraw(true);
+      const txHash = await onVaultWithdraw(depositAmount);
+      if (!txHash) {
+        throw "Transaction error";
+      } else {
+        setRequestedWithdraw(false);
+      }
+    } catch (e) {
+      console.log(e);
+      setRequestedWithdraw(false);
+    }
+  }, [depositAmount, onVaultWithdraw]);
 
   const handlePercentageDepositInputs = (percentage) => {
     const bnValue: BN = wantTokenBalance.dividedBy(percentage);
@@ -115,15 +165,26 @@ export const DepositPanel: React.FC<DepositPanelProps> = ({ vault }) => {
             100%
           </Button>
         </Flex>
-        <Button
-          colorScheme="blue"
-          width="100%"
-          isLoading={requestedDeposit}
-          disabled={requestedDeposit}
-          onClick={() => handleDeposit()}
-        >
-          Deposit
-        </Button>
+        {!allowance.toNumber() ? (
+          <Button
+            colorScheme="blue"
+            disabled={requestedApproval}
+            isLoading={requestedApproval}
+            onClick={() => handleApprove()}
+          >
+            Approve
+          </Button>
+        ) : (
+          <Button
+            colorScheme="blue"
+            width="100%"
+            isLoading={requestedDeposit}
+            disabled={requestedDeposit}
+            onClick={() => handleDeposit()}
+          >
+            Deposit
+          </Button>
+        )}
       </Stack>
       <Flex justifyContent="space-between">
         <Text fontWeight="bold">
@@ -179,7 +240,7 @@ export const DepositPanel: React.FC<DepositPanelProps> = ({ vault }) => {
           colorScheme="blue"
           width="100%"
           isLoading={requestedWithdraw}
-          disabled={requestedWithdraw}
+          disabled={!allowance.toNumber() || requestedWithdraw}
           onClick={() => handleWithdraw()}
         >
           Withdraw

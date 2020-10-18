@@ -13,7 +13,7 @@ import {
   getBoostPoolV2PriceInUSD,
   getBalancerAPY,
   getBalancerPoolPriceInUSD,
-} from "src/utils/boost";
+} from "src/utils/pool";
 import { provider } from "web3-core";
 import { usePriceFeedContext } from "./PriceFeedContext";
 import { ALL_POOLS, IPool } from "src/constants/pools";
