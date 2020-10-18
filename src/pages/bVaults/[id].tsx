@@ -39,8 +39,8 @@ const Vault: React.FC = () => {
           fontSize="xs"
           textTransform="uppercase"
         >
-          {currentVault.underlyingTokenTicker} &bull;{" "}
-          {currentVault.strategyName}
+          {currentVault.wantTokenTicker} &bull; {currentVault.vaultTokenTicker}
+          &bull; {currentVault.strategyName}
         </Box>
         <Tabs>
           <TabList>

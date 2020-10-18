@@ -199,17 +199,13 @@ export const ClosedPoolTable: React.FC = () => {
                     </Text>
                   </TableCell>
                   <TableCell textAlign="right">
-                    {!!account && (
-                      <Button
-                        onClick={() => handleExit(e.address)}
-                        size="sm"
-                        fontSize="sm"
-                        fontWeight="medium"
-                        colorScheme="red"
-                      >
-                        Exit All & Claim
-                      </Button>
-                    )}
+                    <Button
+                      onClick={() => handleExit(e.address)}
+                      size="sm"
+                      colorScheme="red"
+                    >
+                      Exit & Claim
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}

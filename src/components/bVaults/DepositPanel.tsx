@@ -54,12 +54,9 @@ export const DepositPanel: React.FC<DepositPanelProps> = ({ vault }) => {
       </Box>
 
       <Flex justifyContent="space-between">
-        <Text fontWeight="bold">
-          Your
-          {vault.vaultTokenTicker} balance
-        </Text>
+        <Text fontWeight="bold">Your {vault.vaultTokenTicker} balance</Text>
         <Text>
-          {getDisplayBalance(wantTokenBalance)}{" "}
+          {getDisplayBalance(vaultTokenBalance)}{" "}
           {vault.vaultTokenTicker.toUpperCase()}
         </Text>
       </Flex>
@@ -125,8 +122,8 @@ export const DepositPanel: React.FC<DepositPanelProps> = ({ vault }) => {
           {vault.wantTokenTicker.toUpperCase()} available to withdraw
         </Text>
         <Text>
-          {/* {getDisplayBalance(wantTokenBalance)} {pool.tokenTicker.toUpperCase()} */}
-          0
+          {getDisplayBalance(stakedAmount)}{" "}
+          {vault.wantTokenTicker.toUpperCase()}
         </Text>
       </Flex>
       <Stack spacing={4}>
@@ -141,28 +138,28 @@ export const DepositPanel: React.FC<DepositPanelProps> = ({ vault }) => {
           <Button
             w="25%"
             mr={1}
-            onClick={() => handlePercentageDepositInputs(0.25)}
+            onClick={() => handlePercentageWithdrawInput(0.25)}
           >
             25%
           </Button>
           <Button
             w="25%"
             mx={1}
-            onClick={() => handlePercentageDepositInputs(0.5)}
+            onClick={() => handlePercentageWithdrawInput(0.5)}
           >
             50%
           </Button>
           <Button
             w="25%"
             mx={1}
-            onClick={() => handlePercentageDepositInputs(0.75)}
+            onClick={() => handlePercentageWithdrawInput(0.75)}
           >
             75%
           </Button>
           <Button
             w="25%"
             ml={1}
-            onClick={() => handlePercentageDepositInputs(1)}
+            onClick={() => handlePercentageWithdrawInput(1)}
           >
             100%
           </Button>

@@ -1,3 +1,4 @@
+import BN from "bignumber.js";
 import {
   yfiToken,
   sushiToken,
@@ -44,9 +45,27 @@ export const creamBoostPool = "0x32C21af450d9905151e9cE28a430d4FDAb11b261";
 export const sushiBoostPool = "0xDf1731418e1f8bF2FE336732355d35917aFD9267";
 export const uniBoostPool = "0xfb4468f90991a7b4e9af7ef33e5603d8ea99f2ad";
 
+export interface IPool {
+  name: string;
+  icon: string;
+  code: string;
+  order: number;
+  address: string;
+  tokenContract: string;
+  poolSize: BN | null;
+  poolPriceInUSD: number | null;
+  periodFinish: BN | null;
+  boosterPrice: BN | null;
+  tokenTicker: string;
+  apy: number | null;
+  open: boolean;
+  underlyingToken?: string;
+  url?: string;
+}
+
 export const ALL_POOLS = [
   {
-    name: "BOOST-ETH (Uniswap BOOST-ETH)",
+    name: "OG V1 (ETH-BOOST V1)",
     code: "boost_pool",
     order: 0,
     icon: "/images/boost-icon.png",
@@ -167,6 +186,7 @@ export const ALL_POOLS = [
     underlyingToken: uniToken,
     url:
       "https://pools.balancer.exchange/#/pool/0x004e74ff81239c8f2ec0e2815defb970f3754d86",
+    claimable: true,
   },
   {
     name: "Wifey (YFI-BOOST)",
@@ -180,6 +200,7 @@ export const ALL_POOLS = [
     underlyingToken: yfiToken,
     url:
       "https://pools.balancer.exchange/#/pool/0xd3a38eaeae085b04d4da3614c870c3b985067c40",
+    claimable: true,
   },
   {
     name: "Creampie (CREAM-BOOST)",
@@ -193,6 +214,7 @@ export const ALL_POOLS = [
     underlyingToken: creamToken,
     url:
       "https://pools.balancer.exchange/#/pool/0xafd541e91b5bf792ae36f7ea1213c878e6feb1d3",
+    claimable: true,
   },
   {
     name: "Sushi (SUSHI-BOOST)",
@@ -206,6 +228,7 @@ export const ALL_POOLS = [
     underlyingToken: sushiToken,
     url:
       "https://pools.balancer.exchange/#/pool/0x53b0a526e67aec8f151297f8b6b20d0d8a7b9129",
+    claimable: true,
   },
   {
     name: "Stability (USDC-BOOST)",
@@ -219,9 +242,10 @@ export const ALL_POOLS = [
     underlyingToken: usdcToken,
     url:
       "https://pools.balancer.exchange/#/pool/0xc0f0ab9767ec5117cc640127255fad744ddc55b0",
+    claimable: true,
   },
   {
-    name: "OG (ETH-BOOST V2)",
+    name: "OG V2 (ETH-BOOST V2)",
     code: "eth_boost_v2_pool",
     order: 14,
     icon: "/images/boost-icon.png",
@@ -232,5 +256,6 @@ export const ALL_POOLS = [
     underlyingToken: wethToken,
     url:
       "https://app.uniswap.org/#/add/ETH/0x3e780920601D61cEdb860fe9c4a90c9EA6A35E78",
+    claimable: true,
   },
 ];

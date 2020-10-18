@@ -16,25 +16,7 @@ import {
 } from "src/utils/boost";
 import { provider } from "web3-core";
 import { usePriceFeedContext } from "./PriceFeedContext";
-import { ALL_POOLS } from "src/constants/pools";
-
-export interface IPool {
-  name: string;
-  icon: string;
-  code: string;
-  order: number;
-  address: string;
-  tokenContract: string;
-  poolSize: BN | null;
-  poolPriceInUSD: number | null;
-  periodFinish: BN | null;
-  boosterPrice: BN | null;
-  tokenTicker: string;
-  apy: number | null;
-  open: boolean;
-  underlyingToken?: string;
-  url?: string;
-}
+import { ALL_POOLS, IPool } from "src/constants/pools";
 
 interface IPoolContext {
   closedPools: IPool[];
@@ -74,6 +56,7 @@ export const PoolProvider: React.FC = ({ children }) => {
         boosterPrice: null,
         apy: null,
         open: pool.open,
+        claimable: pool.claimable,
       };
     });
 
