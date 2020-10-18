@@ -54,7 +54,7 @@ export const VaultCard: React.FC<VaultCardProps> = ({ vault }) => {
         </Flex>
 
         <Box mt={4}>
-          <Link href={`/bVaults/${vault.id}`}>
+          <Link href="/bVaults/[id]" as={`/bVaults/${vault.id}`}>
             <Button colorScheme="blue" size="sm" my={2} w="100%">
               Enter
             </Button>

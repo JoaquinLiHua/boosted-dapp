@@ -15,27 +15,29 @@ import BN from "bignumber.js";
 import { IVault } from "src/constants/bVaults";
 import { useAllowance } from "src/hooks/useAllowance";
 import { useApprove } from "src/hooks/useApprove";
-import { useStakedAmount } from "src/hooks/useStakedAmount";
 import { useTokenBalance } from "src/hooks/useTokenBalance";
 import { getDisplayBalance } from "src/utils/formatBalance";
 import { useVaultRewardsStake } from "src/hooks/useVaultRewardsStake";
 import { useGetVaultRewardsAmount } from "src/hooks/useGetVaultRewardsAmount";
 import { useClaimVaultRewards } from "src/hooks/useClaimVaultRewards";
+import { useGetVaultRewardsStakedAmount } from "src/hooks/useGetVaultRewardsStakedAmount";
 
 interface StakePanelProps {
   vault: IVault;
 }
 
 export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
-  const [stakeAmount, setStakeAmount] = useState<BN>(new BN("0"));
-  const [unstakeAmount, setUnstakeAmount] = useState<BN>(new BN("0"));
+  const [stakeAmount, setStakeAmount] = useState<string>("0");
+  const [unstakeAmount, setUnstakeAmount] = useState<string>("0");
   const [requestedStake, setRequestedStake] = useState<boolean>(false);
   const [requestedUnstake, setRequestedUnstake] = useState<boolean>(false);
   const [requestedApproval, setRequestedApproval] = useState<boolean>(false);
   const [requestedClaim, setRequestedClaim] = useState<boolean>(false);
 
-  const vaultTokenBalance: BN = useTokenBalance(vault.vaultRewardAddress);
-  const stakedAmount: BN = useStakedAmount(vault.vaultRewardAddress);
+  const vaultTokenBalance: BN = useTokenBalance(vault.vaultAddress);
+  const stakedAmount: BN = useGetVaultRewardsStakedAmount(
+    vault.vaultRewardAddress
+  );
 
   const claimableRewards = useGetVaultRewardsAmount(vault.vaultRewardAddress);
   const { onClaim } = useClaimVaultRewards(vault.vaultRewardAddress);
@@ -113,19 +115,23 @@ export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
   }, [stakeAmount, onVaultRewardsStake]);
 
   const handlePercentageStakeInputs = (percentage) => {
-    const bnValue: BN = vaultTokenBalance.dividedBy(percentage);
-    setStakeAmount(bnValue);
+    const numberBalance = vaultTokenBalance.dividedBy(
+      new BN(10).pow(new BN(vault.decimals))
+    );
+    const stringValue = (percentage * numberBalance.toNumber()).toString();
+    setStakeAmount(stringValue);
   };
 
   const handlePercentageUnstakeInputs = (percentage: number) => {
-    const bnValue: BN = stakedAmount.dividedBy(percentage);
-    setUnstakeAmount(bnValue);
+    const numberBalance = stakedAmount.dividedBy(
+      new BN(10).pow(new BN(vault.decimals))
+    );
+    const stringValue = (percentage * numberBalance.toNumber()).toString();
+    setUnstakeAmount(stringValue);
   };
 
-  const handleStakeAmountChange = (value: string) =>
-    setStakeAmount(new BN(value));
-  const handleUnstakeAmountChange = (value: string) =>
-    setUnstakeAmount(new BN(value));
+  const handleStakeChange = (value: string) => setStakeAmount(value);
+  const handleUnstakeChange = (value: string) => setUnstakeAmount(value);
 
   return (
     <Stack spacing={8}>
@@ -155,15 +161,12 @@ export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
           {vault.vaultTokenTicker.toUpperCase()} available to stake
         </Text>
         <Text>
-          {getDisplayBalance(vaultTokenBalance)}{" "}
+          {getDisplayBalance(vaultTokenBalance, vault.decimals)}{" "}
           {vault.vaultTokenTicker.toUpperCase()}
         </Text>
       </Flex>
       <Stack spacing={4}>
-        <NumberInput
-          value={stakeAmount.toString()}
-          onChange={handleStakeAmountChange}
-        >
+        <NumberInput value={stakeAmount} onChange={handleStakeChange}>
           <NumberInputField />
           <NumberInputStepper>
             <NumberIncrementStepper />
@@ -222,15 +225,12 @@ export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
           {vault.vaultTokenTicker.toUpperCase()} available to unstake
         </Text>
         <Text>
-          {getDisplayBalance(stakedAmount)}{" "}
+          {getDisplayBalance(stakedAmount, vault.decimals)}{" "}
           {vault.vaultTokenTicker.toUpperCase()}
         </Text>
       </Flex>
       <Stack spacing={4}>
-        <NumberInput
-          value={unstakeAmount.toString()}
-          onChange={handleUnstakeAmountChange}
-        >
+        <NumberInput value={unstakeAmount} onChange={handleUnstakeChange}>
           <NumberInputField />
           <NumberInputStepper>
             <NumberIncrementStepper />

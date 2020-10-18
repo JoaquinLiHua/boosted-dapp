@@ -1,4 +1,3 @@
-import BN from "bignumber.js";
 import Web3 from "web3";
 import { provider } from "web3-core";
 import { AbiItem } from "web3-utils";
@@ -29,12 +28,15 @@ export const getVaultRewardsContract = (
 export const deposit = async (
   provider: provider,
   vaultAddress: string,
-  amount: BN,
+  amount: string,
   account: string
 ) => {
   const vaultContract = getVaultContract(provider, vaultAddress);
+  const web3 = new Web3(provider);
+  const tokens = web3.utils.toWei(amount.toString(), "ether");
+  const bntokens = web3.utils.toBN(tokens);
   return vaultContract.methods
-    .deposit(amount)
+    .deposit(bntokens)
     .send({ from: account })
     .on("transactionHash", (tx) => {
       console.log(tx);
@@ -45,12 +47,15 @@ export const deposit = async (
 export const withdraw = async (
   provider: provider,
   vaultAddress: string,
-  amount: BN,
+  amount: string,
   account: string
 ) => {
   const vaultContract = getVaultContract(provider, vaultAddress);
+  const web3 = new Web3(provider);
+  const tokens = web3.utils.toWei(amount.toString(), "ether");
+  const bntokens = web3.utils.toBN(tokens);
   return vaultContract.methods
-    .withdraw(amount)
+    .withdraw(bntokens)
     .send({ from: account })
     .on("transactionHash", (tx) => {
       console.log(tx);
@@ -107,15 +112,18 @@ export const claim = async (
 export const stake = async (
   provider: provider,
   vaultRewardsAddress: string,
-  amount: BN,
+  amount: string,
   account: string
 ) => {
   const vaultRewardsContract = getVaultRewardsContract(
     provider,
     vaultRewardsAddress
   );
+  const web3 = new Web3(provider);
+  const tokens = web3.utils.toWei(amount.toString(), "ether");
+  const bntokens = web3.utils.toBN(tokens);
   return vaultRewardsContract.methods
-    .stake(amount)
+    .stake(bntokens)
     .send({ from: account })
     .on("transactionHash", (tx) => {
       console.log(tx);
@@ -126,7 +134,7 @@ export const stake = async (
 export const unstake = async (
   provider: provider,
   vaultRewardsAddress: string,
-  amount: BN,
+  amount: string,
   account: string
 ) => {
   try {
@@ -134,8 +142,11 @@ export const unstake = async (
       provider,
       vaultRewardsAddress
     );
+    const web3 = new Web3(provider);
+    const tokens = web3.utils.toWei(amount.toString(), "ether");
+    const bntokens = web3.utils.toBN(tokens);
     return vaultRewardsContract.methods
-      .withdraw(amount)
+      .withdraw(bntokens)
       .send({ from: account })
       .on("transactionHash", (tx) => {
         console.log(tx);
@@ -143,5 +154,29 @@ export const unstake = async (
       });
   } catch (e) {
     console.log(e);
+  }
+};
+
+export const getStakedAmount = async (
+  provider: provider,
+  stakedAddress: string,
+  account: string | null
+): Promise<string> => {
+  if (account) {
+    try {
+      const vaultRewardsAddress = getVaultRewardsContract(
+        provider,
+        stakedAddress
+      );
+      const stakedAmount = await vaultRewardsAddress.methods
+        .balanceOf(account)
+        .call();
+      return stakedAmount;
+    } catch (e) {
+      console.log(e);
+      return "0";
+    }
+  } else {
+    return "0";
   }
 };

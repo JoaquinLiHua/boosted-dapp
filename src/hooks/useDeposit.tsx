@@ -11,7 +11,7 @@ export const useVaultDeposit = (vaultAddress: string) => {
   }: { account: string | null; ethereum: provider } = useWallet();
 
   const handleDeposit = useCallback(
-    async (amount: BN) => {
+    async (amount: string) => {
       if (account) {
         const txHash = await deposit(ethereum, vaultAddress, amount, account);
         return txHash;
@@ -21,7 +21,7 @@ export const useVaultDeposit = (vaultAddress: string) => {
   );
 
   const handleWithdraw = useCallback(
-    async (amount: BN) => {
+    async (amount: string) => {
       if (account) {
         const txHash = await withdraw(ethereum, vaultAddress, amount, account);
         return txHash;

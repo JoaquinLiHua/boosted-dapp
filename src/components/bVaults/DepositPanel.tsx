@@ -16,7 +16,7 @@ import { IVault } from "src/constants/bVaults";
 import { useAllowance } from "src/hooks/useAllowance";
 import { useApprove } from "src/hooks/useApprove";
 import { useVaultDeposit } from "src/hooks/useDeposit";
-import { useStakedAmount } from "src/hooks/useStakedAmount";
+import { useGetVaultRewardsStakedAmount } from "src/hooks/useGetVaultRewardsStakedAmount";
 import { useTokenBalance } from "src/hooks/useTokenBalance";
 import { getDisplayBalance } from "src/utils/formatBalance";
 
@@ -25,16 +25,15 @@ interface DepositPanelProps {
 }
 
 export const DepositPanel: React.FC<DepositPanelProps> = ({ vault }) => {
-  const [depositAmount, setDepositAmount] = useState<BN>(new BN("0"));
-  const [withdrawAmount, setWithdrawAmount] = useState<BN>(new BN("0"));
+  const [depositAmount, setDepositAmount] = useState<string>("");
+  const [withdrawAmount, setWithdrawAmount] = useState<string>("");
   const [requestedDeposit, setRequestedDeposit] = useState<boolean>(false);
   const [requestedWithdraw, setRequestedWithdraw] = useState<boolean>(false);
   const [requestedApproval, setRequestedApproval] = useState<boolean>(false);
 
-  const wantTokenBalance: BN = useTokenBalance(vault.wantTokenTicker);
+  const wantTokenBalance: BN = useTokenBalance(vault.wantTokenAddress);
   const vaultTokenBalance: BN = useTokenBalance(vault.vaultAddress);
-  const stakedAmount: BN = useStakedAmount(vault.vaultAddress);
-
+  const stakedAmount: BN = useGetVaultRewardsStakedAmount(vault.vaultAddress);
   const { onVaultDeposit, onVaultWithdraw } = useVaultDeposit(
     vault.vaultAddress
   );
@@ -90,18 +89,24 @@ export const DepositPanel: React.FC<DepositPanelProps> = ({ vault }) => {
   }, [depositAmount, onVaultWithdraw]);
 
   const handlePercentageDepositInputs = (percentage) => {
-    const bnValue: BN = wantTokenBalance.dividedBy(percentage);
-    setDepositAmount(bnValue);
+    const numberBalance = wantTokenBalance
+      .dividedBy(Math.pow(10, vault.decimals))
+      .multipliedBy(percentage);
+    const stringValue = numberBalance.toString();
+    setDepositAmount(stringValue);
   };
 
   const handlePercentageWithdrawInput = (percentage: number) => {
-    const bnValue: BN = stakedAmount.dividedBy(percentage);
-    setWithdrawAmount(bnValue);
+    const numberBalance = stakedAmount
+      .dividedBy(Math.pow(10, vault.decimals))
+      .multipliedBy(percentage);
+    const stringValue = numberBalance.toString();
+    setWithdrawAmount(stringValue);
   };
-  const handleDepositAmountChange = (value: string) =>
-    setDepositAmount(new BN(value));
+
+  const handleDepositAmountChange = (value: string) => setDepositAmount(value);
   const handleWithdrawAmountChange = (value: string) =>
-    setWithdrawAmount(new BN(value));
+    setWithdrawAmount(value);
 
   return (
     <Stack spacing={8}>
@@ -113,7 +118,7 @@ export const DepositPanel: React.FC<DepositPanelProps> = ({ vault }) => {
       <Flex justifyContent="space-between">
         <Text fontWeight="bold">Your {vault.vaultTokenTicker} balance</Text>
         <Text>
-          {getDisplayBalance(vaultTokenBalance)}{" "}
+          {getDisplayBalance(vaultTokenBalance, vault.decimals)}{" "}
           {vault.vaultTokenTicker.toUpperCase()}
         </Text>
       </Flex>
@@ -122,15 +127,12 @@ export const DepositPanel: React.FC<DepositPanelProps> = ({ vault }) => {
           {vault.wantTokenTicker.toUpperCase()} available to deposit
         </Text>
         <Text>
-          {getDisplayBalance(wantTokenBalance)}{" "}
+          {getDisplayBalance(wantTokenBalance, vault.decimals)}{" "}
           {vault.wantTokenTicker.toUpperCase()}
         </Text>
       </Flex>
       <Stack spacing={4}>
-        <NumberInput
-          value={depositAmount.toString()}
-          onChange={handleDepositAmountChange}
-        >
+        <NumberInput value={depositAmount} onChange={handleDepositAmountChange}>
           <NumberInputField />
           <NumberInputStepper>
             <NumberIncrementStepper />
@@ -193,13 +195,13 @@ export const DepositPanel: React.FC<DepositPanelProps> = ({ vault }) => {
           {vault.wantTokenTicker.toUpperCase()} available to withdraw
         </Text>
         <Text>
-          {getDisplayBalance(stakedAmount)}{" "}
+          {getDisplayBalance(stakedAmount, vault.decimals)}{" "}
           {vault.wantTokenTicker.toUpperCase()}
         </Text>
       </Flex>
       <Stack spacing={4}>
         <NumberInput
-          value={withdrawAmount.toString()}
+          value={withdrawAmount}
           onChange={handleWithdrawAmountChange}
         >
           <NumberInputField />
