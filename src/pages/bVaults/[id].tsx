@@ -15,8 +15,8 @@ import {
 import { useVaultContext } from "src/context/VaultContext";
 import { DepositPanel } from "src/components/bVaults/DepositPanel";
 import { StakePanel } from "src/components/bVaults/StakePanel";
-import { BoostPanel } from "src/components/bVaults/BoostPanel";
-import { HarvestPanel } from "src/components/bVaults/HarvestPanel";
+// import { BoostPanel } from "src/components/bVaults/BoostPanel";
+// import { HarvestPanel } from "src/components/bVaults/HarvestPanel";
 
 const Vault: React.FC = () => {
   const router = useRouter();
