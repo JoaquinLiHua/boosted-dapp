@@ -1,4 +1,4 @@
-import { Box, Badge, Image, Button } from "@chakra-ui/core";
+import { Box, Badge, Image, Button, Text, Flex } from "@chakra-ui/core";
 import Link from "next/link";
 import React from "react";
 
@@ -39,14 +39,20 @@ export const VaultCard: React.FC<VaultCardProps> = ({ vault }) => {
           {vault.title}
         </Box>
 
-        <Box>
-          {vault.apy}%{" "}
-          <Box as="span" color="gray.400" fontSize="sm">
+        <Flex alignItems="center" mt={4}>
+          <Text fontWeight="bold">{vault.apy}% </Text>
+          <Box
+            ml={2}
+            as="span"
+            color="gray.400"
+            fontSize="sm"
+            textTransform="uppercase"
+          >
             Unstable Yearly Yield
           </Box>
-        </Box>
+        </Flex>
 
-        <Box>
+        <Box mt={4}>
           <Link href={`/bVaults/${vault.id}`}>
             <Button colorScheme="blue" size="sm" my={2} w="100%">
               Enter

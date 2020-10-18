@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { usePriceFeedContext } from "src/context/PriceFeedContext";
-import { boostToken } from "src/constants/tokenAddresses";
+import { boostToken } from "src/constants/bfAddresses";
 
 export const useBoostPrice = () => {
   const [price, setPrice] = useState<string>("0");

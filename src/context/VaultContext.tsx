@@ -8,7 +8,7 @@ import React, {
 import { useWallet } from "use-wallet";
 import { provider } from "web3-core";
 import { usePriceFeedContext } from "./PriceFeedContext";
-import { B_VAULTS, IVault } from "src/constants/bVaults/bVaults";
+import { B_VAULTS, IVault } from "src/constants/bVaults";
 
 interface IVaultContext {
   vaults: IVault[];

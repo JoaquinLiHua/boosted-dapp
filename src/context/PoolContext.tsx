@@ -16,7 +16,7 @@ import {
 } from "src/utils/boost";
 import { provider } from "web3-core";
 import { usePriceFeedContext } from "./PriceFeedContext";
-import { ALL_POOLS } from "src/constants/pools/Pools";
+import { ALL_POOLS } from "src/constants/pools";
 
 export interface IPool {
   name: string;

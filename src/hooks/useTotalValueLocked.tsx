@@ -7,7 +7,7 @@ import {
   getBoostPoolPriceInUSD,
   getPoolValueInUSD,
 } from "src/utils/boost";
-import { ALL_POOLS } from "src/constants/pools/Pools";
+import { ALL_POOLS } from "src/constants/pools";
 
 export const useTotalValueLocked = () => {
   const [totalValueLockedInUSD, setTotalValueLockedInUSD] = useState<string>(

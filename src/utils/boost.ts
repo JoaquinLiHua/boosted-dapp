@@ -5,15 +5,17 @@ import ERC20ABI from "../constants/abi/ERC20.json";
 import POOLABI from "../constants/abi/BoostPools.json";
 import POOLV2ABI from "../constants/abi/BoostPoolV2.json";
 import {
-  boostToken,
-  uniswapPool,
   wethToken,
   uniswapLPToken,
-  uniswapPoolV2,
-  treasuryV2Contract,
+  yCRVToken,
 } from "src/constants/tokenAddresses";
 import { ethers } from "ethers";
-import { yCRVToken, governanceContract } from "src/constants/tokenAddresses";
+import { uniswapPool, uniswapPoolV2 } from "src/constants/pools";
+import {
+  treasuryV2Contract,
+  governanceContract,
+  boostToken,
+} from "src/constants/bfAddresses";
 import BN from "bignumber.js";
 
 export const getERC20Contract = (provider: provider, address: string) => {

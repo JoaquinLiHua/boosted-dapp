@@ -2,11 +2,10 @@ import React, { useState, useCallback, useEffect } from "react";
 import { Stack, Flex, Button, Text } from "@chakra-ui/core";
 import { getDisplayBalance } from "src/utils/formatBalance";
 import { useTokenBalance } from "src/hooks/useTokenBalance";
-import { boostToken } from "src/constants/tokenAddresses";
+import { boostToken } from "src/constants/bfAddresses";
 import { useAllowance } from "src/hooks/useAllowance";
 import { IPool } from "src/context/PoolContext";
 import { useApprove } from "src/hooks/useApprove";
-
 import { useBoost } from "src/hooks/useBooster";
 import { useGetBoosterBalance } from "src/hooks/useBoosterCount";
 import BN from "bignumber.js";

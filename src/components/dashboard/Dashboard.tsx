@@ -1,6 +1,6 @@
 import React from "react";
 import { StatBox } from "./StatBox";
-import { boostToken } from "../../constants/tokenAddresses";
+import { boostToken } from "src/constants/bfAddresses";
 import { useTokenBalance } from "src/hooks/useTokenBalance";
 import { useTotalSupply } from "src/hooks/useTotalSupply";
 import { useTreasuryBalance } from "src/hooks/useTreasuryBalance";

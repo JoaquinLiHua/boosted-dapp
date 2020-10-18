@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/core";
 import { Formik, Field } from "formik";
 import { useTokenBalance } from "src/hooks/useTokenBalance";
-import { boostToken, governanceContract } from "src/constants/tokenAddresses";
+import { boostToken, governanceContract } from "src/constants/bfAddresses";
 import { useApprove } from "src/hooks/useApprove";
 import { useAllowance } from "src/hooks/useAllowance";
 import { useGovernanceStake } from "src/hooks/useGovernanceStake";
