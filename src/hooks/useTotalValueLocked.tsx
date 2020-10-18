@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
 import { useWallet } from "use-wallet";
 import { provider } from "web3-core";
-import { ALL_POOLS } from "src/context/PoolContext";
 import { usePriceFeedContext } from "src/context/PriceFeedContext";
 import {
   getBalancerPoolPriceInUSD,
   getBoostPoolPriceInUSD,
   getPoolValueInUSD,
 } from "src/utils/boost";
+import { ALL_POOLS } from "src/constants/pools/Pools";
 
 export const useTotalValueLocked = () => {
   const [totalValueLockedInUSD, setTotalValueLockedInUSD] = useState<string>(

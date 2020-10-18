@@ -3,7 +3,7 @@ import { useWallet } from "use-wallet";
 import { provider } from "web3-core";
 import { rewardAmount } from "../utils/boost";
 import BN from "bignumber.js";
-import { ALL_POOLS } from "src/context/PoolContext";
+import { ALL_POOLS } from "src/constants/pools/Pools";
 
 export const useGetTotalRewardAmount = () => {
   const [amount, setAmount] = useState(new BN("0"));
