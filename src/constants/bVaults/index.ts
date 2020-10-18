@@ -13,14 +13,15 @@ export interface IVault {
   vaultTokenTicker: string;
   vaultAddress: string;
   vaultRewardAddress: string;
+  decimals: number;
 }
 
-export const controllerAddress = "0xeDBAc73c0cc8A26180cC50df58f10441AF03d6C7";
-export const usdcVault = "0x1474Dba2DF6dA2fFDba9601dc06Cd0463C172aC5";
-export const usdcVaultReward = "0xe303fefd0f9a05cA92202747E9F6A1a4250B0E43";
+export const controllerAddress = "0x75275575fD45FB4B88CD2b56aE6E54a62b33c788";
+export const usdcVault = "0xb5f6221ea3c0Cb3FC7a3D0d36420311dc69B2f3c";
+export const usdcVaultReward = "0xbA89bDde0FC7f67dE7C4eC32283f44c86c1868dc";
 
 // Strategies
-export const mStableStrat = "0xe8645071649e077DcD2edC81666cbc48939aAA1A";
+export const mStableStrat = "0x1280E96618349eF01571Ee148d850672d72f3E51";
 
 export const B_VAULTS: IVault[] = [
   {
@@ -36,5 +37,6 @@ export const B_VAULTS: IVault[] = [
     vaultTokenTicker: "bfUSDC",
     vaultAddress: usdcVault,
     vaultRewardAddress: usdcVaultReward,
+    decimals: 6,
   },
 ];
