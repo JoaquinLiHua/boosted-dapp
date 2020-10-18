@@ -12,7 +12,7 @@ import {
   Image,
 } from "@chakra-ui/core";
 import { usePoolContext } from "src/context/PoolContext";
-import { StakingPanel } from "src/components/pools/StakingPanel";
+import { StakePanel } from "src/components/pools/StakePanel";
 import { BoostPanel } from "src/components/pools/BoostPanel";
 
 const Pool: React.FC = () => {
@@ -20,15 +20,15 @@ const Pool: React.FC = () => {
   const { id } = router.query;
   const { openPools } = usePoolContext();
 
-  const currentPool = openPools.filter((e) => e.code === id);
+  const currentPool = openPools.filter((e) => e.code === id)[0];
 
-  if (id && openPools && currentPool.length > 0) {
+  if (id && openPools) {
     return (
       <Stack mt={4} width="100%" p={4} borderWidth={1} borderRadius={5}>
         <Flex alignItems="center">
-          <Image src={currentPool[0].icon} width="10" height="10" />
+          <Image src={currentPool.icon} width="10" height="10" />
           <Heading fontSize="lg" p={4}>
-            {currentPool[0].name} Pool
+            {currentPool.name} Pool
           </Heading>
         </Flex>
         <Tabs>
@@ -38,10 +38,10 @@ const Pool: React.FC = () => {
           </TabList>
           <TabPanels>
             <TabPanel>
-              <StakingPanel pool={currentPool[0]} />
+              <StakePanel pool={currentPool} />
             </TabPanel>
             <TabPanel>
-              <BoostPanel pool={currentPool[0]} />
+              <BoostPanel pool={currentPool} />
             </TabPanel>
           </TabPanels>
         </Tabs>

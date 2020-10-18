@@ -10,7 +10,7 @@ const Index: React.FC = () => {
       <Heading>bVaults</Heading>
       <Stack>
         {vaults.map((vault, i) => (
-          <VaultCard vault={vault} />
+          <VaultCard key={i} vault={vault} />
         ))}
       </Stack>
     </Stack>

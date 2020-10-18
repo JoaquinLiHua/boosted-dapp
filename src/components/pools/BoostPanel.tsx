@@ -4,7 +4,6 @@ import { getDisplayBalance } from "src/utils/formatBalance";
 import { useTokenBalance } from "src/hooks/useTokenBalance";
 import { boostToken } from "src/constants/bfAddresses";
 import { useAllowance } from "src/hooks/useAllowance";
-import { IPool } from "src/context/PoolContext";
 import { useApprove } from "src/hooks/useApprove";
 import { useBoost } from "src/hooks/useBooster";
 import { useGetBoosterBalance } from "src/hooks/useBoosterCount";
@@ -14,6 +13,7 @@ import { formatTimestamp } from "src/utils/formatTimestamp";
 import { usePriceFeedContext } from "src/context/PriceFeedContext";
 import formatCurrency from "format-currency";
 import { useGetBoostedBalances } from "src/hooks/useBoostedBalances";
+import { IPool } from "src/constants/pools";
 
 interface BoostPanelProps {
   pool: IPool;

@@ -28,7 +28,7 @@ export const VaultProvider: React.FC = ({ children }) => {
 
   const getVaults = useCallback(async () => {
     setVaults(B_VAULTS);
-  }, [ethereum, coinGecko, account]);
+  }, []);
 
   useEffect(() => {
     getVaults();

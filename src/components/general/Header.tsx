@@ -49,8 +49,8 @@ export const Header = ({ changingRoute }) => {
       flexDirection={["column", "column", "row"]}
     >
       <Flex alignItems="center" my={[4, 4, 0]}>
-        {ROUTES.map((route) => (
-          <NextLink href={route.link}>
+        {ROUTES.map((route, i) => (
+          <NextLink href={route.link} key={i}>
             <Link
               borderBottomColor={
                 router.pathname === route.link ? "blue.300" : "transparent"

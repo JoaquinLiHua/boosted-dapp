@@ -31,20 +31,28 @@ export const DepositPanel: React.FC<DepositPanelProps> = ({ vault }) => {
   const vaultTokenBalance: BN = useTokenBalance(vault.vaultAddress);
   const stakedAmount: BN = useStakedAmount(vault.vaultAddress);
 
-  const handleDeposit = () => {};
+  const handleDeposit = () => {
+    setRequestedDeposit(true);
+  };
+
+  const handleWithdraw = () => {
+    setRequestedWithdraw(true);
+  };
 
   const handlePercentageDepositInputs = (percentage) => {
-    const numberBalance = wantTokenBalance.dividedBy(percentage);
-    const stringValue = (percentage * numberBalance.toNumber()).toString();
+    const bnValue: BN = wantTokenBalance.dividedBy(percentage);
+    const stringValue = bnValue.toString();
     setDepositAmount(stringValue);
   };
 
   const handlePercentageWithdrawInput = (percentage: number) => {
-    const numberBalance = stakedAmount.dividedBy(new BN(10).pow(new BN(18)));
-    const stringValue = (percentage * numberBalance.toNumber()).toString();
+    const bnValue: BN = stakedAmount.dividedBy(percentage);
+    const stringValue = bnValue.toString();
     setWithdrawAmount(stringValue);
   };
   const handleDepositAmountChange = (value: string) => setDepositAmount(value);
+  const handleWithdrawAmountChange = (value: string) =>
+    setWithdrawAmount(value);
 
   return (
     <Stack spacing={8}>
@@ -127,7 +135,10 @@ export const DepositPanel: React.FC<DepositPanelProps> = ({ vault }) => {
         </Text>
       </Flex>
       <Stack spacing={4}>
-        <NumberInput value={depositAmount} onChange={handleDepositAmountChange}>
+        <NumberInput
+          value={withdrawAmount}
+          onChange={handleWithdrawAmountChange}
+        >
           <NumberInputField />
           <NumberInputStepper>
             <NumberIncrementStepper />
@@ -167,9 +178,9 @@ export const DepositPanel: React.FC<DepositPanelProps> = ({ vault }) => {
         <Button
           colorScheme="blue"
           width="100%"
-          isLoading={requestedDeposit}
-          disabled={requestedDeposit}
-          onClick={() => handleDeposit()}
+          isLoading={requestedWithdraw}
+          disabled={requestedWithdraw}
+          onClick={() => handleWithdraw()}
         >
           Withdraw
         </Button>

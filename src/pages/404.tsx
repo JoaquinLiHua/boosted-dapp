@@ -11,7 +11,7 @@ const NotFound: React.FC = () => {
         borderRadius="full"
       />
       <Heading textAlign="center">404 - Not Found</Heading>
-      <Text fontWeight="bold">It looks like you're lost in space.</Text>
+      <Text fontWeight="bold">It looks like you&apos;re lost in space.</Text>
     </Stack>
   );
 };

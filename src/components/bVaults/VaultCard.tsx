@@ -25,7 +25,8 @@ export const VaultCard: React.FC<VaultCardProps> = ({ vault }) => {
             textTransform="uppercase"
             ml="2"
           >
-            {vault.underlyingTokenTicker} &bull; {vault.strategyName}
+            {vault.wantTokenTicker} &bull; {vault.vaultTokenTicker} &bull;{" "}
+            {vault.strategyName}
           </Box>
         </Box>
 

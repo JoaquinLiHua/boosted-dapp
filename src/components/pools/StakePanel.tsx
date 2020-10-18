@@ -15,19 +15,19 @@ import BN from "bignumber.js";
 import { getDisplayBalance } from "src/utils/formatBalance";
 import { useTokenBalance } from "src/hooks/useTokenBalance";
 import { useAllowance } from "src/hooks/useAllowance";
-import { IPool } from "src/context/PoolContext";
 import { useApprove } from "src/hooks/useApprove";
 import { useStake } from "src/hooks/useStake";
 import { useStakedAmount } from "src/hooks/useStakedAmount";
 import { WithdrawWarning } from "../general/WithdrawWarning";
 import { useClaimRewards } from "src/hooks/useClaimRewards";
 import { useGetRewardAmount } from "src/hooks/useGetRewardAmount";
+import { IPool } from "src/constants/pools";
 
-interface StakingPanelProps {
+interface StakePanelProps {
   pool: IPool;
 }
 
-export const StakingPanel: React.FC<StakingPanelProps> = ({ pool }) => {
+export const StakePanel: React.FC<StakePanelProps> = ({ pool }) => {
   const { onApprove } = useApprove(pool.tokenContract, pool.address);
   const { onStake } = useStake(pool.address);
 
