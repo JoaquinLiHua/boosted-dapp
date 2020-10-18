@@ -25,8 +25,8 @@ interface DepositPanelProps {
 }
 
 export const DepositPanel: React.FC<DepositPanelProps> = ({ vault }) => {
-  const [depositAmount, setDepositAmount] = useState<string>("");
-  const [withdrawAmount, setWithdrawAmount] = useState<string>("");
+  const [depositAmount, setDepositAmount] = useState<BN>(new BN("0"));
+  const [withdrawAmount, setWithdrawAmount] = useState<BN>(new BN("0"));
   const [requestedDeposit, setRequestedDeposit] = useState<boolean>(false);
   const [requestedWithdraw, setRequestedWithdraw] = useState<boolean>(false);
   const [requestedApproval, setRequestedApproval] = useState<boolean>(false);
@@ -91,18 +91,17 @@ export const DepositPanel: React.FC<DepositPanelProps> = ({ vault }) => {
 
   const handlePercentageDepositInputs = (percentage) => {
     const bnValue: BN = wantTokenBalance.dividedBy(percentage);
-    const stringValue = bnValue.toString();
-    setDepositAmount(stringValue);
+    setDepositAmount(bnValue);
   };
 
   const handlePercentageWithdrawInput = (percentage: number) => {
     const bnValue: BN = stakedAmount.dividedBy(percentage);
-    const stringValue = bnValue.toString();
-    setWithdrawAmount(stringValue);
+    setWithdrawAmount(bnValue);
   };
-  const handleDepositAmountChange = (value: string) => setDepositAmount(value);
+  const handleDepositAmountChange = (value: string) =>
+    setDepositAmount(new BN(value));
   const handleWithdrawAmountChange = (value: string) =>
-    setWithdrawAmount(value);
+    setWithdrawAmount(new BN(value));
 
   return (
     <Stack spacing={8}>
@@ -128,7 +127,10 @@ export const DepositPanel: React.FC<DepositPanelProps> = ({ vault }) => {
         </Text>
       </Flex>
       <Stack spacing={4}>
-        <NumberInput value={depositAmount} onChange={handleDepositAmountChange}>
+        <NumberInput
+          value={depositAmount.toString()}
+          onChange={handleDepositAmountChange}
+        >
           <NumberInputField />
           <NumberInputStepper>
             <NumberIncrementStepper />
@@ -197,7 +199,7 @@ export const DepositPanel: React.FC<DepositPanelProps> = ({ vault }) => {
       </Flex>
       <Stack spacing={4}>
         <NumberInput
-          value={withdrawAmount}
+          value={withdrawAmount.toString()}
           onChange={handleWithdrawAmountChange}
         >
           <NumberInputField />

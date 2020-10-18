@@ -1,3 +1,4 @@
+import BN from "bignumber.js";
 import { useCallback } from "react";
 import { useWallet } from "use-wallet";
 import { provider } from "web3-core";
@@ -10,7 +11,7 @@ export const useVaultDeposit = (vaultAddress: string) => {
   }: { account: string | null; ethereum: provider } = useWallet();
 
   const handleDeposit = useCallback(
-    async (amount: string) => {
+    async (amount: BN) => {
       if (account) {
         const txHash = await deposit(ethereum, vaultAddress, amount, account);
         return txHash;
@@ -20,7 +21,7 @@ export const useVaultDeposit = (vaultAddress: string) => {
   );
 
   const handleWithdraw = useCallback(
-    async (amount: string) => {
+    async (amount: BN) => {
       if (account) {
         const txHash = await withdraw(ethereum, vaultAddress, amount, account);
         return txHash;

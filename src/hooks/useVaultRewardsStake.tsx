@@ -1,7 +1,8 @@
+import BN from "bignumber.js";
 import { useCallback } from "react";
 import { useWallet } from "use-wallet";
 import { provider } from "web3-core";
-import { stake, unstake } from "../utils/pool";
+import { stake, unstake } from "../utils/vault";
 
 export const useVaultRewardsStake = (vaultRewardsAddress: string) => {
   const {
@@ -10,7 +11,7 @@ export const useVaultRewardsStake = (vaultRewardsAddress: string) => {
   }: { account: string | null; ethereum: provider } = useWallet();
 
   const handleStake = useCallback(
-    async (amount: string) => {
+    async (amount: BN) => {
       if (account) {
         const txHash = await stake(
           ethereum,
@@ -25,7 +26,7 @@ export const useVaultRewardsStake = (vaultRewardsAddress: string) => {
   );
 
   const handleUnstake = useCallback(
-    async (amount: string) => {
+    async (amount: BN) => {
       if (account) {
         const txHash = await unstake(
           ethereum,

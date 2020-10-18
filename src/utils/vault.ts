@@ -1,3 +1,4 @@
+import BN from "bignumber.js";
 import Web3 from "web3";
 import { provider } from "web3-core";
 import { AbiItem } from "web3-utils";
@@ -28,15 +29,12 @@ export const getVaultRewardsContract = (
 export const deposit = async (
   provider: provider,
   vaultAddress: string,
-  amount: string,
+  amount: BN,
   account: string
 ) => {
   const vaultContract = getVaultContract(provider, vaultAddress);
-  const web3 = new Web3(provider);
-  const tokens = web3.utils.toWei(amount.toString(), "ether");
-  const bntokens = web3.utils.toBN(tokens);
   return vaultContract.methods
-    .deposit(bntokens)
+    .deposit(amount)
     .send({ from: account })
     .on("transactionHash", (tx) => {
       console.log(tx);
@@ -47,15 +45,12 @@ export const deposit = async (
 export const withdraw = async (
   provider: provider,
   vaultAddress: string,
-  amount: string,
+  amount: BN,
   account: string
 ) => {
   const vaultContract = getVaultContract(provider, vaultAddress);
-  const web3 = new Web3(provider);
-  const tokens = web3.utils.toWei(amount.toString(), "ether");
-  const bntokens = web3.utils.toBN(tokens);
   return vaultContract.methods
-    .withdraw(bntokens)
+    .withdraw(amount)
     .send({ from: account })
     .on("transactionHash", (tx) => {
       console.log(tx);
@@ -65,14 +60,14 @@ export const withdraw = async (
 
 export const getRewardAmount = async (
   provider: provider,
-  poolAddress: string,
+  vaultRewardsAddress: string,
   account: string | null
 ): Promise<string> => {
   if (account && provider) {
     try {
       const vaultRewardsContract = getVaultRewardsContract(
         provider,
-        poolAddress
+        vaultRewardsAddress
       );
       const claimableRewards: string = await vaultRewardsContract.methods
         .earned(account)
@@ -89,13 +84,58 @@ export const getRewardAmount = async (
 
 export const claim = async (
   provider: provider,
-  poolAddress: string,
+  vaultRewardsAddress: string,
   account: string | null
 ) => {
   try {
-    const vaultRewardsContract = getVaultRewardsContract(provider, poolAddress);
+    const vaultRewardsContract = getVaultRewardsContract(
+      provider,
+      vaultRewardsAddress
+    );
     return vaultRewardsContract.methods
       .getReward()
+      .send({ from: account })
+      .on("transactionHash", (tx) => {
+        console.log(tx);
+        return tx.transactionHash;
+      });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const stake = async (
+  provider: provider,
+  vaultRewardsAddress: string,
+  amount: BN,
+  account: string
+) => {
+  const vaultRewardsContract = getVaultRewardsContract(
+    provider,
+    vaultRewardsAddress
+  );
+  return vaultRewardsContract.methods
+    .stake(amount)
+    .send({ from: account })
+    .on("transactionHash", (tx) => {
+      console.log(tx);
+      return tx.transactionHash;
+    });
+};
+
+export const unstake = async (
+  provider: provider,
+  vaultRewardsAddress: string,
+  amount: BN,
+  account: string
+) => {
+  try {
+    const vaultRewardsContract = getVaultRewardsContract(
+      provider,
+      vaultRewardsAddress
+    );
+    return vaultRewardsContract.methods
+      .withdraw(amount)
       .send({ from: account })
       .on("transactionHash", (tx) => {
         console.log(tx);

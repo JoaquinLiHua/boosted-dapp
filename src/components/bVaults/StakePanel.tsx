@@ -27,8 +27,8 @@ interface StakePanelProps {
 }
 
 export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
-  const [stakeAmount, setStakeAmount] = useState<string>("");
-  const [unstakeAmount, setUnstakeAmount] = useState<string>("");
+  const [stakeAmount, setStakeAmount] = useState<BN>(new BN("0"));
+  const [unstakeAmount, setUnstakeAmount] = useState<BN>(new BN("0"));
   const [requestedStake, setRequestedStake] = useState<boolean>(false);
   const [requestedUnstake, setRequestedUnstake] = useState<boolean>(false);
   const [requestedApproval, setRequestedApproval] = useState<boolean>(false);
@@ -112,19 +112,20 @@ export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
     }
   }, [stakeAmount, onVaultRewardsStake]);
 
-  const handlePercentageDepositInputs = (percentage) => {
+  const handlePercentageStakeInputs = (percentage) => {
     const bnValue: BN = vaultTokenBalance.dividedBy(percentage);
-    const stringValue = bnValue.toString();
-    setStakeAmount(stringValue);
+    setStakeAmount(bnValue);
   };
 
-  const handlePercentageWithdrawInput = (percentage: number) => {
+  const handlePercentageUnstakeInputs = (percentage: number) => {
     const bnValue: BN = stakedAmount.dividedBy(percentage);
-    const stringValue = bnValue.toString();
-    setUnstakeAmount(stringValue);
+    setUnstakeAmount(bnValue);
   };
-  const handleStakeAmountChange = (value: string) => setStakeAmount(value);
-  const handleUnstakeAmountChange = (value: string) => setUnstakeAmount(value);
+
+  const handleStakeAmountChange = (value: string) =>
+    setStakeAmount(new BN(value));
+  const handleUnstakeAmountChange = (value: string) =>
+    setUnstakeAmount(new BN(value));
 
   return (
     <Stack spacing={8}>
@@ -159,7 +160,10 @@ export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
         </Text>
       </Flex>
       <Stack spacing={4}>
-        <NumberInput value={stakeAmount} onChange={handleStakeAmountChange}>
+        <NumberInput
+          value={stakeAmount.toString()}
+          onChange={handleStakeAmountChange}
+        >
           <NumberInputField />
           <NumberInputStepper>
             <NumberIncrementStepper />
@@ -170,29 +174,25 @@ export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
           <Button
             w="25%"
             mr={1}
-            onClick={() => handlePercentageDepositInputs(0.25)}
+            onClick={() => handlePercentageStakeInputs(0.25)}
           >
             25%
           </Button>
           <Button
             w="25%"
             mx={1}
-            onClick={() => handlePercentageDepositInputs(0.5)}
+            onClick={() => handlePercentageStakeInputs(0.5)}
           >
             50%
           </Button>
           <Button
             w="25%"
             mx={1}
-            onClick={() => handlePercentageDepositInputs(0.75)}
+            onClick={() => handlePercentageStakeInputs(0.75)}
           >
             75%
           </Button>
-          <Button
-            w="25%"
-            ml={1}
-            onClick={() => handlePercentageDepositInputs(1)}
-          >
+          <Button w="25%" ml={1} onClick={() => handlePercentageStakeInputs(1)}>
             100%
           </Button>
         </Flex>
@@ -227,7 +227,10 @@ export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
         </Text>
       </Flex>
       <Stack spacing={4}>
-        <NumberInput value={unstakeAmount} onChange={handleUnstakeAmountChange}>
+        <NumberInput
+          value={unstakeAmount.toString()}
+          onChange={handleUnstakeAmountChange}
+        >
           <NumberInputField />
           <NumberInputStepper>
             <NumberIncrementStepper />
@@ -238,28 +241,28 @@ export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
           <Button
             w="25%"
             mr={1}
-            onClick={() => handlePercentageWithdrawInput(0.25)}
+            onClick={() => handlePercentageUnstakeInputs(0.25)}
           >
             25%
           </Button>
           <Button
             w="25%"
             mx={1}
-            onClick={() => handlePercentageWithdrawInput(0.5)}
+            onClick={() => handlePercentageUnstakeInputs(0.5)}
           >
             50%
           </Button>
           <Button
             w="25%"
             mx={1}
-            onClick={() => handlePercentageWithdrawInput(0.75)}
+            onClick={() => handlePercentageUnstakeInputs(0.75)}
           >
             75%
           </Button>
           <Button
             w="25%"
             ml={1}
-            onClick={() => handlePercentageWithdrawInput(1)}
+            onClick={() => handlePercentageUnstakeInputs(1)}
           >
             100%
           </Button>
