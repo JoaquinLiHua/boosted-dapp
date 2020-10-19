@@ -78,7 +78,7 @@ export const DepositPanel: React.FC<DepositPanelProps> = ({ vault }) => {
   const handleWithdraw = useCallback(async () => {
     try {
       setRequestedWithdraw(true);
-      const txHash = await onVaultWithdraw(depositAmount);
+      const txHash = await onVaultWithdraw(withdrawAmount);
       if (!txHash) {
         throw "Transaction error";
       } else {
@@ -88,7 +88,7 @@ export const DepositPanel: React.FC<DepositPanelProps> = ({ vault }) => {
       console.log(e);
       setRequestedWithdraw(false);
     }
-  }, [depositAmount, onVaultWithdraw]);
+  }, [withdrawAmount, onVaultWithdraw]);
 
   const handlePercentageDepositInputs = (percentage) => {
     const numberBalance = wantTokenBalance

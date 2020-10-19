@@ -34,7 +34,7 @@ export const deposit = async (
 ) => {
   const vaultContract = getVaultContract(provider, vaultAddress);
   const web3 = new Web3(provider);
-  const tokens = (parseFloat(amount) * Math.pow(10, decimals)).toString();
+  const tokens = (Number(amount) * Math.pow(10, decimals)).toFixed(0);
   const bntokens = web3.utils.toBN(tokens);
   return vaultContract.methods
     .deposit(bntokens)
@@ -54,7 +54,7 @@ export const withdraw = async (
 ) => {
   const vaultContract = getVaultContract(provider, vaultAddress);
   const web3 = new Web3(provider);
-  const tokens = (parseFloat(amount) * Math.pow(10, decimals)).toString();
+  const tokens = (Number(amount) * Math.pow(10, decimals)).toFixed(0);
   const bntokens = web3.utils.toBN(tokens);
   return vaultContract.methods
     .withdraw(bntokens)
@@ -123,7 +123,7 @@ export const stake = async (
     vaultRewardsAddress
   );
   const web3 = new Web3(provider);
-  const tokens = (parseFloat(amount) * Math.pow(10, decimals)).toString();
+  const tokens = (Number(amount) * Math.pow(10, decimals)).toFixed(0);
   const bntokens = web3.utils.toBN(tokens);
   return vaultRewardsContract.methods
     .stake(bntokens)
@@ -147,7 +147,7 @@ export const unstake = async (
       vaultRewardsAddress
     );
     const web3 = new Web3(provider);
-    const tokens = (parseFloat(amount) * Math.pow(10, decimals)).toString();
+    const tokens = (Number(amount) * Math.pow(10, decimals)).toFixed(0);
     const bntokens = web3.utils.toBN(tokens);
     return vaultRewardsContract.methods
       .withdraw(bntokens)
