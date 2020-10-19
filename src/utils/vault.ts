@@ -29,11 +29,12 @@ export const deposit = async (
   provider: provider,
   vaultAddress: string,
   amount: string,
+  decimals: number,
   account: string
 ) => {
   const vaultContract = getVaultContract(provider, vaultAddress);
   const web3 = new Web3(provider);
-  const tokens = web3.utils.toWei(amount.toString(), "ether");
+  const tokens = (parseFloat(amount) * Math.pow(10, decimals)).toString();
   const bntokens = web3.utils.toBN(tokens);
   return vaultContract.methods
     .deposit(bntokens)
@@ -48,11 +49,12 @@ export const withdraw = async (
   provider: provider,
   vaultAddress: string,
   amount: string,
+  decimals: number,
   account: string
 ) => {
   const vaultContract = getVaultContract(provider, vaultAddress);
   const web3 = new Web3(provider);
-  const tokens = web3.utils.toWei(amount.toString(), "ether");
+  const tokens = (parseFloat(amount) * Math.pow(10, decimals)).toString();
   const bntokens = web3.utils.toBN(tokens);
   return vaultContract.methods
     .withdraw(bntokens)
@@ -113,6 +115,7 @@ export const stake = async (
   provider: provider,
   vaultRewardsAddress: string,
   amount: string,
+  decimals: number,
   account: string
 ) => {
   const vaultRewardsContract = getVaultRewardsContract(
@@ -120,7 +123,7 @@ export const stake = async (
     vaultRewardsAddress
   );
   const web3 = new Web3(provider);
-  const tokens = web3.utils.toWei(amount.toString(), "ether");
+  const tokens = (parseFloat(amount) * Math.pow(10, decimals)).toString();
   const bntokens = web3.utils.toBN(tokens);
   return vaultRewardsContract.methods
     .stake(bntokens)
@@ -135,6 +138,7 @@ export const unstake = async (
   provider: provider,
   vaultRewardsAddress: string,
   amount: string,
+  decimals: number,
   account: string
 ) => {
   try {
@@ -143,7 +147,7 @@ export const unstake = async (
       vaultRewardsAddress
     );
     const web3 = new Web3(provider);
-    const tokens = web3.utils.toWei(amount.toString(), "ether");
+    const tokens = (parseFloat(amount) * Math.pow(10, decimals)).toString();
     const bntokens = web3.utils.toBN(tokens);
     return vaultRewardsContract.methods
       .withdraw(bntokens)

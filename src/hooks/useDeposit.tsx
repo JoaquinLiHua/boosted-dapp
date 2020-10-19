@@ -1,10 +1,9 @@
-import BN from "bignumber.js";
 import { useCallback } from "react";
 import { useWallet } from "use-wallet";
 import { provider } from "web3-core";
 import { deposit, withdraw } from "../utils/vault";
 
-export const useVaultDeposit = (vaultAddress: string) => {
+export const useVaultDeposit = (vaultAddress: string, decimals: number) => {
   const {
     account,
     ethereum,
@@ -13,7 +12,13 @@ export const useVaultDeposit = (vaultAddress: string) => {
   const handleDeposit = useCallback(
     async (amount: string) => {
       if (account) {
-        const txHash = await deposit(ethereum, vaultAddress, amount, account);
+        const txHash = await deposit(
+          ethereum,
+          vaultAddress,
+          amount,
+          decimals,
+          account
+        );
         return txHash;
       }
     },
@@ -23,7 +28,13 @@ export const useVaultDeposit = (vaultAddress: string) => {
   const handleWithdraw = useCallback(
     async (amount: string) => {
       if (account) {
-        const txHash = await withdraw(ethereum, vaultAddress, amount, account);
+        const txHash = await withdraw(
+          ethereum,
+          vaultAddress,
+          amount,
+          decimals,
+          account
+        );
         return txHash;
       }
     },

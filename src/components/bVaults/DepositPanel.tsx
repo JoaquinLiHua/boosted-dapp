@@ -34,8 +34,10 @@ export const DepositPanel: React.FC<DepositPanelProps> = ({ vault }) => {
   const wantTokenBalance: BN = useTokenBalance(vault.wantTokenAddress);
   const vaultTokenBalance: BN = useTokenBalance(vault.vaultAddress);
   const stakedAmount: BN = useGetVaultRewardsStakedAmount(vault.vaultAddress);
+
   const { onVaultDeposit, onVaultWithdraw } = useVaultDeposit(
-    vault.vaultAddress
+    vault.vaultAddress,
+    vault.decimals
   );
   const { onApprove } = useApprove(vault.wantTokenAddress, vault.vaultAddress);
   const allowance: BN = useAllowance(

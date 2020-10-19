@@ -3,7 +3,10 @@ import { useWallet } from "use-wallet";
 import { provider } from "web3-core";
 import { stake, unstake } from "../utils/vault";
 
-export const useVaultRewardsStake = (vaultRewardsAddress: string) => {
+export const useVaultRewardsStake = (
+  vaultRewardsAddress: string,
+  decimals: number
+) => {
   const {
     account,
     ethereum,
@@ -16,6 +19,7 @@ export const useVaultRewardsStake = (vaultRewardsAddress: string) => {
           ethereum,
           vaultRewardsAddress,
           amount,
+          decimals,
           account
         );
         return txHash;
@@ -31,6 +35,7 @@ export const useVaultRewardsStake = (vaultRewardsAddress: string) => {
           ethereum,
           vaultRewardsAddress,
           amount,
+          decimals,
           account
         );
         return txHash;

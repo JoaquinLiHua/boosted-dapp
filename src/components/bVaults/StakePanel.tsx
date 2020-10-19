@@ -58,7 +58,8 @@ export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
   }, [onClaim, setRequestedClaim]);
 
   const { onVaultRewardsStake, onVaultRewardsUnstake } = useVaultRewardsStake(
-    vault.vaultAddress
+    vault.vaultRewardAddress,
+    vault.decimals
   );
   const { onApprove } = useApprove(
     vault.vaultAddress,
