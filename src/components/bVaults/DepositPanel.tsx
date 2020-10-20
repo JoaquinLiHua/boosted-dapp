@@ -9,9 +9,18 @@ import {
   NumberInput,
   NumberInputField,
   NumberInputStepper,
+  Divider,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverHeader,
+  PopoverTrigger,
 } from "@chakra-ui/core";
 import BN from "bignumber.js";
 import React, { useCallback, useState } from "react";
+import { FaInfo } from "react-icons/fa";
 import { IVault } from "src/constants/bVaults";
 import { useAllowance } from "src/hooks/useAllowance";
 import { useApprove } from "src/hooks/useApprove";
@@ -112,10 +121,45 @@ export const DepositPanel: React.FC<DepositPanelProps> = ({ vault }) => {
 
   return (
     <Stack spacing={8}>
-      <Box mt={4} fontWeight="bold" fontSize="lg" textTransform="uppercase">
-        Deposit {vault.wantTokenTicker} to receive {vault.vaultTokenTicker} and
-        start staking in vaults.
+      <Box mt={4} fontWeight="bold" fontSize="lg">
+        How to participate in bVaults
       </Box>
+
+      <Box mt={4} fontSize="md">
+        1) Deposit your {vault.wantTokenTicker} to receive interest bearing{" "}
+        {vault.vaultTokenTicker}
+      </Box>
+
+      <Box mt={4} fontSize="md">
+        2) Stake your {vault.vaultTokenTicker} in the {vault.vaultTokenTicker}{" "}
+        pool to participate in the rewards pool to gain additional rewards.
+      </Box>
+
+      <Box mt={4} fontSize="sm">
+        *Step 2 is optional
+      </Box>
+
+      <Popover>
+        <PopoverTrigger>
+          <Button w={200} size="sm" rightIcon={<FaInfo />}>
+            Learn more
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent zIndex={100}>
+          <PopoverArrow />
+          <PopoverCloseButton />
+          <PopoverHeader pr={4}>
+            What can I do with my {vault.vaultTokenTicker}?
+          </PopoverHeader>
+          <PopoverBody>
+            By nature {vault.vaultTokenTicker} is interest bearing, however
+            users can deposit their {vault.vaultTokenTicker} into the bfUSDC
+            pool to reap more rewards by purchasing Boosters.
+          </PopoverBody>
+        </PopoverContent>
+      </Popover>
+
+      <Divider />
 
       <Flex justifyContent="space-between">
         <Text fontWeight="bold">Your {vault.vaultTokenTicker} balance</Text>
@@ -124,134 +168,143 @@ export const DepositPanel: React.FC<DepositPanelProps> = ({ vault }) => {
           {vault.vaultTokenTicker.toUpperCase()}
         </Text>
       </Flex>
-      <Flex justifyContent="space-between">
-        <Text fontWeight="bold">
-          {vault.wantTokenTicker.toUpperCase()} available to deposit
-        </Text>
-        <Text>
-          {getDisplayBalance(wantTokenBalance, vault.decimals)}{" "}
-          {vault.wantTokenTicker.toUpperCase()}
-        </Text>
+      <Flex>
+        <Box width="50%" mr={4}>
+          <Flex justifyContent="space-between" mb={2}>
+            <Text fontWeight="bold">
+              {vault.wantTokenTicker.toUpperCase()} available to deposit
+            </Text>
+            <Text>
+              {getDisplayBalance(wantTokenBalance, vault.decimals)}{" "}
+              {vault.wantTokenTicker.toUpperCase()}
+            </Text>
+          </Flex>
+          <Stack spacing={4}>
+            <NumberInput
+              value={depositAmount}
+              onChange={handleDepositAmountChange}
+            >
+              <NumberInputField />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
+            <Flex width="100%">
+              <Button
+                w="25%"
+                mr={1}
+                onClick={() => handlePercentageDepositInputs(0.25)}
+              >
+                25%
+              </Button>
+              <Button
+                w="25%"
+                mx={1}
+                onClick={() => handlePercentageDepositInputs(0.5)}
+              >
+                50%
+              </Button>
+              <Button
+                w="25%"
+                mx={1}
+                onClick={() => handlePercentageDepositInputs(0.75)}
+              >
+                75%
+              </Button>
+              <Button
+                w="25%"
+                ml={1}
+                onClick={() => handlePercentageDepositInputs(1)}
+              >
+                100%
+              </Button>
+            </Flex>
+            {!allowance.toNumber() ? (
+              <Button
+                colorScheme="blue"
+                disabled={requestedApproval}
+                isLoading={requestedApproval}
+                onClick={() => handleApprove()}
+              >
+                Approve
+              </Button>
+            ) : (
+              <Button
+                colorScheme="blue"
+                width="100%"
+                isLoading={requestedDeposit}
+                disabled={requestedDeposit}
+                onClick={() => handleDeposit()}
+              >
+                Deposit
+              </Button>
+            )}
+          </Stack>
+        </Box>
+        <Box width="50%" ml={4}>
+          <Flex justifyContent="space-between" mb={2}>
+            <Text fontWeight="bold">
+              {vault.wantTokenTicker.toUpperCase()} available to withdraw
+            </Text>
+            <Text>
+              {getDisplayBalance(stakedAmount, vault.decimals)}{" "}
+              {vault.wantTokenTicker.toUpperCase()}
+            </Text>
+          </Flex>
+          <Stack spacing={4}>
+            <NumberInput
+              value={withdrawAmount}
+              onChange={handleWithdrawAmountChange}
+            >
+              <NumberInputField />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
+            <Flex width="100%">
+              <Button
+                w="25%"
+                mr={1}
+                onClick={() => handlePercentageWithdrawInput(0.25)}
+              >
+                25%
+              </Button>
+              <Button
+                w="25%"
+                mx={1}
+                onClick={() => handlePercentageWithdrawInput(0.5)}
+              >
+                50%
+              </Button>
+              <Button
+                w="25%"
+                mx={1}
+                onClick={() => handlePercentageWithdrawInput(0.75)}
+              >
+                75%
+              </Button>
+              <Button
+                w="25%"
+                ml={1}
+                onClick={() => handlePercentageWithdrawInput(1)}
+              >
+                100%
+              </Button>
+            </Flex>
+            <Button
+              colorScheme="blue"
+              width="100%"
+              isLoading={requestedWithdraw}
+              disabled={!allowance.toNumber() || requestedWithdraw}
+              onClick={() => handleWithdraw()}
+            >
+              Withdraw
+            </Button>
+          </Stack>
+        </Box>
       </Flex>
-      <Stack spacing={4}>
-        <NumberInput value={depositAmount} onChange={handleDepositAmountChange}>
-          <NumberInputField />
-          <NumberInputStepper>
-            <NumberIncrementStepper />
-            <NumberDecrementStepper />
-          </NumberInputStepper>
-        </NumberInput>
-        <Flex width="100%">
-          <Button
-            w="25%"
-            mr={1}
-            onClick={() => handlePercentageDepositInputs(0.25)}
-          >
-            25%
-          </Button>
-          <Button
-            w="25%"
-            mx={1}
-            onClick={() => handlePercentageDepositInputs(0.5)}
-          >
-            50%
-          </Button>
-          <Button
-            w="25%"
-            mx={1}
-            onClick={() => handlePercentageDepositInputs(0.75)}
-          >
-            75%
-          </Button>
-          <Button
-            w="25%"
-            ml={1}
-            onClick={() => handlePercentageDepositInputs(1)}
-          >
-            100%
-          </Button>
-        </Flex>
-        {!allowance.toNumber() ? (
-          <Button
-            colorScheme="blue"
-            disabled={requestedApproval}
-            isLoading={requestedApproval}
-            onClick={() => handleApprove()}
-          >
-            Approve
-          </Button>
-        ) : (
-          <Button
-            colorScheme="blue"
-            width="100%"
-            isLoading={requestedDeposit}
-            disabled={requestedDeposit}
-            onClick={() => handleDeposit()}
-          >
-            Deposit
-          </Button>
-        )}
-      </Stack>
-      <Flex justifyContent="space-between">
-        <Text fontWeight="bold">
-          {vault.wantTokenTicker.toUpperCase()} available to withdraw
-        </Text>
-        <Text>
-          {getDisplayBalance(stakedAmount, vault.decimals)}{" "}
-          {vault.wantTokenTicker.toUpperCase()}
-        </Text>
-      </Flex>
-      <Stack spacing={4}>
-        <NumberInput
-          value={withdrawAmount}
-          onChange={handleWithdrawAmountChange}
-        >
-          <NumberInputField />
-          <NumberInputStepper>
-            <NumberIncrementStepper />
-            <NumberDecrementStepper />
-          </NumberInputStepper>
-        </NumberInput>
-        <Flex width="100%">
-          <Button
-            w="25%"
-            mr={1}
-            onClick={() => handlePercentageWithdrawInput(0.25)}
-          >
-            25%
-          </Button>
-          <Button
-            w="25%"
-            mx={1}
-            onClick={() => handlePercentageWithdrawInput(0.5)}
-          >
-            50%
-          </Button>
-          <Button
-            w="25%"
-            mx={1}
-            onClick={() => handlePercentageWithdrawInput(0.75)}
-          >
-            75%
-          </Button>
-          <Button
-            w="25%"
-            ml={1}
-            onClick={() => handlePercentageWithdrawInput(1)}
-          >
-            100%
-          </Button>
-        </Flex>
-        <Button
-          colorScheme="blue"
-          width="100%"
-          isLoading={requestedWithdraw}
-          disabled={!allowance.toNumber() || requestedWithdraw}
-          onClick={() => handleWithdraw()}
-        >
-          Withdraw
-        </Button>
-      </Stack>
     </Stack>
   );
 };

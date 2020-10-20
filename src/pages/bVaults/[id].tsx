@@ -15,8 +15,6 @@ import {
 import { useVaultContext } from "src/context/VaultContext";
 import { DepositPanel } from "src/components/bVaults/DepositPanel";
 import { StakePanel } from "src/components/bVaults/StakePanel";
-// import { BoostPanel } from "src/components/bVaults/BoostPanel";
-// import { HarvestPanel } from "src/components/bVaults/HarvestPanel";
 
 const Vault: React.FC = () => {
   const router = useRouter();
@@ -46,10 +44,8 @@ const Vault: React.FC = () => {
         </Box>
         <Tabs>
           <TabList>
-            <Tab>Deposit</Tab>
-            <Tab>Stake</Tab>
-            {/* <Tab>Boost</Tab>
-            <Tab>Harvest</Tab> */}
+            <Tab>Vault Deposit</Tab>
+            <Tab>{currentVault.vaultTokenTicker} pool</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>
@@ -58,12 +54,6 @@ const Vault: React.FC = () => {
             <TabPanel>
               <StakePanel vault={currentVault} />
             </TabPanel>
-            {/* <TabPanel>
-              <BoostPanel vault={currentVault} />
-            </TabPanel>
-            <TabPanel>
-              <HarvestPanel vault={currentVault} />
-            </TabPanel> */}
           </TabPanels>
         </Tabs>
       </Stack>

@@ -1,6 +1,22 @@
-import { Box, Badge, Image, Button, Text, Flex } from "@chakra-ui/core";
+import {
+  Box,
+  Badge,
+  Image,
+  Button,
+  Text,
+  Flex,
+  Icon,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverHeader,
+  PopoverTrigger,
+} from "@chakra-ui/core";
 import Link from "next/link";
 import React from "react";
+import { FaInfo } from "react-icons/fa";
 
 interface VaultCardProps {
   vault: any;
@@ -11,10 +27,11 @@ export const VaultCard: React.FC<VaultCardProps> = ({ vault }) => {
     <Box maxW="xs" borderWidth="1px" borderRadius="lg" overflow="hidden">
       <Image src={vault.imageUrl} alt={vault.imageAlt} />
       <Box p="4">
-        <Badge borderRadius="full" my={2} p={1} colorScheme="yellow">
-          Genesis Vault
-        </Badge>
-
+        {vault.tag && (
+          <Badge borderRadius="full" my={2} p={1} colorScheme="yellow">
+            {vault.tag}
+          </Badge>
+        )}
         <Box d="flex" alignItems="center">
           <Image src={vault.tokenIcon} w={5} h={5} borderRadius={2.5} />
           <Box
@@ -30,18 +47,28 @@ export const VaultCard: React.FC<VaultCardProps> = ({ vault }) => {
           </Box>
         </Box>
 
-        <Box
-          mt="1"
-          fontWeight="semibold"
-          as="h4"
-          lineHeight="tight"
-          isTruncated
-        >
-          {vault.title}
-        </Box>
+        <Flex mt={1} alignItems="center">
+          <Text fontWeight="semibold" as="h4" lineHeight="tight" isTruncated>
+            {vault.title}
+          </Text>
+          <Popover>
+            <PopoverTrigger>
+              <Button ml={4} size="xs">
+                <Icon size="xs" as={FaInfo} />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent>
+              <PopoverArrow />
+              <PopoverCloseButton />
+              <PopoverHeader>Vault Summary</PopoverHeader>
+              <PopoverBody>{vault.instructions}</PopoverBody>
+            </PopoverContent>
+          </Popover>
+        </Flex>
 
         <Flex alignItems="center" mt={4}>
           <Text fontWeight="bold">{vault.apy}% </Text>
+
           <Box
             ml={2}
             as="span"
@@ -49,7 +76,7 @@ export const VaultCard: React.FC<VaultCardProps> = ({ vault }) => {
             fontSize="sm"
             textTransform="uppercase"
           >
-            Unstable Yearly Yield
+            Unstable APY
           </Box>
         </Flex>
 

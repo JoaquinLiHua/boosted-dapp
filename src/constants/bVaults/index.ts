@@ -14,6 +14,8 @@ export interface IVault {
   vaultAddress: string;
   vaultRewardAddress: string;
   decimals: number;
+  tag?: string;
+  instructions: string;
 }
 
 export const controllerAddress = "0x75275575fD45FB4B88CD2b56aE6E54a62b33c788";
@@ -38,5 +40,7 @@ export const B_VAULTS: IVault[] = [
     vaultAddress: usdcVault,
     vaultRewardAddress: usdcVaultReward,
     decimals: 6,
+    tag: "Genesis Vault",
+    instructions: "Deposit USDC, receive bfUSDC",
   },
 ];
