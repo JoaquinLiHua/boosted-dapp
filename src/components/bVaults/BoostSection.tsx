@@ -15,8 +15,6 @@ import { formatTimestamp } from "src/utils/formatTimestamp";
 import { useGetBoosterBalance } from "src/hooks/vaults/useBoosterCount";
 import formatCurrency from "format-currency";
 import { useAllowance } from "src/hooks/erc20/useAllowance";
-import { useNotifyContext } from "src/context/NotifyContext";
-import { notifyHandler } from "src/utils/handleNotify";
 
 interface BoostSectionProps {
   vault: IVault;
@@ -39,7 +37,6 @@ export const BoostSection: React.FC<BoostSectionProps> = ({ vault }) => {
   const { onApprove } = useApprove(boostToken, vault.vaultRewardAddress);
   const { onBoost } = useBoost(vault.vaultRewardAddress);
   const allowance = useAllowance(boostToken, vault.vaultRewardAddress);
-  const notify = useNotifyContext();
 
   const handleApprove = useCallback(async () => {
     try {
@@ -60,8 +57,11 @@ export const BoostSection: React.FC<BoostSectionProps> = ({ vault }) => {
     try {
       setRequestedBoost(true);
       const txHash = await onBoost();
-      notifyHandler(notify, txHash);
-      setRequestedBoost(false);
+      if (!txHash) {
+        throw "Transactions error";
+      } else {
+        setRequestedBoost(false);
+      }
     } catch (e) {
       console.log(e);
       setRequestedBoost(false);

@@ -32,8 +32,6 @@ import { getDisplayBalance } from "src/utils/formatBalance";
 import { useGetVaultPricePerFullShare } from "src/hooks/vaults/useGetVaultPricePerFullShare";
 import { useGetVaultWithdrawalFee } from "src/hooks/vaults/useGetVaultWithdrawalFee";
 import { useGetVaultDepositedAmount } from "src/hooks/vaults/useGetVaultDepositedAmount";
-import { useNotifyContext } from "src/context/NotifyContext";
-import { notifyHandler } from "src/utils/handleNotify";
 
 interface DepositPanelProps {
   vault: IVault;
@@ -58,7 +56,6 @@ export const DepositPanel: React.FC<DepositPanelProps> = ({ vault }) => {
     vault.decimals
   );
 
-  const notify = useNotifyContext();
   const usdcValue = stakedAmount
     .multipliedBy(pricePerFullShare)
     .dividedBy(1e18);
@@ -81,19 +78,11 @@ export const DepositPanel: React.FC<DepositPanelProps> = ({ vault }) => {
     try {
       setRequestedApproval(true);
       const txHash = await onApprove();
-      let { emitter } = notify.hash(txHash);
-      emitter.on("txConfirmed", (tx) => {
+      if (!txHash) {
+        throw "Transactions error";
+      } else {
         setRequestedApproval(false);
-        return {
-          message: "Approval confirmed",
-          onclick: () =>
-            window.open(
-              `https://etherscan.io/tx/${tx.hash}`,
-              "_blank",
-              "noopener, norefferer"
-            ),
-        };
-      });
+      }
     } catch (e) {
       console.log(e);
       setRequestedApproval(false);
@@ -104,9 +93,11 @@ export const DepositPanel: React.FC<DepositPanelProps> = ({ vault }) => {
     try {
       setRequestedDeposit(true);
       const txHash = await onVaultDeposit(depositAmount);
-      console.log(txHash);
-      notifyHandler(notify, txHash);
-      setRequestedDeposit(false);
+      if (!txHash) {
+        throw "Transactions error";
+      } else {
+        setRequestedDeposit(false);
+      }
     } catch (e) {
       console.log(e);
       setRequestedDeposit(false);
@@ -117,19 +108,11 @@ export const DepositPanel: React.FC<DepositPanelProps> = ({ vault }) => {
     try {
       setRequestedWithdraw(true);
       const txHash = await onVaultWithdraw(withdrawAmount);
-      let { emitter } = notify.hash(txHash);
-      emitter.on("txConfirmed", (tx) => {
+      if (!txHash) {
+        throw "Transactions error";
+      } else {
         setRequestedWithdraw(false);
-        return {
-          message: "Withdrawal confirmed",
-          onclick: () =>
-            window.open(
-              `https://etherscan.io/tx/${tx.hash}`,
-              "_blank",
-              "noopener, norefferer"
-            ),
-        };
-      });
+      }
     } catch (e) {
       console.log(e);
       setRequestedWithdraw(false);

@@ -26,8 +26,6 @@ import { useClaimVaultRewards } from "src/hooks/vaults/useClaimVaultRewards";
 import { useGetVaultRewardsStakedAmount } from "src/hooks/vaults/useGetVaultRewardsStakedAmount";
 import { BoostSection } from "./BoostSection";
 import { FaInfo } from "react-icons/fa";
-import { useNotifyContext } from "src/context/NotifyContext";
-import { notifyHandler } from "src/utils/handleNotify";
 
 interface StakePanelProps {
   vault: IVault;
@@ -45,7 +43,6 @@ export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
   const stakedAmount: BN = useGetVaultRewardsStakedAmount(
     vault.vaultRewardAddress
   );
-  const notify = useNotifyContext();
   const claimableRewards = useGetVaultRewardsAmount(vault.vaultRewardAddress);
   const { onClaim } = useClaimVaultRewards(vault.vaultRewardAddress);
 
@@ -53,8 +50,11 @@ export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
     try {
       setRequestedClaim(true);
       const txHash = await onClaim();
-      notifyHandler(notify, txHash);
-      setRequestedClaim(false);
+      if (!txHash) {
+        throw "Transactions error";
+      } else {
+        setRequestedClaim(false);
+      }
     } catch (e) {
       console.log(e);
       setRequestedClaim(false);
@@ -80,8 +80,11 @@ export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
     try {
       setRequestedApproval(true);
       const txHash = await onApprove();
-      notifyHandler(notify, txHash);
-      setRequestedApproval(false);
+      if (!txHash) {
+        throw "Transactions error";
+      } else {
+        setRequestedApproval(false);
+      }
     } catch (e) {
       console.log(e);
       setRequestedApproval(false);
@@ -92,9 +95,11 @@ export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
     try {
       setRequestedUnstake(true);
       const txHash = await onVaultRewardsUnstake(unstakeAmount);
-      console.log(txHash);
-      notifyHandler(notify, txHash);
-      setRequestedUnstake(false);
+      if (!txHash) {
+        throw "Transactions error";
+      } else {
+        setRequestedUnstake(false);
+      }
     } catch (e) {
       console.log(e);
       setRequestedUnstake(false);
@@ -105,9 +110,11 @@ export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
     try {
       setRequestedStake(true);
       const txHash = await onVaultRewardsStake(stakeAmount);
-      console.log(txHash);
-      notifyHandler(notify, txHash);
-      setRequestedStake(false);
+      if (!txHash) {
+        throw "Transactions error";
+      } else {
+        setRequestedStake(false);
+      }
     } catch (e) {
       console.log(e);
       setRequestedStake(false);

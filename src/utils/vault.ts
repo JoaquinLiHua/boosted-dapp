@@ -134,11 +134,11 @@ export const stake = async (
   const web3 = new Web3(provider);
   const tokens = (Number(amount) * Math.pow(10, decimals)).toFixed(0);
   const bntokens = web3.utils.toBN(tokens);
-  return vaultRewardsContract.methods
+  return await vaultRewardsContract.methods
     .stake(bntokens)
     .send({ from: account })
     .on("transactionHash", (tx) => {
-      return tx;
+      return tx.transactionHash;
     });
 };
 
@@ -157,11 +157,11 @@ export const unstake = async (
     const web3 = new Web3(provider);
     const tokens = (Number(amount) * Math.pow(10, decimals)).toFixed(0);
     const bntokens = web3.utils.toBN(tokens);
-    return vaultRewardsContract.methods
+    return await vaultRewardsContract.methods
       .withdraw(bntokens)
       .send({ from: account })
       .on("transactionHash", (tx) => {
-        return tx;
+        return tx.transactionHash;
       });
   } catch (e) {
     console.log(e);
