@@ -3,6 +3,16 @@ import { provider } from "web3-core";
 import { AbiItem } from "web3-utils";
 import BoostVaultABI from "../constants/abi/BoostVault.json";
 import BoostVaultRewardsABI from "../constants/abi/BoostVaultRewards.json";
+import Notify from "bnc-notify";
+
+const options = {
+  dappId: "6d987d84-81c4-4224-9b30-bf5db73ee93e",
+  networkId: 1,
+  darkMode: true,
+};
+
+// initialize notify
+const notify = Notify(options);
 
 export const getVaultContract = (provider: provider, address: string) => {
   const web3 = new Web3(provider);
@@ -40,7 +50,15 @@ export const deposit = async (
     .deposit(bntokens)
     .send({ from: account })
     .on("transactionHash", (tx) => {
-      console.log(tx);
+      const { emitter } = notify.hash(tx);
+      emitter.on("all", (transaction) => ({
+        onclick: () =>
+          window.open(
+            `https://etherscan.io/tx/${transaction.hash}`,
+            "_blank",
+            "noopener, norefferer"
+          ),
+      }));
       return tx.transactionHash;
     });
 };
@@ -69,7 +87,15 @@ export const withdraw = async (
     .withdraw(bntokens)
     .send({ from: account })
     .on("transactionHash", (tx) => {
-      console.log(tx);
+      const { emitter } = notify.hash(tx);
+      emitter.on("all", (transaction) => ({
+        onclick: () =>
+          window.open(
+            `https://etherscan.io/tx/${transaction.hash}`,
+            "_blank",
+            "noopener, norefferer"
+          ),
+      }));
       return tx.transactionHash;
     });
 };
@@ -112,7 +138,15 @@ export const claim = async (
       .getReward(account)
       .send({ from: account })
       .on("transactionHash", (tx) => {
-        console.log(tx);
+        const { emitter } = notify.hash(tx);
+        emitter.on("all", (transaction) => ({
+          onclick: () =>
+            window.open(
+              `https://etherscan.io/tx/${transaction.hash}`,
+              "_blank",
+              "noopener, norefferer"
+            ),
+        }));
         return tx.transactionHash;
       });
   } catch (e) {
@@ -138,6 +172,15 @@ export const stake = async (
     .stake(bntokens)
     .send({ from: account })
     .on("transactionHash", (tx) => {
+      const { emitter } = notify.hash(tx);
+      emitter.on("all", (transaction) => ({
+        onclick: () =>
+          window.open(
+            `https://etherscan.io/tx/${transaction.hash}`,
+            "_blank",
+            "noopener, norefferer"
+          ),
+      }));
       return tx.transactionHash;
     });
 };
@@ -161,6 +204,15 @@ export const unstake = async (
       .withdraw(bntokens)
       .send({ from: account })
       .on("transactionHash", (tx) => {
+        const { emitter } = notify.hash(tx);
+        emitter.on("all", (transaction) => ({
+          onclick: () =>
+            window.open(
+              `https://etherscan.io/tx/${transaction.hash}`,
+              "_blank",
+              "noopener, norefferer"
+            ),
+        }));
         return tx.transactionHash;
       });
   } catch (e) {
@@ -340,7 +392,15 @@ export const boost = async (
       .boost()
       .send({ from: account })
       .on("transactionHash", (tx) => {
-        console.log(tx);
+        const { emitter } = notify.hash(tx);
+        emitter.on("all", (transaction) => ({
+          onclick: () =>
+            window.open(
+              `https://etherscan.io/tx/${transaction.hash}`,
+              "_blank",
+              "noopener, norefferer"
+            ),
+        }));
         return tx.transactionHash;
       });
   } catch (e) {
