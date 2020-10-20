@@ -187,8 +187,8 @@ export const DepositPanel: React.FC<DepositPanelProps> = ({ vault }) => {
           {vault.vaultTokenTicker.toUpperCase()}
         </Text>
       </Flex>
-      <Flex>
-        <Box width="50%" mr={4}>
+      <Flex flexDirection={["column", "column", "row"]}>
+        <Box width={["100%", "100%", "50%"]} mr={4}>
           <Flex justifyContent="space-between" mb={2}>
             <Text fontWeight="bold">
               {vault.wantTokenTicker.toUpperCase()} available to deposit
@@ -261,7 +261,7 @@ export const DepositPanel: React.FC<DepositPanelProps> = ({ vault }) => {
             )}
           </Stack>
         </Box>
-        <Box width="50%" ml={4}>
+        <Box width={["100%", "100%", "50%"]} mr={4} mt={[4, 4, 0]}>
           <Flex justifyContent="space-between" mb={2}>
             <Flex>
               <Text fontWeight="bold">
@@ -272,7 +272,8 @@ export const DepositPanel: React.FC<DepositPanelProps> = ({ vault }) => {
                 fontSize="sm"
               >
                 <IconButton
-                  ml={2}
+                  ml={[0, 0, 2]}
+                  mr={[2, 2, 0]}
                   aria-label="vault-withdraw-info"
                   size="xs"
                   icon={<FaInfo />}

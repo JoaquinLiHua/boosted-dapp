@@ -188,8 +188,8 @@ export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
       <Box t={4} fontWeight="bold" fontSize="lg">
         Stake and Unstake {vault.vaultTokenTicker}
       </Box>
-      <Flex>
-        <Box width="50%" mr={4}>
+      <Flex flexDirection={["column", "column", "row"]}>
+        <Box width={["100%", "100%", "50%"]} mr={4}>
           <Flex justifyContent="space-between" mb={2}>
             <Text fontWeight="bold">
               {vault.vaultTokenTicker.toUpperCase()} available to stake
@@ -259,7 +259,7 @@ export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
             )}
           </Stack>
         </Box>
-        <Box width="50%" mr={4}>
+        <Box width={["100%", "100%", "50%"]} mr={4} mt={[4, 4, 0]}>
           <Flex justifyContent="space-between" mb={2}>
             <Flex>
               <Text fontWeight="bold">
@@ -270,8 +270,9 @@ export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
                 fontSize="sm"
               >
                 <IconButton
-                  ml={2}
-                  aria-label="vault-unstake-info"
+                  ml={[0, 0, 2]}
+                  mr={[2, 2, 0]}
+                  aria-label="vault-withdraw-info"
                   size="xs"
                   icon={<FaInfo />}
                 />
