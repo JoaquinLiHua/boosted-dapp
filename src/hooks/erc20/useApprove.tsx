@@ -12,6 +12,9 @@ export const useApprove = (tokenContract: string, contractAddress: string) => {
 
   const handleApprove = useCallback(async () => {
     try {
+      console.log(tokenContract);
+      console.log(contractAddress);
+
       const tx = await approve(
         ethereum,
         tokenContract,

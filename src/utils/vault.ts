@@ -280,22 +280,69 @@ export const getBoostedBalance = async (
   }
 };
 
-export const getNewBoostedBalance = async (
+export const getBoosterInfo = async (
   provider: provider,
   vaultRewardAddress: string,
   account: string
-): Promise<string> => {
+): Promise<{ boosterPrice: string; newBoostBalance: string }> => {
   try {
+    console.log(vaultRewardAddress);
     const vaultRewardsContract = getVaultRewardsContract(
       provider,
       vaultRewardAddress
     );
+    console.log(vaultRewardsContract);
+    console.log(account);
     const boosterInfo = await vaultRewardsContract.methods
       .getBoosterPrice(account)
       .call();
-    return boosterInfo["newBoostBalance"];
+    const newBoostBalance = boosterInfo["newBoostBalance"];
+    const boosterPrice = boosterInfo["boosterPrice"];
+    return { boosterPrice, newBoostBalance };
+  } catch (e) {
+    console.log(e);
+    return { boosterPrice: "0", newBoostBalance: "0" };
+  }
+};
+
+export const boostCount = async (
+  provider: provider,
+  vaultRewardAddress: string,
+  account: string
+): Promise<string> => {
+  const vaultRewardContract = getVaultRewardsContract(
+    provider,
+    vaultRewardAddress
+  );
+  try {
+    const boosterCount = await vaultRewardContract.methods
+      .numBoostersBought(account)
+      .call();
+    return boosterCount;
   } catch (e) {
     console.log(e);
     return "0";
+  }
+};
+
+export const boost = async (
+  provider: provider,
+  vaultRewardAddress: string,
+  account: string | null
+) => {
+  try {
+    const vaultRewardContract = getVaultRewardsContract(
+      provider,
+      vaultRewardAddress
+    );
+    return vaultRewardContract.methods
+      .boost()
+      .send({ from: account })
+      .on("transactionHash", (tx) => {
+        console.log(tx);
+        return tx.transactionHash;
+      });
+  } catch (e) {
+    console.log(e);
   }
 };

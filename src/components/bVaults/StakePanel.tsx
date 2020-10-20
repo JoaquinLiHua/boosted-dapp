@@ -11,6 +11,8 @@ import {
   NumberInputField,
   NumberInputStepper,
   Divider,
+  Tooltip,
+  IconButton,
 } from "@chakra-ui/core";
 import BN from "bignumber.js";
 import { IVault } from "src/constants/bVaults";
@@ -22,7 +24,8 @@ import { useVaultRewardsStake } from "src/hooks/vaults/useVaultRewardsStake";
 import { useGetVaultRewardsAmount } from "src/hooks/vaults/useGetVaultRewardsAmount";
 import { useClaimVaultRewards } from "src/hooks/vaults/useClaimVaultRewards";
 import { useGetVaultRewardsStakedAmount } from "src/hooks/vaults/useGetVaultRewardsStakedAmount";
-import { boostToken } from "src/constants/bfAddresses";
+import { BoostSection } from "./BoostSection";
+import { FaInfo } from "react-icons/fa";
 
 interface StakePanelProps {
   vault: IVault;
@@ -40,7 +43,6 @@ export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
   const stakedAmount: BN = useGetVaultRewardsStakedAmount(
     vault.vaultRewardAddress
   );
-  const boostBalance: BN = useTokenBalance(boostToken);
   const claimableRewards = useGetVaultRewardsAmount(vault.vaultRewardAddress);
   const { onClaim } = useClaimVaultRewards(vault.vaultRewardAddress);
 
@@ -63,10 +65,12 @@ export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
     vault.vaultRewardAddress,
     vault.decimals
   );
+
   const { onApprove } = useApprove(
     vault.vaultAddress,
     vault.vaultRewardAddress
   );
+
   const allowance: BN = useAllowance(
     vault.vaultAddress,
     vault.vaultRewardAddress
@@ -257,9 +261,23 @@ export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
         </Box>
         <Box width="50%" mr={4}>
           <Flex justifyContent="space-between" mb={2}>
-            <Text fontWeight="bold">
-              {vault.vaultTokenTicker.toUpperCase()} available to unstake
-            </Text>
+            <Flex>
+              <Text fontWeight="bold">
+                {vault.vaultTokenTicker.toUpperCase()} available to unstake
+              </Text>
+              <Tooltip
+                label={`Your purchased BOOSTER(s) reset when you unstake`}
+                fontSize="sm"
+              >
+                <IconButton
+                  ml={2}
+                  aria-label="vault-unstake-info"
+                  size="xs"
+                  icon={<FaInfo />}
+                />
+              </Tooltip>
+            </Flex>
+
             <Text>
               {getDisplayBalance(stakedAmount, vault.decimals)}{" "}
               {vault.vaultTokenTicker.toUpperCase()}
@@ -316,15 +334,7 @@ export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
         </Box>
       </Flex>
       <Divider />
-
-      <Box t={4} fontWeight="bold" fontSize="lg">
-        BOOSTERS
-      </Box>
-
-      <Flex justifyContent="space-between">
-        <Text fontWeight="bold">BOOST Balance</Text>
-        <Text textAlign="right">{getDisplayBalance(boostBalance)} BOOST</Text>
-      </Flex>
+      <BoostSection vault={vault} />
     </Stack>
   );
 };
