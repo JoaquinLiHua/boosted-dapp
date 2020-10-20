@@ -14,12 +14,12 @@ import {
   Button,
 } from "@chakra-ui/core";
 import { Formik, Field } from "formik";
-import { useTokenBalance } from "src/hooks/useTokenBalance";
-import { boostToken, governanceContract } from "src/constants/tokenAddresses";
-import { useApprove } from "src/hooks/useApprove";
-import { useAllowance } from "src/hooks/useAllowance";
-import { useGovernanceStake } from "src/hooks/useGovernanceStake";
-import { useGovernanceStakedBalance } from "src/hooks/useGovernanceStakedBalance";
+import { useTokenBalance } from "src/hooks/erc20/useTokenBalance";
+import { boostToken, governanceContract } from "src/constants/bfAddresses";
+import { useApprove } from "src/hooks/erc20/useApprove";
+import { useAllowance } from "src/hooks/erc20/useAllowance";
+import { useGovernanceStake } from "src/hooks/gov/useGovernanceStake";
+import { useGovernanceStakedBalance } from "src/hooks/gov/useGovernanceStakedBalance";
 import { getDisplayBalance } from "src/utils/formatBalance";
 
 export const StakeModal: React.FC = () => {

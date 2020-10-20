@@ -9,8 +9,10 @@ export const Container = (props) => {
       justifyContent="flex-start"
       maxWidth="1200px"
       margin="auto"
-      px={8}
+      minHeight="100vh"
       {...props}
+      my={[4]}
+      p={[4, 4, 0]}
     />
   );
 };

@@ -13,6 +13,7 @@
     "@chakra-ui/theme": "^1.0.0-rc.2",
     "@walletconnect/web3-provider": "^1.2.2",
     "bignumber.js": "^9.0.0",
+    "bnc-notify": "^1.5.0",
     "coingecko-api": "^1.0.10",
     "eslint": "^7.7.0",
     "ethers": "^5.0.9",
