@@ -346,3 +346,29 @@ export const boost = async (
     console.log(e);
   }
 };
+
+// @TODO - support non-stable coins
+export const getVaultValueLocked = async (
+  provider: provider,
+  vaultAddress: string,
+  vaultRewardAddress: string,
+  decimals: number
+): Promise<number> => {
+  try {
+    const vaultContract = getVaultContract(provider, vaultAddress);
+    const pricePerFullShare = await getPricePerFullShare(
+      provider,
+      vaultAddress
+    );
+    const vaultSize: string = await vaultContract.methods
+      .balanceOf(vaultRewardAddress)
+      .call();
+
+    const vaultSizeNum = Number(vaultSize) / Math.pow(10, decimals);
+    const pricePerFullShareNum = Number(pricePerFullShare) / 1e18;
+    return vaultSizeNum * pricePerFullShareNum;
+  } catch (e) {
+    console.log(e);
+    return 0;
+  }
+};

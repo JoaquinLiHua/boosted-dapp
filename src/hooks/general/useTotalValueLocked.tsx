@@ -8,6 +8,8 @@ import {
   getPoolValueInUSD,
 } from "src/utils/pool";
 import { ALL_POOLS } from "src/constants/pools";
+import { B_VAULTS } from "src/constants/bVaults";
+import { getVaultValueLocked } from "src/utils/vault";
 
 export const useTotalValueLocked = () => {
   const [totalValueLockedInUSD, setTotalValueLockedInUSD] = useState<string>(
@@ -43,12 +45,37 @@ export const useTotalValueLocked = () => {
         }
       }
     });
+
+    const totalVaultValue = B_VAULTS.map(async (vault) => {
+      if (vault.vaultAddress !== "" && vault.vaultRewardAddress !== "") {
+        return await getVaultValueLocked(
+          ethereum,
+          vault.vaultAddress,
+          vault.vaultRewardAddress,
+          vault.decimals
+        );
+      } else {
+        return 0;
+      }
+    });
+
     const totalValueResolved = await Promise.all(totalValue).then((values) => {
       return values.reduce(function (a, b) {
         return a + b;
       }, 0);
     });
-    setTotalValueLockedInUSD(totalValueResolved.toString());
+
+    const totalVaultValueResolved = await Promise.all(totalVaultValue).then(
+      (values) => {
+        return values.reduce(function (a, b) {
+          return a + b;
+        }, 0);
+      }
+    );
+
+    setTotalValueLockedInUSD(
+      (totalValueResolved + totalVaultValueResolved).toString()
+    );
   }, [ethereum, coinGecko]);
 
   useEffect(() => {

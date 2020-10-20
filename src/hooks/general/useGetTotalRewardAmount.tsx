@@ -19,9 +19,11 @@ export const useGetTotalRewardAmount = () => {
         return new BN(await poolRewardAmount(ethereum, pool.address, account));
       });
       const totalVaultAmount = B_VAULTS.map(async (vault) => {
-        return new BN(
-          await vaultRewardAmount(ethereum, vault.vaultRewardAddress, account)
-        );
+        if (vault.vaultRewardAddress !== "") {
+          return new BN(
+            await vaultRewardAmount(ethereum, vault.vaultRewardAddress, account)
+          );
+        }
       });
       const totalPoolResolved = await Promise.all(totalPoolAmount).then(
         (values) => {
