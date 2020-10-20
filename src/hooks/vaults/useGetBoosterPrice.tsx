@@ -35,7 +35,7 @@ export const useGetBoosterPrice = (vaultRewardsAddress: string) => {
     } else {
       return;
     }
-  }, [account, ethereum, fetchBoosterPrice, fetchBoosterPrice]);
+  }, [account, ethereum, fetchBoosterPrice]);
 
   return boosterPrice;
 };

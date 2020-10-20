@@ -49,7 +49,7 @@ export const VaultCard: React.FC<VaultCardProps> = ({ vault }) => {
               ml="2"
             >
               {vault.wantTokenTicker} &bull; {vault.vaultTokenTicker} &bull;{" "}
-              <a target="_blank" href={vault.strategyContract}>
+              <a target="_blank" rel="noreferrer" href={vault.strategyContract}>
                 {vault.strategyName}
               </a>
             </Box>
@@ -67,6 +67,7 @@ export const VaultCard: React.FC<VaultCardProps> = ({ vault }) => {
               as="a"
               href="https://discord.com/invite/gp9bsaQ"
               target="_blank"
+              rel="noreferrer"
             >
               Submit your strategy
             </Box>

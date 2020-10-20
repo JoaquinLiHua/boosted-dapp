@@ -1,5 +1,5 @@
 export function notifyHandler(notify, hash) {
-  let { emitter } = notify.hash(hash);
+  const { emitter } = notify.hash(hash);
   emitter.on("all", (transaction) => ({
     onclick: () =>
       window.open(

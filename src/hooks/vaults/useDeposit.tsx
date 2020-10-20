@@ -22,7 +22,7 @@ export const useVaultDeposit = (vaultAddress: string, decimals: number) => {
         return txHash;
       }
     },
-    [account, vaultAddress, ethereum]
+    [account, vaultAddress, ethereum, decimals]
   );
 
   const handleWithdraw = useCallback(
@@ -38,7 +38,7 @@ export const useVaultDeposit = (vaultAddress: string, decimals: number) => {
         return txHash;
       }
     },
-    [account, vaultAddress, ethereum]
+    [account, vaultAddress, ethereum, decimals]
   );
 
   return { onVaultDeposit: handleDeposit, onVaultWithdraw: handleWithdraw };

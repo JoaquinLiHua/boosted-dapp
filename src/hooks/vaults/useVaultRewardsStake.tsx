@@ -25,7 +25,7 @@ export const useVaultRewardsStake = (
         return txHash;
       }
     },
-    [account, vaultRewardsAddress, ethereum]
+    [account, vaultRewardsAddress, ethereum, decimals]
   );
 
   const handleUnstake = useCallback(
@@ -41,7 +41,7 @@ export const useVaultRewardsStake = (
         return txHash;
       }
     },
-    [account, vaultRewardsAddress, ethereum]
+    [account, vaultRewardsAddress, ethereum, decimals]
   );
 
   return {
