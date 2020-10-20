@@ -30,6 +30,7 @@ export const VaultCard: React.FC<VaultCardProps> = ({ vault }) => {
         alt={vault.imageAlt}
         objectFit="fill"
         w="100%"
+        height={200}
       />
       <Box p="4">
         {vault.tag && (
@@ -68,6 +69,7 @@ export const VaultCard: React.FC<VaultCardProps> = ({ vault }) => {
               href="https://discord.com/invite/gp9bsaQ"
               target="_blank"
               rel="noreferrer"
+              textDecoration="underline"
             >
               Submit your strategy
             </Box>
