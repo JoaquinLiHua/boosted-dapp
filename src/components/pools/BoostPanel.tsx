@@ -1,18 +1,18 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { Stack, Flex, Button, Text } from "@chakra-ui/core";
 import { getDisplayBalance } from "src/utils/formatBalance";
-import { useTokenBalance } from "src/hooks/useTokenBalance";
+import { useTokenBalance } from "src/hooks/erc20/useTokenBalance";
 import { boostToken } from "src/constants/bfAddresses";
-import { useAllowance } from "src/hooks/useAllowance";
-import { useApprove } from "src/hooks/useApprove";
-import { useBoost } from "src/hooks/useBooster";
-import { useGetBoosterBalance } from "src/hooks/useBoosterCount";
+import { useAllowance } from "src/hooks/erc20/useAllowance";
+import { useApprove } from "src/hooks/erc20/useApprove";
+import { useBoost } from "src/hooks/pools/useBooster";
+import { useGetBoosterBalance } from "src/hooks/pools/useBoosterCount";
 import BN from "bignumber.js";
-import { useGetNextBoosterAvailable } from "src/hooks/useNextBoosterAvailable";
+import { useGetNextBoosterAvailable } from "src/hooks/pools/useNextBoosterAvailable";
 import { formatTimestamp } from "src/utils/formatTimestamp";
 import { usePriceFeedContext } from "src/context/PriceFeedContext";
 import formatCurrency from "format-currency";
-import { useGetBoostedBalances } from "src/hooks/useBoostedBalances";
+import { useGetBoostedBalances } from "src/hooks/pools/useBoostedBalances";
 import { IPool } from "src/constants/pools";
 
 interface BoostPanelProps {

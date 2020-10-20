@@ -13,14 +13,14 @@ import {
 } from "@chakra-ui/core";
 import BN from "bignumber.js";
 import { getDisplayBalance } from "src/utils/formatBalance";
-import { useTokenBalance } from "src/hooks/useTokenBalance";
-import { useAllowance } from "src/hooks/useAllowance";
-import { useApprove } from "src/hooks/useApprove";
-import { useStake } from "src/hooks/useStake";
-import { useStakedAmount } from "src/hooks/useStakedAmount";
+import { useTokenBalance } from "src/hooks/erc20/useTokenBalance";
+import { useAllowance } from "src/hooks/erc20/useAllowance";
+import { useApprove } from "src/hooks/erc20/useApprove";
+import { useStake } from "src/hooks/pools/useStake";
+import { useStakedAmount } from "src/hooks/pools/useStakedAmount";
 import { WithdrawWarning } from "../general/WithdrawWarning";
-import { useClaimRewards } from "src/hooks/useClaimRewards";
-import { useGetRewardAmount } from "src/hooks/useGetRewardAmount";
+import { useClaimRewards } from "src/hooks/pools/useClaimRewards";
+import { useGetRewardAmount } from "src/hooks/pools/useGetRewardAmount";
 import { IPool } from "src/constants/pools";
 
 interface StakePanelProps {

@@ -15,7 +15,7 @@ import { Container } from "src/components/general/Container";
 import { UseWalletProvider } from "use-wallet";
 import { ModalContext } from "src/context/ModalContext";
 import { PriceFeedProvider } from "src/context/PriceFeedContext";
-import { useWeb3Presence } from "src/hooks/useWeb3Presence";
+import { useWeb3Presence } from "src/hooks/general/useWeb3Presence";
 import Router from "next/router";
 import { VaultProvider } from "src/context/VaultContext";
 

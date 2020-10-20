@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { Text, Stack, Heading, Flex, Button, Progress } from "@chakra-ui/core";
-import { useSingleProposal } from "src/hooks/useSingleProposal";
+import { useSingleProposal } from "src/hooks/gov/useSingleProposal";
 import BN from "bignumber.js";
 import {
   getFullDisplayBalance,
   getDisplayBalance,
 } from "src/utils/formatBalance";
-import { useVoteAgainst } from "src/hooks/useVoteAgainst";
-import { useVoteFor } from "src/hooks/useVoteFor";
-import { useGovernanceStakedBalance } from "src/hooks/useGovernanceStakedBalance";
-import { useGetTotalGovernanceStaked } from "src/hooks/useGetTotalGovernanceStaked";
+import { useVoteAgainst } from "src/hooks/gov/useVoteAgainst";
+import { useVoteFor } from "src/hooks/gov/useVoteFor";
+import { useGovernanceStakedBalance } from "src/hooks/gov/useGovernanceStakedBalance";
+import { useGetTotalGovernanceStaked } from "src/hooks/gov/useGetTotalGovernanceStaked";
 
 const Proposal: React.FC = () => {
   const router = useRouter();
@@ -106,7 +106,8 @@ const Proposal: React.FC = () => {
         </Stack>
         <Stack boxShadow="md" p={6} borderWidth="1px">
           <Text pt={4}>
-            You must stake BOOST to vote, voting will lock your staked BOOST for 72 hours after your latest vote.
+            You must stake BOOST to vote, voting will lock your staked BOOST for
+            72 hours after your latest vote.
           </Text>
           <Flex w="100%" py={4}>
             <Stack w="50%" spacing={2}>

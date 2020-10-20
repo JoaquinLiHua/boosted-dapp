@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useWallet } from "use-wallet";
 import { provider } from "web3-core";
-import { deposit, withdraw } from "../utils/vault";
+import { deposit, withdraw } from "src/utils/vault";
 
 export const useVaultDeposit = (vaultAddress: string, decimals: number) => {
   const {

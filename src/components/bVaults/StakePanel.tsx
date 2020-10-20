@@ -10,17 +10,19 @@ import {
   NumberInput,
   NumberInputField,
   NumberInputStepper,
+  Divider,
 } from "@chakra-ui/core";
 import BN from "bignumber.js";
 import { IVault } from "src/constants/bVaults";
-import { useAllowance } from "src/hooks/useAllowance";
-import { useApprove } from "src/hooks/useApprove";
-import { useTokenBalance } from "src/hooks/useTokenBalance";
+import { useAllowance } from "src/hooks/erc20/useAllowance";
+import { useApprove } from "src/hooks/erc20/useApprove";
+import { useTokenBalance } from "src/hooks/erc20/useTokenBalance";
 import { getDisplayBalance } from "src/utils/formatBalance";
-import { useVaultRewardsStake } from "src/hooks/useVaultRewardsStake";
-import { useGetVaultRewardsAmount } from "src/hooks/useGetVaultRewardsAmount";
-import { useClaimVaultRewards } from "src/hooks/useClaimVaultRewards";
-import { useGetVaultRewardsStakedAmount } from "src/hooks/useGetVaultRewardsStakedAmount";
+import { useVaultRewardsStake } from "src/hooks/vaults/useVaultRewardsStake";
+import { useGetVaultRewardsAmount } from "src/hooks/vaults/useGetVaultRewardsAmount";
+import { useClaimVaultRewards } from "src/hooks/vaults/useClaimVaultRewards";
+import { useGetVaultRewardsStakedAmount } from "src/hooks/vaults/useGetVaultRewardsStakedAmount";
+import { boostToken } from "src/constants/bfAddresses";
 
 interface StakePanelProps {
   vault: IVault;
@@ -38,7 +40,7 @@ export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
   const stakedAmount: BN = useGetVaultRewardsStakedAmount(
     vault.vaultRewardAddress
   );
-
+  const boostBalance: BN = useTokenBalance(boostToken);
   const claimableRewards = useGetVaultRewardsAmount(vault.vaultRewardAddress);
   const { onClaim } = useClaimVaultRewards(vault.vaultRewardAddress);
 
@@ -136,8 +138,28 @@ export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
 
   return (
     <Stack spacing={8}>
-      <Box mt={4} fontWeight="bold" fontSize="lg" textTransform="uppercase">
-        Stake {vault.vaultTokenTicker} in vault to receive rewards.
+      <Box mt={4} fontWeight="bold" fontSize="lg">
+        Particpate in the {vault.vaultTokenTicker} reward pool
+      </Box>
+
+      <Box mt={4} fontSize="md">
+        1) Stake your {vault.vaultTokenTicker} in the {vault.vaultTokenTicker}{" "}
+        pool to participate in the rewards pool to gain additional rewards.
+      </Box>
+
+      <Box mt={4} fontSize="md">
+        2) Purchase BOOSTER to increase your yield in the pool.
+      </Box>
+
+      <Box mt={4} fontSize="md">
+        Each strategy allocates some of the yield into the rewards pool for
+        stakers.
+      </Box>
+
+      <Divider />
+
+      <Box t={4} fontWeight="bold" fontSize="lg">
+        Pool Rewards
       </Box>
       <Flex justifyContent="space-between">
         <Text fontWeight="bold">Rewards available to claim</Text>
@@ -157,127 +179,152 @@ export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
           Claim
         </Button>
       </Stack>
-      <Flex justifyContent="space-between">
-        <Text fontWeight="bold">
-          {vault.vaultTokenTicker.toUpperCase()} available to stake
-        </Text>
-        <Text>
-          {getDisplayBalance(vaultTokenBalance, vault.decimals)}{" "}
-          {vault.vaultTokenTicker.toUpperCase()}
-        </Text>
+      <Divider />
+
+      <Box t={4} fontWeight="bold" fontSize="lg">
+        Stake and Unstake {vault.vaultTokenTicker}
+      </Box>
+      <Flex>
+        <Box width="50%" mr={4}>
+          <Flex justifyContent="space-between" mb={2}>
+            <Text fontWeight="bold">
+              {vault.vaultTokenTicker.toUpperCase()} available to stake
+            </Text>
+            <Text>
+              {getDisplayBalance(vaultTokenBalance, vault.decimals)}{" "}
+              {vault.vaultTokenTicker.toUpperCase()}
+            </Text>
+          </Flex>
+          <Stack spacing={4}>
+            <NumberInput value={stakeAmount} onChange={handleStakeChange}>
+              <NumberInputField />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
+            <Flex width="100%">
+              <Button
+                w="25%"
+                mr={1}
+                onClick={() => handlePercentageStakeInputs(0.25)}
+              >
+                25%
+              </Button>
+              <Button
+                w="25%"
+                mx={1}
+                onClick={() => handlePercentageStakeInputs(0.5)}
+              >
+                50%
+              </Button>
+              <Button
+                w="25%"
+                mx={1}
+                onClick={() => handlePercentageStakeInputs(0.75)}
+              >
+                75%
+              </Button>
+              <Button
+                w="25%"
+                ml={1}
+                onClick={() => handlePercentageStakeInputs(1)}
+              >
+                100%
+              </Button>
+            </Flex>
+            {!allowance.toNumber() ? (
+              <Button
+                colorScheme="blue"
+                disabled={requestedApproval}
+                isLoading={requestedApproval}
+                onClick={() => handleApprove()}
+              >
+                Approve
+              </Button>
+            ) : (
+              <Button
+                colorScheme="blue"
+                width="100%"
+                isLoading={requestedStake}
+                disabled={requestedStake}
+                onClick={() => handleStake()}
+              >
+                Stake
+              </Button>
+            )}
+          </Stack>
+        </Box>
+        <Box width="50%" mr={4}>
+          <Flex justifyContent="space-between" mb={2}>
+            <Text fontWeight="bold">
+              {vault.vaultTokenTicker.toUpperCase()} available to unstake
+            </Text>
+            <Text>
+              {getDisplayBalance(stakedAmount, vault.decimals)}{" "}
+              {vault.vaultTokenTicker.toUpperCase()}
+            </Text>
+          </Flex>
+          <Stack spacing={4}>
+            <NumberInput value={unstakeAmount} onChange={handleUnstakeChange}>
+              <NumberInputField />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
+            <Flex width="100%">
+              <Button
+                w="25%"
+                mr={1}
+                onClick={() => handlePercentageUnstakeInputs(0.25)}
+              >
+                25%
+              </Button>
+              <Button
+                w="25%"
+                mx={1}
+                onClick={() => handlePercentageUnstakeInputs(0.5)}
+              >
+                50%
+              </Button>
+              <Button
+                w="25%"
+                mx={1}
+                onClick={() => handlePercentageUnstakeInputs(0.75)}
+              >
+                75%
+              </Button>
+              <Button
+                w="25%"
+                ml={1}
+                onClick={() => handlePercentageUnstakeInputs(1)}
+              >
+                100%
+              </Button>
+            </Flex>
+            <Button
+              colorScheme="blue"
+              width="100%"
+              isLoading={requestedUnstake}
+              disabled={!allowance.toNumber() || requestedUnstake}
+              onClick={() => handleUnstake()}
+            >
+              Unstake
+            </Button>
+          </Stack>
+        </Box>
       </Flex>
-      <Stack spacing={4}>
-        <NumberInput value={stakeAmount} onChange={handleStakeChange}>
-          <NumberInputField />
-          <NumberInputStepper>
-            <NumberIncrementStepper />
-            <NumberDecrementStepper />
-          </NumberInputStepper>
-        </NumberInput>
-        <Flex width="100%">
-          <Button
-            w="25%"
-            mr={1}
-            onClick={() => handlePercentageStakeInputs(0.25)}
-          >
-            25%
-          </Button>
-          <Button
-            w="25%"
-            mx={1}
-            onClick={() => handlePercentageStakeInputs(0.5)}
-          >
-            50%
-          </Button>
-          <Button
-            w="25%"
-            mx={1}
-            onClick={() => handlePercentageStakeInputs(0.75)}
-          >
-            75%
-          </Button>
-          <Button w="25%" ml={1} onClick={() => handlePercentageStakeInputs(1)}>
-            100%
-          </Button>
-        </Flex>
-        {!allowance.toNumber() ? (
-          <Button
-            colorScheme="blue"
-            disabled={requestedApproval}
-            isLoading={requestedApproval}
-            onClick={() => handleApprove()}
-          >
-            Approve
-          </Button>
-        ) : (
-          <Button
-            colorScheme="blue"
-            width="100%"
-            isLoading={requestedStake}
-            disabled={requestedStake}
-            onClick={() => handleStake()}
-          >
-            Stake
-          </Button>
-        )}
-      </Stack>
+      <Divider />
+
+      <Box t={4} fontWeight="bold" fontSize="lg">
+        BOOSTERS
+      </Box>
+
       <Flex justifyContent="space-between">
-        <Text fontWeight="bold">
-          {vault.vaultTokenTicker.toUpperCase()} available to unstake
-        </Text>
-        <Text>
-          {getDisplayBalance(stakedAmount, vault.decimals)}{" "}
-          {vault.vaultTokenTicker.toUpperCase()}
-        </Text>
+        <Text fontWeight="bold">BOOST Balance</Text>
+        <Text textAlign="right">{getDisplayBalance(boostBalance)} BOOST</Text>
       </Flex>
-      <Stack spacing={4}>
-        <NumberInput value={unstakeAmount} onChange={handleUnstakeChange}>
-          <NumberInputField />
-          <NumberInputStepper>
-            <NumberIncrementStepper />
-            <NumberDecrementStepper />
-          </NumberInputStepper>
-        </NumberInput>
-        <Flex width="100%">
-          <Button
-            w="25%"
-            mr={1}
-            onClick={() => handlePercentageUnstakeInputs(0.25)}
-          >
-            25%
-          </Button>
-          <Button
-            w="25%"
-            mx={1}
-            onClick={() => handlePercentageUnstakeInputs(0.5)}
-          >
-            50%
-          </Button>
-          <Button
-            w="25%"
-            mx={1}
-            onClick={() => handlePercentageUnstakeInputs(0.75)}
-          >
-            75%
-          </Button>
-          <Button
-            w="25%"
-            ml={1}
-            onClick={() => handlePercentageUnstakeInputs(1)}
-          >
-            100%
-          </Button>
-        </Flex>
-        <Button
-          colorScheme="blue"
-          width="100%"
-          isLoading={requestedUnstake}
-          disabled={!allowance.toNumber() || requestedUnstake}
-          onClick={() => handleUnstake()}
-        >
-          Unstake
-        </Button>
-      </Stack>
     </Stack>
   );
 };

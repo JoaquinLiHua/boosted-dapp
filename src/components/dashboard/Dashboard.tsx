@@ -1,12 +1,12 @@
 import React from "react";
 import { StatBox } from "./StatBox";
 import { boostToken } from "src/constants/bfAddresses";
-import { useTokenBalance } from "src/hooks/useTokenBalance";
-import { useTotalSupply } from "src/hooks/useTotalSupply";
-import { useTreasuryBalance } from "src/hooks/useTreasuryBalance";
-import { useTotalValueLocked } from "src/hooks/useTotalValueLocked";
-import { useGetTotalRewardAmount } from "src/hooks/useGetTotalRewardAmount";
-import { useBoostPrice } from "src/hooks/useBoostPrice";
+import { useTokenBalance } from "src/hooks/erc20/useTokenBalance";
+import { useTotalSupply } from "src/hooks/erc20/useTotalSupply";
+import { useTreasuryBalance } from "src/hooks/general/useTreasuryBalance";
+import { useTotalValueLocked } from "src/hooks/general/useTotalValueLocked";
+import { useGetTotalRewardAmount } from "src/hooks/general/useGetTotalRewardAmount";
+import { useBoostPrice } from "src/hooks/pools/useBoostPrice";
 import { Heading, Stack } from "@chakra-ui/core";
 import { getDisplayBalance } from "src/utils/formatBalance";
 

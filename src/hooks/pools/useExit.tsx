@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useWallet } from "use-wallet";
 import { provider } from "web3-core";
-import { exit } from "../utils/pool";
+import { exit } from "src/utils/pool";
 
 export const useExit = () => {
   const {

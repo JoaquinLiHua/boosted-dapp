@@ -239,3 +239,63 @@ export const getWithdrawalFee = async (
     return { withdrawFee: "0", denom: "0" };
   }
 };
+
+export const getNextBoosterAvailable = async (
+  provider: provider,
+  vaultRewardAddress: string,
+  account: string
+): Promise<string> => {
+  try {
+    const vaultRewardsContract = getVaultRewardsContract(
+      provider,
+      vaultRewardAddress
+    );
+    const periodFinish = await vaultRewardsContract.methods
+      .nextBoostPurchaseTime(account)
+      .call();
+    return periodFinish;
+  } catch (e) {
+    console.log(e);
+    return "9999";
+  }
+};
+
+export const getBoostedBalance = async (
+  provider: provider,
+  vaultRewardAddress: string,
+  account: string
+): Promise<string> => {
+  try {
+    const vaultRewardsContract = getVaultRewardsContract(
+      provider,
+      vaultRewardAddress
+    );
+    const boostedBalance = await vaultRewardsContract.methods
+      .boostedBalances(account)
+      .call();
+    return boostedBalance;
+  } catch (e) {
+    console.log(e);
+    return "0";
+  }
+};
+
+export const getNewBoostedBalance = async (
+  provider: provider,
+  vaultRewardAddress: string,
+  account: string
+): Promise<string> => {
+  try {
+    const vaultRewardsContract = getVaultRewardsContract(
+      provider,
+      vaultRewardAddress
+    );
+    const boosterInfo = await vaultRewardsContract.methods
+      .getBoosterPrice(account)
+      .call();
+    return boosterInfo["newBoostBalance"];
+  } catch (e) {
+    console.log(e);
+    return "0";
+  }
+};

@@ -2,7 +2,7 @@ import { useCallback, useState, useEffect } from "react";
 
 import { useWallet } from "use-wallet";
 import { provider } from "web3-core";
-import { rewardAmount } from "../utils/pool";
+import { rewardAmount } from "src/utils/pool";
 import BN from "bignumber.js";
 
 export const useGetVaultRewardsAmount = (vaultRewardsAddress: string) => {

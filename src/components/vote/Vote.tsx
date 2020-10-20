@@ -13,7 +13,7 @@ import {
   Spinner,
 } from "@chakra-ui/core";
 import { ProposalRow } from "src/components/vote/ProposalRow";
-import { useProposals } from "src/hooks/useProposals";
+import { useProposals } from "src/hooks/gov/useProposals";
 import { useModal } from "src/context/ModalContext";
 import { ProposalFormModal } from "src/components/vote/ProposalFormModal";
 import { useWallet } from "use-wallet";

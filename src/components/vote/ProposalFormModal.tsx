@@ -10,9 +10,9 @@ import {
 } from "@chakra-ui/core";
 import { Formik } from "formik";
 import { FormInput } from "./FormInput";
-import useSubmitProposal from "src/hooks/useSubmitProposal";
+import useSubmitProposal from "src/hooks/gov/useSubmitProposal";
 import { ModalProps } from "src/context/ModalContext";
-import { useGovernanceStakedBalance } from "src/hooks/useGovernanceStakedBalance";
+import { useGovernanceStakedBalance } from "src/hooks/gov/useGovernanceStakedBalance";
 
 export const ProposalFormModal: React.FC<ModalProps> = () => {
   const { onSubmitProposal } = useSubmitProposal();

@@ -9,8 +9,8 @@ import {
   AlertDialogBody,
   AlertDialogFooter,
 } from "@chakra-ui/core";
-import { useExit } from "src/hooks/useExit";
-import { useStake } from "src/hooks/useStake";
+import { useExit } from "src/hooks/pools/useExit";
+import { useStake } from "src/hooks/pools/useStake";
 
 export const WithdrawWarning = ({
   setShowExitModal,

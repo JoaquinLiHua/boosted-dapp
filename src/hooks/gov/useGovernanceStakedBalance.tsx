@@ -4,7 +4,7 @@ import BN from "bignumber.js";
 import { useWallet } from "use-wallet";
 import { provider } from "web3-core";
 
-import { getStaked } from "../utils/governance";
+import { getStaked } from "src/utils/governance";
 
 export const useGovernanceStakedBalance = () => {
   const [balance, setBalance] = useState(new BN(0));

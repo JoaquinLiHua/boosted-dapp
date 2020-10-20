@@ -24,14 +24,14 @@ import BN from "bignumber.js";
 import React, { useCallback, useState } from "react";
 import { FaInfo } from "react-icons/fa";
 import { IVault } from "src/constants/bVaults";
-import { useAllowance } from "src/hooks/useAllowance";
-import { useApprove } from "src/hooks/useApprove";
-import { useVaultDeposit } from "src/hooks/useDeposit";
-import { useTokenBalance } from "src/hooks/useTokenBalance";
+import { useAllowance } from "src/hooks/erc20/useAllowance";
+import { useApprove } from "src/hooks/erc20/useApprove";
+import { useVaultDeposit } from "src/hooks/vaults/useDeposit";
+import { useTokenBalance } from "src/hooks/erc20/useTokenBalance";
 import { getDisplayBalance } from "src/utils/formatBalance";
-import { useGetVaultPricePerFullShare } from "src/hooks/useGetVaultPricePerFullShare";
-import { useGetVaultWithdrawalFee } from "src/hooks/useGetVaultWithdrawalFee";
-import { useGetVaultDepositedAmount } from "src/hooks/useGetVaultDepositedAmount";
+import { useGetVaultPricePerFullShare } from "src/hooks/vaults/useGetVaultPricePerFullShare";
+import { useGetVaultWithdrawalFee } from "src/hooks/vaults/useGetVaultWithdrawalFee";
+import { useGetVaultDepositedAmount } from "src/hooks/vaults/useGetVaultDepositedAmount";
 
 interface DepositPanelProps {
   vault: IVault;
@@ -178,7 +178,7 @@ export const DepositPanel: React.FC<DepositPanelProps> = ({ vault }) => {
 
       <Divider />
       <Box t={4} fontWeight="bold" fontSize="lg">
-        Convert USDC to bfUSDC
+        Convert between USDC and bfUSDC
       </Box>
       <Flex justifyContent="space-between">
         <Text fontWeight="bold">Your {vault.vaultTokenTicker} balance</Text>

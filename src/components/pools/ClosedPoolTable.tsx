@@ -13,7 +13,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { usePoolContext } from "src/context/PoolContext";
 import { getDisplayBalance } from "src/utils/formatBalance";
 import { useWallet } from "use-wallet";
-import { useExit } from "src/hooks/useExit";
+import { useExit } from "src/hooks/pools/useExit";
 import { stakedAmount } from "src/utils/pool";
 import BN from "bignumber.js";
 import { provider } from "web3-core";

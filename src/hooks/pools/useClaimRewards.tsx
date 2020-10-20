@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useWallet } from "use-wallet";
 import { provider } from "web3-core";
-import { claim } from "../utils/pool";
+import { claim } from "src/utils/pool";
 
 export const useClaimRewards = (poolContract: string) => {
   const {
