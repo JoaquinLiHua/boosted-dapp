@@ -1,9 +1,11 @@
 import { useCallback, useState, useEffect } from "react";
 import { useWallet } from "use-wallet";
 import { provider } from "web3-core";
-import { rewardAmount } from "../../utils/pool";
+import { rewardAmount as poolRewardAmount } from "src/utils/pool";
+import { getRewardAmount as vaultRewardAmount } from "src/utils/vault";
 import BN from "bignumber.js";
 import { ALL_POOLS } from "src/constants/pools";
+import { B_VAULTS } from "src/constants/bVaults";
 
 export const useGetTotalRewardAmount = () => {
   const [amount, setAmount] = useState(new BN("0"));
@@ -13,17 +15,29 @@ export const useGetTotalRewardAmount = () => {
   }: { account: string | null; ethereum: provider } = useWallet();
   const fetchReadyToHarvest = useCallback(async () => {
     if (account) {
-      const totalAmount = ALL_POOLS.map(async (pool) => {
-        return new BN(await rewardAmount(ethereum, pool.address, account));
+      const totalPoolAmount = ALL_POOLS.map(async (pool) => {
+        return new BN(await poolRewardAmount(ethereum, pool.address, account));
       });
-      const totalValueResolved = await Promise.all(totalAmount).then(
+      const totalVaultAmount = B_VAULTS.map(async (vault) => {
+        return new BN(
+          await vaultRewardAmount(ethereum, vault.vaultRewardAddress, account)
+        );
+      });
+      const totalPoolResolved = await Promise.all(totalPoolAmount).then(
         (values) => {
           return values.reduce(function (a: BN, b: BN) {
             return a.plus(b);
           }, new BN("0"));
         }
       );
-      setAmount(totalValueResolved);
+      const totalVaultResolved = await Promise.all(totalVaultAmount).then(
+        (values) => {
+          return values.reduce(function (a: BN, b: BN) {
+            return a.plus(b);
+          }, new BN("0"));
+        }
+      );
+      setAmount(totalPoolResolved.plus(totalVaultResolved));
     }
   }, [account, ethereum]);
 
