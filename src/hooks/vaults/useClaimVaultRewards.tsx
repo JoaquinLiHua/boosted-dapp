@@ -1,9 +1,9 @@
 import { useCallback } from "react";
 import { useWallet } from "use-wallet";
 import { provider } from "web3-core";
-import { claim } from "../../utils/pool";
+import { claim } from "src/utils/vault";
 
-export const useClaimVaultRewards = (poolContract: string) => {
+export const useClaimVaultRewards = (vaultRewardsAddress: string) => {
   const {
     account,
     ethereum,
@@ -11,10 +11,10 @@ export const useClaimVaultRewards = (poolContract: string) => {
 
   const handleClaim = useCallback(async () => {
     if (account) {
-      const txHash = await claim(ethereum, poolContract, account);
+      const txHash = await claim(ethereum, vaultRewardsAddress, account);
       return txHash;
     }
-  }, [account, poolContract, ethereum]);
+  }, [account, vaultRewardsAddress, ethereum]);
 
   return { onClaim: handleClaim };
 };

@@ -23,6 +23,8 @@ export const useGetTotalRewardAmount = () => {
           return new BN(
             await vaultRewardAmount(ethereum, vault.vaultRewardAddress, account)
           );
+        } else {
+          return new BN("0");
         }
       });
       const totalPoolResolved = await Promise.all(totalPoolAmount).then(

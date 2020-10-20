@@ -18,6 +18,7 @@ import { PriceFeedProvider } from "src/context/PriceFeedContext";
 import { useWeb3Presence } from "src/hooks/general/useWeb3Presence";
 import Router from "next/router";
 import { VaultProvider } from "src/context/VaultContext";
+import { NotifyProvider } from "src/context/NotifyContext";
 
 function MyApp({ Component, pageProps }) {
   const [changingRoute, setChangingRoute] = useState<boolean>(false);
@@ -50,41 +51,43 @@ function MyApp({ Component, pageProps }) {
             walletconnect: { rpcUrl: "https://mainnet.eth.aragon.network/" },
           }}
         >
-          <ModalContext>
-            <VaultProvider>
-              <MarqueeComponent />
-              <Header changingRoute={changingRoute} />
-              {!web3Present ? (
-                <Flex
-                  direction="column"
-                  alignItems="center"
-                  margin="auto"
-                  px={8}
-                  py={8}
-                >
-                  <Image
-                    py={4}
-                    src="/images/boost-icon.png"
-                    w="32"
-                    align="center"
-                  />
-                  <Heading py={2} px={2} textAlign="center" fontSize="md">
-                    It looks like you&apos;re using device without a valid web3
-                    provider.
-                  </Heading>
-                  <Text py={2} px={2} textAlign="center" fontSize="md">
-                    Please switch to a web3 compatible browser to use
-                    Boosted.Finance
-                  </Text>
-                </Flex>
-              ) : (
-                <Container>
-                  <Component {...pageProps} />
-                </Container>
-              )}
-              <Footer />
-            </VaultProvider>
-          </ModalContext>
+          <NotifyProvider>
+            <ModalContext>
+              <VaultProvider>
+                <MarqueeComponent />
+                <Header changingRoute={changingRoute} />
+                {!web3Present ? (
+                  <Flex
+                    direction="column"
+                    alignItems="center"
+                    margin="auto"
+                    px={8}
+                    py={8}
+                  >
+                    <Image
+                      py={4}
+                      src="/images/boost-icon.png"
+                      w="32"
+                      align="center"
+                    />
+                    <Heading py={2} px={2} textAlign="center" fontSize="md">
+                      It looks like you&apos;re using device without a valid
+                      web3 provider.
+                    </Heading>
+                    <Text py={2} px={2} textAlign="center" fontSize="md">
+                      Please switch to a web3 compatible browser to use
+                      Boosted.Finance
+                    </Text>
+                  </Flex>
+                ) : (
+                  <Container>
+                    <Component {...pageProps} />
+                  </Container>
+                )}
+                <Footer />
+              </VaultProvider>
+            </ModalContext>
+          </NotifyProvider>
         </UseWalletProvider>
       </PriceFeedProvider>
       <title>Boosted Finance</title>

@@ -1,17 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 import CoinGecko from "coingecko-api";
-// import {
-//   yfiToken,
-//   wethToken,
-//   bandToken,
-//   kncToken,
-//   compToken,
-//   linkToken,
-//   lendToken,
-//   snxToken,
-//   mkrToken,
-//   renToken,
-// } from "src/constants/tokenAddresses";
 
 interface ModalsContext {
   coinGecko: unknown;

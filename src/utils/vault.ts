@@ -54,10 +54,16 @@ export const withdraw = async (
 ) => {
   const vaultContract = getVaultContract(provider, vaultAddress);
   const web3 = new Web3(provider);
-  const tokens = (Number(amount) * Math.pow(10, decimals)).toFixed(0);
-  console.log(tokens);
-  // 55058418
+  // console.log(Number(amount));
+  // console.log(Number(amount) / Math.pow(10, decimals));
+  const tokens = Math.trunc(Number(amount) * Math.pow(10, decimals));
+  // console.log(tokens);
+  // Current value WRONG: 110327327 = 110.32 usdc
+  // 55058418 = 55.xx usdc
   // 0x2e1a7d4d0000000000000000000000000000000000000000000000000000000003481ff2
+  // 11032732 = 11.032
+  // 0x2e1a7d4d0000000000000000000000000000000000000000000000000000000000a8589c
+  // 99292944 =
   const bntokens = web3.utils.toBN(tokens);
   return vaultContract.methods
     .withdraw(bntokens)
@@ -103,7 +109,7 @@ export const claim = async (
       vaultRewardsAddress
     );
     return vaultRewardsContract.methods
-      .getReward()
+      .getReward(account)
       .send({ from: account })
       .on("transactionHash", (tx) => {
         console.log(tx);
@@ -132,8 +138,7 @@ export const stake = async (
     .stake(bntokens)
     .send({ from: account })
     .on("transactionHash", (tx) => {
-      console.log(tx);
-      return tx.transactionHash;
+      return tx;
     });
 };
 
@@ -156,8 +161,7 @@ export const unstake = async (
       .withdraw(bntokens)
       .send({ from: account })
       .on("transactionHash", (tx) => {
-        console.log(tx);
-        return tx.transactionHash;
+        return tx;
       });
   } catch (e) {
     console.log(e);
@@ -286,13 +290,10 @@ export const getBoosterInfo = async (
   account: string
 ): Promise<{ boosterPrice: string; newBoostBalance: string }> => {
   try {
-    console.log(vaultRewardAddress);
     const vaultRewardsContract = getVaultRewardsContract(
       provider,
       vaultRewardAddress
     );
-    console.log(vaultRewardsContract);
-    console.log(account);
     const boosterInfo = await vaultRewardsContract.methods
       .getBoosterPrice(account)
       .call();

@@ -26,6 +26,8 @@ import { useClaimVaultRewards } from "src/hooks/vaults/useClaimVaultRewards";
 import { useGetVaultRewardsStakedAmount } from "src/hooks/vaults/useGetVaultRewardsStakedAmount";
 import { BoostSection } from "./BoostSection";
 import { FaInfo } from "react-icons/fa";
+import { useNotifyContext } from "src/context/NotifyContext";
+import { notifyHandler } from "src/utils/handleNotify";
 
 interface StakePanelProps {
   vault: IVault;
@@ -43,6 +45,7 @@ export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
   const stakedAmount: BN = useGetVaultRewardsStakedAmount(
     vault.vaultRewardAddress
   );
+  const notify = useNotifyContext();
   const claimableRewards = useGetVaultRewardsAmount(vault.vaultRewardAddress);
   const { onClaim } = useClaimVaultRewards(vault.vaultRewardAddress);
 
@@ -50,11 +53,8 @@ export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
     try {
       setRequestedClaim(true);
       const txHash = await onClaim();
-      if (!txHash) {
-        throw "Transactions error";
-      } else {
-        setRequestedClaim(false);
-      }
+      notifyHandler(notify, txHash);
+      setRequestedClaim(false);
     } catch (e) {
       console.log(e);
       setRequestedClaim(false);
@@ -80,11 +80,8 @@ export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
     try {
       setRequestedApproval(true);
       const txHash = await onApprove();
-      if (!txHash) {
-        throw "Transaction error";
-      } else {
-        setRequestedApproval(false);
-      }
+      notifyHandler(notify, txHash);
+      setRequestedApproval(false);
     } catch (e) {
       console.log(e);
       setRequestedApproval(false);
@@ -95,11 +92,9 @@ export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
     try {
       setRequestedUnstake(true);
       const txHash = await onVaultRewardsUnstake(unstakeAmount);
-      if (!txHash) {
-        throw "Transaction error";
-      } else {
-        setRequestedUnstake(false);
-      }
+      console.log(txHash);
+      notifyHandler(notify, txHash);
+      setRequestedUnstake(false);
     } catch (e) {
       console.log(e);
       setRequestedUnstake(false);
@@ -110,11 +105,9 @@ export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
     try {
       setRequestedStake(true);
       const txHash = await onVaultRewardsStake(stakeAmount);
-      if (!txHash) {
-        throw "Transaction error";
-      } else {
-        setRequestedStake(false);
-      }
+      console.log(txHash);
+      notifyHandler(notify, txHash);
+      setRequestedStake(false);
     } catch (e) {
       console.log(e);
       setRequestedStake(false);
@@ -122,18 +115,18 @@ export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
   }, [stakeAmount, onVaultRewardsStake]);
 
   const handlePercentageStakeInputs = (percentage) => {
-    const numberBalance = vaultTokenBalance.dividedBy(
-      new BN(10).pow(new BN(vault.decimals))
-    );
-    const stringValue = (percentage * numberBalance.toNumber()).toString();
+    const numberBalance = vaultTokenBalance
+      .dividedBy(new BN(10).pow(new BN(vault.decimals)))
+      .multipliedBy(percentage);
+    const stringValue = numberBalance.toString();
     setStakeAmount(stringValue);
   };
 
   const handlePercentageUnstakeInputs = (percentage: number) => {
-    const numberBalance = stakedAmount.dividedBy(
-      new BN(10).pow(new BN(vault.decimals))
-    );
-    const stringValue = (percentage * numberBalance.toNumber()).toString();
+    const numberBalance = stakedAmount
+      .dividedBy(new BN(10).pow(new BN(vault.decimals)))
+      .multipliedBy(percentage);
+    const stringValue = numberBalance.toString();
     setUnstakeAmount(stringValue);
   };
 
