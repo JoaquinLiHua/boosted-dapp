@@ -17,6 +17,8 @@ import {
   PopoverContent,
   PopoverHeader,
   PopoverTrigger,
+  Tooltip,
+  IconButton,
 } from "@chakra-ui/core";
 import BN from "bignumber.js";
 import React, { useCallback, useState } from "react";
@@ -25,9 +27,11 @@ import { IVault } from "src/constants/bVaults";
 import { useAllowance } from "src/hooks/useAllowance";
 import { useApprove } from "src/hooks/useApprove";
 import { useVaultDeposit } from "src/hooks/useDeposit";
-import { useGetVaultRewardsStakedAmount } from "src/hooks/useGetVaultRewardsStakedAmount";
 import { useTokenBalance } from "src/hooks/useTokenBalance";
 import { getDisplayBalance } from "src/utils/formatBalance";
+import { useGetVaultPricePerFullShare } from "src/hooks/useGetVaultPricePerFullShare";
+import { useGetVaultWithdrawalFee } from "src/hooks/useGetVaultWithdrawalFee";
+import { useGetVaultDepositedAmount } from "src/hooks/useGetVaultDepositedAmount";
 
 interface DepositPanelProps {
   vault: IVault;
@@ -42,7 +46,20 @@ export const DepositPanel: React.FC<DepositPanelProps> = ({ vault }) => {
 
   const wantTokenBalance: BN = useTokenBalance(vault.wantTokenAddress);
   const vaultTokenBalance: BN = useTokenBalance(vault.vaultAddress);
-  const stakedAmount: BN = useGetVaultRewardsStakedAmount(vault.vaultAddress);
+  const stakedAmount: BN = useGetVaultDepositedAmount(vault.vaultAddress);
+
+  const pricePerFullShare: BN = useGetVaultPricePerFullShare(
+    vault.vaultAddress
+  );
+  const withdrawalFee: BN = useGetVaultWithdrawalFee(
+    vault.vaultAddress,
+    vault.decimals
+  );
+
+  const maxStakedAmount: BN = stakedAmount
+    .multipliedBy(pricePerFullShare)
+    .minus(stakedAmount.multipliedBy(withdrawalFee.dividedBy(100)))
+    .dividedBy(1e18);
 
   const { onVaultDeposit, onVaultWithdraw } = useVaultDeposit(
     vault.vaultAddress,
@@ -108,7 +125,7 @@ export const DepositPanel: React.FC<DepositPanelProps> = ({ vault }) => {
   };
 
   const handlePercentageWithdrawInput = (percentage: number) => {
-    const numberBalance = stakedAmount
+    const numberBalance = maxStakedAmount
       .dividedBy(Math.pow(10, vault.decimals))
       .multipliedBy(percentage);
     const stringValue = numberBalance.toString();
@@ -148,19 +165,21 @@ export const DepositPanel: React.FC<DepositPanelProps> = ({ vault }) => {
         <PopoverContent zIndex={100}>
           <PopoverArrow />
           <PopoverCloseButton />
-          <PopoverHeader pr={4}>
-            What can I do with my {vault.vaultTokenTicker}?
-          </PopoverHeader>
+          <PopoverHeader>What is {vault.vaultTokenTicker}?</PopoverHeader>
           <PopoverBody>
-            By nature {vault.vaultTokenTicker} is interest bearing, however
-            users can deposit their {vault.vaultTokenTicker} into the bfUSDC
-            pool to reap more rewards by purchasing Boosters.
+            <Text>1) bfUSDC is interest bearing</Text>
+            <Text>
+              2) Stake your bfUSDC in the bfUSDC pool to earn additional rewards
+              that can be BOOSTED
+            </Text>
           </PopoverBody>
         </PopoverContent>
       </Popover>
 
       <Divider />
-
+      <Box t={4} fontWeight="bold" fontSize="lg">
+        Convert USDC to bfUSDC
+      </Box>
       <Flex justifyContent="space-between">
         <Text fontWeight="bold">Your {vault.vaultTokenTicker} balance</Text>
         <Text>
@@ -244,11 +263,25 @@ export const DepositPanel: React.FC<DepositPanelProps> = ({ vault }) => {
         </Box>
         <Box width="50%" ml={4}>
           <Flex justifyContent="space-between" mb={2}>
-            <Text fontWeight="bold">
-              {vault.wantTokenTicker.toUpperCase()} available to withdraw
-            </Text>
+            <Flex>
+              <Text fontWeight="bold">
+                {vault.wantTokenTicker.toUpperCase()} available to withdraw
+              </Text>
+              <Tooltip
+                label={`There is a ${withdrawalFee.toNumber()}% withdrawal fee on this vault.`}
+                fontSize="sm"
+              >
+                <IconButton
+                  ml={2}
+                  aria-label="vault-withdraw-info"
+                  size="xs"
+                  icon={<FaInfo />}
+                />
+              </Tooltip>
+            </Flex>
+
             <Text>
-              {getDisplayBalance(stakedAmount, vault.decimals)}{" "}
+              {getDisplayBalance(maxStakedAmount, vault.decimals)}{" "}
               {vault.wantTokenTicker.toUpperCase()}
             </Text>
           </Flex>

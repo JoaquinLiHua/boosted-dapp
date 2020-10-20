@@ -55,6 +55,9 @@ export const withdraw = async (
   const vaultContract = getVaultContract(provider, vaultAddress);
   const web3 = new Web3(provider);
   const tokens = (Number(amount) * Math.pow(10, decimals)).toFixed(0);
+  console.log(tokens);
+  // 55058418
+  // 0x2e1a7d4d0000000000000000000000000000000000000000000000000000000003481ff2
   const bntokens = web3.utils.toBN(tokens);
   return vaultContract.methods
     .withdraw(bntokens)
@@ -182,5 +185,57 @@ export const getStakedAmount = async (
     }
   } else {
     return "0";
+  }
+};
+
+export const getDepositedAmount = async (
+  provider: provider,
+  vaultAddress: string,
+  account: string | null
+): Promise<string> => {
+  if (account) {
+    try {
+      const vaultRewardsAddress = getVaultContract(provider, vaultAddress);
+      const depositedAmount = await vaultRewardsAddress.methods
+        .balanceOf(account)
+        .call();
+      return depositedAmount;
+    } catch (e) {
+      console.log(e);
+      return "0";
+    }
+  } else {
+    return "0";
+  }
+};
+
+export const getPricePerFullShare = async (
+  provider: provider,
+  vaultAddress: string
+): Promise<string> => {
+  try {
+    const vaultContract = getVaultContract(provider, vaultAddress);
+    const pricePerFullShare = await vaultContract.methods
+      .getPricePerFullShare()
+      .call();
+    return pricePerFullShare;
+  } catch (e) {
+    console.log(e);
+    return "0";
+  }
+};
+
+export const getWithdrawalFee = async (
+  provider: provider,
+  vaultAddress: string
+): Promise<{ withdrawFee: string; denom: string }> => {
+  try {
+    const vaultContract = getVaultContract(provider, vaultAddress);
+    const denom = await vaultContract.methods.DENOM().call();
+    const withdrawFee = await vaultContract.methods.withdrawalFee().call();
+    return { withdrawFee, denom };
+  } catch (e) {
+    console.log(e);
+    return { withdrawFee: "0", denom: "0" };
   }
 };
