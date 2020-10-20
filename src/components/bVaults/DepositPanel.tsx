@@ -56,6 +56,12 @@ export const DepositPanel: React.FC<DepositPanelProps> = ({ vault }) => {
     vault.decimals
   );
 
+  // Try this
+  // const maxStakedAmount: BN = stakedAmount
+  //   .multipliedBy(pricePerFullShare)
+  //   .dividedBy(1e18)
+  //   .minus(stakedAmount.multipliedBy(withdrawalFee).dividedBy(10000));
+
   const maxStakedAmount: BN = stakedAmount
     .multipliedBy(pricePerFullShare)
     .minus(stakedAmount.multipliedBy(withdrawalFee.dividedBy(100)))
