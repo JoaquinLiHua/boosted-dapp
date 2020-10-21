@@ -168,7 +168,7 @@ export const StakePanel: React.FC<StakePanelProps> = ({ vault }) => {
       <Flex justifyContent="space-between">
         <Text fontWeight="bold">Rewards available to claim</Text>
         <Text>
-          {getDisplayBalance(claimableRewards)}{" "}
+          {getDisplayBalance(claimableRewards, vault.decimals)}{" "}
           {vault.wantTokenTicker.toUpperCase()}
         </Text>
       </Flex>
