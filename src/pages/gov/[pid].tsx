@@ -154,7 +154,10 @@ const Proposal: React.FC = () => {
               <Text sub={true}>{getDisplayBalance(totalForVotes)} BOOST</Text>
             </Flex>
             <Text>
-              {(totalForVotes.div(totalVotes).toNumber() * 100).toFixed(2)}%
+              {totalForVotes.div(totalVotes).toNumber()
+                ? (totalForVotes.div(totalVotes).toNumber() * 100).toFixed(2)
+                : 0}
+              %
             </Text>
           </Flex>
           <Progress
@@ -172,7 +175,12 @@ const Proposal: React.FC = () => {
               </Text>
             </Flex>
             <Text>
-              {(totalAgainstVotes.div(totalVotes).toNumber() * 100).toFixed(2)}%
+              {totalAgainstVotes.div(totalVotes).toNumber()
+                ? (totalAgainstVotes.div(totalVotes).toNumber() * 100).toFixed(
+                    2
+                  )
+                : 0}
+              %
             </Text>
           </Flex>
           <Progress

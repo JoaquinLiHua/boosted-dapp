@@ -9,13 +9,12 @@ import {
   TabPanels,
   TabPanel,
   Text,
-  Heading,
   Spinner,
 } from "@chakra-ui/core";
-import { ProposalRow } from "src/components/vote/ProposalRow";
+import { ProposalRow } from "src/components/gov/ProposalRow";
 import { useProposals } from "src/hooks/gov/useProposals";
 import { useModal } from "src/context/ModalContext";
-import { ProposalFormModal } from "src/components/vote/ProposalFormModal";
+import { ProposalFormModal } from "src/components/gov/ProposalFormModal";
 import { useWallet } from "use-wallet";
 import { StakeModal } from "./StakeModal";
 import { UnstakeModal } from "./UnstakeModal";
@@ -37,7 +36,6 @@ export const Vote: React.FC = () => {
   return (
     <Flex justifyContent="space-between" width="100%">
       <Stack spacing="1.5rem" mr="4" mt="4" flex={1} width="100%">
-        <Heading size="md">PROPOSALS</Heading>
         {account && (
           <Stack direction={["column", "column", "row"]} spacing={4}>
             <Button onClick={() => onPresentProposalForm()} size="sm" w={125}>

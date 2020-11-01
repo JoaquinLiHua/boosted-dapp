@@ -1,11 +1,12 @@
-import { Stack, Heading, Text } from "@chakra-ui/core";
+import { Stack, Heading } from "@chakra-ui/core";
 import React from "react";
+import { Vote } from "src/components/gov/Vote";
 
 const Gov: React.FC = () => {
   return (
     <Stack spacing={4} mt={4} width="100%">
       <Heading>Governance</Heading>
-      <Text>Our migrated governance contracts are coming soon... 🚀</Text>
+      <Vote />
     </Stack>
   );
 };

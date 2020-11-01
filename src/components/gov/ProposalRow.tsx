@@ -21,7 +21,7 @@ interface ProposalRowProps {
 
 export const ProposalRow: React.FC<ProposalRowProps> = ({ proposal, pid }) => {
   return (
-    <Link href="/vote/[pid]" as={`/vote/${pid}`}>
+    <Link href="/gov/[pid]" as={`/gov/${pid}`}>
       <Flex borderBottomWidth={1} py={4} cursor="pointer" overflow="scroll">
         <VStack mx={4} px={4} whiteSpace="nowrap">
           <Text textAlign="center" fontWeight="bold">{`BFIP-${pid + 2}`}</Text>
