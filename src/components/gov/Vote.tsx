@@ -67,7 +67,7 @@ export const Vote: React.FC = () => {
               ) : (
                 proposals &&
                 proposals.map((e, i) => {
-                  if (i === 0) {
+                  if (i === 0 || i === 11) {
                     return <ProposalRow key={i} pid={i} proposal={e} />;
                   } else {
                     return;
