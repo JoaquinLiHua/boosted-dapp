@@ -26,6 +26,10 @@ export const Header = ({ changingRoute }) => {
       link: "/bVaults",
     },
     {
+      copy: "bVaults V2",
+      link: "/bVaultsV2",
+    },
+    {
       copy: "Gov",
       link: "/gov",
     },
@@ -33,10 +37,6 @@ export const Header = ({ changingRoute }) => {
       copy: "Pools",
       link: "/pools",
     },
-    // {
-    //   copy: "Stake",
-    //   link: "/stake",
-    // },
   ];
   return (
     <Flex
