@@ -5,30 +5,26 @@ import React, {
   useEffect,
   useCallback,
 } from "react";
-// import { useWallet } from "use-wallet";
-// import { provider } from "web3-core";
-// import { usePriceFeedContext } from "./PriceFeedContext";
-import { B_VAULTS, IVault } from "src/constants/bVaults";
+import { B_VAULTS, B_VAULTS_V2, IVault } from "src/constants/bVaults";
 
 interface IVaultContext {
   vaults: IVault[];
+  vaultsV2: IVault[];
 }
 
 export const VaultContext = createContext<IVaultContext>({
   vaults: [],
+  vaultsV2: [],
 });
 
 export const VaultProvider: React.FC = ({ children }) => {
-  // const { coinGecko } = usePriceFeedContext();
   const [vaults, setVaults] = useState<IVault[]>([]);
-  // const {
-  //   ethereum,
-  //   account,
-  // }: { ethereum: provider; account: string | null } = useWallet();
+  const [vaultsV2, setVaultsV2] = useState<IVault[]>([]);
 
   const getVaults = useCallback(async () => {
     setVaults(B_VAULTS);
-  }, []);
+    setVaultsV2(B_VAULTS_V2);
+  }, [B_VAULTS, B_VAULTS_V2]);
 
   useEffect(() => {
     getVaults();
@@ -40,6 +36,7 @@ export const VaultProvider: React.FC = ({ children }) => {
     <VaultContext.Provider
       value={{
         vaults,
+        vaultsV2,
       }}
     >
       {children}
