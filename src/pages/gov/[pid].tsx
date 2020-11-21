@@ -118,6 +118,19 @@ const Proposal: React.FC = () => {
               </Text>
             </Flex>
           )}
+          {parseInt(pid.toString()) === 12 && (
+            <Flex flexDirection={"column"}>
+              <Text fontWeight="bold" fontSize="sm">
+                Simple Summary:&nbsp;
+              </Text>
+              <Text>
+                The Boosted Finance team is requesting funding of 90,000 yCRV to
+                fund ongoing development efforts for bVaults, new developers and
+                designers, implementation of strategies, bug fixing, content
+                creators, growth, and partnership developments..
+              </Text>
+            </Flex>
+          )}
         </Stack>
         <Stack boxShadow="md" p={6} borderWidth="1px">
           <Text pt={4}>
