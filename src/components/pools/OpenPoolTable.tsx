@@ -10,7 +10,7 @@ import {
   Link as URL,
   Heading,
   Center,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { usePoolContext } from "src/context/PoolContext";
 import { getDisplayBalance } from "src/utils/formatBalance";
 import { formatTimestamp } from "src/utils/formatTimestamp";

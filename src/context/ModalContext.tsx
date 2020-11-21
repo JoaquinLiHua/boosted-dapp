@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useState, useContext } from "react";
-import { Modal, ModalOverlay } from "@chakra-ui/core";
+import { Modal, ModalOverlay } from "@chakra-ui/react";
 
 export interface ModalProps {
   onDismiss?: () => void;

@@ -1,5 +1,5 @@
 import React from "react";
-import { Flex, Heading, IconButton, Stack, Tooltip } from "@chakra-ui/core";
+import { Flex, Heading, IconButton, Stack, Tooltip } from "@chakra-ui/react";
 import { VaultCard } from "src/components/bVaults/VaultCard";
 import { useVaultContext } from "src/context/VaultContext";
 import { FaInfo } from "react-icons/fa";

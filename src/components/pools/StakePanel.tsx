@@ -10,7 +10,7 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
   Divider,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import BN from "bignumber.js";
 import { getDisplayBalance } from "src/utils/formatBalance";
 import { useTokenBalance } from "src/hooks/erc20/useTokenBalance";

@@ -8,7 +8,7 @@ import {
   Tab,
   TabPanel,
   TabPanels,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { OpenPoolTable } from "./OpenPoolTable";
 import { ClosedPoolTable } from "./ClosedPoolTable";
 import { isMobile } from "react-device-detect";

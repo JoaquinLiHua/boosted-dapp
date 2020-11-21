@@ -7,7 +7,7 @@ import {
   Stack,
   Button,
   Text,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { Formik } from "formik";
 import { FormInput } from "./FormInput";
 import useSubmitProposal from "src/hooks/gov/useSubmitProposal";

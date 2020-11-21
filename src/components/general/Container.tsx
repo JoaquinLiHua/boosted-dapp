@@ -1,5 +1,5 @@
 import React from "react";
-import { Flex } from "@chakra-ui/core";
+import { Flex } from "@chakra-ui/react";
 
 export const Container = (props) => {
   return (
@@ -12,7 +12,7 @@ export const Container = (props) => {
       minHeight="100vh"
       {...props}
       my={[4]}
-      p={[4, 4, 0]}
+      px={[4, 8, 16]}
     />
   );
 };

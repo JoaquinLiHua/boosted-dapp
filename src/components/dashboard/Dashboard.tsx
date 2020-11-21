@@ -7,8 +7,9 @@ import { useTreasuryBalance } from "src/hooks/general/useTreasuryBalance";
 import { useTotalValueLocked } from "src/hooks/general/useTotalValueLocked";
 import { useGetTotalRewardAmount } from "src/hooks/general/useGetTotalRewardAmount";
 import { useBoostPrice } from "src/hooks/pools/useBoostPrice";
-import { Heading, Stack } from "@chakra-ui/core";
+import { Alert, AlertIcon, Heading, Stack } from "@chakra-ui/react";
 import { getDisplayBalance } from "src/utils/formatBalance";
+import Link from "next/link";
 
 export const Dashboard: React.FC = () => {
   const boostBalance: string = getDisplayBalance(useTokenBalance(boostToken));
@@ -25,6 +26,18 @@ export const Dashboard: React.FC = () => {
   return (
     <Stack spacing={4} mt={4} width="100%">
       <Heading>Dashboard</Heading>
+      <Alert status="info">
+        <AlertIcon />
+        <span>
+          bVault strategy competition now live! Visit{" "}
+          <Link href="/strategy-comp">
+            <span style={{ textDecoration: "underline", cursor: "pointer" }}>
+              here
+            </span>
+          </Link>{" "}
+          for more info
+        </span>
+      </Alert>
       <Stack spacing={2}>
         <Stack spacing={2} direction={["column", "column", "row"]}>
           <StatBox

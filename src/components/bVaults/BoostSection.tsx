@@ -1,4 +1,4 @@
-import { Box, Flex, Button, Text } from "@chakra-ui/core";
+import { Box, Flex, Button, Text } from "@chakra-ui/react";
 import BN from "bignumber.js";
 import React, { useCallback, useEffect, useState } from "react";
 import { boostToken } from "src/constants/bfAddresses";

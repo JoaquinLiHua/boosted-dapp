@@ -10,7 +10,7 @@ import {
   TabPanels,
   Flex,
   Image,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { usePoolContext } from "src/context/PoolContext";
 import { StakePanel } from "src/components/pools/StakePanel";
 import { BoostPanel } from "src/components/pools/BoostPanel";

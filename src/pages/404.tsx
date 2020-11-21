@@ -1,4 +1,4 @@
-import { Heading, Image, Stack, Text } from "@chakra-ui/core";
+import { Heading, Image, Stack, Text } from "@chakra-ui/react";
 import React from "react";
 
 const NotFound: React.FC = () => {

@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { Stack, Flex, Button, Text } from "@chakra-ui/core";
+import { Stack, Flex, Button, Text } from "@chakra-ui/react";
 import { getDisplayBalance } from "src/utils/formatBalance";
 import { useTokenBalance } from "src/hooks/erc20/useTokenBalance";
 import { boostToken } from "src/constants/bfAddresses";

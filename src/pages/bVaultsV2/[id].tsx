@@ -11,7 +11,7 @@ import {
   Box,
   TabPanel,
   TabPanels,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { useVaultContext } from "src/context/VaultContext";
 import { DepositPanel } from "src/components/bVaults/DepositPanel";
 import { StakePanel } from "src/components/bVaults/StakePanel";
