@@ -13,7 +13,7 @@ import {
   Divider,
   Tooltip,
   IconButton,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import BN from "bignumber.js";
 import { IVault } from "src/constants/bVaults";
 import { useAllowance } from "src/hooks/erc20/useAllowance";

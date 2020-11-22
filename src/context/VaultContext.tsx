@@ -24,7 +24,7 @@ export const VaultProvider: React.FC = ({ children }) => {
   const getVaults = useCallback(async () => {
     setVaults(B_VAULTS);
     setVaultsV2(B_VAULTS_V2);
-  }, [B_VAULTS, B_VAULTS_V2]);
+  }, []);
 
   useEffect(() => {
     getVaults();

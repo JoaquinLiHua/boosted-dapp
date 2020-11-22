@@ -1,7 +1,7 @@
 import React from "react";
 import Marquee from "react-marquee-slider";
 import times from "lodash/times";
-import { Text } from "@chakra-ui/core";
+import { Text } from "@chakra-ui/react";
 import { isMobile } from "react-device-detect";
 
 export const MarqueeComponent = () => {

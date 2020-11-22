@@ -5,7 +5,7 @@ import {
   FormLabel,
   Input,
   FormErrorMessage,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 
 interface FormInputProps {
   fieldName: string;

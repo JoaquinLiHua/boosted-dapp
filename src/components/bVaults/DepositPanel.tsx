@@ -19,7 +19,7 @@ import {
   PopoverTrigger,
   Tooltip,
   IconButton,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import BN from "bignumber.js";
 import React, { useCallback, useState } from "react";
 import { FaInfo } from "react-icons/fa";

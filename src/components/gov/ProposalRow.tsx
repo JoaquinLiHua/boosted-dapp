@@ -6,7 +6,7 @@ import {
   VStack,
   TagLeftIcon,
   TagLabel,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { formatTimestamp } from "src/utils/formatTimestamp";
 import { formatAddress } from "src/utils/formatAddress";
 import { getFullDisplayBalance } from "src/utils/formatBalance";

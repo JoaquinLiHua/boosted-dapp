@@ -1,7 +1,6 @@
 import React from "react";
 import Document, { Html, Head, Main, NextScript } from "next/document";
-import { InitializeColorMode } from "@chakra-ui/core";
-
+import { ColorModeScript } from "@chakra-ui/react";
 class MyDocument extends Document {
   render() {
     return (
@@ -16,7 +15,7 @@ class MyDocument extends Document {
           <link rel="shortcut icon" href="/images/favicon.ico" />
         </Head>
         <body>
-          <InitializeColorMode />
+          <ColorModeScript />
           <Main />
           <NextScript />
         </body>

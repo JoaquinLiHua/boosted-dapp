@@ -12,7 +12,7 @@ import {
   Flex,
   Text,
   Button,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { Formik, Field } from "formik";
 import { useTokenBalance } from "src/hooks/erc20/useTokenBalance";
 import { boostToken, governanceContract } from "src/constants/bfAddresses";

@@ -9,7 +9,7 @@ import {
   Stack,
   Image,
   useToast,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { useWallet } from "use-wallet";
 import { ModalProps } from "../../context/ModalContext";
 

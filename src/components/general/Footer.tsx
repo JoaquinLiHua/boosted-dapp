@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, Stack, Flex, Box, Image } from "@chakra-ui/core";
+import { Text, Stack, Flex, Box, Image } from "@chakra-ui/react";
 
 export const Footer = (props) => (
   <Box as="footer" borderTopWidth={1} {...props} py={8}>
@@ -9,6 +9,7 @@ export const Footer = (props) => (
       margin="auto"
       justifyContent="space-between"
       flexDirection={["column", "column", "row"]}
+      px={[4, 8, 16]}
     >
       <Flex justifyContent={["center", "center", "flex-start"]} mb={4}>
         <Image h={50} src="/images/boost-icon.png" />

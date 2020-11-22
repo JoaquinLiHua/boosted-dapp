@@ -13,7 +13,7 @@ import {
   PopoverContent,
   PopoverHeader,
   PopoverTrigger,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import Link from "next/link";
 import React from "react";
 import { FaInfo } from "react-icons/fa";

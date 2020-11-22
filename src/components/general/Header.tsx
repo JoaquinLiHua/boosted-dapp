@@ -6,7 +6,7 @@ import {
   Spinner,
   Tooltip,
   useColorMode,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import NextLink from "next/link";
 import { SettingsMenus } from "./SettingsMenu";
 import { FaMoon, FaSun } from "react-icons/fa";
@@ -26,10 +26,6 @@ export const Header = ({ changingRoute }) => {
       link: "/bVaults",
     },
     {
-      copy: "bVaults V2",
-      link: "/bVaultsV2",
-    },
-    {
       copy: "Gov",
       link: "/gov",
     },
@@ -47,6 +43,7 @@ export const Header = ({ changingRoute }) => {
       maxWidth="1200px"
       margin="auto"
       flexDirection={["column", "column", "row"]}
+      px={[4, 8, 16]}
     >
       <Flex alignItems="center" my={[4, 4, 0]}>
         {ROUTES.map((route, i) => (

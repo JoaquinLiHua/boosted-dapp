@@ -6,7 +6,7 @@ import {
   Image,
   Text,
   Flex,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import theme from "../theme";
 import { MarqueeComponent } from "src/components/general/Marquee";
 import { Header } from "src/components/general/Header";
@@ -105,6 +105,14 @@ function MyApp({ Component, pageProps }) {
         body {
           -ms-overflow-style: none; /* IE and Edge */
           scrollbar-width: none; /* Firefox */
+        }
+
+        div {
+          text-decoration: none;
+        }
+
+        * {
+          box-sizing: border-box;
         }
       `}</style>
     </ChakraProvider>

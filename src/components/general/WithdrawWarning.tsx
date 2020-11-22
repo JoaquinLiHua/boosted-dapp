@@ -8,7 +8,7 @@ import {
   AlertDialogHeader,
   AlertDialogBody,
   AlertDialogFooter,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { useExit } from "src/hooks/pools/useExit";
 import { useStake } from "src/hooks/pools/useStake";
 

@@ -10,7 +10,7 @@ import {
   TabPanel,
   Text,
   Spinner,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { ProposalRow } from "src/components/gov/ProposalRow";
 import { useProposals } from "src/hooks/gov/useProposals";
 import { useModal } from "src/context/ModalContext";

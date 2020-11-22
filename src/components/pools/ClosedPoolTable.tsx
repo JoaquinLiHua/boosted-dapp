@@ -8,7 +8,7 @@ import {
   Box,
   Center,
   Heading,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import React, { useCallback, useEffect, useState } from "react";
 import { usePoolContext } from "src/context/PoolContext";
 import { getDisplayBalance } from "src/utils/formatBalance";

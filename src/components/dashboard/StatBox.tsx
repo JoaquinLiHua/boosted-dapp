@@ -6,7 +6,7 @@ import {
   StatLabel,
   Text,
   StatHelpText,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import CountUp from "react-countup";
 
 interface StatBoxProps {

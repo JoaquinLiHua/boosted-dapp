@@ -1,4 +1,4 @@
-import { Stack, Heading } from "@chakra-ui/core";
+import { Stack, Heading } from "@chakra-ui/react";
 import React from "react";
 import { Vote } from "src/components/gov/Vote";
 

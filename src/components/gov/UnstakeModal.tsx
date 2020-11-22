@@ -11,7 +11,7 @@ import {
   Input,
   FormErrorMessage,
   Button,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { useGovernanceStakedBalance } from "src/hooks/gov/useGovernanceStakedBalance";
 import { useGovernanceStake } from "src/hooks/gov/useGovernanceStake";
 import { useVoteLockedPeriod } from "src/hooks/gov/useVoteLockedPeriod";

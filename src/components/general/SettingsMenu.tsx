@@ -14,7 +14,7 @@ import {
   PopoverBody,
   PopoverArrow,
   PopoverCloseButton,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { useModal } from "src/context/ModalContext";
 import { WalletSelectModal } from "src/components/general/WalletSelectModal";
 import { useWallet } from "use-wallet";

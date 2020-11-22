@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
-import { Text, Stack, Heading, Flex, Button, Progress } from "@chakra-ui/core";
+import { Text, Stack, Heading, Flex, Button, Progress } from "@chakra-ui/react";
 import { useSingleProposal } from "src/hooks/gov/useSingleProposal";
 import BN from "bignumber.js";
 import {
