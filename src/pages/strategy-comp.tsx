@@ -54,7 +54,7 @@ const StrategyComp: React.FC = () => {
           When you&apos;re ready to submit your idea, please complete the form
           below. Submissions are due before December 18th, 12:00AM UTC
         </Text>
-        <Box id="typeform-widget" style={{ height: 500 }} py={4} />
+        <Box id="typeform-widget" py={4} height={400} overflow={"hidden"} />
       </Stack>
     </Stack>
   );
