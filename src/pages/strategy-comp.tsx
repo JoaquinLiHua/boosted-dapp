@@ -16,7 +16,10 @@ const StrategyComp: React.FC = () => {
 
   useEffect(() => {
     const el = document.getElementById("typeform-widget");
-    typeformEmbed.makeWidget(el, url, { opacity: 0 });
+    typeformEmbed.makeWidget(el, url, {
+      opacity: 0,
+      hideHeaders: true,
+    });
   }, [url]);
 
   return (
@@ -39,7 +42,7 @@ const StrategyComp: React.FC = () => {
             href="https://boostedfinance.medium.com/boosted-finance-strategist-competition-kickoff-edbb76b2fa7f"
           >
             <Button w={200} mr={2} colorScheme="blue">
-              Blog
+              Info
             </Button>
           </ChakraLink>
         </Flex>
@@ -51,7 +54,7 @@ const StrategyComp: React.FC = () => {
           When you&apos;re ready to submit your idea, please complete the form
           below. Submissions are due before December 18th, 12:00AM UTC
         </Text>
-        <Box id="typeform-widget" style={{ height: "100vh" }} py={8} />
+        <Box id="typeform-widget" style={{ height: 500 }} py={4} />
       </Stack>
     </Stack>
   );
