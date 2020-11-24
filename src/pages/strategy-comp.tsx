@@ -12,20 +12,21 @@ import {
 import * as typeformEmbed from "@typeform/embed";
 
 const StrategyComp: React.FC = () => {
-  const url = "https://joaquinlihua.typeform.com/to/o3Lq6EBb";
+  const url = "https://upwrlifter12.typeform.com/to/bJhmMg7y";
 
   useEffect(() => {
     const el = document.getElementById("typeform-widget");
-    typeformEmbed.makeWidget(el, url);
+    typeformEmbed.makeWidget(el, url, { opacity: 0 });
   }, [url]);
 
   return (
     <Stack spacing={16} width="100%">
       <Stack spacing={8}>
         <Heading>bVaults Strategy Competition</Heading>
-        <Text>Submit your best vault strategy ideas.</Text>
-        <Text color="green.400" fontWeight="bold">
-          Prize pool of 3,000 USD
+        <Text>
+          Submit your best bVault strategy ideas to win from a prize pool of
+          $3000 USDC and the chance to have it implemented on Boosted.Finance
+          which will allow you to earn performance fees!
         </Text>
         <Flex>
           <ChakraLink isExternal href="https://discord.com/invite/gp9bsaQ">
@@ -33,7 +34,10 @@ const StrategyComp: React.FC = () => {
               Discord
             </Button>
           </ChakraLink>
-          <ChakraLink>
+          <ChakraLink
+            isExternal
+            href="https://boostedfinance.medium.com/boosted-finance-strategist-competition-kickoff-edbb76b2fa7f"
+          >
             <Button w={200} mr={2} colorScheme="blue">
               Blog
             </Button>
