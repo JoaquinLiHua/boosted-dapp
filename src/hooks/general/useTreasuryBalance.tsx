@@ -9,7 +9,7 @@ import { usePriceFeedContext } from "src/context/PriceFeedContext";
 import { yCRVToken } from "src/constants/tokenAddresses";
 import {
   governanceContract,
-  treasuryV2Contract,
+  treasuryV3Contract,
 } from "src/constants/bfAddresses";
 
 export const useTreasuryBalance = () => {
@@ -26,7 +26,7 @@ export const useTreasuryBalance = () => {
       await getBalanceOf(ethereum, yCRVToken, governanceContract)
     );
     const newTreasuryBalance = new BN(
-      await getBalanceOf(ethereum, yCRVToken, treasuryV2Contract)
+      await getBalanceOf(ethereum, yCRVToken, treasuryV3Contract)
     );
     const totalBalance = balance.plus(newTreasuryBalance);
     const usdBalance = new BN(priceInUSD).multipliedBy(totalBalance);
