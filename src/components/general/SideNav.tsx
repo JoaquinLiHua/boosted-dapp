@@ -23,10 +23,13 @@ const SideNav: React.FC<SideNavProps> = ({}) => {
 
 export default SideNav;
 
-const Container = styled(FlexDivCol)``;
+const Container = styled(FlexDivCol)`
+  padding: 16px;
+`;
 
 const Item = styled.div<{ active: boolean }>`
   color: ${(props) =>
     props.active ? props.theme.colors.white : props.theme.colors.gray};
   font-family: ${(props) => props.theme.fonts.interBold};
+  margin-bottom: 8px;
 `;

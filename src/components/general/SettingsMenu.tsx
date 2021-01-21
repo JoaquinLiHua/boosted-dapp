@@ -4,6 +4,7 @@ import { useModal } from "src/context/ModalContext";
 import { WalletSelectModal } from "src/components/general/WalletSelectModal";
 import { useWallet } from "use-wallet";
 import { formatAddress } from "src/utils/formatAddress";
+import { FlexDiv, FlexDivCentered } from "src/styles/common";
 
 export const SettingsMenus = () => {
   const { account, reset } = useWallet();
@@ -28,7 +29,10 @@ export const SettingsMenus = () => {
   );
 };
 
-const ConnectWalletButton = styled.button`
+const ConnectWalletButton = styled(FlexDivCentered)`
   color: ${(props) => props.theme.colors.white};
-  background-color: ${(props) => props.theme.colors.primaryBlue};
+  background: ${(props) => props.theme.colors.darkBlue};
+  padding: 4px 8px;
+
+  justify-content: center;
 `;
