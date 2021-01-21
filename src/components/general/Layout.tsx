@@ -5,6 +5,7 @@ import { SettingsMenus } from "./SettingsMenu";
 import { FlexDiv, FlexDivCol, FlexDivRowCentered } from "src/styles/common";
 import { Svg } from "react-optimized-image";
 import SideNav from "./SideNav";
+import { ExternalLink } from "./ExternalLink";
 
 import Logo from "src/assets/svg/logo.svg";
 import SolarSystem from "src/assets/svg/solar-system.svg";
@@ -31,7 +32,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           <Svg src={Logo} />
         </NextLink>
         <FlexDiv>
-          <StyledDiscordLink>Join our Discord!</StyledDiscordLink>
+          <StyledDiscordLink href="https://discord.gg/gp9bsaQ">Join our Discord!</StyledDiscordLink>
           <SettingsMenus />
         </FlexDiv>
       </HeaderContainer>
@@ -75,7 +76,7 @@ const HeaderContainer = styled(FlexDivRowCentered)`
   padding: 24px;
 `;
 
-const StyledDiscordLink = styled.div`
+const StyledDiscordLink = styled(ExternalLink)`
   font-family: ${(props) => props.theme.fonts.regular};
   color: ${(props) => props.theme.colors.white};
   margin-right: 8px;
