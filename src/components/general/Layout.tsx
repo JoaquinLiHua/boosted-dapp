@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import NextLink from "next/link";
 import { SettingsMenus } from "./SettingsMenu";
-import { FlexDiv, FlexDivRowCentered } from "src/styles/common";
+import { FlexDiv, FlexDivCol, FlexDivRowCentered } from "src/styles/common";
 import { Svg } from "react-optimized-image";
 import SideNav from "./SideNav";
 
@@ -89,4 +89,8 @@ const Grid = styled.div`
 `;
 
 const RightColumn = styled.div``;
-const LeftColumn = styled.div``;
+
+const LeftColumn = styled(FlexDivCol)`
+  width: 800px;
+  justify-content: center;
+`;
