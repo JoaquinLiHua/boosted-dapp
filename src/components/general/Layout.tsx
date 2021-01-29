@@ -98,6 +98,7 @@ const SideMainWrapper = styled.div`
   z-index: 2;
   position: relative;
   display: flex;
+  padding: 0 48px;
 `;
 
 const LayoutWrapper = styled.div`

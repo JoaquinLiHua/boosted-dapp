@@ -57,7 +57,7 @@ const SideNav: React.FC<SideNavProps> = ({}) => {
 export default SideNav;
 
 const Container = styled.aside`
-  padding: 0 48px 48px 48px;
+  padding: 0 48px 48px 0;
   margin-top: 21px;
   max-width: 260px;
   width: 100%;
