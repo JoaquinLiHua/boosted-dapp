@@ -98,7 +98,10 @@ const SideMainWrapper = styled.div`
   z-index: 2;
   position: relative;
   display: flex;
+<<<<<<< HEAD
   padding: 0 48px;
+=======
+>>>>>>> fa4b759f4d04c2e786844479f5532b63fd274532
 `;
 
 const LayoutWrapper = styled.div`

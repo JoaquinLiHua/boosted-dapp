@@ -10,18 +10,15 @@
  ::after {
    box-sizing: border-box;
  }
-
  /**
   * 1. Add text decoration inheritance in all browsers (opinionated).
   * 2. Add vertical alignment inheritance in all browsers (opinionated).
   */
-
  ::before,
  ::after {
    text-decoration: inherit; /* 1 */
    vertical-align: inherit; /* 2 */
  }
-
  /**
   * 1. Use the default cursor in all browsers (opinionated).
   * 2. Change the line height in all browsers (opinionated).
@@ -31,7 +28,6 @@
   *    IE on Windows Phone and in iOS.
   * 6. Breaks words to prevent overflow in all browsers (opinionated).
   */
-
  html {
    cursor: default; /* 1 */
    line-height: 1.5; /* 2 */
@@ -58,7 +54,6 @@
   * Correct the font size and margin on `h1` elements within `section` and
   * `article` contexts in Chrome, Edge, Firefox, and Safari.
   */
-
  h1 {
    font-size: 2em;
    margin: 0.67em 0;
@@ -89,13 +84,11 @@
  ul ul {
    margin: 0;
  }
-
  /**
   * 1. Correct the inheritance of border color in Firefox.
   * 2. Add the correct box sizing in Firefox.
   * 3. Show the overflow in Edge 18- and IE.
   */
-
  hr {
    color: inherit; /* 1 */
    height: 0; /* 2 */
@@ -133,7 +126,6 @@
   * 2. Correct the odd `em` font sizing in all browsers.
   * 3. Prevent overflow of the container in all browsers (opinionated).
   */
-
  pre {
    font-family: monospace, monospace; /* 1 */
    font-size: 1em; /* 2 */
@@ -169,12 +161,10 @@
  strong {
    font-weight: bolder;
  }
-
  /**
   * 1. Correct the inheritance and scaling of font size in all browsers.
   * 2. Correct the odd `em` font sizing in all browsers.
   */
-
  code,
  kbd,
  samp {
@@ -264,7 +254,6 @@
   * 2. Correct table border color inheritance in all Chrome, Edge, and Safari.
   * 3. Remove text indentation from table contents in Chrome, Edge, and Safari.
   */
-
  table {
    border-collapse: collapse; /* 1 */
    border-color: inherit; /* 2 */
@@ -283,12 +272,10 @@
  select {
    margin: 0;
  }
-
  /**
   * 1. Show the overflow in IE.
   * 2. Remove the inheritance of text transform in Edge 18-, Firefox, and IE.
   */
-
  button {
    overflow: visible; /* 1 */
    text-transform: none; /* 2 */
@@ -304,12 +291,10 @@
  [type="submit"] {
    -webkit-appearance: button;
  }
-
  /**
   * 1. Change the inconsistent appearance in all browsers (opinionated).
   * 2. Correct the padding in Firefox.
   */
-
  fieldset {
    border: 1px solid #a0a0a0; /* 1 */
    padding: 0.35em 0.75em 0.625em; /* 2 */
@@ -327,19 +312,16 @@
   * 1. Correct the text wrapping in Edge 18- and IE.
   * 2. Correct the color inheritance from `fieldset` elements in IE.
   */
-
  legend {
    color: inherit; /* 2 */
    display: table; /* 1 */
    max-width: 100%; /* 1 */
    white-space: normal; /* 1 */
  }
-
  /**
   * 1. Add the correct display in Edge 18- and IE.
   * 2. Add the correct vertical alignment in Chrome, Edge, and Firefox.
   */
-
  progress {
    display: inline-block; /* 1 */
    vertical-align: baseline; /* 2 */
@@ -358,7 +340,6 @@
   * 2. Remove the default vertical scrollbar in IE.
   * 3. Change the resize direction in all browsers (opinionated).
   */
-
  textarea {
    margin: 0; /* 1 */
    overflow: auto; /* 2 */
@@ -374,12 +355,10 @@
  [type="radio"] {
    padding: 0;
  }
-
  /**
   * 1. Correct the odd appearance in Chrome, Edge, and Safari.
   * 2. Correct the outline style in Safari.
   */
-
  [type="search"] {
    -webkit-appearance: textfield; /* 1 */
    outline-offset: -2px; /* 2 */
@@ -415,7 +394,6 @@
   * 1. Correct the inability to style upload buttons in iOS and Safari.
   * 2. Change font properties to `inherit` in Safari.
   */
-
  ::-webkit-file-upload-button {
    -webkit-appearance: button; /* 1 */
    font: inherit; /* 2 */
@@ -560,12 +538,10 @@
   * Change the cursor on disabled, not-editable, or otherwise
   * inoperable elements in all browsers (opinionated).
   */
-
  [aria-disabled="true"],
  [disabled] {
    cursor: not-allowed;
  }
-
  /*
   * Change the display on visually hidden accessible elements
   * in all browsers (opinionated).

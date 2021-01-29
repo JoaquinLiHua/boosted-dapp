@@ -17,7 +17,6 @@ const SideNav: React.FC<SideNavProps> = ({}) => {
           <Item active={route === element.link}>{element.copy}</Item>
         </NextLink>
       ))}
-
       <SecondaryLinks>
         <ul>
           <li><a href="#">About</a></li>
