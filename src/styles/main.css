@@ -19,6 +19,8 @@ ul {
   margin: 0;
 }
 
+p 
+
 input[type="number"] {
   -moz-appearance: textfield;
 }
@@ -38,6 +40,16 @@ input::-webkit-inner-spin-button {
   src: local("Inter"),
     url("../../public/fonts/Inter-Regular.woff2") format("woff2"),
     url("../../public/fonts/Inter-Regular.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Inter Medium";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: local("Inter"),
+    url("../../public/fonts/Inter-Medium.woff2") format("woff2"),
+    url("../../public/fonts/Inter-Medium.woff") format("woff");
 }
 
 @font-face {

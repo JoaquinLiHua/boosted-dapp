@@ -1,5 +1,6 @@
 export default {
-  regular: `Inter`,
-  interBold: `Inter Bold`,
+  interRegular: `Inter`,
+  interMedium: `Inter Medium`,
   interSemiBold: `Inter Semi Bold`,
+  interBold: `Inter Bold`,
 };
