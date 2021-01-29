@@ -1,4 +1,5 @@
 import React from "react";
+
 import theme from "src/styles/theme";
 import { UseWalletProvider } from "use-wallet";
 import { ModalContext } from "src/context/ModalContext";
@@ -8,6 +9,7 @@ import { NotifyProvider } from "src/context/NotifyContext";
 import { ThemeProvider } from "styled-components";
 import Layout from "src/components/general/Layout";
 
+import "src/styles/sanitize.css";
 import "src/styles/main.css";
 
 function MyApp({ Component, pageProps }) {

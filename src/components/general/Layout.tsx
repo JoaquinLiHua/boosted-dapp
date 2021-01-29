@@ -16,40 +16,43 @@ type LayoutProps = {};
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <PageBackground>
-      <SolarSystemContainer>
-        <Svg src={SolarSystem} />
-      </SolarSystemContainer>
-      <PlanetContainer>
-        <Svg src={Planet} />
-      </PlanetContainer>
-      <StarContainer>
-        <Svg src={Stars} />
-      </StarContainer>
+    <LayoutWrapper>
+      <BackgroundWrapper>  {/* Making the DOM little bit prettier */}
+        <SolarSystemContainer>
+          <Svg src={SolarSystem} />
+        </SolarSystemContainer>
+        {/* <PlanetContainer>
+          <Svg src={Planet} />
+        </PlanetContainer> */}
+        <StarContainer>
+          <Svg src={Stars} />
+        </StarContainer>
+      </BackgroundWrapper>
 
+      {/* Top navigation */}
       <HeaderContainer>
         <NextLink href="/">
           <Svg src={Logo} />
         </NextLink>
-        <FlexDiv>
+        <TopRight>
           <StyledDiscordLink href="https://discord.gg/gp9bsaQ">Join our Discord!</StyledDiscordLink>
           <SettingsMenus />
-        </FlexDiv>
+        </TopRight>
       </HeaderContainer>
-      <Grid>
-        <LeftColumn>
-          <SideNav />
-        </LeftColumn>
-        <RightColumn></RightColumn>
-      </Grid>
-    </PageBackground>
+
+      {/* One more wrapper so we can use Flex put the divs side-by-side easily */}
+      <SideMainWrapper>
+        <SideNav />  {/* Side navigation */}
+        <MainColumn>{children}</MainColumn> {/* Page content */}
+      </SideMainWrapper>
+
+    </LayoutWrapper>
   );
 };
 export default Layout;
 
-const PageBackground = styled.div`
-  background: ${(props) => props.theme.colors.background};
-  min-height: 100vh;
+const BackgroundWrapper = styled.div`
+  z-index: 1;
   position: relative;
 `;
 
@@ -71,27 +74,49 @@ const PlanetContainer = styled.div`
   left: 100;
 `;
 
-const HeaderContainer = styled(FlexDivRowCentered)`
+const HeaderContainer = styled.header`
+  display: flex;
+  z-index: 2;
+  position: relative;
   justify-content: space-between;
-  padding: 24px;
+  padding: 48px 48px 27px 48px;
 `;
 
 const StyledDiscordLink = styled(ExternalLink)`
-  font-family: ${(props) => props.theme.fonts.regular};
-  color: ${(props) => props.theme.colors.white};
+  font-family: ${(props) => props.theme.fonts.interMedium};
+  color: #CCC;
   margin-right: 8px;
+  text-decoration: none;
+  font-size: 15px;
+
+  &:hover {
+    color: white;
+  }
 `;
 
-const Grid = styled.div`
-  display: grid;
-  grid-template-columns: 200px 1fr 200px;
-  grid-template-rows: auto 1fr auto;
-  grid-gap: 10px;
+const SideMainWrapper = styled.div`
+  z-index: 2;
+  position: relative;
+  display: flex;
 `;
 
-const RightColumn = styled.div``;
+const LayoutWrapper = styled.div`
+  background: ${(props) => props.theme.colors.background};
+  min-height: 100vh;
+  position: relative;
+`;
+
+const MainColumn = styled.main`
+  max-width: 1100px;
+  width: calc(100% - 48px);
+  margin: 0 auto;
+  color: white;
+`;
 
 const LeftColumn = styled(FlexDivCol)`
   width: 800px;
   justify-content: center;
+`;
+
+const TopRight = styled(FlexDivRowCentered)`
 `;
