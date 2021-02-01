@@ -2,13 +2,12 @@ import React from "react";
 import styled from "styled-components";
 
 export const Card = ( props ) => {
-  const { title, value, help } = props;
+  const { title, value, valueInUSD, help } = props;
   return (
     <CardWrapper>
       <Title>{title}</Title>
-      <ConnectWallet>Connect Wallet</ConnectWallet>
-      <Value>{value}</Value>
-      <Help>{help}</Help>
+      <Value>{value || <ConnectWallet>Connect Wallet</ConnectWallet>}</Value>
+      <HelpText>{valueInUSD || help}</HelpText>
     </CardWrapper>
   );
 };
@@ -19,6 +18,7 @@ const CardWrapper = styled.div`
   box-shadow: 0 0 8px 0 #0C9EDA;
   border-radius: 8px;
   padding: 18px 36px 32px 36px;
+  margin-bottom: 24px;
 `;
 
 const Title = styled.p`
@@ -27,20 +27,7 @@ const Title = styled.p`
   letter-spacing: 1px;
   line-height: 24px;
   font-family: ${(props) => props.theme.fonts.interSemiBold};
-`;
-
-const ConnectWallet = styled.a`
-  font-size: 24px;
-  color: #56C7F6;
-  letter-spacing: 0;
-  line-height: 24px;
-  text-shadow: 0 0 8px rgba(86,199,246,0.50);
-  font-family: ${(props) => props.theme.fonts.interSemiBold};
-  cursor: pointer;
-
-  &:hover {
-    color: white;
-  }
+  margin-bottom: 72px;
 `;
 
 const Value = styled.p`
@@ -49,9 +36,30 @@ const Value = styled.p`
   letter-spacing: 0;
   line-height: 24px;
   font-family: ${(props) => props.theme.fonts.interSemiBold};
+  margin-bottom: 0;
 `;
 
-const Help = styled.p`
+const ConnectWallet = styled.a`
+  color: #56C7F6;
+  text-shadow: 0 0 8px rgba(86,199,246,0.50);
+  cursor: pointer;
+
+  &:hover {
+    color: white;
+  }
+`;
+
+const HelpText = styled.p`
+  margin-top: 4px;
+  margin-bottom: 4px;
+  font-size: 13px;
+  color: #ADB2D6;
+  letter-spacing: 0.2px;
+  line-height: 24px;
+  font-family: ${(props) => props.theme.fonts.interMedium};
+`;
+
+const valueInUSD = styled.p`
   font-size: 13px;
   color: #ADB2D6;
   letter-spacing: 0.2px;

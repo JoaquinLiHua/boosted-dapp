@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import NextLink from "next/link";
 import { SettingsMenus } from "./SettingsMenu";
-import { FlexDiv, FlexDivCol, FlexDivRowCentered } from "src/styles/common";
+import { FlexDivRowCentered, MainColumn } from "src/styles/common";
 import { Svg } from "react-optimized-image";
 import SideNav from "./SideNav";
 import { ExternalLink } from "./ExternalLink";
@@ -98,28 +98,13 @@ const SideMainWrapper = styled.div`
   z-index: 2;
   position: relative;
   display: flex;
-<<<<<<< HEAD
   padding: 0 48px;
-=======
->>>>>>> fa4b759f4d04c2e786844479f5532b63fd274532
 `;
 
 const LayoutWrapper = styled.div`
   background: ${(props) => props.theme.colors.background};
   min-height: 100vh;
   position: relative;
-`;
-
-const MainColumn = styled.main`
-  max-width: 1100px;
-  width: calc(100% - 48px);
-  margin: 0 auto;
-  color: white;
-`;
-
-const LeftColumn = styled(FlexDivCol)`
-  width: 800px;
-  justify-content: center;
 `;
 
 const TopRight = styled(FlexDivRowCentered)`
