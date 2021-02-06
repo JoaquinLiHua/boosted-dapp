@@ -1,12 +1,15 @@
+import Initialiser from 'context/Initialiser';
 import React from 'react';
 import styled from 'styled-components';
 
-export const Card = (props) => {
-	const { title, value, valueInUSD, help } = props;
+export const Card = ({ title, value, valueInUSD, help }) => {
+	const { connectWallet } = Initialiser.useContainer();
 	return (
 		<CardWrapper>
 			<Title>{title}</Title>
-			<Value>{value || <ConnectWallet>Connect Wallet</ConnectWallet>}</Value>
+			<Value>
+				{value || <ConnectWallet onClick={connectWallet}>Connect Wallet</ConnectWallet>}
+			</Value>
 			<HelpText>{valueInUSD || help}</HelpText>
 		</CardWrapper>
 	);

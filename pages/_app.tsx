@@ -15,27 +15,21 @@ import Initialiser from 'context/Initialiser';
 
 import 'styles/sanitize.css';
 import 'styles/main.css';
+import Notify from 'context/Notify';
 
 function MyApp({ Component, pageProps }) {
 	return (
 		<ThemeProvider theme={theme}>
 			<Initialiser.Provider>
-				<PriceFeedProvider>
-					{/* <UseWalletProvider
-					chainId={1}
-					connectors={{
-						walletconnect: { rpcUrl: 'https://mainnet.eth.aragon.network/' },
-					}}
-				> */}
-					<NotifyProvider>
+				<Notify.Provider>
+					<PriceFeedProvider>
 						<ModalContext>
 							<VaultProvider>
 								<Layout children={<Component {...pageProps} />}></Layout>
 							</VaultProvider>
 						</ModalContext>
-					</NotifyProvider>
-					{/* </UseWalletProvider> */}
-				</PriceFeedProvider>
+					</PriceFeedProvider>
+				</Notify.Provider>
 			</Initialiser.Provider>
 		</ThemeProvider>
 	);

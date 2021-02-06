@@ -10,13 +10,17 @@ export const SettingsMenus = () => {
 	return (
 		<>
 			{walletAddress ? (
-				<></>
+				<WalletAddress>{walletAddress}</WalletAddress>
 			) : (
 				<ConnectWalletButton onClick={connectWallet}>Connect Wallet</ConnectWalletButton>
 			)}
 		</>
 	);
 };
+
+const WalletAddress = styled.div`
+	color: ${(props) => props.theme.colors.white};
+`;
 
 const ConnectWalletButton = styled(PrimaryButton)`
 	margin-left: 24px;

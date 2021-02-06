@@ -10,7 +10,6 @@ import { ExternalLink } from './ExternalLink';
 import Logo from 'assets/svg/logo.svg';
 import SolarSystem from 'assets/svg/solar-system.svg';
 import Stars from 'assets/svg/stars.svg';
-import Planet from 'assets/svg/planet.svg';
 
 type LayoutProps = {};
 
@@ -18,7 +17,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 	return (
 		<LayoutWrapper>
 			<BackgroundWrapper>
-				{' '}
 				{/* Making the DOM little bit prettier */}
 				<SolarSystemContainer>
 					<Svg src={SolarSystem} />
@@ -77,7 +75,7 @@ const PlanetContainer = styled.div`
 
 const HeaderContainer = styled.header`
 	display: flex;
-	z-index: 2;
+	z-index: 1;
 	position: relative;
 	justify-content: space-between;
 	padding: 48px 48px 27px 48px;
@@ -96,7 +94,6 @@ const StyledDiscordLink = styled(ExternalLink)`
 `;
 
 const SideMainWrapper = styled.div`
-	z-index: 2;
 	position: relative;
 	display: flex;
 	padding: 0 48px;
