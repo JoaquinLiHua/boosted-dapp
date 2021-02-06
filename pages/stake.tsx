@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 
 const Stake: React.FC = () => {
-  return <></>;
+	return <></>;
 };
 
 export default Stake;

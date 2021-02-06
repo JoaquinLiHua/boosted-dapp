@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Button } from 'components/general/Button';
 import { PrimaryButton, GlowText } from 'styles/common';
 
 export const PoolCard = (props) => {
