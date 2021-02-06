@@ -1,16 +1,16 @@
 import React from "react";
 
-import theme from "src/styles/theme";
+import theme from "styles/theme";
 import { UseWalletProvider } from "use-wallet";
-import { ModalContext } from "src/context/ModalContext";
-import { PriceFeedProvider } from "src/context/PriceFeedContext";
-import { VaultProvider } from "src/context/VaultContext";
-import { NotifyProvider } from "src/context/NotifyContext";
+import { ModalContext } from "context/ModalContext";
+import { PriceFeedProvider } from "context/PriceFeedContext";
+import { VaultProvider } from "context/VaultContext";
+import { NotifyProvider } from "context/NotifyContext";
 import { ThemeProvider } from "styled-components";
-import Layout from "src/components/general/Layout";
+import Layout from "components/general/Layout";
 
-import "src/styles/sanitize.css";
-import "src/styles/main.css";
+import "styles/sanitize.css";
+import "styles/main.css";
 
 function MyApp({ Component, pageProps }) {
   return (

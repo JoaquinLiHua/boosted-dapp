@@ -1,8 +1,8 @@
-import React from "react";
-import { Pools as PoolsPage } from "src/components/pools/Pools";
+import React from 'react';
+import { Pools as PoolsPage } from 'components/pools/Pools';
 
 const Pools: React.FC = () => {
-  return <PoolsPage />;
+	return <PoolsPage />;
 };
 
 export default Pools;

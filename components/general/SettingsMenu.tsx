@@ -1,35 +1,26 @@
-import React, { useCallback } from "react";
-import styled from "styled-components";
-import { useModal } from "src/context/ModalContext";
-import { WalletSelectModal } from "src/components/general/WalletSelectModal";
-import { useWallet } from "use-wallet";
-import { formatAddress } from "src/utils/formatAddress";
+import React, { useCallback } from 'react';
+import styled from 'styled-components';
+import { useModal } from 'context/ModalContext';
+import { WalletSelectModal } from 'components/general/WalletSelectModal';
+import { useWallet } from 'use-wallet';
+import { formatAddress } from 'utils/formatAddress';
 
-import { PrimaryButton } from "src/styles/common";
+import { PrimaryButton } from 'styles/common';
 
 export const SettingsMenus = () => {
-  const { account, reset } = useWallet();
+	const { account, reset } = useWallet();
 
-  const [onPresentWalletProviderModal] = useModal(
-    <WalletSelectModal />,
-    "provider"
-  );
+	const [onPresentWalletProviderModal] = useModal(<WalletSelectModal />, 'provider');
 
-  const handleUnlockClick = useCallback(() => {
-    onPresentWalletProviderModal();
-  }, [onPresentWalletProviderModal]);
+	const handleUnlockClick = useCallback(() => {
+		onPresentWalletProviderModal();
+	}, [onPresentWalletProviderModal]);
 
-  return (
-    <>
-      {account ? (
-        <></>
-      ) : (
-        <ConnectWalletButton href="#">Connect Wallet</ConnectWalletButton>
-      )}
-    </>
-  );
+	return (
+		<>{account ? <></> : <ConnectWalletButton href="#">Connect Wallet</ConnectWalletButton>}</>
+	);
 };
 
 const ConnectWalletButton = styled(PrimaryButton)`
-  margin-left: 24px;
+	margin-left: 24px;
 `;
