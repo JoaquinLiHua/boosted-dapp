@@ -1,30 +1,33 @@
 import { useCallback, useState, useEffect } from 'react';
 
-import { useWallet } from 'use-wallet';
-import { provider } from 'web3-core';
+import Initialiser from 'context/Initialiser';
+
 import { rewardAmount } from '../../utils/pool';
 import BN from 'bignumber.js';
 
 export const useGetRewardAmount = (poolAddress: string) => {
 	const [amount, setAmount] = useState(new BN(0));
-	const { account, ethereum }: { account: string | null; ethereum: provider } = useWallet();
+	const {
+		walletAddress,
+		provider,
+	}: { walletAddress: string | null; provider: any } = Initialiser.useContainer();
 
 	const fetchBalance = useCallback(async () => {
-		if (account) {
-			const amount = new BN(await rewardAmount(ethereum, poolAddress, account));
+		if (walletAddress) {
+			const amount = new BN(await rewardAmount(provider, poolAddress, walletAddress));
 			setAmount(amount);
 		}
-	}, [account, ethereum, poolAddress]);
+	}, [walletAddress, provider, poolAddress]);
 
 	useEffect(() => {
-		if (account && ethereum) {
+		if (walletAddress && provider) {
 			fetchBalance();
 			const refreshInterval = setInterval(fetchBalance, 5000);
 			return () => clearInterval(refreshInterval);
 		} else {
 			return;
 		}
-	}, [account, ethereum, setAmount, fetchBalance]);
+	}, [walletAddress, provider, setAmount, fetchBalance]);
 
 	return amount;
 };

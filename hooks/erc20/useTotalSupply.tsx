@@ -1,29 +1,28 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import BN from 'bignumber.js';
-import { useWallet } from 'use-wallet';
-import { provider } from 'web3-core';
+import Initialiser from 'context/Initialiser';
 
 import { getTotalSupply } from 'utils/erc20';
 
 export const useTotalSupply = (tokenAddress: string) => {
 	const [totalSupply, setTotalSupply] = useState(new BN(0));
-	const { ethereum }: { ethereum: provider } = useWallet();
+	const { provider } = Initialiser.useContainer();
 
 	const fetchTotalSupply = useCallback(async () => {
-		const totalSupply = new BN(await getTotalSupply(ethereum, tokenAddress));
+		const totalSupply = new BN(await getTotalSupply(provider, tokenAddress));
 		setTotalSupply(totalSupply);
-	}, [ethereum, tokenAddress]);
+	}, [provider, tokenAddress]);
 
 	useEffect(() => {
-		if (ethereum) {
+		if (provider) {
 			fetchTotalSupply();
 			const refreshInterval = setInterval(fetchTotalSupply, 30000);
 			return () => clearInterval(refreshInterval);
 		} else {
 			return;
 		}
-	}, [ethereum, setTotalSupply, fetchTotalSupply]);
+	}, [provider, setTotalSupply, fetchTotalSupply]);
 
 	return totalSupply;
 };

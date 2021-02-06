@@ -1,17 +1,17 @@
 import { useCallback } from 'react';
-import { useWallet } from 'use-wallet';
-import { provider } from 'web3-core';
+import Initialiser from 'context/Initialiser';
+
 import { claim } from 'utils/vault';
 
 export const useClaimVaultRewards = (vaultRewardsAddress: string) => {
-	const { account, ethereum }: { account: string | null; ethereum: provider } = useWallet();
+	const { walletAddress, provider } = Initialiser.useContainer();
 
 	const handleClaim = useCallback(async () => {
-		if (account) {
-			const txHash = await claim(ethereum, vaultRewardsAddress, account);
+		if (walletAddress) {
+			const txHash = await claim(provider, vaultRewardsAddress, walletAddress);
 			return txHash;
 		}
-	}, [account, vaultRewardsAddress, ethereum]);
+	}, [walletAddress, vaultRewardsAddress, provider]);
 
 	return { onClaim: handleClaim };
 };

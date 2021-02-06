@@ -1,17 +1,16 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useWallet } from 'use-wallet';
-import { provider } from 'web3-core';
+import Initialiser from 'context/Initialiser';
 
 import { proposals as getProposals } from 'utils/governance';
 
 export const useProposals = () => {
 	const [proposals, setProposals] = useState<any[] | null>(null);
-	const { ethereum }: { account: any; ethereum: provider } = useWallet();
+	const { provider }: { walletAddress: any; provider: any } = Initialiser.useContainer();
 
 	const fetchProposal = useCallback(async () => {
-		const proposals = await getProposals(ethereum);
+		const proposals = await getProposals(provider);
 		setProposals(proposals);
-	}, [ethereum]);
+	}, [provider]);
 
 	useEffect(() => {
 		fetchProposal();

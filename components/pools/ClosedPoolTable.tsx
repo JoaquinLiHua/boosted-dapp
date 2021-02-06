@@ -12,11 +12,11 @@ import {
 import React, { useCallback, useEffect, useState } from 'react';
 import { usePoolContext } from 'context/PoolContext';
 import { getDisplayBalance } from 'utils/formatBalance';
-import { useWallet } from 'use-wallet';
+import Initialiser from 'context/Initialiser';
+
 import { useExit } from 'hooks/pools/useExit';
 import { stakedAmount } from 'utils/pool';
 import BN from 'bignumber.js';
-import { provider } from 'web3-core';
 
 /**
  * Represents tabular data - that is, information presented in a
@@ -89,7 +89,7 @@ function TableCell(props: BoxProps) {
 export const ClosedPoolTable: React.FC = () => {
 	const [poolsWithBalances, setPoolsWithBalances] = useState<any[] | null>(null);
 	const { onExit } = useExit();
-	const { account, ethereum }: { account: string | null; ethereum: provider } = useWallet();
+	const { walletAddress, provider } = Initialiser.useContainer();
 	const { closedPools } = usePoolContext();
 	const { colorMode } = useColorMode();
 
@@ -109,14 +109,14 @@ export const ClosedPoolTable: React.FC = () => {
 
 	const fetchStakedAmount = useCallback(
 		async (poolAddress) => {
-			if (account) {
-				const amount = new BN(await stakedAmount(ethereum, poolAddress, account));
+			if (walletAddress) {
+				const amount = new BN(await stakedAmount(provider, poolAddress, walletAddress));
 				return amount;
 			} else {
 				return new BN('0');
 			}
 		},
-		[account, ethereum]
+		[walletAddress, provider]
 	);
 
 	useEffect(() => {
@@ -131,9 +131,9 @@ export const ClosedPoolTable: React.FC = () => {
 			setPoolsWithBalances(resolvedPromises);
 		};
 		fetchAllStakedBalances();
-	}, [account, closedPools, fetchStakedAmount]);
+	}, [walletAddress, closedPools, fetchStakedAmount]);
 
-	if (account) {
+	if (walletAddress) {
 		return (
 			<>
 				{poolsWithBalances && poolsWithBalances.length > 0 ? (

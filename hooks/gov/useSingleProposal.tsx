@@ -1,23 +1,22 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useWallet } from 'use-wallet';
-import { provider } from 'web3-core';
+import Initialiser from 'context/Initialiser';
 
 import { getSingleProposal } from 'utils/governance';
 
 export const useSingleProposal = (id: any) => {
 	const [proposal, setProposal] = useState<any>(null);
-	const { ethereum }: { ethereum: provider } = useWallet();
+	const { provider }: { provider: any } = Initialiser.useContainer();
 
 	const fetchSingleProposal = useCallback(async () => {
-		const singleProposal = await getSingleProposal(ethereum, id);
+		const singleProposal = await getSingleProposal(provider, id);
 		setProposal(singleProposal);
-	}, [ethereum, id]);
+	}, [provider, id]);
 
 	useEffect(() => {
-		if (ethereum) {
+		if (provider) {
 			fetchSingleProposal();
 		}
-	}, [fetchSingleProposal, ethereum]);
+	}, [fetchSingleProposal, provider]);
 
 	return proposal;
 };

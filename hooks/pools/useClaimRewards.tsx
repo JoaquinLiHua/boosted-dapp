@@ -1,17 +1,20 @@
 import { useCallback } from 'react';
-import { useWallet } from 'use-wallet';
-import { provider } from 'web3-core';
+import Initialiser from 'context/Initialiser';
+
 import { claim } from 'utils/pool';
 
 export const useClaimRewards = (poolContract: string) => {
-	const { account, ethereum }: { account: string | null; ethereum: provider } = useWallet();
+	const {
+		walletAddress,
+		provider,
+	}: { walletAddress: string | null; provider: any } = Initialiser.useContainer();
 
 	const handleClaim = useCallback(async () => {
-		if (account) {
-			const txHash = await claim(ethereum, poolContract, account);
+		if (walletAddress) {
+			const txHash = await claim(provider, poolContract, walletAddress);
 			return txHash;
 		}
-	}, [account, poolContract, ethereum]);
+	}, [walletAddress, poolContract, provider]);
 
 	return { onClaim: handleClaim };
 };

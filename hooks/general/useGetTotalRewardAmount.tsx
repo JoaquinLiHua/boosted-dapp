@@ -1,6 +1,6 @@
 import { useCallback, useState, useEffect } from 'react';
-import { useWallet } from 'use-wallet';
-import { provider } from 'web3-core';
+import Initialiser from 'context/Initialiser';
+
 import { rewardAmount as poolRewardAmount } from 'utils/pool';
 import { getRewardAmount as vaultRewardAmount } from 'utils/vault';
 import BN from 'bignumber.js';
@@ -9,15 +9,18 @@ import { B_VAULTS } from 'constants/bVaults';
 
 export const useGetTotalRewardAmount = () => {
 	const [amount, setAmount] = useState(new BN('0'));
-	const { account, ethereum }: { account: string | null; ethereum: provider } = useWallet();
+	const {
+		walletAddress,
+		provider,
+	}: { walletAddress: string | null; provider: any } = Initialiser.useContainer();
 	const fetchReadyToHarvest = useCallback(async () => {
-		if (account) {
+		if (walletAddress) {
 			const totalPoolAmount = ALL_POOLS.map(async (pool) => {
-				return new BN(await poolRewardAmount(ethereum, pool.address, account));
+				return new BN(await poolRewardAmount(provider, pool.address, walletAddress));
 			});
 			const totalVaultAmount = B_VAULTS.map(async (vault) => {
 				if (vault.vaultRewardAddress !== '') {
-					return new BN(await vaultRewardAmount(ethereum, vault.vaultRewardAddress, account));
+					return new BN(await vaultRewardAmount(provider, vault.vaultRewardAddress, walletAddress));
 				} else {
 					return new BN('0');
 				}
@@ -34,17 +37,17 @@ export const useGetTotalRewardAmount = () => {
 			});
 			setAmount(totalPoolResolved.plus(totalVaultResolved));
 		}
-	}, [account, ethereum]);
+	}, [walletAddress, provider]);
 
 	useEffect(() => {
-		if (account && ethereum) {
+		if (walletAddress && provider) {
 			fetchReadyToHarvest();
 			const refreshInterval = setInterval(fetchReadyToHarvest, 10000);
 			return () => clearInterval(refreshInterval);
 		} else {
 			return;
 		}
-	}, [account, ethereum, setAmount, fetchReadyToHarvest]);
+	}, [walletAddress, provider, setAmount, fetchReadyToHarvest]);
 
 	return amount;
 };

@@ -1,5 +1,5 @@
 import Web3 from 'web3';
-import { provider } from 'web3-core';
+
 import { AbiItem } from 'web3-utils';
 import BoostPoolsV1 from '../constants/abi/BoostPoolsV1.json';
 import BoostPoolsV2 from '../constants/abi/BoostPoolsV2.json';
@@ -9,13 +9,13 @@ import { boostToken } from 'constants/bfAddresses';
 import BN from 'bignumber.js';
 import { getERC20Contract } from './erc20';
 
-export const getPoolContract = (provider: provider, address: string) => {
+export const getPoolContract = (provider: any, address: string) => {
 	const web3 = new Web3(provider);
 	const contract = new web3.eth.Contract((BoostPoolsV1 as unknown) as AbiItem, address);
 	return contract;
 };
 
-export const getPoolV2Contract = (provider: provider, address: string) => {
+export const getPoolV2Contract = (provider: any, address: string) => {
 	const web3 = new Web3(provider);
 	const contract = new web3.eth.Contract((BoostPoolsV2 as unknown) as AbiItem, address);
 	return contract;
@@ -28,12 +28,12 @@ interface PoolStats {
 }
 
 export const getPoolStats = async (
-	provider: provider,
+	provider: any,
 	poolAddress: string,
 	v1: boolean,
-	account: string | null
+	walletAddress: string | null
 ): Promise<PoolStats | null> => {
-	if (provider && account) {
+	if (provider && walletAddress) {
 		try {
 			let poolContract;
 			let periodFinish;
@@ -46,7 +46,7 @@ export const getPoolStats = async (
 				poolContract = getPoolV2Contract(provider, poolAddress);
 				periodFinish = await poolContract.methods.periodFinish().call();
 				poolSize = await poolContract.methods.totalSupply().call();
-				const boosterInfo = await poolContract.methods.getBoosterPrice(account).call();
+				const boosterInfo = await poolContract.methods.getBoosterPrice(walletAddress).call();
 				boosterPrice = boosterInfo['boosterPrice'];
 			}
 			return {
@@ -64,7 +64,7 @@ export const getPoolStats = async (
 };
 
 export const getPoolValueInUSD = async (
-	provider: provider,
+	provider: any,
 	poolAddress: string,
 	tokenAddress: string,
 	coinGecko: any
@@ -89,10 +89,7 @@ export const getPoolValueInUSD = async (
 	}
 };
 
-export const getBoostPoolPriceInUSD = async (
-	provider: provider,
-	coinGecko: any
-): Promise<number> => {
+export const getBoostPoolPriceInUSD = async (provider: any, coinGecko: any): Promise<number> => {
 	if (provider && coinGecko) {
 		try {
 			const { data } = await coinGecko.simple.fetchTokenPrice({
@@ -129,10 +126,7 @@ export const getBoostPoolPriceInUSD = async (
 	}
 };
 
-export const getBoostPoolV2PriceInUSD = async (
-	provider: provider,
-	coinGecko: any
-): Promise<number> => {
+export const getBoostPoolV2PriceInUSD = async (provider: any, coinGecko: any): Promise<number> => {
 	if (provider && coinGecko) {
 		try {
 			const { data } = await coinGecko.simple.fetchTokenPrice({
@@ -170,7 +164,7 @@ export const getBoostPoolV2PriceInUSD = async (
 };
 
 export const getBalancerPoolPriceInUSD = async (
-	provider: provider,
+	provider: any,
 	coinGecko: any,
 	poolAddress: string,
 	lpTokenAddress: string,
@@ -215,10 +209,10 @@ export const getBalancerPoolPriceInUSD = async (
 };
 
 export const stake = async (
-	provider: provider,
+	provider: any,
 	poolAddress: string,
 	amount: string,
-	account: string
+	walletAddress: string
 ) => {
 	const poolContract = getPoolContract(provider, poolAddress);
 	const web3 = new Web3(provider);
@@ -226,7 +220,7 @@ export const stake = async (
 	const bntokens = web3.utils.toBN(tokens);
 	return poolContract.methods
 		.stake(bntokens)
-		.send({ from: account })
+		.send({ from: walletAddress })
 		.on('transactionHash', (tx) => {
 			console.log(tx);
 			return tx.transactionHash;
@@ -234,10 +228,10 @@ export const stake = async (
 };
 
 export const unstake = async (
-	provider: provider,
+	provider: any,
 	poolAddress: string,
 	amount: string,
-	account: string
+	walletAddress: string
 ) => {
 	try {
 		const poolContract = getPoolContract(provider, poolAddress);
@@ -246,7 +240,7 @@ export const unstake = async (
 		const bntokens = web3.utils.toBN(tokens);
 		return poolContract.methods
 			.withdraw(bntokens)
-			.send({ from: account })
+			.send({ from: walletAddress })
 			.on('transactionHash', (tx) => {
 				console.log(tx);
 				return tx.transactionHash;
@@ -257,14 +251,14 @@ export const unstake = async (
 };
 
 export const rewardAmount = async (
-	provider: provider,
+	provider: any,
 	poolAddress: string,
-	account: string | null
+	walletAddress: string | null
 ): Promise<string> => {
-	if (account && provider) {
+	if (walletAddress && provider) {
 		try {
 			const poolContract = getPoolContract(provider, poolAddress);
-			const earnedRewards: string = await poolContract.methods.earned(account).call();
+			const earnedRewards: string = await poolContract.methods.earned(walletAddress).call();
 			return earnedRewards;
 		} catch (e) {
 			console.log(e);
@@ -275,12 +269,12 @@ export const rewardAmount = async (
 	}
 };
 
-export const claim = async (provider: provider, poolAddress: string, account: string | null) => {
+export const claim = async (provider: any, poolAddress: string, walletAddress: string | null) => {
 	try {
 		const poolContract = getPoolContract(provider, poolAddress);
 		return poolContract.methods
 			.getReward()
-			.send({ from: account })
+			.send({ from: walletAddress })
 			.on('transactionHash', (tx) => {
 				console.log(tx);
 				return tx.transactionHash;
@@ -290,12 +284,12 @@ export const claim = async (provider: provider, poolAddress: string, account: st
 	}
 };
 
-export const boost = async (provider: provider, poolAddress: string, account: string | null) => {
+export const boost = async (provider: any, poolAddress: string, walletAddress: string | null) => {
 	try {
 		const poolContract = getPoolContract(provider, poolAddress);
 		return poolContract.methods
 			.boost()
-			.send({ from: account })
+			.send({ from: walletAddress })
 			.on('transactionHash', (tx) => {
 				console.log(tx);
 				return tx.transactionHash;
@@ -306,13 +300,13 @@ export const boost = async (provider: provider, poolAddress: string, account: st
 };
 
 export const boostCount = async (
-	provider: provider,
+	provider: any,
 	poolAddress: string,
-	account: string
+	walletAddress: string
 ): Promise<string> => {
 	const poolContract = getPoolContract(provider, poolAddress);
 	try {
-		const boosterCount = await poolContract.methods.numBoostersBought(account).call();
+		const boosterCount = await poolContract.methods.numBoostersBought(walletAddress).call();
 		return boosterCount;
 	} catch (e) {
 		console.log(e);
@@ -321,14 +315,14 @@ export const boostCount = async (
 };
 
 export const stakedAmount = async (
-	provider: provider,
+	provider: any,
 	poolAddress: string,
-	account: string | null
+	walletAddress: string | null
 ): Promise<string> => {
-	if (account) {
+	if (walletAddress) {
 		try {
 			const poolContract = getPoolContract(provider, poolAddress);
-			const stakedAmount = await poolContract.methods.balanceOf(account).call();
+			const stakedAmount = await poolContract.methods.balanceOf(walletAddress).call();
 			return stakedAmount;
 		} catch (e) {
 			console.log(e);
@@ -339,12 +333,12 @@ export const stakedAmount = async (
 	}
 };
 
-export const exit = async (provider: provider, poolAddress: string, account: string) => {
+export const exit = async (provider: any, poolAddress: string, walletAddress: string) => {
 	try {
 		const poolContract = getPoolContract(provider, poolAddress);
 		return poolContract.methods
 			.exit()
-			.send({ from: account })
+			.send({ from: walletAddress })
 			.on('transactionHash', (tx) => {
 				console.log(tx);
 				return tx.transactionHash;
@@ -355,7 +349,7 @@ export const exit = async (provider: provider, poolAddress: string, account: str
 };
 
 export const getApyCalculated = async (
-	provider: provider,
+	provider: any,
 	poolAddress: string,
 	tokenAddress: string,
 	coinGecko: any
@@ -386,7 +380,7 @@ export const getApyCalculated = async (
 	}
 };
 
-export const getBoostApy = async (provider: provider, coinGecko: any) => {
+export const getBoostApy = async (provider: any, coinGecko: any) => {
 	if (provider && coinGecko) {
 		try {
 			const poolContract = getPoolContract(provider, uniswapPool);
@@ -434,7 +428,7 @@ export const getBoostApy = async (provider: provider, coinGecko: any) => {
 	}
 };
 
-export const getBoostV2Apy = async (provider: provider, coinGecko: any) => {
+export const getBoostV2Apy = async (provider: any, coinGecko: any) => {
 	if (provider && coinGecko) {
 		try {
 			const poolContract = getPoolV2Contract(provider, uniswapPoolV2);
@@ -483,7 +477,7 @@ export const getBoostV2Apy = async (provider: provider, coinGecko: any) => {
 };
 
 export const getBalancerAPY = async (
-	provider: provider,
+	provider: any,
 	coinGecko: any,
 	poolAddress: string,
 	lpTokenContract: string,
@@ -557,13 +551,13 @@ const getPeriodFinishForReward = async function (rewardContract) {
 };
 
 export const getNextBoosterAvailable = async (
-	provider: provider,
+	provider: any,
 	poolAddress: string,
-	account: string
+	walletAddress: string
 ): Promise<string> => {
 	try {
 		const poolContract = getPoolContract(provider, poolAddress);
-		const periodFinish = await poolContract.methods.nextBoostPurchaseTime(account).call();
+		const periodFinish = await poolContract.methods.nextBoostPurchaseTime(walletAddress).call();
 		return periodFinish;
 	} catch (e) {
 		console.log(e);
@@ -572,13 +566,13 @@ export const getNextBoosterAvailable = async (
 };
 
 export const getBoostedBalance = async (
-	provider: provider,
+	provider: any,
 	poolAddress: string,
-	account: string
+	walletAddress: string
 ): Promise<string> => {
 	try {
 		const poolContract = getPoolV2Contract(provider, poolAddress);
-		const boostedBalance = await poolContract.methods.boostedBalances(account).call();
+		const boostedBalance = await poolContract.methods.boostedBalances(walletAddress).call();
 		return boostedBalance;
 	} catch (e) {
 		console.log(e);
@@ -587,13 +581,13 @@ export const getBoostedBalance = async (
 };
 
 export const getNewBoostedBalance = async (
-	provider: provider,
+	provider: any,
 	poolAddress: string,
-	account: string
+	walletAddress: string
 ): Promise<string> => {
 	try {
 		const poolContract = getPoolV2Contract(provider, poolAddress);
-		const boosterInfo = await poolContract.methods.getBoosterPrice(account).call();
+		const boosterInfo = await poolContract.methods.getBoosterPrice(walletAddress).call();
 		return boosterInfo['newBoostBalance'];
 	} catch (e) {
 		console.log(e);

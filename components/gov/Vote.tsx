@@ -15,7 +15,8 @@ import { ProposalRow } from 'components/gov/ProposalRow';
 import { useProposals } from 'hooks/gov/useProposals';
 import { useModal } from 'context/ModalContext';
 import { ProposalFormModal } from 'components/gov/ProposalFormModal';
-import { useWallet } from 'use-wallet';
+import Initialiser from 'context/Initialiser';
+
 import { StakeModal } from './StakeModal';
 import { UnstakeModal } from './UnstakeModal';
 
@@ -24,19 +25,19 @@ export const Vote: React.FC = () => {
 	const [onPresentProposalForm] = useModal(<ProposalFormModal />);
 	const [onPresentStakeModal] = useModal(<StakeModal />);
 	const [onPresentUnstakeModal] = useModal(<UnstakeModal />);
-	const { account } = useWallet();
+	const { walletAddress } = Initialiser.useContainer();
 	const [loading, setLoading] = useState<boolean>(true);
 
 	useEffect(() => {
-		if (proposals && account) {
+		if (proposals && walletAddress) {
 			setLoading(false);
 		}
-	}, [proposals, account]);
+	}, [proposals, walletAddress]);
 
 	return (
 		<Flex justifyContent="space-between" width="100%">
 			<Stack spacing="1.5rem" mr="4" mt="4" flex={1} width="100%">
-				{account && (
+				{walletAddress && (
 					<Stack direction={['column', 'column', 'row']} spacing={4}>
 						<Button onClick={() => onPresentProposalForm()} size="sm" w={125}>
 							+ PROPOSE
@@ -56,7 +57,7 @@ export const Vote: React.FC = () => {
 					</TabList>
 					<TabPanels>
 						<TabPanel w="100%">
-							{!account ? (
+							{!walletAddress ? (
 								<Flex justifyContent="center" alignItems="center" pt={4}>
 									<Text fontSize="sm">Please unlock your wallet</Text>
 								</Flex>

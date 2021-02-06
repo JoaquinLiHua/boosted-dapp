@@ -1,32 +1,39 @@
 import { useCallback, useState, useEffect } from 'react';
 
-import { useWallet } from 'use-wallet';
-import { provider } from 'web3-core';
+import Initialiser from 'context/Initialiser';
+
 import { getBoostedBalance, getBoosterInfo } from 'utils/vault';
 import BN from 'bignumber.js';
 
 export const useGetBoostedBalances = (vaultRewardsAddress: string) => {
 	const [currentBoostedBalance, setCurrentBoostedBalance] = useState(new BN('0'));
 	const [nextBoostedBalance, setNextBoostedBalance] = useState(new BN('0'));
-	const { account, ethereum }: { account: string | null; ethereum: provider } = useWallet();
+	const {
+		walletAddress,
+		provider,
+	}: { walletAddress: string | null; provider: any } = Initialiser.useContainer();
 
 	const fetchCurrentBoostedBalance = useCallback(async () => {
-		if (account) {
-			const amount = new BN(await getBoostedBalance(ethereum, vaultRewardsAddress, account));
+		if (walletAddress) {
+			const amount = new BN(await getBoostedBalance(provider, vaultRewardsAddress, walletAddress));
 			setCurrentBoostedBalance(amount);
 		}
-	}, [account, ethereum, vaultRewardsAddress]);
+	}, [walletAddress, provider, vaultRewardsAddress]);
 
 	const fetchNextBoostedBalance = useCallback(async () => {
-		if (account) {
-			const { newBoostBalance } = await getBoosterInfo(ethereum, vaultRewardsAddress, account);
+		if (walletAddress) {
+			const { newBoostBalance } = await getBoosterInfo(
+				provider,
+				vaultRewardsAddress,
+				walletAddress
+			);
 			const amount = new BN(newBoostBalance);
 			setNextBoostedBalance(amount);
 		}
-	}, [account, ethereum, vaultRewardsAddress]);
+	}, [walletAddress, provider, vaultRewardsAddress]);
 
 	useEffect(() => {
-		if (account && ethereum) {
+		if (walletAddress && provider) {
 			fetchNextBoostedBalance();
 			fetchCurrentBoostedBalance();
 			const refreshInterval1 = setInterval(fetchNextBoostedBalance, 10000);
@@ -39,7 +46,7 @@ export const useGetBoostedBalances = (vaultRewardsAddress: string) => {
 		} else {
 			return;
 		}
-	}, [account, ethereum, fetchCurrentBoostedBalance, fetchNextBoostedBalance]);
+	}, [walletAddress, provider, fetchCurrentBoostedBalance, fetchNextBoostedBalance]);
 
 	return [currentBoostedBalance, nextBoostedBalance];
 };

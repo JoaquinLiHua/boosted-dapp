@@ -1,25 +1,28 @@
 import { useCallback } from 'react';
-import { useWallet } from 'use-wallet';
-import { provider } from 'web3-core';
+import Initialiser from 'context/Initialiser';
+
 import { stakeForProposal, withdrawStaked } from '../../utils/governance';
 
 export const useGovernanceStake = () => {
-	const { account, ethereum }: { account: string | null; ethereum: provider } = useWallet();
+	const {
+		walletAddress,
+		provider,
+	}: { walletAddress: string | null; provider: any } = Initialiser.useContainer();
 
 	const handleStake = useCallback(
 		async (amount: string) => {
-			const txHash = await stakeForProposal(ethereum, account, amount);
+			const txHash = await stakeForProposal(provider, walletAddress, amount);
 			return txHash;
 		},
-		[account, ethereum]
+		[walletAddress, provider]
 	);
 
 	const handleUnstake = useCallback(
 		async (amount: string) => {
-			const txHash = await withdrawStaked(ethereum, account, amount);
+			const txHash = await withdrawStaked(provider, walletAddress, amount);
 			return txHash;
 		},
-		[account, ethereum]
+		[walletAddress, provider]
 	);
 
 	return { onStake: handleStake, onUnstake: handleUnstake };

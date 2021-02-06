@@ -1,5 +1,5 @@
 import Web3 from 'web3';
-import { provider } from 'web3-core';
+
 import { AbiItem } from 'web3-utils';
 import BoostVaultABI from '../constants/abi/BoostVault.json';
 import BoostVaultRewardsABI from '../constants/abi/BoostVaultRewards.json';
@@ -14,24 +14,24 @@ import BoostVaultRewardsABI from '../constants/abi/BoostVaultRewards.json';
 // // initialize notify
 // const notify = Notify(options);
 
-export const getVaultContract = (provider: provider, address: string) => {
+export const getVaultContract = (provider: any, address: string) => {
 	const web3 = new Web3(provider);
 	const contract = new web3.eth.Contract((BoostVaultABI as unknown) as AbiItem, address);
 	return contract;
 };
 
-export const getVaultRewardsContract = (provider: provider, address: string) => {
+export const getVaultRewardsContract = (provider: any, address: string) => {
 	const web3 = new Web3(provider);
 	const contract = new web3.eth.Contract((BoostVaultRewardsABI as unknown) as AbiItem, address);
 	return contract;
 };
 
 export const deposit = async (
-	provider: provider,
+	provider: any,
 	vaultAddress: string,
 	amount: string,
 	decimals: number,
-	account: string
+	walletAddress: string
 ) => {
 	const vaultContract = getVaultContract(provider, vaultAddress);
 	const web3 = new Web3(provider);
@@ -39,7 +39,7 @@ export const deposit = async (
 	const bntokens = web3.utils.toBN(tokens);
 	return vaultContract.methods
 		.deposit(bntokens)
-		.send({ from: account })
+		.send({ from: walletAddress })
 		.on('transactionHash', (tx) => {
 			// const { emitter } = notify.hash(tx);
 			// emitter.on("all", (transaction) => ({
@@ -55,11 +55,11 @@ export const deposit = async (
 };
 
 export const withdraw = async (
-	provider: provider,
+	provider: any,
 	vaultAddress: string,
 	amount: string,
 	decimals: number,
-	account: string
+	walletAddress: string
 ) => {
 	const vaultContract = getVaultContract(provider, vaultAddress);
 	const web3 = new Web3(provider);
@@ -76,7 +76,7 @@ export const withdraw = async (
 	const bntokens = web3.utils.toBN(tokens);
 	return vaultContract.methods
 		.withdraw(bntokens)
-		.send({ from: account })
+		.send({ from: walletAddress })
 		.on('transactionHash', (tx) => {
 			// const { emitter } = notify.hash(tx);
 			// emitter.on("all", (transaction) => ({
@@ -92,14 +92,16 @@ export const withdraw = async (
 };
 
 export const getRewardAmount = async (
-	provider: provider,
+	provider: any,
 	vaultRewardsAddress: string,
-	account: string | null
+	walletAddress: string | null
 ): Promise<string> => {
-	if (account && provider) {
+	if (walletAddress && provider) {
 		try {
 			const vaultRewardsContract = getVaultRewardsContract(provider, vaultRewardsAddress);
-			const claimableRewards: string = await vaultRewardsContract.methods.earned(account).call();
+			const claimableRewards: string = await vaultRewardsContract.methods
+				.earned(walletAddress)
+				.call();
 			return claimableRewards;
 		} catch (e) {
 			console.log(e);
@@ -111,15 +113,15 @@ export const getRewardAmount = async (
 };
 
 export const claim = async (
-	provider: provider,
+	provider: any,
 	vaultRewardsAddress: string,
-	account: string | null
+	walletAddress: string | null
 ) => {
 	try {
 		const vaultRewardsContract = getVaultRewardsContract(provider, vaultRewardsAddress);
 		return vaultRewardsContract.methods
-			.getReward(account)
-			.send({ from: account })
+			.getReward(walletAddress)
+			.send({ from: walletAddress })
 			.on('transactionHash', (tx) => {
 				// const { emitter } = notify.hash(tx);
 				// emitter.on("all", (transaction) => ({
@@ -138,11 +140,11 @@ export const claim = async (
 };
 
 export const stake = async (
-	provider: provider,
+	provider: any,
 	vaultRewardsAddress: string,
 	amount: string,
 	decimals: number,
-	account: string
+	walletAddress: string
 ) => {
 	const vaultRewardsContract = getVaultRewardsContract(provider, vaultRewardsAddress);
 	const web3 = new Web3(provider);
@@ -150,7 +152,7 @@ export const stake = async (
 	const bntokens = web3.utils.toBN(tokens);
 	return await vaultRewardsContract.methods
 		.stake(bntokens)
-		.send({ from: account })
+		.send({ from: walletAddress })
 		.on('transactionHash', (tx) => {
 			//   const { emitter } = notify.hash(tx);
 			//   emitter.on("all", (transaction) => ({
@@ -166,18 +168,18 @@ export const stake = async (
 };
 
 export const unstake = async (
-	provider: provider,
+	provider: any,
 	vaultRewardsAddress: string,
 	amount: string,
 	decimals: number,
-	account: string
+	walletAddress: string
 ) => {
 	try {
 		const vaultRewardsContract = getVaultRewardsContract(provider, vaultRewardsAddress);
 		const web3 = new Web3(provider);
 		const tokens = (Number(amount) * Math.pow(10, decimals)).toFixed(0);
 		const bntokens = web3.utils.toBN(tokens);
-		return await vaultRewardsContract.methods.withdraw(bntokens).send({ from: account });
+		return await vaultRewardsContract.methods.withdraw(bntokens).send({ from: walletAddress });
 		// .on("transactionHash", (tx) => {
 		//   const { emitter } = notify.hash(tx);
 		//   emitter.on("all", (transaction) => ({
@@ -196,14 +198,14 @@ export const unstake = async (
 };
 
 export const getStakedAmount = async (
-	provider: provider,
+	provider: any,
 	stakedAddress: string,
-	account: string | null
+	walletAddress: string | null
 ): Promise<string> => {
-	if (account) {
+	if (walletAddress) {
 		try {
 			const vaultRewardsAddress = getVaultRewardsContract(provider, stakedAddress);
-			const stakedAmount = await vaultRewardsAddress.methods.balanceOf(account).call();
+			const stakedAmount = await vaultRewardsAddress.methods.balanceOf(walletAddress).call();
 			return stakedAmount;
 		} catch (e) {
 			console.log(e);
@@ -215,14 +217,14 @@ export const getStakedAmount = async (
 };
 
 export const getDepositedAmount = async (
-	provider: provider,
+	provider: any,
 	vaultAddress: string,
-	account: string | null
+	walletAddress: string | null
 ): Promise<string> => {
-	if (account) {
+	if (walletAddress) {
 		try {
 			const vaultRewardsAddress = getVaultContract(provider, vaultAddress);
-			const depositedAmount = await vaultRewardsAddress.methods.balanceOf(account).call();
+			const depositedAmount = await vaultRewardsAddress.methods.balanceOf(walletAddress).call();
 			return depositedAmount;
 		} catch (e) {
 			console.log(e);
@@ -234,7 +236,7 @@ export const getDepositedAmount = async (
 };
 
 export const getPricePerFullShare = async (
-	provider: provider,
+	provider: any,
 	vaultAddress: string
 ): Promise<string> => {
 	try {
@@ -248,7 +250,7 @@ export const getPricePerFullShare = async (
 };
 
 export const getWithdrawalFee = async (
-	provider: provider,
+	provider: any,
 	vaultAddress: string
 ): Promise<{ withdrawFee: string; denom: string }> => {
 	try {
@@ -263,13 +265,15 @@ export const getWithdrawalFee = async (
 };
 
 export const getNextBoosterAvailable = async (
-	provider: provider,
+	provider: any,
 	vaultRewardAddress: string,
-	account: string
+	walletAddress: string
 ): Promise<string> => {
 	try {
 		const vaultRewardsContract = getVaultRewardsContract(provider, vaultRewardAddress);
-		const periodFinish = await vaultRewardsContract.methods.nextBoostPurchaseTime(account).call();
+		const periodFinish = await vaultRewardsContract.methods
+			.nextBoostPurchaseTime(walletAddress)
+			.call();
 		return periodFinish;
 	} catch (e) {
 		console.log(e);
@@ -278,13 +282,13 @@ export const getNextBoosterAvailable = async (
 };
 
 export const getBoostedBalance = async (
-	provider: provider,
+	provider: any,
 	vaultRewardAddress: string,
-	account: string
+	walletAddress: string
 ): Promise<string> => {
 	try {
 		const vaultRewardsContract = getVaultRewardsContract(provider, vaultRewardAddress);
-		const boostedBalance = await vaultRewardsContract.methods.boostedBalances(account).call();
+		const boostedBalance = await vaultRewardsContract.methods.boostedBalances(walletAddress).call();
 		return boostedBalance;
 	} catch (e) {
 		console.log(e);
@@ -293,13 +297,13 @@ export const getBoostedBalance = async (
 };
 
 export const getBoosterInfo = async (
-	provider: provider,
+	provider: any,
 	vaultRewardAddress: string,
-	account: string
+	walletAddress: string
 ): Promise<{ boosterPrice: string; newBoostBalance: string }> => {
 	try {
 		const vaultRewardsContract = getVaultRewardsContract(provider, vaultRewardAddress);
-		const boosterInfo = await vaultRewardsContract.methods.getBoosterPrice(account).call();
+		const boosterInfo = await vaultRewardsContract.methods.getBoosterPrice(walletAddress).call();
 		const newBoostBalance = boosterInfo['newBoostBalance'];
 		const boosterPrice = boosterInfo['boosterPrice'];
 		return { boosterPrice, newBoostBalance };
@@ -310,13 +314,13 @@ export const getBoosterInfo = async (
 };
 
 export const boostCount = async (
-	provider: provider,
+	provider: any,
 	vaultRewardAddress: string,
-	account: string
+	walletAddress: string
 ): Promise<string> => {
 	const vaultRewardContract = getVaultRewardsContract(provider, vaultRewardAddress);
 	try {
-		const boosterCount = await vaultRewardContract.methods.numBoostersBought(account).call();
+		const boosterCount = await vaultRewardContract.methods.numBoostersBought(walletAddress).call();
 		return boosterCount;
 	} catch (e) {
 		console.log(e);
@@ -325,15 +329,15 @@ export const boostCount = async (
 };
 
 export const boost = async (
-	provider: provider,
+	provider: any,
 	vaultRewardAddress: string,
-	account: string | null
+	walletAddress: string | null
 ) => {
 	try {
 		const vaultRewardContract = getVaultRewardsContract(provider, vaultRewardAddress);
 		return vaultRewardContract.methods
 			.boost()
-			.send({ from: account })
+			.send({ from: walletAddress })
 			.on('transactionHash', (tx) => {
 				// const { emitter } = notify.hash(tx);
 				// emitter.on("all", (transaction) => ({
@@ -353,7 +357,7 @@ export const boost = async (
 
 // @TODO - support non-stable coins
 export const getVaultValueLocked = async (
-	provider: provider,
+	provider: any,
 	vaultAddress: string,
 	vaultRewardAddress: string,
 	decimals: number

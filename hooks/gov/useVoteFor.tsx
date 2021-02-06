@@ -1,22 +1,25 @@
 import { useCallback } from 'react';
 
-import { useWallet } from 'use-wallet';
-import { provider } from 'web3-core';
+import Initialiser from 'context/Initialiser';
+
 import { voteFor } from 'utils/governance';
 
 export const useVoteFor = (id: string | string[] | undefined) => {
-	const { account, ethereum }: { account: string | null; ethereum: provider } = useWallet();
+	const {
+		walletAddress,
+		provider,
+	}: { walletAddress: string | null; provider: any } = Initialiser.useContainer();
 
 	const handleVoteFor = useCallback(async () => {
-		if (account && id) {
+		if (walletAddress && id) {
 			try {
-				const tx = await voteFor(ethereum, account, id);
+				const tx = await voteFor(provider, walletAddress, id);
 				return tx;
 			} catch (e) {
 				return false;
 			}
 		}
-	}, [account, ethereum, id]);
+	}, [walletAddress, provider, id]);
 
 	return {
 		onVoteFor: handleVoteFor,

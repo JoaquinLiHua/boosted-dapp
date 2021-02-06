@@ -1,31 +1,34 @@
 import { useCallback, useState, useEffect } from 'react';
 
-import { useWallet } from 'use-wallet';
-import { provider } from 'web3-core';
+import Initialiser from 'context/Initialiser';
+
 import { getBoostedBalance, getNewBoostedBalance } from '../../utils/pool';
 import BN from 'bignumber.js';
 
 export const useGetBoostedBalances = (poolAddress: string) => {
 	const [currentBoostedBalance, setCurrentBoostedBalance] = useState(new BN('0'));
 	const [nextBoostedBalance, setNextBoostedBalance] = useState(new BN('0'));
-	const { account, ethereum }: { account: string | null; ethereum: provider } = useWallet();
+	const {
+		walletAddress,
+		provider,
+	}: { walletAddress: string | null; provider: any } = Initialiser.useContainer();
 
 	const fetchCurrentBoostedBalance = useCallback(async () => {
-		if (account) {
-			const amount = new BN(await getBoostedBalance(ethereum, poolAddress, account));
+		if (walletAddress) {
+			const amount = new BN(await getBoostedBalance(provider, poolAddress, walletAddress));
 			setCurrentBoostedBalance(amount);
 		}
-	}, [account, ethereum, poolAddress]);
+	}, [walletAddress, provider, poolAddress]);
 
 	const fetchNextBoostedBalance = useCallback(async () => {
-		if (account) {
-			const amount = new BN(await getNewBoostedBalance(ethereum, poolAddress, account));
+		if (walletAddress) {
+			const amount = new BN(await getNewBoostedBalance(provider, poolAddress, walletAddress));
 			setNextBoostedBalance(amount);
 		}
-	}, [account, ethereum, poolAddress]);
+	}, [walletAddress, provider, poolAddress]);
 
 	useEffect(() => {
-		if (account && ethereum) {
+		if (walletAddress && provider) {
 			fetchNextBoostedBalance();
 			fetchCurrentBoostedBalance();
 			const refreshInterval1 = setInterval(fetchNextBoostedBalance, 10000);
@@ -38,7 +41,7 @@ export const useGetBoostedBalances = (poolAddress: string) => {
 		} else {
 			return;
 		}
-	}, [account, ethereum, fetchCurrentBoostedBalance, fetchNextBoostedBalance]);
+	}, [walletAddress, provider, fetchCurrentBoostedBalance, fetchNextBoostedBalance]);
 
 	return [currentBoostedBalance, nextBoostedBalance];
 };

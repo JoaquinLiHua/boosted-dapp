@@ -1,29 +1,32 @@
 import { useCallback } from 'react';
-import { useWallet } from 'use-wallet';
-import { provider } from 'web3-core';
+import Initialiser from 'context/Initialiser';
+
 import { deposit, withdraw } from 'utils/vault';
 
 export const useVaultDeposit = (vaultAddress: string, decimals: number) => {
-	const { account, ethereum }: { account: string | null; ethereum: provider } = useWallet();
+	const {
+		walletAddress,
+		provider,
+	}: { walletAddress: string | null; provider: any } = Initialiser.useContainer();
 
 	const handleDeposit = useCallback(
 		async (amount: string) => {
-			if (account) {
-				const txHash = await deposit(ethereum, vaultAddress, amount, decimals, account);
+			if (walletAddress) {
+				const txHash = await deposit(provider, vaultAddress, amount, decimals, walletAddress);
 				return txHash;
 			}
 		},
-		[account, vaultAddress, ethereum, decimals]
+		[walletAddress, vaultAddress, provider, decimals]
 	);
 
 	const handleWithdraw = useCallback(
 		async (amount: string) => {
-			if (account) {
-				const txHash = await withdraw(ethereum, vaultAddress, amount, decimals, account);
+			if (walletAddress) {
+				const txHash = await withdraw(provider, vaultAddress, amount, decimals, walletAddress);
 				return txHash;
 			}
 		},
-		[account, vaultAddress, ethereum, decimals]
+		[walletAddress, vaultAddress, provider, decimals]
 	);
 
 	return { onVaultDeposit: handleDeposit, onVaultWithdraw: handleWithdraw };

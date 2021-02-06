@@ -1,21 +1,21 @@
 import { useCallback } from 'react';
-import { useWallet } from 'use-wallet';
-import { provider } from 'web3-core';
+import Initialiser from 'context/Initialiser';
+
 import { submitProposal } from 'utils/governance';
 
 const useSubmitProposal = () => {
-	const { ethereum, account }: { ethereum: provider; account: string | null } = useWallet();
+	const { provider, walletAddress } = Initialiser.useContainer();
 
 	const handleSubmitProposal = useCallback(
 		async (values) => {
 			try {
-				const tx = await submitProposal(ethereum, account, values);
+				const tx = await submitProposal(provider, walletAddress, values);
 				return tx;
 			} catch (e) {
 				return false;
 			}
 		},
-		[ethereum, account]
+		[provider, walletAddress]
 	);
 
 	return { onSubmitProposal: (values) => handleSubmitProposal(values) };

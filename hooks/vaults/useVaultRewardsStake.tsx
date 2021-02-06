@@ -1,29 +1,38 @@
 import { useCallback } from 'react';
-import { useWallet } from 'use-wallet';
-import { provider } from 'web3-core';
+import Initialiser from 'context/Initialiser';
+
 import { stake, unstake } from '../../utils/vault';
 
 export const useVaultRewardsStake = (vaultRewardsAddress: string, decimals: number) => {
-	const { account, ethereum }: { account: string | null; ethereum: provider } = useWallet();
+	const {
+		walletAddress,
+		provider,
+	}: { walletAddress: string | null; provider: any } = Initialiser.useContainer();
 
 	const handleStake = useCallback(
 		async (amount: string) => {
-			if (account) {
-				const txHash = await stake(ethereum, vaultRewardsAddress, amount, decimals, account);
+			if (walletAddress) {
+				const txHash = await stake(provider, vaultRewardsAddress, amount, decimals, walletAddress);
 				return txHash;
 			}
 		},
-		[account, vaultRewardsAddress, ethereum, decimals]
+		[walletAddress, vaultRewardsAddress, provider, decimals]
 	);
 
 	const handleUnstake = useCallback(
 		async (amount: string) => {
-			if (account) {
-				const txHash = await unstake(ethereum, vaultRewardsAddress, amount, decimals, account);
+			if (walletAddress) {
+				const txHash = await unstake(
+					provider,
+					vaultRewardsAddress,
+					amount,
+					decimals,
+					walletAddress
+				);
 				return txHash;
 			}
 		},
-		[account, vaultRewardsAddress, ethereum, decimals]
+		[walletAddress, vaultRewardsAddress, provider, decimals]
 	);
 
 	return {

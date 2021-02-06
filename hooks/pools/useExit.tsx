@@ -1,19 +1,22 @@
 import { useCallback } from 'react';
-import { useWallet } from 'use-wallet';
-import { provider } from 'web3-core';
+import Initialiser from 'context/Initialiser';
+
 import { exit } from 'utils/pool';
 
 export const useExit = () => {
-	const { account, ethereum }: { account: string | null; ethereum: provider } = useWallet();
+	const {
+		walletAddress,
+		provider,
+	}: { walletAddress: string | null; provider: any } = Initialiser.useContainer();
 
 	const handleExit = useCallback(
 		async (poolContract: string) => {
-			if (account) {
-				const txHash = await exit(ethereum, poolContract, account);
+			if (walletAddress) {
+				const txHash = await exit(provider, poolContract, walletAddress);
 				return txHash;
 			}
 		},
-		[account, ethereum]
+		[walletAddress, provider]
 	);
 
 	return { onExit: handleExit };

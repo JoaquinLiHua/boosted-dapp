@@ -1,16 +1,16 @@
 import Web3 from 'web3';
-import { provider } from 'web3-core';
+
 import { AbiItem } from 'web3-utils';
 import Governance from '../constants/abi/Governance.json';
 import { governanceContract } from 'constants/bfAddresses';
 
-export const getContract = (provider: provider, address: string) => {
+export const getContract = (provider: any, address: string) => {
 	const web3 = new Web3(provider);
 	const contract = new web3.eth.Contract((Governance as unknown) as AbiItem, address);
 	return contract;
 };
 
-export const getTotalStaked = async (provider: provider) => {
+export const getTotalStaked = async (provider: any) => {
 	try {
 		const contract = getContract(provider, governanceContract);
 		const totalStaked = await contract.methods.totalSupply().call();
@@ -20,7 +20,7 @@ export const getTotalStaked = async (provider: provider) => {
 	}
 };
 
-export const proposals = async (provider: provider) => {
+export const proposals = async (provider: any) => {
 	const contract = getContract(provider, governanceContract);
 	try {
 		const proposalCount = await getProposalCount(provider);
@@ -35,7 +35,7 @@ export const proposals = async (provider: provider) => {
 	}
 };
 
-export const getSingleProposal = async (provider: provider, id: number) => {
+export const getSingleProposal = async (provider: any, id: number) => {
 	try {
 		const contract = getContract(provider, governanceContract);
 		const proposal = await contract.methods.proposals(id).call();
@@ -45,7 +45,7 @@ export const getSingleProposal = async (provider: provider, id: number) => {
 	}
 };
 
-export const getProposalCount = async (provider: provider) => {
+export const getProposalCount = async (provider: any) => {
 	const contract = getContract(provider, governanceContract);
 	try {
 		const count = await contract.methods.proposalCount().call();
@@ -55,8 +55,8 @@ export const getProposalCount = async (provider: provider) => {
 	}
 };
 
-export const submitProposal = async (provider: provider, account: any | null, values: any) => {
-	if (account) {
+export const submitProposal = async (provider: any, walletAddress: any | null, values: any) => {
+	if (walletAddress) {
 		try {
 			const contract = getContract(provider, governanceContract);
 			const web3 = new Web3(provider);
@@ -66,7 +66,7 @@ export const submitProposal = async (provider: provider, account: any | null, va
 			const tx = await contract.methods
 				.propose(values.url.toString(), bntokens, values.withdrawAddress.toString())
 				.send({
-					from: account,
+					from: walletAddress,
 				});
 			return tx;
 		} catch (e) {
@@ -79,18 +79,18 @@ export const submitProposal = async (provider: provider, account: any | null, va
 };
 
 export const stakeForProposal = async (
-	provider: provider,
-	account: string | null,
+	provider: any,
+	walletAddress: string | null,
 	amount: string
 ) => {
-	if (account) {
+	if (walletAddress) {
 		const contract = getContract(provider, governanceContract);
 		const web3 = new Web3(provider);
 		const tokens = web3.utils.toWei(amount.toString(), 'ether');
 		const bntokens = web3.utils.toBN(tokens);
 		return contract.methods
 			.stake(bntokens)
-			.send({ from: account })
+			.send({ from: walletAddress })
 			.on('transactionHash', (tx) => {
 				console.log(tx);
 				return tx.transactionHash;
@@ -100,11 +100,11 @@ export const stakeForProposal = async (
 	}
 };
 
-export const getStaked = async (provider: provider, account: string) => {
-	if (account) {
+export const getStaked = async (provider: any, walletAddress: string) => {
+	if (walletAddress) {
 		try {
 			const contract = getContract(provider, governanceContract);
-			const stakedAmount = await contract.methods.balanceOf(account).call();
+			const stakedAmount = await contract.methods.balanceOf(walletAddress).call();
 			return stakedAmount;
 		} catch (e) {
 			return null;
@@ -116,16 +116,16 @@ export const getStaked = async (provider: provider, account: string) => {
 };
 
 export const voteFor = async (
-	provider: provider,
-	account: string,
+	provider: any,
+	walletAddress: string,
 	id: string | string[] | undefined
 ) => {
-	if (account) {
+	if (walletAddress) {
 		try {
 			const contract = getContract(provider, governanceContract);
 			return await contract.methods
 				.voteFor(id)
-				.send({ from: account })
+				.send({ from: walletAddress })
 				.on('transactionHash', (tx) => {
 					console.log(tx);
 					return tx.transactionHash;
@@ -140,16 +140,16 @@ export const voteFor = async (
 };
 
 export const voteAgainst = async (
-	provider: provider,
-	account: string,
+	provider: any,
+	walletAddress: string,
 	id: string | string[] | undefined
 ) => {
-	if (account) {
+	if (walletAddress) {
 		try {
 			const contract = getContract(provider, governanceContract);
 			return await contract.methods
 				.voteAgainst(id)
-				.send({ from: account })
+				.send({ from: walletAddress })
 				.on('transactionHash', (tx) => {
 					console.log(tx);
 					return tx.transactionHash;
@@ -163,11 +163,11 @@ export const voteAgainst = async (
 	}
 };
 
-export const voteLockedPeriod = async (provider: provider, account: string) => {
-	if (account) {
+export const voteLockedPeriod = async (provider: any, walletAddress: string) => {
+	if (walletAddress) {
 		try {
 			const contract = getContract(provider, governanceContract);
-			return await contract.methods.voteLock(account).call();
+			return await contract.methods.voteLock(walletAddress).call();
 		} catch (e) {
 			return null;
 		}
@@ -178,11 +178,11 @@ export const voteLockedPeriod = async (provider: provider, account: string) => {
 };
 
 export const withdrawStaked = async (
-	provider: provider,
-	account: string | null,
+	provider: any,
+	walletAddress: string | null,
 	amount: string
 ) => {
-	if (account) {
+	if (walletAddress) {
 		try {
 			const contract = getContract(provider, governanceContract);
 			const web3 = new Web3(provider);
@@ -190,7 +190,7 @@ export const withdrawStaked = async (
 			const bntokens = web3.utils.toBN(tokens);
 			return await contract.methods
 				.withdraw(bntokens)
-				.send({ from: account })
+				.send({ from: walletAddress })
 				.on('transactionHash', (tx) => {
 					console.log(tx);
 					return tx.transactionHash;

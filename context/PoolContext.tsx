@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
-import { useWallet } from 'use-wallet';
+import Initialiser from 'context/Initialiser';
+
 import BN from 'bignumber.js';
 import {
 	getPoolStats,
@@ -8,7 +9,6 @@ import {
 	getBalancerAPY,
 	getBalancerPoolPriceInUSD,
 } from 'utils/pool';
-import { provider } from 'web3-core';
 import { usePriceFeedContext } from './PriceFeedContext';
 import { ALL_POOLS, IPool } from 'constants/pools';
 
@@ -26,7 +26,7 @@ export const PoolProvider: React.FC = ({ children }) => {
 	const { coinGecko } = usePriceFeedContext();
 	const [closedPools, setClosedPools] = useState<IPool[]>([]);
 	const [openPools, setOpenPools] = useState<IPool[]>([]);
-	const { ethereum, account }: { ethereum: provider; account: string | null } = useWallet();
+	const { provider, walletAddress } = Initialiser.useContainer();
 
 	const getStats = useCallback(async () => {
 		const CLOSED_POOLS = ALL_POOLS.filter((e) => !e.open);
@@ -52,22 +52,22 @@ export const PoolProvider: React.FC = ({ children }) => {
 		});
 
 		const promisedOpenPoolsArr = OPEN_POOLS.map(async (pool) => {
-			const poolStats = await getPoolStats(ethereum, pool.address, false, account);
+			const poolStats = await getPoolStats(provider, pool.address, false, walletAddress);
 			let apy;
 			let poolPriceInUSD;
 			if (pool.code === 'eth_boost_v2_pool') {
-				apy = await getBoostV2Apy(ethereum, coinGecko);
-				poolPriceInUSD = await getBoostPoolV2PriceInUSD(ethereum, coinGecko);
+				apy = await getBoostV2Apy(provider, coinGecko);
+				poolPriceInUSD = await getBoostPoolV2PriceInUSD(provider, coinGecko);
 			} else {
 				apy = await getBalancerAPY(
-					ethereum,
+					provider,
 					coinGecko,
 					pool.address,
 					pool.tokenContract,
 					pool.underlyingToken
 				);
 				poolPriceInUSD = await getBalancerPoolPriceInUSD(
-					ethereum,
+					provider,
 					coinGecko,
 					pool.address,
 					pool.tokenContract,
@@ -96,7 +96,7 @@ export const PoolProvider: React.FC = ({ children }) => {
 		const resolvedOpenPool = await Promise.all(promisedOpenPoolsArr);
 		setClosedPools(resolvedClosedPool);
 		setOpenPools(resolvedOpenPool);
-	}, [ethereum, coinGecko, account]);
+	}, [provider, coinGecko, walletAddress]);
 
 	useEffect(() => {
 		getStats();

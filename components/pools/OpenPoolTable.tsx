@@ -14,7 +14,8 @@ import {
 import { usePoolContext } from 'context/PoolContext';
 import { getDisplayBalance } from 'utils/formatBalance';
 import { formatTimestamp } from 'utils/formatTimestamp';
-import { useWallet } from 'use-wallet';
+import Initialiser from 'context/Initialiser';
+
 import formatCurrency from 'format-currency';
 import BN from 'bignumber.js';
 import Link from 'next/link';
@@ -88,7 +89,7 @@ function TableCell(props: BoxProps) {
 }
 
 export const OpenPoolTable: React.FC = () => {
-	const { account } = useWallet();
+	const { walletAddress } = Initialiser.useContainer();
 	const { openPools } = usePoolContext();
 	const { colorMode } = useColorMode();
 	return (
@@ -158,7 +159,7 @@ export const OpenPoolTable: React.FC = () => {
 									<Text fontSize="sm">{`${e.apy ? e.apy : 0}%`}</Text>
 								</TableCell>
 								<TableCell textAlign="right">
-									{!!account && (
+									{!!walletAddress && (
 										<Link href="/pool/[id]" as={`/pool/${e.code}`}>
 											<Button size="sm" fontSize="sm" fontWeight="medium" colorScheme="green">
 												Stake/Boost
