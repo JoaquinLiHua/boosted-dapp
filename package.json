@@ -13,6 +13,7 @@
 		"@chakra-ui/react": "1.0.1",
 		"@emotion/react": "11.1.1",
 		"@emotion/styled": "11.0.0",
+		"@reach/dialog": "0.12.1",
 		"@typeform/embed": "0.27.1",
 		"@walletconnect/web3-provider": "1.2.2",
 		"babel-eslint": "10.1.0",
@@ -48,6 +49,7 @@
 		"react-dom": "16.12.0",
 		"react-icons": "3.11.0",
 		"react-marquee-slider": "1.1.2",
+		"recharts": "^2.0.4",
 		"styled-components": "5.2.0",
 		"unstated-next": "1.1.0",
 		"web3": "1.2.11"
@@ -58,12 +60,12 @@
 		"@types/styled-components": "5.1.7",
 		"@typescript-eslint/eslint-plugin": "4.6.0",
 		"@typescript-eslint/parser": "4.6.0",
+		"eslint-config-prettier": "6.10.1",
+		"eslint-plugin-prettier": "3.1.4",
 		"eslint-plugin-react": "7.20.6",
 		"eslint-plugin-react-hooks": "4.1.0",
 		"formik": "2.1.5",
-		"typescript": "4.0.2",
-		"eslint-plugin-prettier": "3.1.4",
-		"eslint-config-prettier": "6.10.1",
-		"prettier": "2.0.5"
+		"prettier": "2.0.5",
+		"typescript": "4.0.2"
 	}
 }

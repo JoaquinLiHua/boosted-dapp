@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import NextLink from 'next/link';
-import { SettingsMenus } from './SettingsMenu';
+import { WalletMenu } from './WalletMenu';
 import { FlexDivRowCentered, MainColumn } from 'styles/common';
 import { Svg } from 'react-optimized-image';
 import SideNav from './SideNav';
@@ -17,13 +17,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 	return (
 		<LayoutWrapper>
 			<BackgroundWrapper>
-				{/* Making the DOM little bit prettier */}
 				<SolarSystemContainer>
 					<Svg src={SolarSystem} />
 				</SolarSystemContainer>
-				{/* <PlanetContainer>
-          <Svg src={Planet} />
-        </PlanetContainer> */}
 				<StarContainer>
 					<Svg src={Stars} />
 				</StarContainer>
@@ -36,14 +32,16 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 				</NextLink>
 				<TopRight>
 					<StyledDiscordLink href="https://discord.gg/gp9bsaQ">Join our Discord!</StyledDiscordLink>
-					<SettingsMenus />
+					<WalletMenu />
 				</TopRight>
 			</HeaderContainer>
 
 			{/* One more wrapper so we can use Flex put the divs side-by-side easily */}
 			<SideMainWrapper>
-				<SideNav /> {/* Side navigation */}
-				<MainColumn>{children}</MainColumn> {/* Page content */}
+				{/* Side navigation */}
+				<SideNav />
+				{/* Page content */}
+				<MainColumn>{children}</MainColumn>
 			</SideMainWrapper>
 		</LayoutWrapper>
 	);
@@ -51,7 +49,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 export default Layout;
 
 const BackgroundWrapper = styled.div`
-	z-index: 1;
 	position: relative;
 `;
 
@@ -67,15 +64,8 @@ const StarContainer = styled.div`
 	top: 0;
 `;
 
-const PlanetContainer = styled.div`
-	position: absolute;
-	top: 50%;
-	left: 100;
-`;
-
 const HeaderContainer = styled.header`
 	display: flex;
-	z-index: 1;
 	position: relative;
 	justify-content: space-between;
 	padding: 48px 48px 27px 48px;

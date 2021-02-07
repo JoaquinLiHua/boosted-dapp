@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 // Responsive breakpoints to get started with so we can use the device variables later in the code
 
@@ -115,18 +115,28 @@ export const GlowText = styled.span`
 
 // Buttons
 
-export const PrimaryButton = styled.a`
-	color: ${(props) => props.theme.colors.white};
-	background: ${(props) => props.theme.colors.darkBlue};
+export const Button = css`
 	font-family: ${(props) => props.theme.fonts.interSemiBold};
+	color: ${(props) => props.theme.colors.white};
 	text-decoration: none;
 	padding: 14px 24px;
-	font-size: 15px;
+	font-size: 14px;
 	border-radius: 4px;
 	justify-content: center;
 	outline: none;
 	border: 0;
-	box-shadow: 0 0 8px 0 #0c9eda;
 	text-align: center;
 	line-height: 100%;
+	cursor: pointer;
+`;
+
+export const PrimaryButton = styled.a`
+	${Button}
+	background: ${(props) => props.theme.colors.darkBlue};
+	box-shadow: 0 0 8px 0 #0c9eda;
+`;
+
+export const SecondaryButton = styled.a`
+	${Button}
+	background: ${(props) => props.theme.colors.navy};
 `;

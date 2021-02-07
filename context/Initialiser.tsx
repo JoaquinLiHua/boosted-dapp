@@ -68,11 +68,16 @@ const useInitialiser = () => {
 		}
 	};
 
+	const disconnectWallet = () => {
+		onboard.walletReset();
+	};
+
 	return {
 		provider,
 		signer,
 		walletAddress,
 		connectWallet,
+		disconnectWallet,
 		onboard,
 		bncNotify,
 	};

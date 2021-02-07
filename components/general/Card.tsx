@@ -3,12 +3,16 @@ import React from 'react';
 import styled from 'styled-components';
 
 export const Card = ({ title, value, valueInUSD, help }) => {
-	const { connectWallet } = Initialiser.useContainer();
+	const { connectWallet, walletAddress } = Initialiser.useContainer();
 	return (
 		<CardWrapper>
 			<Title>{title}</Title>
 			<Value>
-				{value || <ConnectWallet onClick={connectWallet}>Connect Wallet</ConnectWallet>}
+				{walletAddress ? (
+					value
+				) : (
+					<ConnectWallet onClick={connectWallet}>Connect Wallet</ConnectWallet>
+				)}
 			</Value>
 			<HelpText>{valueInUSD || help}</HelpText>
 		</CardWrapper>

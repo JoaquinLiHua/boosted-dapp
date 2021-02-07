@@ -7,13 +7,13 @@ import theme from 'styles/theme';
 import { ModalContext } from 'context/ModalContext';
 import { PriceFeedProvider } from 'context/PriceFeedContext';
 import { VaultProvider } from 'context/VaultContext';
-import { NotifyProvider } from 'context/NotifyContext';
 import { ThemeProvider } from 'styled-components';
 import Layout from 'components/general/Layout';
 
 import Initialiser from 'context/Initialiser';
 
 import 'styles/sanitize.css';
+import '@reach/dialog/styles.css';
 import 'styles/main.css';
 import Notify from 'context/Notify';
 
