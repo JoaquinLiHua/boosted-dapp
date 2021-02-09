@@ -30,6 +30,7 @@ const WalletAddress = styled(SecondaryButton)`
 const ConnectWalletButton = styled(PrimaryButton)`
 	margin-left: 24px;
 	cursor: pointer;
+	box-shadow: 0 0 8px 0 #0c9eda;
 `;
 
 const StyledBaseModal = styled(BaseModal)``;

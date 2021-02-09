@@ -63,6 +63,12 @@ export const TwoCols = styled.div`
 			width: calc(50% - 12px);
 		}
 	}
+
+	:after {
+		content: "";
+		height: 0;
+  	width: calc(50% - 12px);
+	}
 `;
 
 export const ThreeCols = styled.div`
@@ -76,6 +82,12 @@ export const ThreeCols = styled.div`
 		@media ${device.tablet} {
 			width: calc(33.33% - 12px);
 		}
+	}
+
+	:after {
+		content: "";
+		height: 0;
+  	width: calc(33.33% - 12px);
 	}
 `;
 
@@ -119,7 +131,7 @@ export const Button = css`
 	font-family: ${(props) => props.theme.fonts.interSemiBold};
 	color: ${(props) => props.theme.colors.white};
 	text-decoration: none;
-	padding: 14px 24px;
+	padding: 13px 24px;
 	font-size: 14px;
 	border-radius: 4px;
 	justify-content: center;
@@ -128,15 +140,40 @@ export const Button = css`
 	text-align: center;
 	line-height: 100%;
 	cursor: pointer;
+	transition: all 0.1s ease-in-out;
+
+	&:disabled {
+		opacity: 0.3;
+		cursor: not-allowed;
+	}
+
+	&:hover {
+		background: #25B7F3;
+		box-shadow: 0 0 8px 0 #0c9eda;
+	}
 `;
 
 export const PrimaryButton = styled.a`
 	${Button}
 	background: ${(props) => props.theme.colors.darkBlue};
-	box-shadow: 0 0 8px 0 #0c9eda;
 `;
 
 export const SecondaryButton = styled.a`
 	${Button}
-	background: ${(props) => props.theme.colors.navy};
+	color: #56C7F6;
+	text-shadow: 0 0 16px rgba(86,199,246,0.50);
+	background: #131720;
+	border: 2px solid #0C9EDA;
+	border-radius: 4px;
+
+	&:disabled {
+		opacity: 0.3;
+		cursor: not-allowed;
+	}
+
+	&:hover {
+		color: #B6E7FB;
+		background: #131720;
+		box-shadow: 0 0 8px 0 #0c9eda;
+	}
 `;
