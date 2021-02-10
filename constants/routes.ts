@@ -8,11 +8,11 @@ export const ROUTES = [
 		link: '/bVaults',
 	},
 	{
-		copy: 'Gov',
-		link: '/gov',
-	},
-	{
 		copy: 'Pools',
 		link: '/pools',
+	},
+	{
+		copy: 'Governance',
+		link: '/gov',
 	},
 ];

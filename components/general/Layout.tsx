@@ -93,6 +93,7 @@ const LayoutWrapper = styled.div`
 	background: ${(props) => props.theme.colors.background};
 	min-height: 100vh;
 	position: relative;
+	padding-bottom: 96px;
 `;
 
 const TopRight = styled(FlexDivRowCentered)``;

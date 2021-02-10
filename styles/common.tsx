@@ -96,10 +96,35 @@ export const Spacer = styled.div`
 	height: 48px;
 `;
 
+export const XSmallSpacer = styled.div`
+	display: block;
+	height: 8px;
+`;
+
+export const SmallSpacer = styled.div`
+	display: block;
+	height: 16px;
+`;
+
+export const MediumSpacer = styled.div`
+	display: block;
+	height: 32px;
+`;
+
 // Typography
 
 export const H1 = styled.h1`
 	font-size: 24px;
+`;
+
+export const H2 = styled.h2`
+	font-size: 18px;
+	font-family: ${(props) => props.theme.fonts.interSemiBold};
+`;
+
+export const H3 = styled.h3`
+	font-size: 15px;
+	font-family: ${(props) => props.theme.fonts.interSemiBold};
 `;
 
 export const PositiveNumber = styled.span`
@@ -123,6 +148,18 @@ export const DailyWeeklyMonthlyPrice = styled.div`
 export const GlowText = styled.span`
 	color: #56c7f6;
 	text-shadow: 0 0 8px rgba(86, 199, 246, 0.5);
+`;
+
+export const GlowTextLink = styled.a`
+	color: #56c7f6;
+	text-shadow: 0 0 8px rgba(86, 199, 246, 0.5);
+	text-decoration: none;
+	font-family: ${(props) => props.theme.fonts.interSemiBold};
+	font-size: 15px;
+
+	&:hover {
+		color: white;
+	}
 `;
 
 // Buttons
