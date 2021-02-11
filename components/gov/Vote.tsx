@@ -4,7 +4,7 @@ import { ProposalRow } from './ProposalRow';
 import { AddressRow } from './AddressRow';
 import { AddressRowHead } from './AddressRow';
 
-import { H1, H2, ThreeCols, XSmallSpacer, MediumSpacer, GlowTextLink, H6Styles, H1Styles } from 'styles/common';
+import { H1, H2, ThreeCols, SmallSpacer, XSmallSpacer, MediumSpacer, GlowTextLink, H6Styles, H1Styles } from 'styles/common';
 
 export const Vote: React.FC = () => {
 	return (
@@ -31,8 +31,10 @@ export const Vote: React.FC = () => {
 				</GovernanceCard>
 			</ThreeCols>
 
+			<SmallSpacer />
 			<H2>Core proposals</H2>
 			<XSmallSpacer />
+			
 			<Proposals>
 				<ProposalRow
 					href="/gov/pid"

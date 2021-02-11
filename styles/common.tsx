@@ -290,3 +290,50 @@ export const SecondaryButton = styled.a`
 		box-shadow: 0 0 8px 0 ${(props) => props.theme.colors.darkBlue};
 	}
 `;
+
+
+// Search & dropdowns
+
+export const SearchField = styled.input`
+	width: 100%;
+	background: ${(props) => props.theme.colors.navy};
+	border-radius: 24px;
+	color: ${(props) => props.theme.colors.white};
+	height: 48px;
+	padding: 24px;
+	border: none;
+	font-family: ${(props) => props.theme.fonts.interMedium};
+	font-size: 14px;
+	color: ${(props) => props.theme.colors.white};
+	background-image: url("data:image/svg+xml,%3Csvg width='15' height='15' xmlns='http://www.w3.org/2000/svg'%3E%3Cg transform='translate(1 1)' stroke='%23FFF' stroke-width='2' fill='none' fill-rule='evenodd' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='5.25' cy='5.25' r='5.25'/%3E%3Cpath d='M12.75 12.75L8.986 8.986'/%3E%3C/g%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: 20px center;
+	padding-left: 48px;
+
+	&:active,
+	&:focus {
+		outline: none;
+	}
+`;
+
+export const Dropdown = styled.select`
+	max-width: 200px;
+	width: 100%;
+	background: ${(props) => props.theme.colors.navy};
+	border-radius: 24px;
+	color: ${(props) => props.theme.colors.white};
+	height: 48px;
+	padding: 0 18px;
+	border: none;
+	outline: none;
+	font-family: ${(props) => props.theme.fonts.interMedium};
+
+	-moz-appearance: none; 
+	-moz-appearance: none; 
+	-webkit-appearance: none; 
+	appearance: none;
+
+	background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='%23FFF' stroke-width='2' d='M.9999999 1.772971l4.77297077 4.77297077L10.54594145 1.772971' fill='none' fill-rule='evenodd' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right 20px center;
+`;

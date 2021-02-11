@@ -1,8 +1,8 @@
 import React from 'react';
 import NextLink from 'next/link';
 import styled from 'styled-components';
-import { FlexDivCol } from 'styles/common';
-import { ROUTES } from 'constants/routes';
+import { Spacer } from 'styles/common';
+import { ROUTES, ROUTESSECONDARY } from 'constants/routes';
 import { useRouter } from 'next/router';
 
 type SideNavProps = {};
@@ -17,22 +17,14 @@ const SideNav: React.FC<SideNavProps> = ({}) => {
 					<Item active={route === element.link}>{element.copy}</Item>
 				</NextLink>
 			))}
-			<SecondaryLinks>
-				<ul>
-					<li>
-						<a href="#">About</a>
-					</li>
-					<li>
-						<a href="#">FAQ</a>
-					</li>
-					<li>
-						<a href="#">Docs</a>
-					</li>
-					<li>
-						<a href="#">Audit</a>
-					</li>
-				</ul>
-			</SecondaryLinks>
+
+			<Spacer />
+
+			{ROUTESSECONDARY.map((element, key) => (
+				<NextLink key={key} href={element.link}>
+					<SecondaryItem active={route === element.link}>{element.copy}</SecondaryItem>
+				</NextLink>
+			))}
 
 			<Line />
 
@@ -96,23 +88,6 @@ const Line = styled.hr`
 	height: 1px;
 `;
 
-// FIBBHELP: How can I combine multiple styled-components under one shared style?
-const SecondaryLinks = styled.div`
-	margin-top: 62px;
-
-	a {
-		color: ${(props) => props.theme.colors.gray};
-		font-family: ${(props) => props.theme.fonts.interMedium};
-		text-decoration: none;
-		font-size: ${(props) => props.theme.fontSize.pSmall};
-		line-height: 24px;
-
-		&:hover {
-			color: ${(props) => props.theme.colors.white};
-		}
-	}
-`;
-
 const ExternalLinks = styled.div`
 	margin-top: 24px;
 
@@ -171,6 +146,33 @@ const Item = styled.div<{ active: boolean }>`
 		margin-left: -12px;
 		margin-right: 6px;
 		top: -3px;
+	}
+
+	&:hover {
+		color: ${(props) => props.theme.colors.white};
+	}
+`;
+
+const SecondaryItem = styled.div<{ active: boolean }>`
+	color: ${(props) => (props.active ? props.theme.colors.white : props.theme.colors.gray)};
+	font-family: ${(props) => props.theme.fonts.interMedium};
+	text-decoration: none;
+	font-size: ${(props) => props.theme.fontSize.pSmall};
+	line-height: 24px;
+
+	cursor: pointer;
+
+	&:before {
+		content: '';
+		display: ${(props) => (props.active ? 'inline-block' : 'none')};
+		width: 6px;
+		height: 6px;
+		background-color: ${(props) => props.theme.colors.darkBlue};
+		border-radius: 50%;
+		position: relative;
+		margin-left: -12px;
+		margin-right: 6px;
+		top: -2px;
 	}
 
 	&:hover {

@@ -16,3 +16,22 @@ export const ROUTES = [
 		link: '/gov',
 	},
 ];
+
+export const ROUTESSECONDARY = [
+	{
+		copy: 'About',
+		link: '/about',
+	},
+	{
+		copy: 'FAQ',
+		link: '/faq',
+	},
+	{
+		copy: 'Docs',
+		link: '/docs',
+	},
+	{
+		copy: 'Audit',
+		link: '/audit',
+	},
+];
