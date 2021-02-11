@@ -4,7 +4,7 @@ import { ProposalRow } from './ProposalRow';
 import { AddressRow } from './AddressRow';
 import { AddressRowHead } from './AddressRow';
 
-import { H1, H2, ThreeCols, XSmallSpacer, MediumSpacer, SmallSpacer, GlowTextLink } from 'styles/common';
+import { H1, H2, ThreeCols, XSmallSpacer, MediumSpacer, GlowTextLink, H6Styles, H1Styles } from 'styles/common';
 
 export const Vote: React.FC = () => {
 	return (
@@ -35,35 +35,35 @@ export const Vote: React.FC = () => {
 			<XSmallSpacer />
 			<Proposals>
 				<ProposalRow
-					href="#"
+					href="/gov/pid"
 					proposalTitle="Praesent commodo cursus magna, vel scelerisque nisl consectetur et."
 					proposalID="034"
 					proposalDate="December 26th, 2020"
 					proposalStatus="Executed"
 				/>
 				<ProposalRow
-					href="#"
+					href="/gov/pid"
 					proposalTitle="Praesent commodo cursus magna, vel scelerisque nisl consectetur et."
 					proposalID="034"
 					proposalDate="December 26th, 2020"
 					proposalStatus="Active"
 				/>
 				<ProposalRow
-					href="#"
+					href="/gov/pid"
 					proposalTitle="Praesent commodo cursus magna, vel scelerisque nisl consectetur et."
 					proposalID="034"
 					proposalDate="December 26th, 2020"
 					proposalStatus="Failed"
 				/>
 				<ProposalRow
-					href="#"
+					href="/gov/pid"
 					proposalTitle="Praesent commodo cursus magna, vel scelerisque nisl consectetur et."
 					proposalID="034"
 					proposalDate="December 26th, 2020"
 					proposalStatus="Canceled"
 				/>
 				<ProposalRow
-					href="#"
+					href="/gov/pid"
 					proposalTitle="Praesent commodo cursus magna, vel scelerisque nisl consectetur et."
 					proposalID="034"
 					proposalDate="December 26th, 2020"
@@ -72,7 +72,7 @@ export const Vote: React.FC = () => {
 			</Proposals>
 
 			<MediumSpacer />
-			<GlowTextLink href="#">› View all Core proposals</GlowTextLink>
+			<GlowTextLink href="/gov/pid">› View all Core proposals</GlowTextLink>
 
 			<MediumSpacer />
 			<H2>Top addresses by voting weight</H2>
@@ -87,7 +87,7 @@ export const Vote: React.FC = () => {
 				/>
 
 				<AddressRow
-					href="#"
+					href="/gov/pid"
 					rank="1"
 					avatarURL="https://gravatar.com/avatar/c0f14c0036f6610c135f77666021f5cb?s=400&d=robohash&r=x"
 					address="0xEF80a890790gd7907d7901hhj2112689421hu2c82"
@@ -96,7 +96,7 @@ export const Vote: React.FC = () => {
 					proposalsVoted="92"
 				/>
 				<AddressRow
-					href="#"
+					href="/gov/pid"
 					rank="2"
 					avatarURL="https://gravatar.com/avatar/c0f14c0036f6610c135f77666021f5cb?s=400&d=robohash&r=x"
 					address="0xEF80a890790gd7907d7901hhj2112689421hu2c82"
@@ -105,7 +105,7 @@ export const Vote: React.FC = () => {
 					proposalsVoted="92"
 				/>
 				<AddressRow
-					href="#"
+					href="/gov/pid"
 					rank="3"
 					avatarURL="https://gravatar.com/avatar/c0f14c0036f6610c135f77666021f5cb?s=400&d=robohash&r=x"
 					address="0xEF80a890790gd7907d7901hhj2112689421hu2c82"
@@ -114,7 +114,7 @@ export const Vote: React.FC = () => {
 					proposalsVoted="92"
 				/>
 				<AddressRow
-					href="#"
+					href="/gov/pid"
 					rank="4"
 					avatarURL="https://gravatar.com/avatar/c0f14c0036f6610c135f77666021f5cb?s=400&d=robohash&r=x"
 					address="0xEF80a890790gd7907d7901hhj2112689421hu2c82"
@@ -123,7 +123,7 @@ export const Vote: React.FC = () => {
 					proposalsVoted="92"
 				/>
 				<AddressRow
-					href="#"
+					href="/gov/pid"
 					rank="5"
 					avatarURL="https://gravatar.com/avatar/c0f14c0036f6610c135f77666021f5cb?s=400&d=robohash&r=x"
 					address="0xEF80a890790gd7907d7901hhj2112689421hu2c82"
@@ -134,7 +134,7 @@ export const Vote: React.FC = () => {
 			</Addresses>
 
 			<MediumSpacer />
-			<GlowTextLink href="#">› View all addresses</GlowTextLink>
+			<GlowTextLink href="/gov/pid">› View all addresses</GlowTextLink>
 
 		</>
 	);
@@ -143,29 +143,20 @@ export const Vote: React.FC = () => {
 const TopRow = styled.div``;
 
 const GovernanceCard = styled.div`
-	background: #131720;
-	border: 1px solid #394760;
+	background: ${(props) => props.theme.colors.background};
+	border: 1px solid ${(props) => props.theme.colors.lightNavy};
 	border-radius: 8px;
 	padding: 18px 36px 32px 36px;
 	margin-bottom: 24px;
 `;
 
 const CardTitle = styled.p`
-	font-size: 12px;
-	color: #adb2d6;
-	letter-spacing: 1px;
-	line-height: 24px;
-	font-family: ${(props) => props.theme.fonts.interSemiBold};
-	text-transform: uppercase;
+	${H6Styles}
 	margin-bottom: 8px;
 `;
 
 const CardValue = styled.p`
-	font-size: 24px;
-	color: #ffffff;
-	letter-spacing: 0;
-	line-height: 24px;
-	font-family: ${(props) => props.theme.fonts.interSemiBold};
+	${H1Styles}
 	margin-bottom: 0;
 	margin-top: 0;
 `;

@@ -2,6 +2,8 @@ import Initialiser from 'context/Initialiser';
 import React from 'react';
 import styled from 'styled-components';
 
+import { H1Styles, H6Styles, PSmallStyles } from 'styles/common';
+
 export const Card = ({ title, value, valueInUSD, help }) => {
 	const { connectWallet, walletAddress } = Initialiser.useContainer();
 	return (
@@ -20,56 +22,41 @@ export const Card = ({ title, value, valueInUSD, help }) => {
 };
 
 const CardWrapper = styled.div`
-	background: #131720;
-	border: 2px solid #0c9eda;
-	box-shadow: 0 0 8px 0 #0c9eda;
+	background: ${(props) => props.theme.colors.background};
+	border: ${(props) => props.theme.global.cardGlowBorder};
+	box-shadow: ${(props) => props.theme.global.cardGlowShadow};
 	border-radius: 8px;
-	padding: 18px 36px 32px 36px;
+	padding: 32px 36px 32px 36px;
 	margin-bottom: 24px;
 `;
 
-const Title = styled.p`
-	font-size: 12px;
-	color: #adb2d6;
-	letter-spacing: 1px;
-	line-height: 24px;
-	font-family: ${(props) => props.theme.fonts.interSemiBold};
+const Title = styled.h6`
+	${H6Styles}
+	margin-top: 0;
 	margin-bottom: 72px;
 `;
 
 const Value = styled.p`
-	font-size: 24px;
-	color: #ffffff;
-	letter-spacing: 0;
-	line-height: 24px;
-	font-family: ${(props) => props.theme.fonts.interSemiBold};
-	margin-bottom: 0;
+	${H1Styles}
+	margin-top: 0;
+	margin-bottom: 8px;
 `;
 
 const ConnectWallet = styled.a`
-	color: #56c7f6;
-	text-shadow: 0 0 8px rgba(86, 199, 246, 0.5);
+	color: ${(props) => props.theme.colors.lightBlue};
+	text-shadow: ${(props) => props.theme.global.textGlowShadow};
 	cursor: pointer;
 
 	&:hover {
-		color: white;
+		color: ${(props) => props.theme.colors.white};
 	}
 `;
 
 const HelpText = styled.p`
-	margin-top: 4px;
+	${PSmallStyles}
+	margin-top: 0px;
 	margin-bottom: 4px;
-	font-size: 13px;
-	color: #adb2d6;
-	letter-spacing: 0.2px;
-	line-height: 24px;
-	font-family: ${(props) => props.theme.fonts.interMedium};
 `;
 
-const valueInUSD = styled.p`
-	font-size: 13px;
-	color: #adb2d6;
-	letter-spacing: 0.2px;
-	line-height: 24px;
-	font-family: ${(props) => props.theme.fonts.interMedium};
+const valueInUSD = styled(HelpText)`
 `;

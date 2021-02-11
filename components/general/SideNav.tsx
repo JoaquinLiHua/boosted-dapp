@@ -92,7 +92,7 @@ const Container = styled.aside`
 const Line = styled.hr`
 	margin-top: 24px;
 	border: 0;
-	background-color: #394760;
+	background-color: ${(props) => props.theme.colors.lightNavy};
 	height: 1px;
 `;
 
@@ -104,11 +104,11 @@ const SecondaryLinks = styled.div`
 		color: ${(props) => props.theme.colors.gray};
 		font-family: ${(props) => props.theme.fonts.interMedium};
 		text-decoration: none;
-		font-size: 13px;
+		font-size: ${(props) => props.theme.fontSize.pSmall};
 		line-height: 24px;
 
 		&:hover {
-			color: white;
+			color: ${(props) => props.theme.colors.white};
 		}
 	}
 `;
@@ -120,11 +120,11 @@ const ExternalLinks = styled.div`
 		color: ${(props) => props.theme.colors.gray};
 		font-family: ${(props) => props.theme.fonts.interMedium};
 		text-decoration: none;
-		font-size: 13px;
+		font-size: ${(props) => props.theme.fontSize.pSmall};
 		line-height: 24px;
 
 		&:hover {
-			color: white;
+			color: ${(props) => props.theme.colors.white};
 		}
 	}
 `;
@@ -145,10 +145,10 @@ const SocialMediaLinks = styled.div`
     color: ${(props) => props.theme.colors.gray};
     font-family: ${(props) => props.theme.fonts.interMedium};
     text-decoration: none;
-    font-size: 13px;
+    font-size: ${(props) => props.theme.fontSize.pSmall};
 
     &:hover {
-      color: white;
+      color: ${(props) => props.theme.colors.white};
     }
   }
 `;
@@ -156,7 +156,7 @@ const SocialMediaLinks = styled.div`
 const Item = styled.div<{ active: boolean }>`
 	color: ${(props) => (props.active ? props.theme.colors.white : props.theme.colors.gray)};
 	font-family: ${(props) => props.theme.fonts.interMedium};
-	font-size: 18px;
+	font-size: ${(props) => props.theme.fontSize.h2};
 	margin-bottom: 8px;
 	cursor: pointer;
 
@@ -165,7 +165,7 @@ const Item = styled.div<{ active: boolean }>`
 		display: ${(props) => (props.active ? 'inline-block' : 'none')};
 		width: 6px;
 		height: 6px;
-		background-color: #0c9eda;
+		background-color: ${(props) => props.theme.colors.darkBlue};
 		border-radius: 50%;
 		position: relative;
 		margin-left: -12px;
@@ -174,6 +174,6 @@ const Item = styled.div<{ active: boolean }>`
 	}
 
 	&:hover {
-		color: white;
+		color: ${(props) => props.theme.colors.white};
 	}
 `;

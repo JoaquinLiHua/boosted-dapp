@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-
-import { H3 } from 'styles/common';
+import { PSmallStyles } from 'styles/common';
 
 export const AddressRow = (props) => {
 	const {
@@ -40,7 +39,6 @@ export const AddressRowHead = (props) => {
 	);
 };
 
-
 const HeadRowWrapper = styled.div`
 	padding: 0 36px 16px 36px;
 	border: none;
@@ -50,17 +48,14 @@ const HeadRowWrapper = styled.div`
   grid-template-areas: "userInfo votes weight proposalsVoted";
 
 	span, div {
-		color: #adb2d6;
-		font-size: 13px;
-		letter-spacing: 0.2px;
-		line-height: 24px;
-		font-family: ${(props) => props.theme.fonts.interMedium};
+		${PSmallStyles}
+		color: ${(props) => props.theme.colors.purple};
 	}
 `;
 
 const RowWrapper = styled.a`
-	background: #131720;
-	border: 1px solid #394760;
+	background: ${(props) => props.theme.colors.background};
+	border: 1px solid ${(props) => props.theme.colors.lightNavy};
 	border-radius: 8px;
 	padding: 16px 36px 16px 36px;
 	margin: 0;
@@ -72,41 +67,29 @@ const RowWrapper = styled.a`
   grid-template-areas: "userInfo votes weight proposalsVoted";
 
 	span, div {
-		color: #B3B3B3;
-		font-size: 13px;
-		letter-spacing: 0.2px;
-		line-height: 24px;
-		font-family: ${(props) => props.theme.fonts.interMedium};
+		${PSmallStyles}
+		color: ${(props) => props.theme.colors.gray};
 	}
 
 	&:hover {
 	}
 `;
 
-const P = styled.p`
-	margin-top: 0px;
-	margin-bottom: 0px;
-	font-size: 13px;
-	letter-spacing: 0.2px;
-	line-height: 24px;
-	font-family: ${(props) => props.theme.fonts.interMedium};
-`;
-
 const UserInfo = styled.div`
 	grid-area: userInfo;
 	align-self: center;
 	justify-self: start;
-	color: white;
+	color: ${(props) => props.theme.colors.white};
 
 		img {
 			width: 32px;
-			background: white;
+			background: ${(props) => props.theme.colors.white};
 			border-radius: 50%;
 			margin: 0 12px;
 		}
 
 		span:last-of-type {
-			color: white;
+			color: ${(props) => props.theme.colors.white};
 			font-family: ${(props) => props.theme.fonts.interSemiBold};
 		}
 `;

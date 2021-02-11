@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { H3 } from 'styles/common';
+import { H4Styles, PSmallStyles } from 'styles/common';
 
 export const ProposalRow = (props) => {
 	const {
@@ -13,18 +13,18 @@ export const ProposalRow = (props) => {
 	} = props;
 	return (
 		<RowWrapper href={href} >
-			<Info>
+			<div>
 				<ProposalTitle>{proposalTitle}</ProposalTitle>
 				<P>{proposalID} • {proposalStatus} on {proposalDate}</P>
-			</Info>
+			</div>
 			<Status>{proposalStatus}</Status>
 		</RowWrapper>
 	);
 };
 
 const RowWrapper = styled.a`
-	background: #131720;
-	border: 1px solid #394760;
+	background: ${(props) => props.theme.colors.background};
+	border: 1px solid ${(props) => props.theme.colors.lightNavy};
 	border-radius: 8px;
 	padding: 4px 36px 22px 36px;
 	margin: 0;
@@ -34,35 +34,24 @@ const RowWrapper = styled.a`
 	text-decoration: none;
 	flex-wrap: wrap;
 
-	h3 {
-		color: white;
-	}
-
-	p {
-		color: #adb2d6;
-	}
-
 	&:hover {
 	}
 `;
 
 const Status = styled.p`
+	${PSmallStyles}
 	font-family: ${(props) => props.theme.fonts.interSemiBold};
-	font-size: 13px;
 `;
 
-const ProposalTitle = styled(H3)`
+const ProposalTitle = styled.h4`
+	${H4Styles}
 	margin: 0;
 `;
 
 const P = styled.p`
+	${PSmallStyles}
 	margin-top: 0px;
 	margin-bottom: 0px;
-	font-size: 13px;
-	letter-spacing: 0.2px;
-	line-height: 24px;
-	font-family: ${(props) => props.theme.fonts.interMedium};
+	color: ${(props) => props.theme.colors.gray};
 `;
 
-const Info = styled.div`
-`;

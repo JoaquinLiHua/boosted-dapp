@@ -16,6 +16,7 @@ export const device = {
 	desktop: `(min-width: ${size.desktop})`,
 };
 
+
 // Flex
 
 export const FlexDiv = styled.div`
@@ -42,13 +43,15 @@ export const FlexDivRowCentered = styled(FlexDivRow)`
 	align-items: center;
 `;
 
+
+
 // Columns, wrappers and spaces
 
 export const MainColumn = styled.main`
 	max-width: 1100px;
 	width: calc(100% - 48px);
 	margin: 0 auto;
-	color: white;
+	color: ${(props) => props.theme.colors.white};
 `;
 
 export const TwoCols = styled.div`
@@ -111,58 +114,131 @@ export const MediumSpacer = styled.div`
 	height: 32px;
 `;
 
+
+
 // Typography
 
+export const H1Styles= css`
+	font-size: ${(props) => props.theme.fontSize.h1};
+	font-family: ${(props) => props.theme.fonts.interSemiBold};
+	color: ${(props) => props.theme.colors.white};
+	letter-spacing: 0;
+	line-height: 120%;
+`;
 export const H1 = styled.h1`
-	font-size: 24px;
+	${H1Styles}
 `;
 
+
+export const H2Styles = css`
+	font-size: ${(props) => props.theme.fontSize.h2};
+	font-family: ${(props) => props.theme.fonts.interSemiBold};
+`;
 export const H2 = styled.h2`
-	font-size: 18px;
-	font-family: ${(props) => props.theme.fonts.interSemiBold};
+	${H2Styles}
 `;
 
-export const H3 = styled.h3`
-	font-size: 15px;
+
+export const H3Styles = css`
+	font-size: ${(props) => props.theme.fontSize.h3};
 	font-family: ${(props) => props.theme.fonts.interSemiBold};
 `;
+export const H3 = styled.h3`
+	${H3Styles}
+`;
+
+
+export const H4Styles = css`
+	font-size: ${(props) => props.theme.fontSize.h4};
+	font-family: ${(props) => props.theme.fonts.interSemiBold};
+	color: ${(props) => props.theme.colors.white};
+`;
+export const H4 = styled.h4`
+	${H4Styles}
+`;
+
+
+export const H5Styles = css`
+`;
+export const H5 = styled.h5`
+	${H5Styles}
+`;
+
+
+export const H6Styles = css`
+	letter-spacing: 1px;
+	font-size: ${(props) => props.theme.fontSize.h6};
+	font-family: ${(props) => props.theme.fonts.interSemiBold};
+	color: ${(props) => props.theme.colors.purple};
+	line-height: 120%;
+	text-transform: uppercase;
+`;
+export const H6 = styled.h6`
+	${H6Styles}
+`;
+
+
+export const PLargeStyles = css`
+	font-size: ${(props) => props.theme.fontSize.pLarge};
+	font-family: ${(props) => props.theme.fonts.interSemiBold};
+	line-height: 150%;
+`;
+export const PLarge = styled.p`
+	${PLargeStyles}
+`;
+
+
+export const PStyles = css`
+	font-size: ${(props) => props.theme.fontSize.p};
+	font-family: ${(props) => props.theme.fonts.interMedium};
+	line-height: 170%;
+`;
+export const P = styled.p`
+	${PStyles}
+`;
+
+
+export const PSmallStyles = css`
+	letter-spacing: 0.2px;
+	line-height: 150%;
+	font-size: ${(props) => props.theme.fontSize.pSmall};
+	font-family: ${(props) => props.theme.fonts.interMedium};
+	color: ${(props) => props.theme.colors.purple};
+`;
+export const PSmall = styled.p`
+	${PSmallStyles}
+`;
+
+
+// Typography styling
 
 export const PositiveNumber = styled.span`
-	color: #46ff3c;
+	color: ${(props) => props.theme.colors.green};
 `;
 
 export const NegativeNumber = styled.span`
-	color: #ff3c3c;
-`;
-
-export const DailyWeeklyMonthlyPrice = styled.div`
-	display: flex;
-	justify-content: space-between;
-
-	p {
-		margin-top: 0;
-		margin-bottom: 0;
-	}
+	color: ${(props) => props.theme.colors.red};
 `;
 
 export const GlowText = styled.span`
-	color: #56c7f6;
-	text-shadow: 0 0 8px rgba(86, 199, 246, 0.5);
+	color: ${(props) => props.theme.colors.lightBlue};
+	text-shadow: ${(props) => props.theme.global.textShadowGlow};
 `;
 
+// Buttons & Links
+
 export const GlowTextLink = styled.a`
-	color: #56c7f6;
-	text-shadow: 0 0 8px rgba(86, 199, 246, 0.5);
+	color: ${(props) => props.theme.colors.lightBlue};
+	text-shadow: ${(props) => props.theme.global.textShadowGlow};
 	text-decoration: none;
 	font-family: ${(props) => props.theme.fonts.interSemiBold};
 	font-size: 15px;
 
 	&:hover {
-		color: white;
+		color: ${(props) => props.theme.colors.white};
 	}
 `;
 
-// Buttons
 
 export const Button = css`
 	font-family: ${(props) => props.theme.fonts.interSemiBold};
@@ -186,7 +262,7 @@ export const Button = css`
 
 	&:hover {
 		background: #25B7F3;
-		box-shadow: 0 0 8px 0 #0c9eda;
+		box-shadow: 0 0 8px 0 ${(props) => props.theme.colors.darkBlue};
 	}
 `;
 
@@ -197,10 +273,10 @@ export const PrimaryButton = styled.a`
 
 export const SecondaryButton = styled.a`
 	${Button}
-	color: #56C7F6;
+	color: ${(props) => props.theme.colors.lightBlue};
 	text-shadow: 0 0 16px rgba(86,199,246,0.50);
-	background: #131720;
-	border: 2px solid #0C9EDA;
+	background: ${(props) => props.theme.colors.background};
+	border: 2px solid ${(props) => props.theme.colors.darkBlue};
 	border-radius: 4px;
 
 	&:disabled {
@@ -209,8 +285,8 @@ export const SecondaryButton = styled.a`
 	}
 
 	&:hover {
-		color: #B6E7FB;
-		background: #131720;
-		box-shadow: 0 0 8px 0 #0c9eda;
+		color: ${(props) => props.theme.colors.white};
+		background: ${(props) => props.theme.colors.background};
+		box-shadow: 0 0 8px 0 ${(props) => props.theme.colors.darkBlue};
 	}
 `;

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { PrimaryButton, SecondaryButton, GlowText } from 'styles/common';
+import { PrimaryButton, SecondaryButton, GlowText, PStyles, PLargeStyles, PSmallStyles } from 'styles/common';
 
 export const PoolCard = (props) => {
 	const {
@@ -59,8 +59,8 @@ export const PoolCard = (props) => {
 
 const CardWrapper = styled.div`
 	background: #131720;
-	box-shadow: 0 0 8px 0 #0c9eda;
-	border: 2px solid #0c9eda;
+	box-shadow: 0 0 8px 0 ${(props) => props.theme.colors.darkBlue};
+	border: 2px solid ${(props) => props.theme.colors.darkBlue};
 	border-radius: 8px;
 	margin-bottom: 24px;
 	transition: all 0.1s ease-in-out;
@@ -77,30 +77,30 @@ const LowerPoolInfo = styled.div`
 `;
 
 const PoolInfo = styled.p`
-	font-size: 15px;
-	font-family: ${(props) => props.theme.fonts.interSemiBold};
+	${PLargeStyles}
 `;
 
 const TextLine = styled.div`
 	display: flex;
 	justify-content: space-between;
+	align-items: baseline;
+	margin-top: 2px;
+	margin-bottom: 2px;
 `;
 
-const Left = styled.span`
+const Left = styled.p`
+	${PSmallStyles}
 	float: left;
-	font-family: ${(props) => props.theme.fonts.interMedium};
-	font-size: 13px;
-	color: #b3b3b3;
-	line-height: 24px;
+	margin-bottom: 0;
+	margin-top: 0;
 `;
 
-const Right = styled.span`
+const Right = styled.p`
+	${PStyles}
 	float: right;
-	font-family: ${(props) => props.theme.fonts.interMedium};
-	font-size: 14px;
-	color: #ffffff;
 	text-align: right;
-	line-height: 24px;
+	margin-bottom: 0;
+	margin-top: 0;
 `;
 
 const PoolButtons = styled.div`
@@ -113,14 +113,11 @@ const PoolButtons = styled.div`
 const PoolButton = styled(PrimaryButton)`
 	width: calc(50% - 6px);
 	margin-bottom: 10px;
-	font-size: 14px;
 `;
 
 const PoolButtonSecondary = styled(SecondaryButton)`
-	padding: 10px 24px;
 	width: calc(50% - 6px);
 	margin-bottom: 10px;
-	font-size: 14px;
 `;
 
 const LogoWrapper = styled.div`
@@ -137,7 +134,7 @@ const Logo = styled.div`
 	padding: 4px;
 	position: relative;
 	z-index: 2;
-	border: 1px solid #0C9EDA;
+	border: 1px solid ${(props) => props.theme.colors.darkBlue};
 	box-shadow: 0 0 8px 0 rgba(86,199,246,0.50);
 
 	:nth-of-type(2) {

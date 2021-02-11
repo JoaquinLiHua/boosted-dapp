@@ -1,14 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { H1, PrimaryButton } from 'styles/common';
+import { H1Styles, PStyles, PrimaryButton } from 'styles/common';
 
 const NotFound: React.FC = () => {
 	return (
 		<>
 		<Container>
 			<Telescope src="/images/Telescope.png" />
-			<Title404>404 - Oh no, destination not found</Title404>
+			<PageTitle>404 - Oh no, destination not found</PageTitle>
 			<P>Well, this is awkward... The link you followed may be broken, or the page may have been removed.</P>
 			<Button href="/">Back to the home planet</Button>
 		</Container>
@@ -23,9 +23,9 @@ const Container = styled.div`
 	text-align: center;
 `;
 
-const Title404 = styled(H1)`
-	
-	margin-bottom: 0;
+const PageTitle = styled.h1`
+	${H1Styles}
+	margin-bottom: 8px;
 	font-family: ${(props) => props.theme.fonts.interSemiBold};
 `;
 
@@ -38,13 +38,10 @@ const Telescope = styled.img`
 `;
 
 const P = styled.p`
-	margin-top: 8px;
+	${PStyles}
+	margin-top: 0;
 	margin-bottom: 48px;
-	font-size: 14px;
-	color: #B3B3B3;
-	letter-spacing: 0;
-	line-height: 24px;
-	font-family: ${(props) => props.theme.fonts.interMedium};
+	color: ${(props) => props.theme.colors.gray};
 `;
 
 const Button = styled(PrimaryButton)`

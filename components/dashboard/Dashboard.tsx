@@ -16,7 +16,6 @@ import {
 	ThreeCols,
 	PositiveNumber,
 	NegativeNumber,
-	DailyWeeklyMonthlyPrice,
 	Spacer,
 } from 'styles/common';
 
@@ -43,17 +42,17 @@ export const Dashboard: React.FC = () => {
 			</TopRow>
 
 			<TwoCols>
-				<Card title="YOUR BOOST BALANCE" help="to see your BOOST balance" />
-				<Card title="YOUR UNCLAIMED REWARDS" help="to see your unclaimed rewards" />
+				<Card title="Your BOOST balance" help="to see your BOOST balance" />
+				<Card title="Your unclaimed rewards" help="to see your unclaimed rewards" />
 			</TwoCols>
 
-			<Card title="YOUR POOLS & VAULTS" help="to see which Pools & Vaults you participate in" />
+			<Card title="Your Pools & Vaults" help="to see which Pools & Vaults you participate in" />
 
 			<Spacer />
 
 			<ThreeCols>
 				<Card
-					title="TOTAL VALUE LOCKED"
+					title="Total value locked"
 					value="$2,217,532 USD"
 					help={[
 						<DailyWeeklyMonthlyPrice>
@@ -69,11 +68,11 @@ export const Dashboard: React.FC = () => {
 						</DailyWeeklyMonthlyPrice>,
 					]}
 				/>
-				<Card title="TOTAL BOOST SUPPLY" value="98,589 BOOST" help="total supply of BOOST tokens" />
-				<Card title="TOTAL ORBIT SUPPLY" value="100B ORBIT" help="total supply of ORBIT tokens" />
+				<Card title="Total BOOST supply" value="98,589 BOOST" help="total supply of BOOST tokens" />
+				<Card title="Total ORBIT supply" value="100B ORBIT" help="total supply of ORBIT tokens" />
 
 				<Card
-					title="TREASURY VALUE"
+					title="Treasury value"
 					value="$1,453,872 USD"
 					help={[
 						<DailyWeeklyMonthlyPrice>
@@ -90,7 +89,7 @@ export const Dashboard: React.FC = () => {
 					]}
 				/>
 				<Card
-					title="BOOST TOKEN PRICE"
+					title="BOOST token price"
 					value="$15.19 USD"
 					help={[
 						<DailyWeeklyMonthlyPrice>
@@ -107,7 +106,7 @@ export const Dashboard: React.FC = () => {
 					]}
 				/>
 				<Card
-					title="ORBIT TOKEN PRICE"
+					title="ORBIT token price"
 					value="$10.67 USD"
 					help={[
 						<DailyWeeklyMonthlyPrice>
@@ -138,13 +137,23 @@ const TopRow = styled.div`
 	li {
 		list-style-type: none;
 		display: inline-block;
-		font-size: 13px;
+		font-size: ${(props) => props.theme.fontSize.pSmall};
+		font-family: ${(props) => props.theme.fonts.interMedium};
 		letter-spacing: 0.2px;
 		line-height: 24px;
-		font-family: ${(props) => props.theme.fonts.interMedium};
 	}
 
 	li:first-of-type {
 		margin-right: 24px;
+	}
+`;
+
+export const DailyWeeklyMonthlyPrice = styled.div`
+	display: flex;
+	justify-content: space-between;
+
+	p {
+		margin-top: 0;
+		margin-bottom: 0;
 	}
 `;

@@ -112,15 +112,15 @@ const PoolSearchWrapper = styled.div`
 
 const PoolSearch = styled.input`
 	width: calc(100% - 203px);
-	background: #262f40;
+	background: ${(props) => props.theme.colors.navy};
 	border-radius: 24px 0 0 24px;
-	color: white;
+	color: ${(props) => props.theme.colors.white};
 	height: 48px;
 	padding: 24px;
 	border: none;
 	font-family: ${(props) => props.theme.fonts.interMedium};
 	font-size: 14px;
-	color: #ffffff;
+	color: ${(props) => props.theme.colors.white};
 	background-image: url("data:image/svg+xml,%3Csvg width='15' height='15' xmlns='http://www.w3.org/2000/svg'%3E%3Cg transform='translate(1 1)' stroke='%23FFF' stroke-width='2' fill='none' fill-rule='evenodd' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='5.25' cy='5.25' r='5.25'/%3E%3Cpath d='M12.75 12.75L8.986 8.986'/%3E%3C/g%3E%3C/svg%3E");
 	background-repeat: no-repeat;
 	background-position: 20px center;
@@ -135,9 +135,9 @@ const PoolSearch = styled.input`
 const PoolDropdown = styled.select`
 	max-width: 200px;
 	width: 100%;
-	background: #262f40;
+	background: ${(props) => props.theme.colors.navy};
 	border-radius: 0 24px 24px 0;
-	color: white;
+	color: ${(props) => props.theme.colors.white};
 	height: 48px;
 	padding: 0 18px;
 	border: none;

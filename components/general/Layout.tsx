@@ -73,13 +73,13 @@ const HeaderContainer = styled.header`
 
 const StyledDiscordLink = styled(ExternalLink)`
 	font-family: ${(props) => props.theme.fonts.interMedium};
-	color: #ccc;
+	color: ${(props) => props.theme.colors.gray};
 	margin-right: 8px;
 	text-decoration: none;
-	font-size: 15px;
+	font-size: ${(props) => props.theme.fontSize.pLarge};
 
 	&:hover {
-		color: white;
+		color: ${(props) => props.theme.colors.white};
 	}
 `;
 
