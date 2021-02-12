@@ -1,7 +1,7 @@
 import React from 'react';
 import NextLink from 'next/link';
-import styled from 'styled-components';
-import { Spacer } from 'styles/common';
+import styled, { css } from 'styled-components';
+import { Spacer, device } from 'styles/common';
 import { ROUTES, ROUTESSECONDARY } from 'constants/routes';
 import { useRouter } from 'next/router';
 
@@ -79,6 +79,11 @@ const Container = styled.aside`
 	margin-top: 21px;
 	max-width: 260px;
 	width: 100%;
+	display: none;
+
+	@media ${device.tablet} {
+		display: block;
+	}
 `;
 
 const Line = styled.hr`

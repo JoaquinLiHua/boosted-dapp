@@ -83,7 +83,7 @@ export const FAQ: React.FC = () => {
         styles={stylesFAQ}
       />
       <MediumSpacer />
-      <Questions>Have more questions? <DiscordLink href="https://discord.gg/gp9bsaQ">› Join our discord</DiscordLink></Questions>
+      <Questions>Have more questions? <DiscordLink href="https://discord.gg/gp9bsaQ">› Join our Discord</DiscordLink></Questions>
 
     </>
   );

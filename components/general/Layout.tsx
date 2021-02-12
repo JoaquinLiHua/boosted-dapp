@@ -6,6 +6,7 @@ import { FlexDivRowCentered, MainColumn } from 'styles/common';
 import { Svg } from 'react-optimized-image';
 import SideNav from './SideNav';
 import { ExternalLink } from './ExternalLink';
+import { device } from 'styles/common';
 
 import Logo from 'assets/svg/logo.svg';
 import SolarSystem from 'assets/svg/solar-system.svg';
@@ -56,6 +57,11 @@ const SolarSystemContainer = styled.div`
 	position: absolute;
 	top: -100;
 	left: 25%;
+	display: none;
+
+	@media ${device.tablet} {
+		display: block;
+	}
 `;
 
 const StarContainer = styled.div`
@@ -86,7 +92,11 @@ const StyledDiscordLink = styled(ExternalLink)`
 const SideMainWrapper = styled.div`
 	position: relative;
 	display: flex;
-	padding: 0 48px;
+	padding: 0;
+
+	@media ${device.tablet} {
+		padding: 0 48px;
+	}
 `;
 
 const LayoutWrapper = styled.div`

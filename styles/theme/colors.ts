@@ -4,6 +4,7 @@ export default {
 	gray: '#B3B3B3',
 
 	background: '#131720',
+	backgroundHover: '#1C2230',
 	darkBlue: '#0C9EDA',
 	lightBlue: '#56C7F6',
 

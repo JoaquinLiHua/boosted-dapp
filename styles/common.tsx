@@ -48,7 +48,7 @@ export const FlexDivRowCentered = styled(FlexDivRow)`
 // Columns, wrappers and spaces
 
 export const MainColumn = styled.main`
-	max-width: 1100px;
+	max-width: 1680px;
 	width: calc(100% - 48px);
 	margin: 0 auto;
 	color: ${(props) => props.theme.colors.white};
