@@ -1,6 +1,9 @@
-import React from 'react';
+import React,  { useState } from 'react';
 import styled, { css } from 'styled-components';
-import { PSmallStyles, PStyles, PLargeStyles } from 'styles/common';
+import { H6, H6Styles, PSmall, PSmallStyles, PStyles, PLargeStyles } from 'styles/common';
+
+import { HowToParticipateInVaults } from './HowToParticipateInVaults'
+import { VaultActions } from './VaultActions'
 
 export const VaultCard = (props) => {
 	const {
@@ -15,10 +18,14 @@ export const VaultCard = (props) => {
 		href,
 		...rest
 	} = props;
+
+	const [vaultOpen, setVaultOpen] = useState<boolean>(false);
+
 	return (
 		<CardWrapper href={href} {...rest}>
-			<CardHeader>
-				<Logo>{logoURL}</Logo>
+
+			<CardHeader onClick={(toggle) => setVaultOpen(true)}>
+				<Logo><img src={logoURL} /></Logo>
 				<Vault>{vault}<span>USDC</span></Vault>
 				<APY>{apy}<span>daily</span></APY>
 				<TVL>{tvl}<span>USD</span></TVL>
@@ -27,15 +34,15 @@ export const VaultCard = (props) => {
 				<YourPoolPercentage>{poolPercentage}</YourPoolPercentage>
 				<YourEearnings>{earnings}<span>USDC</span></YourEearnings>
 			</CardHeader>
+
+			{vaultOpen &&
 			
 			<CardContent>
-				<div>
-				How to participate in bVaults?
-				Step 1: Deposit your USDC to receive interest bearing bfUSDC
-
-				Step 2: Stake your bfUSDC in the bfUSDC pool to participate in the rewards pool to gain additional rewards. This step is optional.
-				</div>>
+				<HowToParticipateInVaults />
+				<VaultActions />
 			</CardContent>
+
+			}
 		</CardWrapper>
 	);
 };
@@ -45,7 +52,7 @@ const CardWrapper = styled.div`
 	border: ${(props) => props.theme.global.cardGlowBorder};
 	box-shadow: ${(props) => props.theme.global.cardGlowShadow};
 	border-radius: 8px;
-	padding: 16px 36px 16px 36px;
+	padding: 16px 36px 0 36px;
 	margin: 0 0 16px 0;
 
 	// &:hover {
@@ -56,6 +63,7 @@ const CardWrapper = styled.div`
 
 const CardHeader = styled.div`
 	display: grid;
+	padding-bottom: 16px;
   grid-template-columns: 36px auto 10% 10% 10% 10% 10% 10%;
   gap: 0 16px;
   grid-template-areas: "logo vault apy tvl yourbalance yourdeposit yourpoolpercentage yourearnings";
@@ -68,6 +76,14 @@ const CardHeader = styled.div`
 `;
 
 const CardContent = styled.div`
+	margin-left: -36px;
+	margin-right: -36px;
+	padding-left: 48px;
+	padding-right: 48px;
+	padding-bottom: 48px;
+	border-top: 1px solid ${(props) => props.theme.colors.lightNavy};
+
+	display: flex;
 `;
 
 const Logo = styled.div`
@@ -75,6 +91,11 @@ const Logo = styled.div`
 	align-self: center;
 	justify-self: start;
 	text-align: left;
+
+	img {
+		max-width: 36px;
+		max-height: 36px;
+	}
 `;
 
 const ColumnStyles = css`

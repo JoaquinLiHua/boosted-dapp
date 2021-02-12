@@ -35,7 +35,7 @@ export const Vaults: React.FC = () => {
       />
 
       <VaultCard
-        logoURL="X"
+        logoURL="https://assets.coingecko.com/coins/images/13469/small/1inch-token.png"
         vault="Alpha Centauri A"
         apy="81.20%"
         tvl="$533,291.20"
@@ -46,7 +46,7 @@ export const Vaults: React.FC = () => {
       />
 
       <VaultCard
-        logoURL="X"
+        logoURL="https://assets.coingecko.com/coins/images/13469/small/1inch-token.png"
         vault="Alpha Centauri A"
         apy="81.20%"
         tvl="$533,291.20"
@@ -57,7 +57,7 @@ export const Vaults: React.FC = () => {
       />
 
       <VaultCard
-        logoURL="X"
+        logoURL="https://assets.coingecko.com/coins/images/13469/small/1inch-token.png"
         vault="Alpha Centauri A"
         apy="81.20%"
         tvl="$533,291.20"
