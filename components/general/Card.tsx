@@ -4,19 +4,38 @@ import styled from 'styled-components';
 
 import { H1Styles, H6Styles, PSmallStyles } from 'styles/common';
 
-export const Card = ({ title, value, valueInUSD, help }) => {
+type CardProps = {
+	title: string;
+	value: string;
+	valueInUSD: string;
+	help: string;
+	alwaysShow?: boolean;
+};
+
+export const Card: React.FC<CardProps> = ({
+	title,
+	value,
+	valueInUSD,
+	help,
+	alwaysShow = false,
+}) => {
 	const { connectWallet, walletAddress } = Initialiser.useContainer();
 	return (
 		<CardWrapper>
 			<Title>{title}</Title>
-			<Value>
-				{walletAddress ? (
-					value
-				) : (
-					<ConnectWallet onClick={connectWallet}>Connect Wallet</ConnectWallet>
-				)}
-			</Value>
-			<HelpText>{valueInUSD || help}</HelpText>
+			{walletAddress || alwaysShow ? (
+				<>
+					<Value>{value}</Value>
+					<HelpText>{`$${valueInUSD}`}</HelpText>
+				</>
+			) : (
+				<>
+					<Value>
+						<ConnectWallet onClick={connectWallet}>Connect Wallet</ConnectWallet>
+					</Value>
+					<HelpText>{help}</HelpText>
+				</>
+			)}
 		</CardWrapper>
 	);
 };
@@ -58,5 +77,4 @@ const HelpText = styled.p`
 	margin-bottom: 4px;
 `;
 
-const valueInUSD = styled(HelpText)`
-`;
+const valueInUSD = styled(HelpText)``;

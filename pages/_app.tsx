@@ -17,9 +17,15 @@ import '@reach/dialog/styles.css';
 import 'styles/main.css';
 import Notify from 'context/Notify';
 
-function MyApp({ Component, pageProps }: { Component: any; pageProps: any }) {
-	const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			refetchInterval: 30000,
+		},
+	},
+});
 
+function MyApp({ Component, pageProps }: { Component: any; pageProps: any }) {
 	return (
 		<ThemeProvider theme={theme}>
 			<Initialiser.Provider>

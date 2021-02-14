@@ -2,19 +2,22 @@ import React from 'react';
 import styled from 'styled-components';
 import { boostToken } from 'constants/bfAddresses';
 import { useTokenBalance } from 'hooks/erc20/useTokenBalance';
-import { useTotalSupply } from 'hooks/erc20/useTotalSupply';
 import { useTreasuryBalance } from 'hooks/general/useTreasuryBalance';
 import { useTotalValueLocked } from 'hooks/general/useTotalValueLocked';
 import { useGetTotalRewardAmount } from 'hooks/general/useGetTotalRewardAmount';
 import { useBoostPrice } from 'hooks/pools/useBoostPrice';
 import { getDisplayBalance } from 'utils/formatBalance';
 
+import BoostToken from 'contracts/BoostToken';
+
 import { Card } from 'components/general/Card';
 import { H1, TwoCols, ThreeCols, PositiveNumber, NegativeNumber, Spacer } from 'styles/common';
 import useERC20Balance from 'queries/useERC20Balance';
+import useTotalSupply from 'queries/useTotalSupply';
 
 const Dashboard: React.FC = () => {
-	const balance = useERC20Balance();
+	const balance = useERC20Balance(BoostToken);
+	const boostTotalSupply = useTotalSupply(BoostToken);
 
 	// const boostBalance: string = getDisplayBalance(useTokenBalance(boostToken));
 	// const totalRewardsAvailable: string = getDisplayBalance(useGetTotalRewardAmount());
@@ -38,8 +41,18 @@ const Dashboard: React.FC = () => {
 			</TopRow>
 
 			<TwoCols>
-				<Card title="Your BOOST balance" help="to see your BOOST balance" />
-				<Card title="Your unclaimed rewards" help="to see your unclaimed rewards" />
+				<Card
+					title="Your BOOST balance"
+					help="to see your BOOST balance"
+					value={balance.data ?? '0'}
+					valueInUSD={'0'}
+				/>
+				<Card
+					title="Your unclaimed rewards"
+					help="to see your unclaimed rewards"
+					value={balance.data ?? '0'}
+					valueInUSD={'0'}
+				/>
 			</TwoCols>
 
 			<Card title="Your Pools & Vaults" help="to see which Pools & Vaults you participate in" />
@@ -63,9 +76,21 @@ const Dashboard: React.FC = () => {
 							</p>
 						</DailyWeeklyMonthlyPrice>,
 					]}
+					alwaysShow
 				/>
-				<Card title="Total BOOST supply" value="98,589 BOOST" help="total supply of BOOST tokens" />
-				<Card title="Total ORBIT supply" value="100B ORBIT" help="total supply of ORBIT tokens" />
+				<Card
+					title="Total BOOST supply"
+					help="total supply of BOOST tokens"
+					value={boostTotalSupply.isSuccess ? boostTotalSupply.data : '0'}
+					valueInUSD={'0'}
+					alwaysShow
+				/>
+				<Card
+					title="Total ORBIT supply"
+					value="100B ORBIT"
+					help="total supply of ORBIT tokens"
+					alwaysShow
+				/>
 
 				<Card
 					title="Treasury value"
@@ -83,6 +108,7 @@ const Dashboard: React.FC = () => {
 							</p>
 						</DailyWeeklyMonthlyPrice>,
 					]}
+					alwaysShow
 				/>
 				<Card
 					title="BOOST token price"
@@ -100,6 +126,7 @@ const Dashboard: React.FC = () => {
 							</p>
 						</DailyWeeklyMonthlyPrice>,
 					]}
+					alwaysShow
 				/>
 				<Card
 					title="ORBIT token price"
@@ -117,6 +144,7 @@ const Dashboard: React.FC = () => {
 							</p>
 						</DailyWeeklyMonthlyPrice>,
 					]}
+					alwaysShow
 				/>
 			</ThreeCols>
 		</>
