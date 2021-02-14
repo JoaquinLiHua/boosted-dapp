@@ -10,16 +10,12 @@ import { useBoostPrice } from 'hooks/pools/useBoostPrice';
 import { getDisplayBalance } from 'utils/formatBalance';
 
 import { Card } from 'components/general/Card';
-import {
-	H1,
-	TwoCols,
-	ThreeCols,
-	PositiveNumber,
-	NegativeNumber,
-	Spacer,
-} from 'styles/common';
+import { H1, TwoCols, ThreeCols, PositiveNumber, NegativeNumber, Spacer } from 'styles/common';
+import useERC20Balance from 'queries/useERC20Balance';
 
-export const Dashboard: React.FC = () => {
+const Dashboard: React.FC = () => {
+	const balance = useERC20Balance();
+
 	// const boostBalance: string = getDisplayBalance(useTokenBalance(boostToken));
 	// const totalRewardsAvailable: string = getDisplayBalance(useGetTotalRewardAmount());
 	// const boostTotalSupply: string = getDisplayBalance(useTotalSupply(boostToken));
@@ -126,6 +122,8 @@ export const Dashboard: React.FC = () => {
 		</>
 	);
 };
+
+export default Dashboard;
 
 const TopRow = styled.div`
 	display: flex;

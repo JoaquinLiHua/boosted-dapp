@@ -2,8 +2,6 @@ import React from 'react';
 
 import theme from 'styles/theme';
 
-// @TODO: Remove use-wallet
-// import { UseWalletProvider } from 'use-wallet';
 import { ModalContext } from 'context/ModalContext';
 import { PriceFeedProvider } from 'context/PriceFeedContext';
 import { VaultProvider } from 'context/VaultContext';
@@ -12,24 +10,30 @@ import Layout from 'components/general/Layout';
 
 import Initialiser from 'context/Initialiser';
 
+import { QueryClient, QueryClientProvider } from 'react-query';
+
 import 'styles/sanitize.css';
 import '@reach/dialog/styles.css';
 import 'styles/main.css';
 import Notify from 'context/Notify';
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps }: { Component: any; pageProps: any }) {
+	const queryClient = new QueryClient();
+
 	return (
 		<ThemeProvider theme={theme}>
 			<Initialiser.Provider>
-				<Notify.Provider>
-					<PriceFeedProvider>
-						<ModalContext>
-							<VaultProvider>
-								<Layout children={<Component {...pageProps} />}></Layout>
-							</VaultProvider>
-						</ModalContext>
-					</PriceFeedProvider>
-				</Notify.Provider>
+				<QueryClientProvider client={queryClient}>
+					<Notify.Provider>
+						<PriceFeedProvider>
+							<ModalContext>
+								<VaultProvider>
+									<Layout children={<Component {...pageProps} />}></Layout>
+								</VaultProvider>
+							</ModalContext>
+						</PriceFeedProvider>
+					</Notify.Provider>
+				</QueryClientProvider>
 			</Initialiser.Provider>
 		</ThemeProvider>
 	);

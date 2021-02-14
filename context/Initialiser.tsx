@@ -80,6 +80,7 @@ const useInitialiser = () => {
 		disconnectWallet,
 		onboard,
 		bncNotify,
+		isAppReady,
 	};
 };
 
