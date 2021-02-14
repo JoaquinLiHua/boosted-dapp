@@ -7,7 +7,7 @@ import BaseModal from 'components/general/Modal';
 
 export const WalletMenu = () => {
 	const { connectWallet, walletAddress, disconnectWallet } = Initialiser.useContainer();
-	const [open, setOpen] = useState<boolean>(true);
+	const [open, setOpen] = useState<boolean>(false);
 	return (
 		<>
 			{walletAddress ? (
