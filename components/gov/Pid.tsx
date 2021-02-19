@@ -2,10 +2,16 @@ import React from 'react';
 import styled from 'styled-components';
 import { ExternalLink } from 'components/general/ExternalLink'
 import { ProgressIndicator } from 'components/general/ProgressIndicator'
+import { BaseModal } from '../general/Modal';
 
-import { H1Styles, TwoCols, XSmallSpacer, MediumSpacer, SmallSpacer, H6Styles, PStyles, PLargeStyles, PSmallStyles, PrimaryButton } from 'styles/common';
+import { Spacer, H1Styles, H6, TwoCols, XSmallSpacer, MediumSpacer, SmallSpacer, H6Styles, PStyles, PLargeStyles, PSmallStyles, PrimaryButton } from 'styles/common';
 
 export const Pid: React.FC = () => {
+
+	const [showVoteDialog, setShowVoteDialog] = React.useState(false);
+  const openVoteDialog = () => setShowVoteDialog(true);
+  const closeVoteDialog = () => setShowVoteDialog(false);
+
 	return (
 		<>
 			<TopRow>
@@ -145,10 +151,46 @@ export const Pid: React.FC = () => {
 						<HistoryTimeStamp>December 22nd, 2020 – 1:42am</HistoryTimeStamp>
 					</HistoryItem>
 
-					<VoteButton href="#">Vote</VoteButton>
-
-
+					<VoteButton onClick={openVoteDialog}>Vote</VoteButton>
 				</ProposalHistory>
+
+			<StyledBaseModal title="Vote on proposal: Donec sed odio dui. Integer posuere erat a ante venenatis dapibus posuere velit aliquet." isOpen={showVoteDialog} onDismiss={closeVoteDialog}>
+				<InputTitle>Voting as</InputTitle>
+
+				<VoterWrapper>
+					<Wrapper>
+						<UserAvatar src="https://gravatar.com/avatar/c0f14c0036f6610c135f77666021f5cb?s=400&d=robohash&r=x" />
+						<UserInfoWrapper>
+							<p>0x73d…b538</p>
+							<p>Not you?</p>
+						</UserInfoWrapper>
+					</Wrapper>
+
+					<UserInfoWrapperRightAligned>
+						<p>344,984.0583</p>
+						<p>Votes</p>
+					</UserInfoWrapperRightAligned>
+
+					<UserInfoWrapperRightAligned>
+						<p>14.82%</p>
+						<p>Vote weight</p>
+					</UserInfoWrapperRightAligned>
+				</VoterWrapper>
+
+				<RightToVote>
+					<input type="checkbox" id="right" name="right" value="RightToVote" required />
+					<label for="right"> I've the right to vote lorem ipsum dolor sit amet</label>
+				</RightToVote>
+
+				<Spacer />
+
+				<ModalButtons>
+					<ModalButtonPositive>Vote for</ModalButtonPositive>
+					<ModalButtonNegative>Vote against</ModalButtonNegative>
+				</ModalButtons>
+
+			</StyledBaseModal>
+
 			</Wrapper>
 		</>
 	);
@@ -316,4 +358,124 @@ const VoteButton = styled(PrimaryButton)`
 	${PLargeStyles}
 	margin-top: 48px;
 	display: block;
+`;
+
+const StyledBaseModal = styled(BaseModal)``;
+
+const InputTitle = styled.p`
+	${H6Styles}
+	margin-top: 0;
+`;
+
+const UserAvatar = styled.img`
+	width: 32px;
+	height: 32px;
+	background: ${(props) => props.theme.colors.white};
+	border-radius: 50%;
+	margin: 4px 12px 0 0;
+`;
+
+const ModalButtons = styled.div`
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	margin-top: 36px;
+
+	a {
+		width: calc(50% - 12px);
+	}
+`;
+
+const ModalButton = styled(PrimaryButton)`
+	padding: 16px 24px;
+	font-size: 16px;
+`;
+
+const ModalButtonPositive = styled(ModalButton)`
+	background: ${(props) => props.theme.colors.green};
+	color: ${(props) => props.theme.colors.background};
+
+	&:hover {
+		background: #86F8A8;
+		box-shadow: 0 0 8px 0 ${(props) => props.theme.colors.green};
+	}
+`;
+
+const ModalButtonNegative = styled(ModalButton)`
+	background: ${(props) => props.theme.colors.red};
+	color: ${(props) => props.theme.colors.background};
+
+	&:hover {
+		background: #F98686;
+		box-shadow: 0 0 8px 0 ${(props) => props.theme.colors.red};
+	}
+`;
+
+const VoterWrapper = styled.div`
+	display: flex;
+	justify-content: space-between;
+	background: ${(props) => props.theme.colors.background};
+	border-radius: 8px;
+	padding: 16px 24px 20px;
+`;
+
+const UserInfoWrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+
+	p {
+		margin: 0;
+
+		:first-of-type {
+			${PStyles}
+			font-family: ${(props) => props.theme.fonts.interSemiBold};
+		}
+
+		:Last-of-type {
+			${PSmallStyles}
+		}
+	}
+`;
+
+const UserInfoWrapperRightAligned = styled(UserInfoWrapper)`
+
+	p {
+		text-align: right;
+	}
+`;
+
+const RightToVote = styled.div`
+	margin-top: 24px;
+	${PStyles}
+	display: flex;
+	align-items: center;
+	
+	label {
+		cursor: pointer;
+
+		&:hover {
+			opacity: 0.8;
+		}
+	}
+
+	input {
+		appearance: none;
+		background: ${(props) => props.theme.colors.background};
+		width: 20px;
+		height: 20px;
+		border-radius: 4px;
+		outline: none;
+		display: inline-block;
+		margin-right: 8px;
+		cursor: pointer;
+		transition: all 0.1s ease-out;
+		background-position: center;
+
+		:checked {
+			background: ${(props) => props.theme.colors.green};
+			background-image: url("data:image/svg+xml,%3Csvg width='11' height='10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='%23000' stroke-width='1.5' d='M1 6l3 3 6-8' fill='none' fill-rule='evenodd' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+			background-repeat: no-repeat;
+			background-position: center;
+		}
+	}
 `;

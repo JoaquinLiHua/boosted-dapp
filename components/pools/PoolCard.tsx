@@ -57,9 +57,9 @@ export const PoolCard = (props) => {
 				</TextLine>
 
 				<PoolButtons>
-					<PoolButton href={depositHref} 	onClick={openDepositDialog}>Deposit</PoolButton>
+					<PoolButton onClick={openDepositDialog}>Deposit</PoolButton>
 					<PoolButton href={boostHref}>🚀  Boost</PoolButton>
-					<PoolButtonSecondary href={withdrawHref} onClick={openWithdrawDialog}>Withdraw</PoolButtonSecondary>
+					<PoolButtonSecondary onClick={openWithdrawDialog}>Withdraw</PoolButtonSecondary>
 					<PoolButtonSecondary href={claimHref} disabled>Claim</PoolButtonSecondary>
 				</PoolButtons>
 			</LowerPoolInfo>
