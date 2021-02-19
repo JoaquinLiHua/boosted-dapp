@@ -1,5 +1,6 @@
 import React,  { useState } from 'react';
 import styled, { css } from 'styled-components';
+
 import { H6, MediumSpacer, H6Styles, SecondaryButton, PSmall, PSmallStyles, PStyles, PLargeStyles } from 'styles/common';
 
 export const VaultActions = () => {
@@ -17,7 +18,8 @@ export const VaultActions = () => {
 						<p>BOOST</p>
 					</InputWrapper>
 
-					<PoolButtonSecondary href="#" disabled>Claim</PoolButtonSecondary>
+					<PoolButtonSecondary href="#">Claim</PoolButtonSecondary>
+			
 				</ClaimWrapper>
 
 				<MediumSpacer />
@@ -41,7 +43,8 @@ export const VaultActions = () => {
 							<PercentageButton href="#" disabled>100%</PercentageButton>
 						</Percentages>
 
-						<PoolButtonSecondary href="#" disabled>Deposit</PoolButtonSecondary>
+						<PoolButtonSecondary href="#">Deposit</PoolButtonSecondary>
+
 					</DepositWrapper>
 
 					<WithdrawWrapper>
@@ -62,10 +65,10 @@ export const VaultActions = () => {
 							<PercentageButton href="#" disabled>100%</PercentageButton>
 						</Percentages>
 
-						<PoolButtonSecondary href="#" disabled>Withdraw</PoolButtonSecondary>
+						<PoolButtonSecondary href="#">Withdraw</PoolButtonSecondary>
+
 					</WithdrawWrapper>
 				</Flex>
-
 
 			</VaultActionsWrapper>
 		</>

@@ -3,7 +3,7 @@ import { DialogOverlay, DialogContent } from '@reach/dialog';
 import styled from 'styled-components';
 import { Svg } from 'react-optimized-image';
 import CrossIcon from 'assets/svg/cross.svg';
-import { FlexDivCentered, FlexDivCol } from 'styles/common';
+import { FlexDivCentered, FlexDivCol, H1Styles } from 'styles/common';
 
 type BaseModalProps = {
 	title: ReactNode;
@@ -23,16 +23,16 @@ export const BaseModal: FC<BaseModalProps> = ({
 }) => (
 	<StyledDialogOverlay onDismiss={onDismiss} isOpen={isOpen} {...rest}>
 		<StyledDialogContent aria-label="modal">
-			<StyledCard className="card">
-				<StyledCardHeader className="card-header">
-					{title}
+			<StyledCard>
+				<StyledCardHeader>
+					<ModalTitle>{title}</ModalTitle>
 					{showCross && (
 						<DismissButton onClick={onDismiss}>
 							<Svg src={CrossIcon} />
 						</DismissButton>
 					)}
 				</StyledCardHeader>
-				<StyledCardBody className="card-body">{children}</StyledCardBody>
+				<StyledCardBody>{children}</StyledCardBody>
 			</StyledCard>
 		</StyledDialogContent>
 	</StyledDialogOverlay>
@@ -40,14 +40,17 @@ export const BaseModal: FC<BaseModalProps> = ({
 
 const StyledDialogOverlay = styled(DialogOverlay)`
 	z-index: 50;
-	padding: 0px 200px;
 	background: hsla(0, 0%, 0%, 0.8);
 `;
 
 const StyledDialogContent = styled(DialogContent)`
 	padding: 0;
 	border: 0;
-	background: ${(props) => props.theme.colors.navy};
+	border-radius: 8px;
+	width: calc(100% - 24px);
+	max-width: 720px;
+	margin-left: auto;
+	margin-right: auto;
 `;
 
 const StyledCard = styled.div`
@@ -59,15 +62,10 @@ const StyledCard = styled.div`
 `;
 
 const StyledCardHeader = styled(FlexDivCentered)`
-	justify-content: center;
-	height: 48px;
 	position: relative;
 	color: ${(props) => props.theme.colors.white};
-	border-bottom: 1px solid ${(props) => props.theme.colors.grayBlue};
-	height: 32px;
-	padding: 0 18px;
+	padding: 24px 48px 0;
 	justify-content: flex-start;
-	text-transform: capitalize;
 	font-family: ${(props) => props.theme.fonts.interBold};
 	font-size: 12px;
 	flex-shrink: 0;
@@ -75,7 +73,8 @@ const StyledCardHeader = styled(FlexDivCentered)`
 
 const StyledCardBody = styled(FlexDivCol)`
 	position: relative;
-	padding: 12px 18px;
+	padding: 8px 48px 48px;
+	color: ${(props) => props.theme.colors.white};
 `;
 
 const DismissButton = styled.div`
@@ -85,12 +84,23 @@ const DismissButton = styled.div`
 	cursor: pointer;
 	padding: 0;
 	position: absolute;
-	right: 20px;
-	color: ${(props) => props.theme.colors.white};
+	right: 24px;
+	top: 24px;
+	color: ${(props) => props.theme.colors.gray};
 	background: 'transparent';
+
 	&:hover {
-		color: ${(props) => props.theme.colors.blue};
+		color: ${(props) => props.theme.colors.white};
+	}
+
+	svg {
+		transform: scale(1.33);
 	}
 `;
 
+const ModalTitle = styled.h3`
+	${H1Styles}
+`;
+
 export default BaseModal;
+

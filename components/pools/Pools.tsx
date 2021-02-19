@@ -42,8 +42,8 @@ export const Pools: React.FC = () => {
 				<PoolCard
 					firstLogoURL="https://assets.coingecko.com/coins/images/13469/small/1inch-token.png"
 					secondLogoURL="https://assets.coingecko.com/coins/images/9956/small/dai-multi-collateral-mcd.png"
-					tokenPair="1INCH-DAI"
-					earnedToken="1INCH"
+					tokenPair="DAI-1INCH"
+					earnedToken="DAI"
 					apy="272"
 					totalStaked="12,693,766.17"
 					yourStake="0.00"

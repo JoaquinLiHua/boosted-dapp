@@ -1,9 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
+import { BaseModal } from '../general/Modal';
 
-import { PrimaryButton, SecondaryButton, GlowText, PStyles, PLargeStyles, PSmallStyles } from 'styles/common';
+import { PrimaryButton, SecondaryButton, GlowText, PStyles, PLargeStyles, PSmallStyles, H6, H6Styles, Spacer, MediumSpacer, H2Styles } from 'styles/common';
 
 export const PoolCard = (props) => {
+
+	const [showDepositDialog, setShowDepositDialog] = React.useState(false);
+  const openDepositDialog = () => setShowDepositDialog(true);
+  const closeDepositDialog = () => setShowDepositDialog(false);
+
+	const [showWithdrawDialog, setShowWithdrawDialog] = React.useState(false);
+  const openWithdrawDialog = () => setShowWithdrawDialog(true);
+  const closeWithdrawDialog = () => setShowWithdrawDialog(false);
+
 	const {
 		tokenPair,
 		earnedToken,
@@ -47,12 +57,113 @@ export const PoolCard = (props) => {
 				</TextLine>
 
 				<PoolButtons>
-					<PoolButton href={depositHref}>Deposit</PoolButton>
+					<PoolButton href={depositHref} 	onClick={openDepositDialog}>Deposit</PoolButton>
 					<PoolButton href={boostHref}>🚀  Boost</PoolButton>
-					<PoolButtonSecondary href={withdrawHref} disabled>Withdraw</PoolButtonSecondary>
+					<PoolButtonSecondary href={withdrawHref} onClick={openWithdrawDialog}>Withdraw</PoolButtonSecondary>
 					<PoolButtonSecondary href={claimHref} disabled>Claim</PoolButtonSecondary>
 				</PoolButtons>
 			</LowerPoolInfo>
+
+			<StyledBaseModal title="Deposit" isOpen={showDepositDialog} onDismiss={closeDepositDialog}>
+				<TextLine>
+					<InputTitle>Amount</InputTitle>
+					<RightModal>Balance: 0</RightModal>
+				</TextLine>
+
+				<InputWrapper>
+					<TextLine>
+						<Left>Pool token</Left>
+						<Right>≈ $0.00</Right>
+					</TextLine>
+					<TextLine>
+						<LogoWrapperInput>
+							<LogoInput><img src={firstLogoURL} /></LogoInput>
+							<LogoInput><img src={secondLogoURL} /></LogoInput>
+							<TokenPool>{tokenPair}</TokenPool>
+						</LogoWrapperInput>
+						<input type="number" placeholder="0"/>
+					</TextLine>
+				</InputWrapper>
+
+				<MediumSpacer />
+
+				<TextLine>
+					<InputTitle>Your stake</InputTitle>
+					<RightModalBig>0</RightModalBig>
+				</TextLine>
+				<ThreeColWrapper>
+					<p>Daily earnings</p>
+					<p>0 INCH</p>
+					<p>$5321.00</p>
+				</ThreeColWrapper>
+				<ThreeColWrapper>
+					<p>Monthly earnings</p>
+					<p>317 INCH</p>
+					<p>$0.00</p>
+				</ThreeColWrapper>
+				<ThreeColWrapper>
+					<p>Yearly earnings</p>
+					<p>0 INCH</p>
+					<p>$0.00</p>
+				</ThreeColWrapper>
+
+				<Spacer />
+				<ModalButton>Deposit</ModalButton>
+
+			</StyledBaseModal>
+
+			<StyledBaseModal title="Withdraw" isOpen={showWithdrawDialog} onDismiss={closeWithdrawDialog}>
+				<TextLine>
+					<InputTitle>Amount</InputTitle>
+					<RightModal>Balance: 0</RightModal>
+				</TextLine>
+
+				<InputWrapper>
+					<TextLine>
+						<Left>Pool token</Left>
+						<Right>≈ $0.00</Right>
+					</TextLine>
+					<TextLine>
+						<LogoWrapperInput>
+							<LogoInput><img src={firstLogoURL} /></LogoInput>
+							<LogoInput><img src={secondLogoURL} /></LogoInput>
+							<TokenPool>{tokenPair}</TokenPool>
+						</LogoWrapperInput>
+						<input type="number" placeholder="0"/>
+					</TextLine>
+				</InputWrapper>
+
+				<MediumSpacer />
+
+				<TextLine>
+					<InputTitle>Your stake</InputTitle>
+					<RightModalBig>1,000</RightModalBig>
+				</TextLine>
+				<ThreeColWrapper>
+					<p>Daily earnings</p>
+					<p>200 INCH</p>
+					<p>$5321.00</p>
+				</ThreeColWrapper>
+				<ThreeColWrapper>
+					<p>Monthly earnings</p>
+					<p>2901 INCH</p>
+					<p>$25,321.27</p>
+				</ThreeColWrapper>
+				<ThreeColWrapper>
+					<p>Yearly earnings</p>
+					<p>2901 INCH</p>
+					<p>$25,321.27</p>
+				</ThreeColWrapper>
+
+				<Spacer />
+
+				<ModalButtons>
+					<ModalButton>Deposit</ModalButton>
+					<ModalButton>Exit</ModalButton>
+				</ModalButtons>
+
+			</StyledBaseModal>
+
 		</CardWrapper>
 	);
 };
@@ -86,6 +197,7 @@ const TextLine = styled.div`
 	align-items: baseline;
 	margin-top: 2px;
 	margin-bottom: 2px;
+	width: 100%;
 `;
 
 const Left = styled.p`
@@ -103,11 +215,30 @@ const Right = styled.p`
 	margin-top: 0;
 `;
 
+const RightModal = styled(Right)`
+	margin-right: 24px;
+`;
+
+const RightModalBig = styled(RightModal)`
+	${H2Styles}
+`;
+
 const PoolButtons = styled.div`
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
 	margin-top: 36px;
+`;
+
+const ModalButtons = styled(PoolButtons)`
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	margin-top: 36px;
+
+	a {
+		width: calc(50% - 12px);
+	}
 `;
 
 const PoolButton = styled(PrimaryButton)`
@@ -124,6 +255,11 @@ const LogoWrapper = styled.div`
 	display: flex;
 	justify-content: center;
 	margin: 16px 0 32px;
+`;
+
+const LogoWrapperInput = styled(LogoWrapper)`
+	margin: 6px 0 0;
+	align-items: center;
 `;
 
 const Logo = styled.div`
@@ -147,5 +283,85 @@ const Logo = styled.div`
 		max-width: 44px;
 		justify-content: center;
 		align-self: center;
+	}
+`;
+
+const LogoInput = styled(Logo)`
+	:last-of-type {
+		margin-right: 12px;
+	}
+
+	img {
+		max-height: 24px;
+		max-width: 24px;
+	}
+`;
+
+const StyledBaseModal = styled(BaseModal)``;
+
+const InputTitle = styled.p`
+	${H6Styles}
+	margin-top: 0;
+`;
+
+const TokenPool = styled.p`
+	font-size: 15px;
+	font-family: ${(props) => props.theme.fonts.interSemiBold};
+	margin-top: 0;
+	margin-bottom: 0;
+`;
+
+const InputWrapper = styled.div`
+	background: #131720;
+	padding: 12px 24px 8px;
+	border-radius: 4px;
+
+	input {
+		font-size: 20px;
+		appeareance: none;
+		background: none;
+		font-family: ${(props) => props.theme.fonts.interSemiBold};
+		border: 0;
+		outline: 0;
+		height: 40px;
+		color: ${(props) => props.theme.colors.white};
+		padding: 0;
+		text-align: right;
+		flex: 1 0 auto;
+		top: -5px;
+    position: relative;
+    margin-left: 12px;
+	}
+`;
+
+const ModalButton = styled(PrimaryButton)`
+	padding: 16px 24px;
+	font-size: 16px;
+`;
+
+const ThreeColWrapper = styled.div`
+	margin-left: 24px;
+	margin-right: 24px;
+	display: flex;
+	justify-content: space-between;
+
+	p {
+		font-size: 14px;
+		margin: 4px 0;
+		color: ${(props) => props.theme.colors.white};
+		font-family: ${(props) => props.theme.fonts.interSemiBold};
+		width: 33.33%;
+
+		:first-of-type {
+			color: ${(props) => props.theme.colors.gray};
+			font-size: 13px;
+			text-align: left;
+		}
+
+		:nth-of-type(2),
+		:nth-of-type(3) {
+			text-align: right;
+		}
+
 	}
 `;
