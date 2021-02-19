@@ -113,3 +113,7 @@ input[type='search']::-webkit-search-results-decoration {
 .icon-wrapper {
 	right: 30px!important;
 }
+
+.react-tabs__tab--selected {
+	color: white;
+}

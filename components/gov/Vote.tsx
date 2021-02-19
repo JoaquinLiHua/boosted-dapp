@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { ProposalRow } from './ProposalRow';
 import { AddressRow } from './AddressRow';
 import { AddressRowHead } from './AddressRow';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
-import { H1, H2, ThreeCols, SmallSpacer, XSmallSpacer, MediumSpacer, GlowTextLink, H6Styles, H1Styles } from 'styles/common';
+import { H1, H2, ThreeCols, SmallSpacer, XSmallSpacer, MediumSpacer, GlowTextLink, H6Styles, H1Styles, H2Styles } from 'styles/common';
 
 export const Vote: React.FC = () => {
+	const [tabIndex, setTabIndex] = useState(0);
 	return (
 		<>
 			<TopRow>
@@ -32,46 +34,75 @@ export const Vote: React.FC = () => {
 			</ThreeCols>
 
 			<SmallSpacer />
-			<H2>Core proposals</H2>
-			<XSmallSpacer />
-			
-			<Proposals>
-				<ProposalRow
-					href="/gov/pid"
-					proposalTitle="Praesent commodo cursus magna, vel scelerisque nisl consectetur et."
-					proposalID="034"
-					proposalDate="December 26th, 2020"
-					proposalStatus="Executed"
-				/>
-				<ProposalRow
-					href="/gov/pid"
-					proposalTitle="Praesent commodo cursus magna, vel scelerisque nisl consectetur et."
-					proposalID="034"
-					proposalDate="December 26th, 2020"
-					proposalStatus="Active"
-				/>
-				<ProposalRow
-					href="/gov/pid"
-					proposalTitle="Praesent commodo cursus magna, vel scelerisque nisl consectetur et."
-					proposalID="034"
-					proposalDate="December 26th, 2020"
-					proposalStatus="Failed"
-				/>
-				<ProposalRow
-					href="/gov/pid"
-					proposalTitle="Praesent commodo cursus magna, vel scelerisque nisl consectetur et."
-					proposalID="034"
-					proposalDate="December 26th, 2020"
-					proposalStatus="Canceled"
-				/>
-				<ProposalRow
-					href="/gov/pid"
-					proposalTitle="Praesent commodo cursus magna, vel scelerisque nisl consectetur et."
-					proposalID="034"
-					proposalDate="December 26th, 2020"
-					proposalStatus="Executed"
-				/>
-			</Proposals>
+			<Tabs
+				selectedIndex={tabIndex}
+				onSelect={(index, lastIndex, event) => setTabIndex(index)}
+			>
+				<TabListWrapper>
+					<Tab>Core proposals</Tab>
+					<Tab>Community proposals</Tab>
+				</TabListWrapper>
+				<SmallSpacer />
+				
+				<TabPanel>
+					<Proposals>
+						<ProposalRow
+							href="/gov/pid"
+							proposalTitle="Praesent commodo cursus magna, vel scelerisque nisl consectetur et."
+							proposalID="034"
+							proposalDate="December 26th, 2020"
+							proposalStatus="Executed"
+						/>
+						<ProposalRow
+							href="/gov/pid"
+							proposalTitle="Praesent commodo cursus magna, vel scelerisque nisl consectetur et."
+							proposalID="034"
+							proposalDate="December 26th, 2020"
+							proposalStatus="Active"
+						/>
+						<ProposalRow
+							href="/gov/pid"
+							proposalTitle="Praesent commodo cursus magna, vel scelerisque nisl consectetur et."
+							proposalID="034"
+							proposalDate="December 26th, 2020"
+							proposalStatus="Failed"
+						/>
+						<ProposalRow
+							href="/gov/pid"
+							proposalTitle="Praesent commodo cursus magna, vel scelerisque nisl consectetur et."
+							proposalID="034"
+							proposalDate="December 26th, 2020"
+							proposalStatus="Canceled"
+						/>
+						<ProposalRow
+							href="/gov/pid"
+							proposalTitle="Praesent commodo cursus magna, vel scelerisque nisl consectetur et."
+							proposalID="034"
+							proposalDate="December 26th, 2020"
+							proposalStatus="Executed"
+						/>
+					</Proposals>
+				</TabPanel>
+
+				<TabPanel>
+					<Proposals>
+						<ProposalRow
+							href="/gov/pid"
+							proposalTitle="Pel scelerisque nisl consectetur et."
+							proposalID="579"
+							proposalDate="January 20th, 2021"
+							proposalStatus="Executed"
+						/>
+						<ProposalRow
+							href="/gov/pid"
+							proposalTitle="Praesent commodo cursus magna, vel scelerisque nisl consectetur et."
+							proposalID="034"
+							proposalDate="December 26th, 2020"
+							proposalStatus="Active"
+						/>
+					</Proposals>
+				</TabPanel>
+			</Tabs>
 
 			<MediumSpacer />
 			<GlowTextLink href="/gov/pid">› View all Core proposals</GlowTextLink>
@@ -191,5 +222,21 @@ const Addresses = styled.div`
 		border-radius: 0 0 8px 8px;
 	}
 }
+`;
+
+const TabListWrapper = styled(TabList)`
+	display: flex;
+	${H2Styles}
+	color: gray;
+
+	> li {
+		:first-of-type {
+			margin-right: 12px;
+		}
+
+		&:hover {
+			color: white;
+		}
+	}
 `;
 

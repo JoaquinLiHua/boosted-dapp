@@ -33,8 +33,10 @@ const RowWrapper = styled.a`
 	align-items: baseline;
 	text-decoration: none;
 	flex-wrap: wrap;
+	transition: all 0.1s ease-out;
 
 	&:hover {
+		background: ${(props) => props.theme.colors.backgroundHover};
 	}
 `;
 

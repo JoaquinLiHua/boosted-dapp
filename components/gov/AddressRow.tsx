@@ -60,6 +60,7 @@ const RowWrapper = styled.a`
 	padding: 16px 36px 16px 36px;
 	margin: 0;
 	text-decoration: none;
+	transition: all 0.1s ease-out;
 
 	display: grid;
   grid-template-columns: auto 10% 10% 11%;
@@ -72,6 +73,7 @@ const RowWrapper = styled.a`
 	}
 
 	&:hover {
+		background: ${(props) => props.theme.colors.backgroundHover};
 	}
 `;
 
