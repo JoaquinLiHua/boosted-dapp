@@ -4,6 +4,13 @@ import styled, { css } from 'styled-components';
 import { Spacer, device } from 'styles/common';
 import { ROUTES, ROUTESSECONDARY } from 'constants/routes';
 import { useRouter } from 'next/router';
+import { ExternalLink } from 'components/general/ExternalLink';
+import { Svg } from 'react-optimized-image';
+
+import LogoMedium from 'assets/svg/logoMedium.svg';
+import LogoTwitter from 'assets/svg/logoTwitter.svg';
+import LogoDiscord from 'assets/svg/logoDiscord.svg';
+import LogoGithub from 'assets/svg/logoGithub.svg';
 
 type SideNavProps = {};
 
@@ -31,22 +38,22 @@ const SideNav: React.FC<SideNavProps> = ({}) => {
 			<ExternalLinks>
 				<ul>
 					<li>
-						<a href="#">BOOST-ETH in Uniswap</a>
+						<ExternalLink href="https://info.uniswap.org/pair/0x6b4a0bd2eee3ca06652f758844937daf91ea8422">BOOST-ETH in Uniswap</ExternalLink>
 					</li>
 					<li>
-						<a href="#">BOOST contract address</a>
+						<ExternalLink href="https://etherscan.io/token/0x3e780920601D61cEdb860fe9c4a90c9EA6A35E78">BOOST contract address</ExternalLink>
 					</li>
 					<li>
-						<a href="#">ORBIT contract address</a>
+						<ExternalLink href="#">ORBIT contract address</ExternalLink>
 					</li>
 					<li>
-						<a href="#">Official BOOST token</a>
+						<ExternalLink href="https://etherscan.io/address/0x3e780920601D61cEdb860fe9c4a90c9EA6A35E78">Official BOOST token</ExternalLink>
 					</li>
 					<li>
-						<a href="#">CoinmarketCap</a>
+						<ExternalLink href="https://coinmarketcap.com/currencies/boosted-finance/">CoinmarketCap</ExternalLink>
 					</li>
 					<li>
-						<a href="#">CoinGecko</a>
+						<ExternalLink href="https://www.coingecko.com/en/coins/boosted-finance">CoinGecko</ExternalLink>
 					</li>
 				</ul>
 			</ExternalLinks>
@@ -55,16 +62,16 @@ const SideNav: React.FC<SideNavProps> = ({}) => {
 			<SocialMediaLinks>
 				<ul>
 					<li>
-						<a href="#">M</a>
+						<ExternalLink href="https://boostedfinance.medium.com/"><Svg src={LogoMedium} /></ExternalLink>
 					</li>
 					<li>
-						<a href="#">T</a>
+						<ExternalLink href="https://twitter.com/BoostedFinance"><Svg src={LogoTwitter} /></ExternalLink>
 					</li>
 					<li>
-						<a href="#">D</a>
+						<ExternalLink href="https://discord.com/invite/gp9bsaQ"><Svg src={LogoDiscord} /></ExternalLink>
 					</li>
 					<li>
-						<a href="#">G</a>
+						<ExternalLink href="https://github.com/Boosted-Finance"><Svg src={LogoGithub} /></ExternalLink>
 					</li>
 				</ul>
 			</SocialMediaLinks>
@@ -117,20 +124,29 @@ const SocialMediaLinks = styled.div`
     display: inline-block;
 
     & li {
-      margin-right: 8px;
+			margin-right: 8px;
+
+			:first-of-type {
+				padding-left: 0;
+			}
     }
   }
 
-  a {
-    color: ${(props) => props.theme.colors.gray};
-    font-family: ${(props) => props.theme.fonts.interMedium};
-    text-decoration: none;
-    font-size: ${(props) => props.theme.fontSize.pSmall};
+	a {
+		padding: 6px;
+		
+		path {
+			fill: ${(props) => props.theme.colors.gray};
+		}
 
-    &:hover {
-      color: ${(props) => props.theme.colors.white};
-    }
-  }
+		&:hover {
+			path {
+				fill: ${(props) => props.theme.colors.white};
+			}
+		}
+	}
+
+
 `;
 
 const Item = styled.div<{ active: boolean }>`
