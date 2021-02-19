@@ -158,7 +158,7 @@ export const PoolCard = (props) => {
 				<Spacer />
 
 				<ModalButtons>
-					<ModalButton>Deposit</ModalButton>
+					<ModalButton>Withdraw</ModalButton>
 					<ModalButton>Exit</ModalButton>
 				</ModalButtons>
 
