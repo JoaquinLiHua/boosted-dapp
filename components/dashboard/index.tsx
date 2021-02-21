@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { boostToken } from 'constants/bfAddresses';
-import { useTreasuryBalance } from 'hooks/general/useTreasuryBalance';
 import { useTotalValueLocked } from 'hooks/general/useTotalValueLocked';
 import { useGetTotalRewardAmount } from 'hooks/general/useGetTotalRewardAmount';
 import { getDisplayBalance } from 'utils/formatBalance';
@@ -16,6 +15,7 @@ import { formatPercent, formatNumber } from 'utils/number';
 import useERC20Balance from 'queries/useERC20Balance';
 import useTotalSupply from 'queries/useTotalSupply';
 import useTokenPrie from 'queries/useTokenPrice';
+import useTreasuryValue from 'queries/useTreasuryValue';
 
 const Dashboard: React.FC = () => {
 	const balance = useERC20Balance(BoostToken);
@@ -33,9 +33,8 @@ const Dashboard: React.FC = () => {
 		},
 	};
 
-	// const totalRewardsAvailable: string = getDisplayBalance(useGetTotalRewardAmount());
-	// const boostTotalSupply: string = getDisplayBalance(useTotalSupply(boostToken));
-	// const treasuryBalance: string = getDisplayBalance(useTreasuryBalance());
+	const treasuryValue = useTreasuryValue();
+
 	// const totalValueLocked: string = useTotalValueLocked();
 
 	const returnPriceHUD = (
@@ -120,7 +119,7 @@ const Dashboard: React.FC = () => {
 				/>
 			</TwoCols>
 
-			<Card title="Your Pools & Vaults" helpCopy="to see which Pools & Vaults you participate in" />
+			{/* <Card title="Your Pools & Vaults" helpCopy="to see which Pools & Vaults you participate in" /> */}
 
 			<Spacer />
 
@@ -146,7 +145,7 @@ const Dashboard: React.FC = () => {
 
 				<Card
 					title="Treasury value"
-					value="$1,453,872 USD"
+					value={`$${treasuryValue.data?.toString()} USD`}
 					helpCopy="USD value of the BOOST DAO"
 					alwaysShow
 				/>
