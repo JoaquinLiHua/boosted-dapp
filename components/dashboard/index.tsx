@@ -1,61 +1,126 @@
 import React from 'react';
 import styled from 'styled-components';
 import { boostToken } from 'constants/bfAddresses';
-import { useTokenBalance } from 'hooks/erc20/useTokenBalance';
 import { useTreasuryBalance } from 'hooks/general/useTreasuryBalance';
 import { useTotalValueLocked } from 'hooks/general/useTotalValueLocked';
 import { useGetTotalRewardAmount } from 'hooks/general/useGetTotalRewardAmount';
-import { useBoostPrice } from 'hooks/pools/useBoostPrice';
 import { getDisplayBalance } from 'utils/formatBalance';
 
 import BoostToken from 'contracts/BoostToken';
 
 import { Card } from 'components/general/Card';
 import { H1, TwoCols, ThreeCols, PositiveNumber, NegativeNumber, Spacer } from 'styles/common';
+
+import { formatPercent, formatNumber } from 'utils/number';
+
 import useERC20Balance from 'queries/useERC20Balance';
 import useTotalSupply from 'queries/useTotalSupply';
+import useTokenPrie from 'queries/useTokenPrice';
 
 const Dashboard: React.FC = () => {
 	const balance = useERC20Balance(BoostToken);
 	const boostTotalSupply = useTotalSupply(BoostToken);
 
-	// const boostBalance: string = getDisplayBalance(useTokenBalance(boostToken));
+	// @TODO: Substitute for query
+	const orbitTotalSupply = '0';
+
+	const boostPrice = useTokenPrie(BoostToken.address);
+
+	const orbitPrice = {
+		data: {
+			priceInUSD: 0,
+			dailyChangePercent: 0,
+		},
+	};
+
 	// const totalRewardsAvailable: string = getDisplayBalance(useGetTotalRewardAmount());
 	// const boostTotalSupply: string = getDisplayBalance(useTotalSupply(boostToken));
 	// const treasuryBalance: string = getDisplayBalance(useTreasuryBalance());
 	// const totalValueLocked: string = useTotalValueLocked();
-	// const boostPrice: string = useBoostPrice();
+
+	const returnPriceHUD = (
+		label: string,
+		price: number | undefined,
+		dailyChangePercent: number | undefined
+	) => {
+		if (price && dailyChangePercent) {
+			return (
+				<li>
+					<strong>{label}</strong>: ${price}
+					{dailyChangePercent > 0 ? (
+						<PositiveNumber>+{formatPercent(dailyChangePercent)}%</PositiveNumber>
+					) : (
+						<NegativeNumber>-{formatPercent(dailyChangePercent)}%</NegativeNumber>
+					)}
+				</li>
+			);
+		} else {
+			return null;
+		}
+	};
+
+	const returnPriceBox = (
+		label: string,
+		price: number | undefined,
+		dailyChangePercent: number | undefined
+	) => {
+		if (price && dailyChangePercent) {
+			return (
+				<Card
+					title={`${label} token price`}
+					value={`$${price} USD`}
+					priceChangeComponent={[
+						<DailyWeeklyMonthlyPrice>
+							<p>
+								24H:{' '}
+								{dailyChangePercent >= 0 ? (
+									<PositiveNumber>+{formatPercent(dailyChangePercent)}%</PositiveNumber>
+								) : (
+									<NegativeNumber>-{formatPercent(dailyChangePercent)}%</NegativeNumber>
+								)}
+							</p>
+						</DailyWeeklyMonthlyPrice>,
+					]}
+					alwaysShow
+				/>
+			);
+		} else {
+			return null;
+		}
+	};
 
 	return (
 		<>
 			<TopRow>
 				<H1>Dashboard</H1>
 				<ul>
-					<li>
-						<strong>BOOST</strong>: $15.19 <PositiveNumber>+5.70%</PositiveNumber>
-					</li>
-					<li>
-						<strong>ORBIT</strong>: $10.67 <NegativeNumber>-4.12%</NegativeNumber>
-					</li>
+					{returnPriceHUD(
+						'BOOST',
+						boostPrice.data?.priceInUSD,
+						boostPrice.data?.dailyChangePercent
+					)}
+					{returnPriceHUD(
+						'ORBIT',
+						orbitPrice.data?.priceInUSD,
+						orbitPrice.data?.dailyChangePercent
+					)}
 				</ul>
 			</TopRow>
 
 			<TwoCols>
 				<Card
 					title="Your BOOST balance"
-					help="to see your BOOST balance"
+					helpCopy="to see your BOOST balance"
 					value={balance.data ?? '0'}
-					valueInUSD={'0'}
 				/>
 				<Card
 					title="Your unclaimed rewards"
-					help="to see your unclaimed rewards"
+					helpCopy="to see your unclaimed rewards"
 					value={balance.data ?? '0'}
-					valueInUSD={'0'}
 				/>
 			</TwoCols>
 
-			<Card title="Your Pools & Vaults" help="to see which Pools & Vaults you participate in" />
+			<Card title="Your Pools & Vaults" helpCopy="to see which Pools & Vaults you participate in" />
 
 			<Spacer />
 
@@ -63,89 +128,30 @@ const Dashboard: React.FC = () => {
 				<Card
 					title="Total value locked"
 					value="$2,217,532 USD"
-					help={[
-						<DailyWeeklyMonthlyPrice>
-							<p>
-								24H: <PositiveNumber>+4,29%</PositiveNumber>
-							</p>
-							<p>
-								7D: <PositiveNumber>+24,42%</PositiveNumber>
-							</p>
-							<p>
-								30D: +<NegativeNumber>21.02%</NegativeNumber>
-							</p>
-						</DailyWeeklyMonthlyPrice>,
-					]}
+					helpCopy="USD value locked in all BOOST/ORBT contracts"
 					alwaysShow
 				/>
 				<Card
 					title="Total BOOST supply"
-					help="total supply of BOOST tokens"
-					value={boostTotalSupply.isSuccess ? boostTotalSupply.data : '0'}
-					valueInUSD={'0'}
+					helpCopy="total supply of BOOST tokens"
+					value={boostTotalSupply.isSuccess ? formatNumber(boostTotalSupply.data) : '0'}
 					alwaysShow
 				/>
 				<Card
 					title="Total ORBIT supply"
-					value="100B ORBIT"
-					help="total supply of ORBIT tokens"
+					helpCopy="total supply of ORBIT tokens"
+					value={orbitTotalSupply}
 					alwaysShow
 				/>
 
 				<Card
 					title="Treasury value"
 					value="$1,453,872 USD"
-					help={[
-						<DailyWeeklyMonthlyPrice>
-							<p>
-								24H: <PositiveNumber>+4,29%</PositiveNumber>
-							</p>
-							<p>
-								7D: <PositiveNumber>+24,42%</PositiveNumber>
-							</p>
-							<p>
-								30D: +<NegativeNumber>21.02%</NegativeNumber>
-							</p>
-						</DailyWeeklyMonthlyPrice>,
-					]}
+					helpCopy="USD value of the BOOST DAO"
 					alwaysShow
 				/>
-				<Card
-					title="BOOST token price"
-					value="$15.19 USD"
-					help={[
-						<DailyWeeklyMonthlyPrice>
-							<p>
-								24H: <PositiveNumber>+4,29%</PositiveNumber>
-							</p>
-							<p>
-								7D: <PositiveNumber>+24,42%</PositiveNumber>
-							</p>
-							<p>
-								30D: +<NegativeNumber>21.02%</NegativeNumber>
-							</p>
-						</DailyWeeklyMonthlyPrice>,
-					]}
-					alwaysShow
-				/>
-				<Card
-					title="ORBIT token price"
-					value="$10.67 USD"
-					help={[
-						<DailyWeeklyMonthlyPrice>
-							<p>
-								24H: <PositiveNumber>+4,29%</PositiveNumber>
-							</p>
-							<p>
-								7D: <PositiveNumber>+24,42%</PositiveNumber>
-							</p>
-							<p>
-								30D: +<NegativeNumber>21.02%</NegativeNumber>
-							</p>
-						</DailyWeeklyMonthlyPrice>,
-					]}
-					alwaysShow
-				/>
+				{returnPriceBox('BOOST', boostPrice.data?.priceInUSD, boostPrice.data?.dailyChangePercent)}
+				{returnPriceBox('ORBIT', orbitPrice.data?.priceInUSD, orbitPrice.data?.dailyChangePercent)}
 			</ThreeCols>
 		</>
 	);

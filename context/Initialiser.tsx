@@ -33,6 +33,7 @@ const useInitialiser = () => {
 			const onboard = Onboard({
 				dappId: process.env.NEXT_PUBLIC_BN_ONBOARD_API_KEY,
 				networkId: 1,
+				darkMode: true,
 				subscriptions: {
 					wallet: (wallet) => {
 						const provider = new ethers.providers.Web3Provider(wallet.provider);

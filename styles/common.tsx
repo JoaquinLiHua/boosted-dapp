@@ -16,7 +16,6 @@ export const device = {
 	desktop: `(min-width: ${size.desktop})`,
 };
 
-
 // Flex
 
 export const FlexDiv = styled.div`
@@ -43,8 +42,6 @@ export const FlexDivRowCentered = styled(FlexDivRow)`
 	align-items: center;
 `;
 
-
-
 // Columns, wrappers and spaces
 
 export const MainColumn = styled.main`
@@ -68,9 +65,9 @@ export const TwoCols = styled.div`
 	}
 
 	:after {
-		content: "";
+		content: '';
 		height: 0;
-  	width: calc(50% - 12px);
+		width: calc(50% - 12px);
 	}
 `;
 
@@ -88,9 +85,9 @@ export const ThreeCols = styled.div`
 	}
 
 	:after {
-		content: "";
+		content: '';
 		height: 0;
-  	width: calc(33.33% - 12px);
+		width: calc(33.33% - 12px);
 	}
 `;
 
@@ -114,11 +111,9 @@ export const MediumSpacer = styled.div`
 	height: 32px;
 `;
 
-
-
 // Typography
 
-export const H1Styles= css`
+export const H1Styles = css`
 	font-size: ${(props) => props.theme.fontSize.h1};
 	font-family: ${(props) => props.theme.fonts.interSemiBold};
 	color: ${(props) => props.theme.colors.white};
@@ -129,7 +124,6 @@ export const H1 = styled.h1`
 	${H1Styles}
 `;
 
-
 export const H2Styles = css`
 	font-size: ${(props) => props.theme.fontSize.h2};
 	font-family: ${(props) => props.theme.fonts.interSemiBold};
@@ -138,7 +132,6 @@ export const H2 = styled.h2`
 	${H2Styles}
 `;
 
-
 export const H3Styles = css`
 	font-size: ${(props) => props.theme.fontSize.h3};
 	font-family: ${(props) => props.theme.fonts.interSemiBold};
@@ -146,7 +139,6 @@ export const H3Styles = css`
 export const H3 = styled.h3`
 	${H3Styles}
 `;
-
 
 export const H4Styles = css`
 	font-size: ${(props) => props.theme.fontSize.h4};
@@ -157,13 +149,10 @@ export const H4 = styled.h4`
 	${H4Styles}
 `;
 
-
-export const H5Styles = css`
-`;
+export const H5Styles = css``;
 export const H5 = styled.h5`
 	${H5Styles}
 `;
-
 
 export const H6Styles = css`
 	letter-spacing: 1px;
@@ -177,7 +166,6 @@ export const H6 = styled.h6`
 	${H6Styles}
 `;
 
-
 export const PLargeStyles = css`
 	font-size: ${(props) => props.theme.fontSize.pLarge};
 	font-family: ${(props) => props.theme.fonts.interSemiBold};
@@ -187,7 +175,6 @@ export const PLarge = styled.p`
 	${PLargeStyles}
 `;
 
-
 export const PStyles = css`
 	font-size: ${(props) => props.theme.fontSize.p};
 	font-family: ${(props) => props.theme.fonts.interMedium};
@@ -196,7 +183,6 @@ export const PStyles = css`
 export const P = styled.p`
 	${PStyles}
 `;
-
 
 export const PSmallStyles = css`
 	letter-spacing: 0.2px;
@@ -209,15 +195,15 @@ export const PSmall = styled.p`
 	${PSmallStyles}
 `;
 
-
 // Typography styling
-
 export const PositiveNumber = styled.span`
 	color: ${(props) => props.theme.colors.green};
+	margin-left: 4px;
 `;
 
 export const NegativeNumber = styled.span`
 	color: ${(props) => props.theme.colors.red};
+	margin-left: 4px;
 `;
 
 export const GlowText = styled.span`
@@ -238,7 +224,6 @@ export const GlowTextLink = styled.a`
 		color: ${(props) => props.theme.colors.white};
 	}
 `;
-
 
 export const Button = css`
 	font-family: ${(props) => props.theme.fonts.interSemiBold};
@@ -261,7 +246,7 @@ export const Button = css`
 	}
 
 	&:hover {
-		background: #25B7F3;
+		background: #25b7f3;
 		box-shadow: 0 0 8px 0 ${(props) => props.theme.colors.darkBlue};
 	}
 `;
@@ -290,7 +275,6 @@ export const SecondaryButton = styled.a`
 		box-shadow: 0 0 8px 0 ${(props) => props.theme.colors.darkBlue};
 	}
 `;
-
 
 // Search & dropdowns
 
@@ -328,9 +312,9 @@ export const Dropdown = styled.select`
 	outline: none;
 	font-family: ${(props) => props.theme.fonts.interMedium};
 
-	-moz-appearance: none; 
-	-moz-appearance: none; 
-	-webkit-appearance: none; 
+	-moz-appearance: none;
+	-moz-appearance: none;
+	-webkit-appearance: none;
 	appearance: none;
 
 	background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='%23FFF' stroke-width='2' d='M.9999999 1.772971l4.77297077 4.77297077L10.54594145 1.772971' fill='none' fill-rule='evenodd' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");

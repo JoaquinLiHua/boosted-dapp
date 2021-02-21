@@ -2,20 +2,19 @@ import React from 'react';
 
 import theme from 'styles/theme';
 
-import { ModalContext } from 'context/ModalContext';
-import { PriceFeedProvider } from 'context/PriceFeedContext';
 import { VaultProvider } from 'context/VaultContext';
 import { ThemeProvider } from 'styled-components';
 import Layout from 'components/general/Layout';
 
 import Initialiser from 'context/Initialiser';
+import Notify from 'context/Notify';
+import CoinGecko from 'context/CoinGecko';
 
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 import 'styles/sanitize.css';
 import '@reach/dialog/styles.css';
 import 'styles/main.css';
-import Notify from 'context/Notify';
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -31,13 +30,11 @@ function MyApp({ Component, pageProps }: { Component: any; pageProps: any }) {
 			<Initialiser.Provider>
 				<QueryClientProvider client={queryClient}>
 					<Notify.Provider>
-						<PriceFeedProvider>
-							<ModalContext>
-								<VaultProvider>
-									<Layout children={<Component {...pageProps} />}></Layout>
-								</VaultProvider>
-							</ModalContext>
-						</PriceFeedProvider>
+						<CoinGecko.Provider>
+							<VaultProvider>
+								<Layout children={<Component {...pageProps} />}></Layout>
+							</VaultProvider>
+						</CoinGecko.Provider>
 					</Notify.Provider>
 				</QueryClientProvider>
 			</Initialiser.Provider>
