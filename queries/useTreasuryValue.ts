@@ -1,17 +1,35 @@
 import { useQuery } from 'react-query';
+import { ethers, BigNumber } from 'ethers';
+
+import CoinGecko from 'context/CoinGecko';
 import Initialiser from 'context/Initialiser';
-import { ethers } from 'ethers';
+import yCrvToken from 'contracts/yCrvToken';
+import Treasury from 'contracts/Treasury';
 
 const useTreasuryValue = () => {
-	const { isAppReady, walletAddress, provider } = Initialiser.useContainer();
-	return useQuery<string>(
+	const { isAppReady, provider } = Initialiser.useContainer();
+	const { CoinGeckoClient } = CoinGecko.useContainer();
+
+	return useQuery<number>(
 		['treasuryValue'],
 		async () => {
-			// const contract = new ethers.Contract("address", abi, provider as ethers.providers.Provider);
+			const { data } = await CoinGeckoClient.simple.fetchTokenPrice({
+				contract_addresses: yCrvToken.address,
+				vs_currencies: 'usd',
+			});
+			const ycrvPrice = Number(data[yCrvToken.address.toLowerCase()].usd);
 
-			const balance = ethers.utils.parseEther('0');
+			const tokenContract = new ethers.Contract(
+				yCrvToken.address,
+				yCrvToken.abi,
+				provider as ethers.providers.Provider
+			);
 
-			return ethers.utils.formatEther(balance);
+			const balanceBN = await tokenContract.balanceOf(Treasury.address);
+
+			const balance = Number(ethers.utils.formatEther(balanceBN));
+
+			return balance * ycrvPrice;
 		},
 		{
 			enabled: isAppReady,

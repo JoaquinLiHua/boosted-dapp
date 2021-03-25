@@ -7,16 +7,16 @@ import { H1Styles, H6Styles, PSmallStyles } from 'styles/common';
 type CardProps = {
 	title: string;
 	value: string;
-	valueInUSD: string;
-	help: string;
+	helpCopy?: string;
+	priceChangeComponent?: React.ReactNode;
 	alwaysShow?: boolean;
 };
 
 export const Card: React.FC<CardProps> = ({
 	title,
 	value,
-	valueInUSD,
-	help,
+	helpCopy,
+	priceChangeComponent,
 	alwaysShow = false,
 }) => {
 	const { connectWallet, walletAddress } = Initialiser.useContainer();
@@ -26,14 +26,13 @@ export const Card: React.FC<CardProps> = ({
 			{walletAddress || alwaysShow ? (
 				<>
 					<Value>{value}</Value>
-					<HelpText>{`$${valueInUSD}`}</HelpText>
+					{helpCopy ? <HelpText>{helpCopy}</HelpText> : priceChangeComponent}
 				</>
 			) : (
 				<>
 					<Value>
 						<ConnectWallet onClick={connectWallet}>Connect Wallet</ConnectWallet>
 					</Value>
-					<HelpText>{help}</HelpText>
 				</>
 			)}
 		</CardWrapper>
@@ -76,5 +75,3 @@ const HelpText = styled.p`
 	margin-top: 0px;
 	margin-bottom: 4px;
 `;
-
-const valueInUSD = styled(HelpText)``;
