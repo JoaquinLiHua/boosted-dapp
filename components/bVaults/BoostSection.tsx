@@ -4,17 +4,17 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { boostToken } from 'constants/bfAddresses';
 import { IVault } from 'constants/bVaults';
 import { usePriceFeedContext } from 'context/PriceFeedContext';
-import { useApprove } from 'hooks/erc20/useApprove';
+import { useApprove } from 'old hooks/erc20/useApprove';
 import { useTokenBalance } from 'hooks/erc20/useTokenBalance';
-import { useGetBoostedBalances } from 'hooks/vaults/useBoostedBalances';
-import { useGetNextBoosterAvailable } from 'hooks/vaults/useNextBoosterAvailable';
-import { useBoost } from 'hooks/vaults/useBooster';
-import { useGetBoosterPrice } from 'hooks/vaults/useGetBoosterPrice';
+import { useGetBoostedBalances } from 'old hooks/vaults/useBoostedBalances';
+import { useGetNextBoosterAvailable } from 'old hooks/vaults/useNextBoosterAvailable';
+import { useBoost } from 'old hooks/vaults/useBooster';
+import { useGetBoosterPrice } from 'old hooks/vaults/useGetBoosterPrice';
 import { getDisplayBalance } from 'utils/formatBalance';
 import { formatTimestamp } from 'utils/formatTimestamp';
-import { useGetBoosterBalance } from 'hooks/vaults/useBoosterCount';
+import { useGetBoosterBalance } from 'old hooks/vaults/useBoosterCount';
 import formatCurrency from 'format-currency';
-import { useAllowance } from 'hooks/erc20/useAllowance';
+import { useAllowance } from 'old hooks/erc20/useAllowance';
 
 interface BoostSectionProps {
 	vault: IVault;

@@ -9,8 +9,8 @@ import {
 	AlertDialogBody,
 	AlertDialogFooter,
 } from '@chakra-ui/react';
-import { useExit } from 'hooks/pools/useExit';
-import { useStake } from 'hooks/pools/useStake';
+import { useExit } from 'old hooks/pools/useExit';
+import { useStake } from 'old hooks/pools/useStake';
 
 export const WithdrawWarning = ({ setShowExitModal, type, pool, unstakeAmount }) => {
 	const cancelRef: any = React.useRef();

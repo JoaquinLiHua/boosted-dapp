@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import NextLink from 'next/link';
 import { WalletMenu } from './WalletMenu';
 import { FlexDivRowCentered, MainColumn } from 'styles/common';
-import { Svg } from 'react-optimized-image';
+
 import SideNav from './SideNav';
 import { ExternalLink } from './ExternalLink';
 import { device } from 'styles/common';
@@ -19,17 +19,17 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 		<LayoutWrapper>
 			<BackgroundWrapper>
 				<SolarSystemContainer>
-					<Svg src={SolarSystem} />
+					<img src={SolarSystem} />
 				</SolarSystemContainer>
 				<StarContainer>
-					<Svg src={Stars} />
+					<img src={Stars} />
 				</StarContainer>
 			</BackgroundWrapper>
 
 			{/* Top navigation */}
 			<HeaderContainer>
 				<NextLink href="/">
-					<Svg src={Logo} />
+					<img src={Logo} />
 				</NextLink>
 				<TopRight>
 					<StyledDiscordLink href="https://discord.gg/gp9bsaQ">Join our Discord!</StyledDiscordLink>

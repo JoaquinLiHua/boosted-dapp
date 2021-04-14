@@ -24,14 +24,14 @@ import BN from 'bignumber.js';
 import React, { useCallback, useState } from 'react';
 import { FaInfo } from 'react-icons/fa';
 import { IVault } from 'constants/bVaults';
-import { useAllowance } from 'hooks/erc20/useAllowance';
-import { useApprove } from 'hooks/erc20/useApprove';
-import { useVaultDeposit } from 'hooks/vaults/useDeposit';
+import { useAllowance } from 'old hooks/erc20/useAllowance';
+import { useApprove } from 'old hooks/erc20/useApprove';
+import { useVaultDeposit } from 'old hooks/vaults/useDeposit';
 import { useTokenBalance } from 'hooks/erc20/useTokenBalance';
 import { getDisplayBalance } from 'utils/formatBalance';
-import { useGetVaultPricePerFullShare } from 'hooks/vaults/useGetVaultPricePerFullShare';
-import { useGetVaultWithdrawalFee } from 'hooks/vaults/useGetVaultWithdrawalFee';
-import { useGetVaultDepositedAmount } from 'hooks/vaults/useGetVaultDepositedAmount';
+import { useGetVaultPricePerFullShare } from 'old hooks/vaults/useGetVaultPricePerFullShare';
+import { useGetVaultWithdrawalFee } from 'old hooks/vaults/useGetVaultWithdrawalFee';
+import { useGetVaultDepositedAmount } from 'old hooks/vaults/useGetVaultDepositedAmount';
 
 interface DepositPanelProps {
 	vault: IVault;

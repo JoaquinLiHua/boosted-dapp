@@ -2,38 +2,69 @@ import React from 'react';
 import styled from 'styled-components';
 import { BaseModal } from '../general/Modal';
 
-import { PrimaryButton, SecondaryButton, GlowText, PStyles, PLargeStyles, PSmallStyles, H6, H6Styles, Spacer, MediumSpacer, H2Styles } from 'styles/common';
+import {
+	PrimaryButton,
+	SecondaryButton,
+	GlowText,
+	PStyles,
+	PLargeStyles,
+	PSmallStyles,
+	H6,
+	H6Styles,
+	Spacer,
+	MediumSpacer,
+	H2Styles,
+} from 'styles/common';
 
-export const PoolCard = (props) => {
+type PoolCard = {
+	tokenPair: string;
+	earnedToken: string;
+	apy: string;
+	depositHref: string;
+	boostHref: string;
+	withdrawHref: string;
+	claimHref: string;
+	totalStaked: string;
+	yourStake: string;
+	yourRewards: string;
+	firstLogoURL: any;
+	secondLogoURL?: any;
+};
 
+export const PoolCard: React.FC<PoolCard> = ({
+	tokenPair,
+	earnedToken,
+	apy,
+	depositHref,
+	boostHref,
+	withdrawHref,
+	claimHref,
+	totalStaked,
+	yourStake,
+	yourRewards,
+	firstLogoURL,
+	secondLogoURL,
+}) => {
 	const [showDepositDialog, setShowDepositDialog] = React.useState(false);
-  const openDepositDialog = () => setShowDepositDialog(true);
-  const closeDepositDialog = () => setShowDepositDialog(false);
+	const openDepositDialog = () => setShowDepositDialog(true);
+	const closeDepositDialog = () => setShowDepositDialog(false);
 
 	const [showWithdrawDialog, setShowWithdrawDialog] = React.useState(false);
-  const openWithdrawDialog = () => setShowWithdrawDialog(true);
-  const closeWithdrawDialog = () => setShowWithdrawDialog(false);
+	const openWithdrawDialog = () => setShowWithdrawDialog(true);
+	const closeWithdrawDialog = () => setShowWithdrawDialog(false);
 
-	const {
-		tokenPair,
-		earnedToken,
-		apy,
-		depositHref,
-		boostHref,
-		withdrawHref,
-		claimHref,
-		totalStaked,
-		yourStake,
-		yourRewards,
-		firstLogoURL,
-		secondLogoURL,
-	} = props;
 	return (
-		<CardWrapper >
+		<CardWrapper>
 			<UpperPoolInfo>
 				<LogoWrapper>
-					<Logo><img src={firstLogoURL} /></Logo>
-					<Logo><img src={secondLogoURL} /></Logo>
+					<Logo>
+						<img src={firstLogoURL} />
+					</Logo>
+					{secondLogoURL && (
+						<Logo>
+							<img src={secondLogoURL} />
+						</Logo>
+					)}
 				</LogoWrapper>
 				<PoolInfo>
 					Deposit <GlowText>{tokenPair}</GlowText> and earn <GlowText>{earnedToken}</GlowText>
@@ -58,9 +89,11 @@ export const PoolCard = (props) => {
 
 				<PoolButtons>
 					<PoolButton onClick={openDepositDialog}>Deposit</PoolButton>
-					<PoolButton href={boostHref}>🚀  Boost</PoolButton>
+					<PoolButton href={boostHref}>
+						<span>🚀</span> Boost
+					</PoolButton>
 					<PoolButtonSecondary onClick={openWithdrawDialog}>Withdraw</PoolButtonSecondary>
-					<PoolButtonSecondary href={claimHref} disabled>Claim</PoolButtonSecondary>
+					<PoolButtonSecondary href={claimHref}>Claim</PoolButtonSecondary>
 				</PoolButtons>
 			</LowerPoolInfo>
 
@@ -77,11 +110,17 @@ export const PoolCard = (props) => {
 					</TextLine>
 					<TextLine>
 						<LogoWrapperInput>
-							<LogoInput><img src={firstLogoURL} /></LogoInput>
-							<LogoInput><img src={secondLogoURL} /></LogoInput>
+							<LogoInput>
+								<img src={firstLogoURL} />
+							</LogoInput>
+							{secondLogoURL && (
+								<LogoInput>
+									<img src={secondLogoURL} />
+								</LogoInput>
+							)}
 							<TokenPool>{tokenPair}</TokenPool>
 						</LogoWrapperInput>
-						<input type="number" placeholder="0"/>
+						<input type="number" placeholder="0" />
 					</TextLine>
 				</InputWrapper>
 
@@ -109,7 +148,6 @@ export const PoolCard = (props) => {
 
 				<Spacer />
 				<ModalButton>Deposit</ModalButton>
-
 			</StyledBaseModal>
 
 			<StyledBaseModal title="Withdraw" isOpen={showWithdrawDialog} onDismiss={closeWithdrawDialog}>
@@ -125,11 +163,17 @@ export const PoolCard = (props) => {
 					</TextLine>
 					<TextLine>
 						<LogoWrapperInput>
-							<LogoInput><img src={firstLogoURL} /></LogoInput>
-							<LogoInput><img src={secondLogoURL} /></LogoInput>
+							<LogoInput>
+								<img src={firstLogoURL} />
+							</LogoInput>
+							{secondLogoURL && (
+								<LogoInput>
+									<img src={secondLogoURL} />
+								</LogoInput>
+							)}
 							<TokenPool>{tokenPair}</TokenPool>
 						</LogoWrapperInput>
-						<input type="number" placeholder="0"/>
+						<input type="number" placeholder="0" />
 					</TextLine>
 				</InputWrapper>
 
@@ -161,9 +205,7 @@ export const PoolCard = (props) => {
 					<ModalButton>Withdraw</ModalButton>
 					<ModalButton>Exit</ModalButton>
 				</ModalButtons>
-
 			</StyledBaseModal>
-
 		</CardWrapper>
 	);
 };
@@ -244,6 +286,10 @@ const ModalButtons = styled(PoolButtons)`
 const PoolButton = styled(PrimaryButton)`
 	width: calc(50% - 6px);
 	margin-bottom: 10px;
+
+	span {
+		margin-right: 8px;
+	}
 `;
 
 const PoolButtonSecondary = styled(SecondaryButton)`
@@ -271,7 +317,7 @@ const Logo = styled.div`
 	position: relative;
 	z-index: 2;
 	border: 1px solid ${(props) => props.theme.colors.darkBlue};
-	box-shadow: 0 0 8px 0 rgba(86,199,246,0.50);
+	box-shadow: 0 0 8px 0 rgba(86, 199, 246, 0.5);
 
 	:nth-of-type(2) {
 		margin-left: -8px;
@@ -279,8 +325,8 @@ const Logo = styled.div`
 	}
 
 	img {
-		max-height: 44px;
-		max-width: 44px;
+		height: 44px;
+		width: 44px;
 		justify-content: center;
 		align-self: center;
 	}
@@ -329,8 +375,8 @@ const InputWrapper = styled.div`
 		text-align: right;
 		flex: 1 0 auto;
 		top: -5px;
-    position: relative;
-    margin-left: 12px;
+		position: relative;
+		margin-left: 12px;
 	}
 `;
 
@@ -362,6 +408,5 @@ const ThreeColWrapper = styled.div`
 		:nth-of-type(3) {
 			text-align: right;
 		}
-
 	}
 `;

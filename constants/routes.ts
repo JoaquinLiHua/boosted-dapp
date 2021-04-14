@@ -4,8 +4,8 @@ export const ROUTES = [
 		link: '/',
 	},
 	{
-		copy: 'bVaults',
-		link: '/bVaults',
+		copy: 'Vaults',
+		link: '/vaults',
 	},
 	{
 		copy: 'Pools',

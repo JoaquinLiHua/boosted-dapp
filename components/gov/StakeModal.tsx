@@ -16,10 +16,10 @@ import {
 import { Formik, Field } from 'formik';
 import { useTokenBalance } from 'hooks/erc20/useTokenBalance';
 import { boostToken, governanceContract } from 'constants/bfAddresses';
-import { useApprove } from 'hooks/erc20/useApprove';
-import { useAllowance } from 'hooks/erc20/useAllowance';
-import { useGovernanceStake } from 'hooks/gov/useGovernanceStake';
-import { useGovernanceStakedBalance } from 'hooks/gov/useGovernanceStakedBalance';
+import { useApprove } from 'old hooks/erc20/useApprove';
+import { useAllowance } from 'old hooks/erc20/useAllowance';
+import { useGovernanceStake } from 'old hooks/gov/useGovernanceStake';
+import { useGovernanceStakedBalance } from 'old hooks/gov/useGovernanceStakedBalance';
 import { getDisplayBalance } from 'utils/formatBalance';
 
 export const StakeModal: React.FC = () => {

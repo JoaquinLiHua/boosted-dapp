@@ -5,7 +5,6 @@ export default {
 	h4: `15px`,
 	h5: ``,
 	h6: `12px`,
-
 	pLarge: `15px`,
 	p: `14px`,
 	pSmall: `13px`,

@@ -14,13 +14,13 @@ import {
 import BN from 'bignumber.js';
 import { getDisplayBalance } from 'utils/formatBalance';
 import { useTokenBalance } from 'hooks/erc20/useTokenBalance';
-import { useAllowance } from 'hooks/erc20/useAllowance';
-import { useApprove } from 'hooks/erc20/useApprove';
-import { useStake } from 'hooks/pools/useStake';
-import { useStakedAmount } from 'hooks/pools/useStakedAmount';
+import { useAllowance } from 'old hooks/erc20/useAllowance';
+import { useApprove } from 'old hooks/erc20/useApprove';
+import { useStake } from 'old hooks/pools/useStake';
+import { useStakedAmount } from 'old hooks/pools/useStakedAmount';
 import { WithdrawWarning } from '../general/WithdrawWarning';
-import { useClaimRewards } from 'hooks/pools/useClaimRewards';
-import { useGetRewardAmount } from 'hooks/pools/useGetRewardAmount';
+import { useClaimRewards } from 'old hooks/pools/useClaimRewards';
+import { useGetRewardAmount } from 'old hooks/pools/useGetRewardAmount';
 import { IPool } from 'constants/pools';
 
 interface StakePanelProps {

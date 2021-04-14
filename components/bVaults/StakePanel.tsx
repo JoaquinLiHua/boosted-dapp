@@ -16,14 +16,14 @@ import {
 } from '@chakra-ui/react';
 import BN from 'bignumber.js';
 import { IVault } from 'constants/bVaults';
-import { useAllowance } from 'hooks/erc20/useAllowance';
-import { useApprove } from 'hooks/erc20/useApprove';
+import { useAllowance } from 'old hooks/erc20/useAllowance';
+import { useApprove } from 'old hooks/erc20/useApprove';
 import { useTokenBalance } from 'hooks/erc20/useTokenBalance';
 import { getDisplayBalance } from 'utils/formatBalance';
-import { useVaultRewardsStake } from 'hooks/vaults/useVaultRewardsStake';
-import { useGetVaultRewardsAmount } from 'hooks/vaults/useGetVaultRewardsAmount';
-import { useClaimVaultRewards } from 'hooks/vaults/useClaimVaultRewards';
-import { useGetVaultRewardsStakedAmount } from 'hooks/vaults/useGetVaultRewardsStakedAmount';
+import { useVaultRewardsStake } from 'old hooks/vaults/useVaultRewardsStake';
+import { useGetVaultRewardsAmount } from 'old hooks/vaults/useGetVaultRewardsAmount';
+import { useClaimVaultRewards } from 'old hooks/vaults/useClaimVaultRewards';
+import { useGetVaultRewardsStakedAmount } from 'old hooks/vaults/useGetVaultRewardsStakedAmount';
 import { BoostSection } from './BoostSection';
 import { FaInfo } from 'react-icons/fa';
 

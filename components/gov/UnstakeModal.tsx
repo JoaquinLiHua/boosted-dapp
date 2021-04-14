@@ -12,9 +12,9 @@ import {
 	FormErrorMessage,
 	Button,
 } from '@chakra-ui/react';
-import { useGovernanceStakedBalance } from 'hooks/gov/useGovernanceStakedBalance';
-import { useGovernanceStake } from 'hooks/gov/useGovernanceStake';
-import { useVoteLockedPeriod } from 'hooks/gov/useVoteLockedPeriod';
+import { useGovernanceStakedBalance } from 'old hooks/gov/useGovernanceStakedBalance';
+import { useGovernanceStake } from 'old hooks/gov/useGovernanceStake';
+import { useVoteLockedPeriod } from 'old hooks/gov/useVoteLockedPeriod';
 import { Formik, Field } from 'formik';
 import { formatTimestamp } from 'utils/formatTimestamp';
 import { getDisplayBalance } from 'utils/formatBalance';

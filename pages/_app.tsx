@@ -2,7 +2,6 @@ import React from 'react';
 
 import theme from 'styles/theme';
 
-import { VaultProvider } from 'context/VaultContext';
 import { ThemeProvider } from 'styled-components';
 import Layout from 'components/general/Layout';
 
@@ -31,9 +30,7 @@ function MyApp({ Component, pageProps }: { Component: any; pageProps: any }) {
 				<QueryClientProvider client={queryClient}>
 					<Notify.Provider>
 						<CoinGecko.Provider>
-							<VaultProvider>
-								<Layout children={<Component {...pageProps} />}></Layout>
-							</VaultProvider>
+							<Layout children={<Component {...pageProps} />}></Layout>
 						</CoinGecko.Provider>
 					</Notify.Provider>
 				</QueryClientProvider>

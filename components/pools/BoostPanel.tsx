@@ -3,16 +3,16 @@ import { Stack, Flex, Button, Text } from '@chakra-ui/react';
 import { getDisplayBalance } from 'utils/formatBalance';
 import { useTokenBalance } from 'hooks/erc20/useTokenBalance';
 import { boostToken } from 'constants/bfAddresses';
-import { useAllowance } from 'hooks/erc20/useAllowance';
-import { useApprove } from 'hooks/erc20/useApprove';
-import { useBoost } from 'hooks/pools/useBooster';
-import { useGetBoosterBalance } from 'hooks/pools/useBoosterCount';
+import { useAllowance } from 'old hooks/erc20/useAllowance';
+import { useApprove } from 'old hooks/erc20/useApprove';
+import { useBoost } from 'old hooks/pools/useBooster';
+import { useGetBoosterBalance } from 'old hooks/pools/useBoosterCount';
 import BN from 'bignumber.js';
-import { useGetNextBoosterAvailable } from 'hooks/pools/useNextBoosterAvailable';
+import { useGetNextBoosterAvailable } from 'old hooks/pools/useNextBoosterAvailable';
 import { formatTimestamp } from 'utils/formatTimestamp';
 import { usePriceFeedContext } from 'context/PriceFeedContext';
 import formatCurrency from 'format-currency';
-import { useGetBoostedBalances } from 'hooks/pools/useBoostedBalances';
+import { useGetBoostedBalances } from 'old hooks/pools/useBoostedBalances';
 import { IPool } from 'constants/pools';
 
 interface BoostPanelProps {

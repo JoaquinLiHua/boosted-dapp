@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { boostToken } from 'constants/bfAddresses';
-import { useTotalValueLocked } from 'hooks/general/useTotalValueLocked';
-import { useGetTotalRewardAmount } from 'hooks/general/useGetTotalRewardAmount';
+import { useTotalValueLocked } from 'old hooks/general/useTotalValueLocked';
+import { useGetTotalRewardAmount } from 'old hooks/general/useGetTotalRewardAmount';
 import { getDisplayBalance } from 'utils/formatBalance';
 
 import BoostToken from 'contracts/BoostToken';
@@ -47,9 +47,9 @@ const Dashboard: React.FC = () => {
 				<li>
 					<strong>{label}</strong>: ${price}
 					{dailyChangePercent > 0 ? (
-						<PositiveNumber>+{formatPercent(dailyChangePercent)}%</PositiveNumber>
+						<PositiveNumber>{formatPercent(dailyChangePercent)}%</PositiveNumber>
 					) : (
-						<NegativeNumber>-{formatPercent(dailyChangePercent)}%</NegativeNumber>
+						<NegativeNumber>{formatPercent(dailyChangePercent)}%</NegativeNumber>
 					)}
 				</li>
 			);
@@ -73,9 +73,9 @@ const Dashboard: React.FC = () => {
 							<p>
 								24H:{' '}
 								{dailyChangePercent >= 0 ? (
-									<PositiveNumber>+{formatPercent(dailyChangePercent)}%</PositiveNumber>
+									<PositiveNumber>{formatPercent(dailyChangePercent)}%</PositiveNumber>
 								) : (
-									<NegativeNumber>-{formatPercent(dailyChangePercent)}%</NegativeNumber>
+									<NegativeNumber>{formatPercent(dailyChangePercent)}%</NegativeNumber>
 								)}
 							</p>
 						</DailyWeeklyMonthlyPrice>,
