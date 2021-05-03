@@ -1,27 +1,31 @@
 import { useQuery } from 'react-query';
-import { ethers, BigNumber } from 'ethers';
+import { ethers } from 'ethers';
 
 import CoinGecko from 'context/CoinGecko';
 import Initialiser from 'context/Initialiser';
-import yCrvToken from 'contracts/yCrvToken';
+import ERC20 from 'contracts/ERC20';
 import Treasury from 'contracts/Treasury';
+import QUERY_KEYS from 'constants/queryKeys';
+import { CryptoCurrencies, CryptocurrencyWithAddresses } from 'constants/cryptocurrencies';
 
-const useTreasuryValue = () => {
+const useTreasuryValueQuery = () => {
 	const { isAppReady, provider } = Initialiser.useContainer();
 	const { CoinGeckoClient } = CoinGecko.useContainer();
 
 	return useQuery<number>(
-		['treasuryValue'],
+		QUERY_KEYS.Treasury,
 		async () => {
 			const { data } = await CoinGeckoClient.simple.fetchTokenPrice({
-				contract_addresses: yCrvToken.address,
+				contract_addresses: CryptocurrencyWithAddresses[CryptoCurrencies.CRV].address,
 				vs_currencies: 'usd',
 			});
-			const ycrvPrice = Number(data[yCrvToken.address.toLowerCase()].usd);
+			const ycrvPrice = Number(
+				data[CryptocurrencyWithAddresses[CryptoCurrencies.CRV].address.toLowerCase()].usd
+			);
 
 			const tokenContract = new ethers.Contract(
-				yCrvToken.address,
-				yCrvToken.abi,
+				CryptocurrencyWithAddresses[CryptoCurrencies.CRV].address,
+				ERC20.abi,
 				provider as ethers.providers.Provider
 			);
 
@@ -37,4 +41,4 @@ const useTreasuryValue = () => {
 	);
 };
 
-export default useTreasuryValue;
+export default useTreasuryValueQuery;

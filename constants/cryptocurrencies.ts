@@ -5,5 +5,11 @@ export enum CryptoCurrencies {
 	ALPHA = 'ALPHA',
 	SUSHI = 'SUSHI',
 	LINK = 'LINK',
-	BNB = 'BNB',
+	CRV = 'CRV',
 }
+
+export const CryptocurrencyWithAddresses = {
+	[CryptoCurrencies.CRV]: {
+		address: '0xD533a949740bb3306d119CC777fa900bA034cd52',
+	},
+};

@@ -1,11 +1,12 @@
 import { useQuery } from 'react-query';
 import Initialiser from 'context/Initialiser';
 import { ethers } from 'ethers';
+import QUERY_KEYS from 'constants/queryKeys';
 
-const useTotalSupply = (contract: any) => {
+const useTotalSupplyQuery = (contract: any) => {
 	const { isAppReady, provider } = Initialiser.useContainer();
 	return useQuery<string>(
-		['totalSupply'],
+		QUERY_KEYS.Token.TotalSupply,
 		async () => {
 			const tokenContract = new ethers.Contract(
 				contract.address,
@@ -23,4 +24,4 @@ const useTotalSupply = (contract: any) => {
 	);
 };
 
-export default useTotalSupply;
+export default useTotalSupplyQuery;

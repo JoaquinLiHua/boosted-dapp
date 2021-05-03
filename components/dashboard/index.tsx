@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { boostToken } from 'constants/bfAddresses';
 import { useTotalValueLocked } from 'old hooks/general/useTotalValueLocked';
 import { useGetTotalRewardAmount } from 'old hooks/general/useGetTotalRewardAmount';
 import { getDisplayBalance } from 'utils/formatBalance';
@@ -12,19 +11,19 @@ import { H1, TwoCols, ThreeCols, PositiveNumber, NegativeNumber, Spacer } from '
 
 import { formatPercent, formatNumber } from 'utils/number';
 
-import useERC20Balance from 'queries/useERC20Balance';
-import useTotalSupply from 'queries/useTotalSupply';
-import useTokenPrie from 'queries/useTokenPrice';
-import useTreasuryValue from 'queries/useTreasuryValue';
+import useERC20BalanceQuery from 'queries/token/useERC20BalanceQuery';
+import useTotalSupplyQuery from 'queries/token/useTotalSupplyQuery';
+import useTokenPriceQuery from 'queries/price/useTokenPriceQuery';
+import useTreasuryValueQuery from 'queries/treasury/useTreasuryValueQuery';
 
 const Dashboard: React.FC = () => {
-	const balance = useERC20Balance(BoostToken);
-	const boostTotalSupply = useTotalSupply(BoostToken);
+	const balance = useERC20BalanceQuery(BoostToken);
+	const boostTotalSupply = useTotalSupplyQuery(BoostToken);
 
 	// @TODO: Substitute for query
 	const orbitTotalSupply = '0';
 
-	const boostPrice = useTokenPrie(BoostToken.address);
+	const boostPrice = useTokenPriceQuery(BoostToken.address);
 
 	const orbitPrice = {
 		data: {
@@ -33,7 +32,7 @@ const Dashboard: React.FC = () => {
 		},
 	};
 
-	const treasuryValue = useTreasuryValue();
+	const treasuryValue = useTreasuryValueQuery();
 
 	// const totalValueLocked: string = useTotalValueLocked();
 

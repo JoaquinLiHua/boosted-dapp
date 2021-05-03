@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 24.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 47 44" style="enable-background:new 0 0 47 44;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill-rule:evenodd;clip-rule:evenodd;fill:none;stroke:#2D3666;stroke-width:0.75;stroke-miterlimit:10;}
+	.st1{fill-rule:evenodd;clip-rule:evenodd;fill:#FFFFFF;}
+	.st2{fill-rule:evenodd;clip-rule:evenodd;fill:#2D3666;}
+	.st3{fill:#2D3666;}
+	.st4{fill:#FFDCA1;}
+	.st5{fill:#FFC675;}
+	.st6{fill:#E8F3FF;}
+	.st7{fill-rule:evenodd;clip-rule:evenodd;fill:#CDE4F9;}
+	.st8{fill:#94A6C3;}
+	.st9{fill:#FFFFFF;}
+	.st10{clip-path:url(#SVGID_2_);fill-rule:evenodd;clip-rule:evenodd;fill:#94A6C3;}
+	.st11{clip-path:url(#SVGID_2_);fill:#FFFFFF;}
+	
+		.st12{clip-path:url(#SVGID_2_);fill-rule:evenodd;clip-rule:evenodd;fill:none;stroke:#FFFFFF;stroke-width:0.3659;stroke-miterlimit:10;}
+	
+		.st13{clip-path:url(#SVGID_2_);fill-rule:evenodd;clip-rule:evenodd;fill:none;stroke:#2D3666;stroke-width:0.3659;stroke-miterlimit:10;}
+	.st14{clip-path:url(#SVGID_2_);fill-rule:evenodd;clip-rule:evenodd;fill:#2D3666;}
+	.st15{fill-rule:evenodd;clip-rule:evenodd;fill:none;stroke:#2D3666;stroke-width:1.4636;stroke-miterlimit:10;}
+	.st16{fill-rule:evenodd;clip-rule:evenodd;fill:#FFC675;stroke:#2D3666;stroke-width:0.75;stroke-miterlimit:10;}
+	.st17{fill-rule:evenodd;clip-rule:evenodd;fill:none;stroke:#2D3666;stroke-miterlimit:10;}
+	.st18{fill-rule:evenodd;clip-rule:evenodd;fill:none;stroke:#2D3666;stroke-width:0.5;stroke-miterlimit:10;}
+	
+		.st19{fill-rule:evenodd;clip-rule:evenodd;fill:#78D5DD;stroke:#2D3666;stroke-width:0.5;stroke-linecap:square;stroke-miterlimit:10;}
+	.st20{fill:#78D5DD;stroke:#2D3666;stroke-width:0.5;stroke-miterlimit:10;}
+	.st21{fill:#CDE4F9;stroke:#2D3666;stroke-width:0.5;stroke-miterlimit:10;}
+	.st22{fill:#FFC675;stroke:#2D3666;stroke-width:0.5;stroke-miterlimit:10;}
+	.st23{fill-rule:evenodd;clip-rule:evenodd;fill:#FFC675;}
+	
+		.st24{fill-rule:evenodd;clip-rule:evenodd;fill:#FFC675;stroke:#2D3666;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+</style>
+<g id="Layer_2">
+</g>
+<g id="Layer_1">
+	<path class="st0" d="M7.2,22.2c0-2.3,7.3-4.1,16.2-4.1s16.2,1.8,16.2,4.1"/>
+	<path class="st0" d="M1.5,22.2c0-3.4,9.8-6.2,22-6.2s22,2.8,22,6.2"/>
+	<g>
+		<defs>
+			<circle id="SVGID_1_" cx="23.5" cy="22.2" r="10"/>
+		</defs>
+		<clipPath id="SVGID_2_">
+			<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+		</clipPath>
+		<circle class="st10" cx="23.5" cy="22.2" r="10.6"/>
+		<polygon class="st11" points="20.9,10.7 31.4,34.6 51,27.1 32.4,-5.3 		"/>
+		<polyline class="st12" points="10.9,13.7 14.1,17 23.7,17 28,12.7 33.2,12.7 		"/>
+		<polyline class="st13" points="10.7,13.4 14,16.7 23.6,16.7 27.9,12.4 33,12.4 		"/>
+		<circle class="st14" cx="8.7" cy="22.3" r="10.6"/>
+	</g>
+	<circle class="st15" cx="23.5" cy="22.2" r="10"/>
+	<g>
+		<circle class="st2" cx="34" cy="12.2" r="2"/>
+	</g>
+	<path class="st0" d="M45.4,22.2c0,3.4-9.8,6.2-22,6.2s-22-2.8-22-6.2"/>
+	<g>
+		<circle class="st16" cx="9.3" cy="17.4" r="2.1"/>
+		<circle class="st16" cx="9.3" cy="17.4" r="2.1"/>
+	</g>
+	<path class="st0" d="M39.7,22.2c0,2.3-7.3,4.1-16.2,4.1S7.2,24.4,7.2,22.2"/>
+	<g>
+		<g>
+			<circle class="st23" cx="38.5" cy="23.5" r="2.9"/>
+			<circle class="st24" cx="38.5" cy="23.5" r="2.9"/>
+		</g>
+		<g>
+			<circle class="st18" cx="38.5" cy="23.5" r="1.1"/>
+			<circle class="st18" cx="38.5" cy="23.5" r="1.1"/>
+		</g>
+	</g>
+</g>
+</svg>

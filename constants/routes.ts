@@ -4,12 +4,12 @@ export const ROUTES = [
 		link: '/',
 	},
 	{
-		copy: 'Vaults',
-		link: '/vaults',
-	},
-	{
 		copy: 'Pools',
 		link: '/pools',
+	},
+	{
+		copy: 'Vaults',
+		link: '/vaults',
 	},
 	{
 		copy: 'Governance',

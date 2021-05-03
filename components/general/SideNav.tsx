@@ -1,6 +1,6 @@
 import React from 'react';
 import NextLink from 'next/link';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { Spacer, device } from 'styles/common';
 import { ROUTES, ROUTESSECONDARY } from 'constants/routes';
 import { useRouter } from 'next/router';

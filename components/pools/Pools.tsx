@@ -1,16 +1,20 @@
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
+
+import { H1, ThreeCols, Spacer } from 'styles/common';
+
 import { PoolCard } from './PoolCard';
 
-import { H1, ThreeCols, Spacer, SearchField, Dropdown } from 'styles/common';
-import useTokenLists from 'queries/useTokenLists';
+import useTokenListQuery from 'queries/tokenList/useTokenListQuery';
+
+import { CryptoCurrencies } from 'constants/cryptocurrencies';
 
 import ETHIcon from 'assets/svg/eth.svg';
 import BOOSTIcon from 'assets/svg/boost.svg';
-import { CryptoCurrencies } from 'constants/cryptocurrencies';
+import ORBTIcon from 'assets/svg/orbt.svg';
 
 export const Pools: React.FC = () => {
-	const tokenLists = useTokenLists();
+	const tokenLists = useTokenListQuery();
 
 	const pools = useMemo(
 		() =>
@@ -32,9 +36,8 @@ export const Pools: React.FC = () => {
 						},
 						{
 							firstLogoURL: ETHIcon,
-							// @TODO: add orbit icon
-							secondLogoURL: BOOSTIcon,
-							tokenPair: 'BOOST-ETH',
+							secondLogoURL: ORBTIcon,
+							tokenPair: 'ORBT-ETH',
 							earnedToken: CryptoCurrencies.ORBT,
 							apy: '272',
 							totalStaked: '12,693,766.17',
@@ -105,21 +108,9 @@ export const Pools: React.FC = () => {
 	return (
 		<>
 			<TopRow>
-				<H1>Pools</H1>
-				<PoolSearchWrapper>
-					<PoolSearch type="search" placeholder="Search pools.."></PoolSearch>
-					<PoolDropdown name="pools" id="pools">
-						<option value="all" selected>
-							All pools
-						</option>
-						<option value="closed">Closed pools</option>
-						<option value="closed">Another pool option</option>
-					</PoolDropdown>
-				</PoolSearchWrapper>
+				<H1>Liquidity Mining</H1>
 			</TopRow>
-
 			<Spacer />
-
 			<ThreeCols>
 				{pools.map((pool, i) => (
 					<PoolCard
@@ -144,17 +135,3 @@ export const Pools: React.FC = () => {
 };
 
 const TopRow = styled.div``;
-
-const PoolSearchWrapper = styled.div`
-	display: flex;
-	justify-content: space-between;
-`;
-
-const PoolSearch = styled(SearchField)`
-	border-radius: 24px 0 0 24px;
-	width: calc(100% - 203px);
-`;
-
-const PoolDropdown = styled(Dropdown)`
-	border-radius: 0 24px 24px 0;
-`;

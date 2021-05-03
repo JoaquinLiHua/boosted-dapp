@@ -2,13 +2,14 @@ import { useQuery } from 'react-query';
 
 import Initialiser from 'context/Initialiser';
 import CoinGecko from 'context/CoinGecko';
+import QUERY_KEYS from 'constants/queryKeys';
 
 type FetchTokenPriceResponse = {
 	usd: number;
 	usd_24h_change: number;
 };
 
-const useTokenPrie = (tokenAddress: string) => {
+const useTokenPriceQuery = (tokenAddress: string) => {
 	const { isAppReady } = Initialiser.useContainer();
 	const { CoinGeckoClient } = CoinGecko.useContainer();
 
@@ -16,7 +17,7 @@ const useTokenPrie = (tokenAddress: string) => {
 		priceInUSD: number;
 		dailyChangePercent: number;
 	}>(
-		['tokenPrice', CoinGeckoClient],
+		QUERY_KEYS.Price.Coingecko(CoinGeckoClient, tokenAddress),
 		async () => {
 			const { data } = await CoinGeckoClient.simple.fetchTokenPrice({
 				contract_addresses: tokenAddress,
@@ -40,4 +41,4 @@ const useTokenPrie = (tokenAddress: string) => {
 	);
 };
 
-export default useTokenPrie;
+export default useTokenPriceQuery;

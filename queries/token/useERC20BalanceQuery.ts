@@ -1,11 +1,12 @@
 import { useQuery } from 'react-query';
 import Initialiser from 'context/Initialiser';
 import { ethers } from 'ethers';
+import QUERY_KEYS from 'constants/queryKeys';
 
-const useERC20Balance = (contract: any) => {
+const useERC20BalanceQuery = (contract: any) => {
 	const { isAppReady, walletAddress, provider } = Initialiser.useContainer();
 	return useQuery<string>(
-		['erc20Balance', walletAddress],
+		QUERY_KEYS.Token.Balance(walletAddress ?? ''),
 		async () => {
 			const tokenContract = new ethers.Contract(
 				contract.address,
@@ -23,4 +24,4 @@ const useERC20Balance = (contract: any) => {
 	);
 };
 
-export default useERC20Balance;
+export default useERC20BalanceQuery;
