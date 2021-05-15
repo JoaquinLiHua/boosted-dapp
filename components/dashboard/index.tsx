@@ -1,7 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useTotalValueLocked } from 'old hooks/general/useTotalValueLocked';
-import { useGetTotalRewardAmount } from 'old hooks/general/useGetTotalRewardAmount';
 import { getDisplayBalance } from 'utils/formatBalance';
 
 import { Card } from 'components/general/Card';

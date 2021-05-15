@@ -5,7 +5,18 @@ import { AddressRow } from './AddressRow';
 import { AddressRowHead } from './AddressRow';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
-import { H1, H2, ThreeCols, SmallSpacer, XSmallSpacer, MediumSpacer, GlowTextLink, H6Styles, H1Styles, H2Styles } from 'styles/common';
+import {
+	H1,
+	H2,
+	ThreeCols,
+	SmallSpacer,
+	XSmallSpacer,
+	MediumSpacer,
+	GlowTextLink,
+	H6Styles,
+	H1Styles,
+	H2Styles,
+} from 'styles/common';
 
 export const Vote: React.FC = () => {
 	const [tabIndex, setTabIndex] = useState(0);
@@ -36,14 +47,14 @@ export const Vote: React.FC = () => {
 			<SmallSpacer />
 			<Tabs
 				selectedIndex={tabIndex}
-				onSelect={(index, lastIndex, event) => setTabIndex(index)}
+				onSelect={(index: any, lastIndex: any, event: any) => setTabIndex(index)}
 			>
 				<TabListWrapper>
 					<Tab>Core proposals</Tab>
 					<Tab>Community proposals</Tab>
 				</TabListWrapper>
 				<SmallSpacer />
-				
+
 				<TabPanel>
 					<Proposals>
 						<ProposalRow
@@ -111,7 +122,6 @@ export const Vote: React.FC = () => {
 			<H2>Top addresses by voting weight</H2>
 
 			<Addresses>
-
 				<AddressRowHead
 					userInfoTitle="Rank"
 					votesAvailableTitle="Votes"
@@ -168,7 +178,6 @@ export const Vote: React.FC = () => {
 
 			<MediumSpacer />
 			<GlowTextLink href="/gov/pid">› View all addresses</GlowTextLink>
-
 		</>
 	);
 };
@@ -198,7 +207,7 @@ const Proposals = styled.div`
 	> a {
 		border-radius: 0;
 		margin-top: -1px;
-	
+
 		&:first-of-type {
 			border-radius: 8px 8px 0 0;
 		}
@@ -210,18 +219,18 @@ const Proposals = styled.div`
 `;
 
 const Addresses = styled.div`
-> a {
-	border-radius: 0;
-	margin-top: -1px;
+	> a {
+		border-radius: 0;
+		margin-top: -1px;
 
-	&:first-of-type {
-		border-radius: 8px 8px 0 0;
-	}
+		&:first-of-type {
+			border-radius: 8px 8px 0 0;
+		}
 
-	&:last-of-type {
-		border-radius: 0 0 8px 8px;
+		&:last-of-type {
+			border-radius: 0 0 8px 8px;
+		}
 	}
-}
 `;
 
 const TabListWrapper = styled(TabList)`
@@ -239,4 +248,3 @@ const TabListWrapper = styled(TabList)`
 		}
 	}
 `;
-

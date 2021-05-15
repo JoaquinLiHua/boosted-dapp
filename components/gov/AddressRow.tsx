@@ -2,19 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import { PSmallStyles } from 'styles/common';
 
-export const AddressRow = (props) => {
-	const {
-		rank,
-		address,
-		avatarURL,
-		votesAvailable,
-		voteWeight,
-		proposalsVoted,
-		href,
-	} = props;
+export const AddressRow = (props: any) => {
+	const { rank, address, avatarURL, votesAvailable, voteWeight, proposalsVoted, href } = props;
 	return (
 		<RowWrapper href={href}>
-			<UserInfo><span>{rank}</span> <img src={avatarURL} /> <span>{address}</span></UserInfo>
+			<UserInfo>
+				<span>{rank}</span> <img src={avatarURL} /> <span>{address}</span>
+			</UserInfo>
 			<Votes>{votesAvailable}</Votes>
 			<VoteWeight>{voteWeight}</VoteWeight>
 			<ProposalsVoted>{proposalsVoted}</ProposalsVoted>
@@ -22,13 +16,8 @@ export const AddressRow = (props) => {
 	);
 };
 
-export const AddressRowHead = (props) => {
-	const {
-		userInfoTitle,
-		votesAvailableTitle,
-		voteWeightTitle,
-		proposalsVotedTitle,
-	} = props;
+export const AddressRowHead = (props: any) => {
+	const { userInfoTitle, votesAvailableTitle, voteWeightTitle, proposalsVotedTitle } = props;
 	return (
 		<HeadRowWrapper>
 			<UserInfo>{userInfoTitle}</UserInfo>
@@ -83,17 +72,17 @@ const UserInfo = styled.div`
 	justify-self: start;
 	color: ${(props) => props.theme.colors.white};
 
-		img {
-			width: 32px;
-			background: ${(props) => props.theme.colors.white};
-			border-radius: 50%;
-			margin: 0 12px;
-		}
+	img {
+		width: 32px;
+		background: ${(props) => props.theme.colors.white};
+		border-radius: 50%;
+		margin: 0 12px;
+	}
 
-		span:last-of-type {
-			color: ${(props) => props.theme.colors.white};
-			font-family: ${(props) => props.theme.fonts.interSemiBold};
-		}
+	span:last-of-type {
+		color: ${(props) => props.theme.colors.white};
+		font-family: ${(props) => props.theme.fonts.interSemiBold};
+	}
 `;
 
 const Votes = styled.span`

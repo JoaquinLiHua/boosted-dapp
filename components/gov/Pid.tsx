@@ -1,35 +1,48 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ExternalLink } from 'components/general/ExternalLink'
-import { ProgressIndicator } from 'components/general/ProgressIndicator'
+import { ExternalLink } from 'components/general/ExternalLink';
+import { ProgressIndicator } from 'components/general/ProgressIndicator';
 import { BaseModal } from '../general/Modal';
 
-import { Spacer, H1Styles, H6, TwoCols, XSmallSpacer, MediumSpacer, SmallSpacer, H6Styles, PStyles, PLargeStyles, PSmallStyles, PrimaryButton } from 'styles/common';
+import {
+	Spacer,
+	H1Styles,
+	H6,
+	TwoCols,
+	XSmallSpacer,
+	MediumSpacer,
+	SmallSpacer,
+	H6Styles,
+	PStyles,
+	PLargeStyles,
+	PSmallStyles,
+	PrimaryButton,
+} from 'styles/common';
 
 export const Pid: React.FC = () => {
-
 	const [showVoteDialog, setShowVoteDialog] = React.useState(false);
-  const openVoteDialog = () => setShowVoteDialog(true);
-  const closeVoteDialog = () => setShowVoteDialog(false);
+	const openVoteDialog = () => setShowVoteDialog(true);
+	const closeVoteDialog = () => setShowVoteDialog(false);
 
 	return (
 		<>
 			<TopRow>
 				<BackLink href="/gov/">‹ Back</BackLink>
 				<H1>Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</H1>
-				<PidInfo>034 • Executed December 26th, 2020 • <ExternalLink href="#">View in GitHub</ExternalLink> </PidInfo>
+				<PidInfo>
+					034 • Executed December 26th, 2020 • <ExternalLink href="#">View in GitHub</ExternalLink>{' '}
+				</PidInfo>
 				<XSmallSpacer />
 			</TopRow>
 
 			<TwoCols>
-
 				<Card>
 					<CardTitle>For</CardTitle>
 					<WrapperAligned>
 						<CardValue color="green">421,218</CardValue>
 						<Right>90.53%</Right>
 					</WrapperAligned>
-					<ProgressIndicator progress={90} barColor="#56F686"/>
+					<ProgressIndicator progress={90} barColor="#56F686" />
 
 					<MediumSpacer />
 
@@ -40,45 +53,44 @@ export const Pid: React.FC = () => {
 
 					<AddressVotes
 						address="0xEF80a890790gd7907d7901hhj2112689421hu2c82"
-						votes="344,984.0583"	
+						votes="344,984.0583"
 					/>
 					<AddressVotes
 						address="0xEF80a890790gd7907d7901hhj2112689421hu2c82"
-						votes="344,984.0583"	
+						votes="344,984.0583"
 					/>
 					<AddressVotes
 						address="0xEF80a890790gd7907d7901hhj2112689421hu2c82"
-						votes="344,984.0583"	
+						votes="344,984.0583"
 					/>
 					<AddressVotes
 						address="0xEF80a890790gd7907d7901hhj2112689421hu2c82"
-						votes="344,984.0583"	
+						votes="344,984.0583"
 					/>
 					<AddressVotes
 						address="0xEF80a890790gd7907d7901hhj2112689421hu2c82"
-						votes="344,984.0583"	
+						votes="344,984.0583"
 					/>
 					<AddressVotes
 						address="0xEF80a890790gd7907d7901hhj2112689421hu2c82"
-						votes="344,984.0583"	
+						votes="344,984.0583"
 					/>
 					<AddressVotes
 						address="0xEF80a890790gd7907d7901hhj2112689421hu2c82"
-						votes="344,984.0583"	
+						votes="344,984.0583"
 					/>
 					<AddressVotes
 						address="0xEF80a890790gd7907d7901hhj2112689421hu2c82"
-						votes="344,984.0583"	
+						votes="344,984.0583"
 					/>
 					<AddressVotes
 						address="0xEF80a890790gd7907d7901hhj2112689421hu2c82"
-						votes="344,984.0583"	
+						votes="344,984.0583"
 					/>
 					<AddressVotes
 						address="0xEF80a890790gd7907d7901hhj2112689421hu2c82"
-						votes="344,984.0583"	
+						votes="344,984.0583"
 					/>
-
 				</Card>
 
 				<Card>
@@ -87,7 +99,7 @@ export const Pid: React.FC = () => {
 						<CardValue color="red">4,321</CardValue>
 						<Right>10.42%</Right>
 					</WrapperAligned>
-					<ProgressIndicator progress={10} barColor="#F65656"/>
+					<ProgressIndicator progress={10} barColor="#F65656" />
 
 					<MediumSpacer />
 
@@ -96,13 +108,8 @@ export const Pid: React.FC = () => {
 						<CardTitle>Votes</CardTitle>
 					</Wrapper>
 
-					<AddressVotes
-						address="0xEF80a890790gd7907d7901hhj2112689421hu2c82"
-						votes="10"	
-					/>
-
+					<AddressVotes address="0xEF80a890790gd7907d7901hhj2112689421hu2c82" votes="10" />
 				</Card>
-
 			</TwoCols>
 
 			<Card>
@@ -111,7 +118,7 @@ export const Pid: React.FC = () => {
 					<Left>101.0000 votes of 3582.9880 total staked</Left>
 					<Right>2.82%</Right>
 				</Wrapper>
-				<ProgressIndicator progress={2.82} barColor="#F6D656"/>
+				<ProgressIndicator progress={2.82} barColor="#F6D656" />
 			</Card>
 
 			<MediumSpacer />
@@ -120,83 +127,103 @@ export const Pid: React.FC = () => {
 				<Details>
 					<CardTitle>Details</CardTitle>
 
-					<DetailTitle>1 – Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis mollis, est non commodo luctus?</DetailTitle>
+					<DetailTitle>
+						1 – Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis mollis, est non
+						commodo luctus?
+					</DetailTitle>
 
-					<DetailParagraph>Nullam id dolor id nibh ultricies vehicula ut id elit. Nullam id dolor id nibh ultricies vehicula ut id elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.
+					<DetailParagraph>
+						Nullam id dolor id nibh ultricies vehicula ut id elit. Nullam id dolor id nibh ultricies
+						vehicula ut id elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Sed
+						posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia
+						quam venenatis vestibulum. Donec ullamcorper nulla non metus auctor fringilla. Etiam
+						porta sem malesuada magna mollis euismod. Maecenas faucibus mollis interdum. Curabitur
+						blandit tempus porttitor. Nulla vitae elit libero, a pharetra augue.
+					</DetailParagraph>
 
-					Donec ullamcorper nulla non metus auctor fringilla. Etiam porta sem malesuada magna mollis euismod. Maecenas faucibus mollis interdum. Curabitur blandit tempus porttitor. Nulla vitae elit libero, a pharetra augue.</DetailParagraph>
+					<DetailTitle>
+						2 – Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis mollis, est non
+						commodo luctus?
+					</DetailTitle>
 
-					<DetailTitle>2 – Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis mollis, est non commodo luctus?</DetailTitle>
-
-					<DetailParagraph>Nullam id dolor id nibh ultricies vehicula ut id elit. Nullam id dolor id nibh ultricies vehicula ut id elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.
-
-					Donec ullamcorper nulla non metus auctor fringilla. Etiam porta sem malesuada magna mollis euismod. Maecenas faucibus mollis interdum. Curabitur blandit tempus porttitor. Nulla vitae elit libero, a pharetra augue.</DetailParagraph>
+					<DetailParagraph>
+						Nullam id dolor id nibh ultricies vehicula ut id elit. Nullam id dolor id nibh ultricies
+						vehicula ut id elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Sed
+						posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia
+						quam venenatis vestibulum. Donec ullamcorper nulla non metus auctor fringilla. Etiam
+						porta sem malesuada magna mollis euismod. Maecenas faucibus mollis interdum. Curabitur
+						blandit tempus porttitor. Nulla vitae elit libero, a pharetra augue.
+					</DetailParagraph>
 				</Details>
 
 				<ProposalHistory>
 					<CardTitle>Proposal History</CardTitle>
 
 					<HistoryItem>
-						<HistoryTitle><ExternalLink href="#">Created</ExternalLink></HistoryTitle>	
+						<HistoryTitle>
+							<ExternalLink href="#">Created</ExternalLink>
+						</HistoryTitle>
 						<HistoryTimeStamp>December 22nd, 2020 – 1:42am</HistoryTimeStamp>
 					</HistoryItem>
 
 					<HistoryItem>
-						<HistoryTitle>Active</HistoryTitle>	
+						<HistoryTitle>Active</HistoryTitle>
 						<HistoryTimeStamp>December 22nd, 2020 – 1:42am</HistoryTimeStamp>
 					</HistoryItem>
 
 					<HistoryItem>
-						<HistoryTitle>Succeeded</HistoryTitle>	
+						<HistoryTitle>Succeeded</HistoryTitle>
 						<HistoryTimeStamp>December 22nd, 2020 – 1:42am</HistoryTimeStamp>
 					</HistoryItem>
 
 					<VoteButton onClick={openVoteDialog}>Vote</VoteButton>
 				</ProposalHistory>
 
-			<StyledBaseModal title="Vote on proposal: Donec sed odio dui. Integer posuere erat a ante venenatis dapibus posuere velit aliquet." isOpen={showVoteDialog} onDismiss={closeVoteDialog}>
-				<InputTitle>Voting as</InputTitle>
+				<StyledBaseModal
+					title="Vote on proposal: Donec sed odio dui. Integer posuere erat a ante venenatis dapibus posuere velit aliquet."
+					isOpen={showVoteDialog}
+					onDismiss={closeVoteDialog}
+				>
+					<InputTitle>Voting as</InputTitle>
 
-				<VoterWrapper>
-					<Wrapper>
-						<UserAvatar src="https://gravatar.com/avatar/c0f14c0036f6610c135f77666021f5cb?s=400&d=robohash&r=x" />
-						<UserInfoWrapper>
-							<p>0x73d…b538</p>
-							<p>Not you?</p>
-						</UserInfoWrapper>
-					</Wrapper>
+					<VoterWrapper>
+						<Wrapper>
+							<UserAvatar src="https://gravatar.com/avatar/c0f14c0036f6610c135f77666021f5cb?s=400&d=robohash&r=x" />
+							<UserInfoWrapper>
+								<p>0x73d…b538</p>
+								<p>Not you?</p>
+							</UserInfoWrapper>
+						</Wrapper>
 
-					<UserInfoWrapperRightAligned>
-						<p>344,984.0583</p>
-						<p>Votes</p>
-					</UserInfoWrapperRightAligned>
+						<UserInfoWrapperRightAligned>
+							<p>344,984.0583</p>
+							<p>Votes</p>
+						</UserInfoWrapperRightAligned>
 
-					<UserInfoWrapperRightAligned>
-						<p>14.82%</p>
-						<p>Vote weight</p>
-					</UserInfoWrapperRightAligned>
-				</VoterWrapper>
+						<UserInfoWrapperRightAligned>
+							<p>14.82%</p>
+							<p>Vote weight</p>
+						</UserInfoWrapperRightAligned>
+					</VoterWrapper>
 
-				<RightToVote>
-					<input type="checkbox" id="right" name="right" value="RightToVote" required />
-					<label for="right"> I've the right to vote lorem ipsum dolor sit amet</label>
-				</RightToVote>
+					<RightToVote>
+						<input type="checkbox" id="right" name="right" value="RightToVote" required />
+						<label> I've the right to vote lorem ipsum dolor sit amet</label>
+					</RightToVote>
 
-				<Spacer />
+					<Spacer />
 
-				<ModalButtons>
-					<ModalButtonPositive>Vote for</ModalButtonPositive>
-					<ModalButtonNegative>Vote against</ModalButtonNegative>
-				</ModalButtons>
-
-			</StyledBaseModal>
-
+					<ModalButtons>
+						<ModalButtonPositive>Vote for</ModalButtonPositive>
+						<ModalButtonNegative>Vote against</ModalButtonNegative>
+					</ModalButtons>
+				</StyledBaseModal>
 			</Wrapper>
 		</>
 	);
 };
 
-export const AddressVotes = ({ address, votes }) => {
+export const AddressVotes = ({ address, votes }: any) => {
 	return (
 		<WrapperAligned>
 			<Address>{address}</Address>
@@ -269,7 +296,7 @@ const Wrapper = styled.div`
 
 const Left = styled.p`
 	${PLargeStyles}
-	margin-top: 0; 
+	margin-top: 0;
 `;
 
 const Right = styled.p`
@@ -314,19 +341,18 @@ const CardValue = styled.p`
 	${H1Styles}
 	margin-bottom: 12px;
 	margin-top: 0;
-	
-	${props => {
+
+	${(props) => {
 		switch (props.color) {
-			case "green":
-				return "color: #56F686;";
-			case "red":
-				return "color: #F65656;";
+			case 'green':
+				return 'color: #56F686;';
+			case 'red':
+				return 'color: #F65656;';
 		}
 	}}
 `;
 
-const HistoryItem = styled.div`
-`;
+const HistoryItem = styled.div``;
 
 const HistoryTitle = styled.p`
 	${PLargeStyles}
@@ -338,7 +364,7 @@ const HistoryTitle = styled.p`
 	}
 
 	:before {
-		content: "";
+		content: '';
 		display: inline-block;
 		margin-right: 8px;
 		width: 11px;
@@ -396,7 +422,7 @@ const ModalButtonPositive = styled(ModalButton)`
 	color: ${(props) => props.theme.colors.background};
 
 	&:hover {
-		background: #86F8A8;
+		background: #86f8a8;
 		box-shadow: 0 0 8px 0 ${(props) => props.theme.colors.green};
 	}
 `;
@@ -406,7 +432,7 @@ const ModalButtonNegative = styled(ModalButton)`
 	color: ${(props) => props.theme.colors.background};
 
 	&:hover {
-		background: #F98686;
+		background: #f98686;
 		box-shadow: 0 0 8px 0 ${(props) => props.theme.colors.red};
 	}
 `;
@@ -438,7 +464,6 @@ const UserInfoWrapper = styled.div`
 `;
 
 const UserInfoWrapperRightAligned = styled(UserInfoWrapper)`
-
 	p {
 		text-align: right;
 	}
@@ -449,7 +474,7 @@ const RightToVote = styled.div`
 	${PStyles}
 	display: flex;
 	align-items: center;
-	
+
 	label {
 		cursor: pointer;
 

@@ -17,7 +17,7 @@ export const FormInput: React.FC<FormInputProps> = ({ fieldName, name }) => {
 	};
 	return (
 		<Field name={name} validate={validateInput}>
-			{({ field, form }) => {
+			{({ field, form }: any) => {
 				return (
 					<FormControl my={2} isInvalid={form.errors[name] && form.touched[name]}>
 						<FormLabel fontWeight="bold" htmlFor={fieldName}>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, Stack, Flex, Box, Image } from '@chakra-ui/react';
 
-export const Footer = (props) => (
+export const Footer = (props: any) => (
 	<Box as="footer" borderTopWidth={1} {...props} py={8}>
 		<Flex
 			pb={8}

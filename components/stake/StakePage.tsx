@@ -19,13 +19,15 @@ const StakePage: React.FC<StakePageProps> = ({}) => {
 	return (
 		<>
 			<TopRow>
-				<H1>OrbitStation</H1>
+				<H1>xORBT</H1>
 				<CardInfo>
-					Stake your ORBT tokens to receive boosting fees and ORBT inflation rewards.
+					Stake your ORBT tokens into the OrbitStation to receive fees generated from purchasing
+					Boosters and inflation rewards.
 					<br />
 					<br />
-					All staked ORBT are subject to a 6-month vesting period. Certain liquidity mining pools
-					will automatically deposit funds into the OrbitStation when you claim.
+					xORBT is minted within the OrbitStation with each deposit of ORBT, users will only be able
+					to claim their initial stake and rewards 6-months from each deposit. Some pools from the
+					liquidity mining initiative automatically deposit for the user on claim.
 				</CardInfo>
 			</TopRow>
 			<Spacer />
@@ -33,7 +35,7 @@ const StakePage: React.FC<StakePageProps> = ({}) => {
 				<CardWrapper>
 					<UpperCardInfo>
 						<PLarge>
-							Stake <GlowText>ORBT</GlowText> into OrbitStation
+							Stake <GlowText>ORBT</GlowText> into OrbitStation (6-month vesting period)
 						</PLarge>
 					</UpperCardInfo>
 					<LowerCardInfo>
@@ -46,7 +48,7 @@ const StakePage: React.FC<StakePageProps> = ({}) => {
 							<Right>10,000</Right>
 						</TextLine>
 						<PoolButtons>
-							<PoolButton onClick={() => {}}>Deposit & Stake</PoolButton>
+							<PoolButton onClick={() => {}}>Deposit & Lock</PoolButton>
 							<PoolButtonSecondary onClick={() => {}}>Vest</PoolButtonSecondary>
 						</PoolButtons>
 					</LowerCardInfo>
@@ -59,15 +61,19 @@ const StakePage: React.FC<StakePageProps> = ({}) => {
 					</UpperCardInfo>
 					<LowerCardInfo>
 						<TextLine>
+							<Left>Rewards & Fees APY</Left>
+							<Right>120%</Right>
+						</TextLine>
+						<TextLine>
 							<Left>ORBT:xORBT</Left>
 							<Right>1:1.12</Right>
 						</TextLine>
 						<TextLine>
-							<Left>Total ORBT deposited</Left>
+							<Left>Total ORBT Staked</Left>
 							<Right>100,000</Right>
 						</TextLine>
 						<TextLine>
-							<Left>Total xORBT supply</Left>
+							<Left>Total xORBT Supply</Left>
 							<Right>500,000</Right>
 						</TextLine>
 					</LowerCardInfo>
@@ -82,10 +88,12 @@ const StakePage: React.FC<StakePageProps> = ({}) => {
 				<LowerCardInfo>
 					<TextLine>
 						<Left>01/02/21 - 11,000 xORBT</Left>
-						<Right>Claimable</Right>
+						<Right>
+							<GlowText>Claimable</GlowText>
+						</Right>
 					</TextLine>
 					<TextLine>
-						<Left>01/02/21 - 11,000 xORBT</Left>
+						<Left>01/02/21 - 1980 xORBT</Left>
 						<Right>Locked until 01/08/21</Right>
 					</TextLine>
 				</LowerCardInfo>

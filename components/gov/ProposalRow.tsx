@@ -3,19 +3,15 @@ import styled from 'styled-components';
 
 import { H4Styles, PSmallStyles } from 'styles/common';
 
-export const ProposalRow = (props) => {
-	const {
-		proposalTitle,
-		proposalID,
-		proposalDate,
-		proposalStatus,
-		href,
-	} = props;
+export const ProposalRow = (props: any) => {
+	const { proposalTitle, proposalID, proposalDate, proposalStatus, href } = props;
 	return (
-		<RowWrapper href={href} >
+		<RowWrapper href={href}>
 			<div>
 				<ProposalTitle>{proposalTitle}</ProposalTitle>
-				<P>{proposalID} • {proposalStatus} on {proposalDate}</P>
+				<P>
+					{proposalID} • {proposalStatus} on {proposalDate}
+				</P>
 			</div>
 			<Status>{proposalStatus}</Status>
 		</RowWrapper>
@@ -56,4 +52,3 @@ const P = styled.p`
 	margin-bottom: 0px;
 	color: ${(props) => props.theme.colors.gray};
 `;
-

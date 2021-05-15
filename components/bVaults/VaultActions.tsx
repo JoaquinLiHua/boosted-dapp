@@ -1,7 +1,16 @@
-import React,  { useState } from 'react';
+import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 
-import { H6, MediumSpacer, H6Styles, SecondaryButton, PSmall, PSmallStyles, PStyles, PLargeStyles } from 'styles/common';
+import {
+	H6,
+	MediumSpacer,
+	H6Styles,
+	SecondaryButton,
+	PSmall,
+	PSmallStyles,
+	PStyles,
+	PLargeStyles,
+} from 'styles/common';
 
 export const VaultActions = () => {
 	return (
@@ -12,14 +21,13 @@ export const VaultActions = () => {
 						<ActionTitle>Claim</ActionTitle>
 						<Available>Your earnings: 52.42 BOOST</Available>
 					</TitleWrapper>
-					
+
 					<InputWrapper>
 						<input type="number" placeholder="0" />
 						<p>BOOST</p>
 					</InputWrapper>
 
 					<PoolButtonSecondary href="#">Claim</PoolButtonSecondary>
-			
 				</ClaimWrapper>
 
 				<MediumSpacer />
@@ -37,14 +45,13 @@ export const VaultActions = () => {
 						</InputWrapper>
 
 						<Percentages>
-							<PercentageButton href="#" disabled>25%</PercentageButton>
-							<PercentageButton href="#" disabled>50%</PercentageButton>
-							<PercentageButton href="#" disabled>75%</PercentageButton>
-							<PercentageButton href="#" disabled>100%</PercentageButton>
+							<PercentageButton href="#">25%</PercentageButton>
+							<PercentageButton href="#">50%</PercentageButton>
+							<PercentageButton href="#">75%</PercentageButton>
+							<PercentageButton href="#">100%</PercentageButton>
 						</Percentages>
 
 						<PoolButtonSecondary href="#">Deposit</PoolButtonSecondary>
-
 					</DepositWrapper>
 
 					<WithdrawWrapper>
@@ -52,28 +59,26 @@ export const VaultActions = () => {
 							<ActionTitle>Withdraw</ActionTitle>
 							<Available>Available: 1,000 BOOST</Available>
 						</TitleWrapper>
-						
+
 						<InputWrapper>
 							<input type="number" placeholder="0" />
 							<p>BOOST</p>
 						</InputWrapper>
 
 						<Percentages>
-							<PercentageButton href="#" disabled>25%</PercentageButton>
-							<PercentageButton href="#" disabled>50%</PercentageButton>
-							<PercentageButton href="#" disabled>75%</PercentageButton>
-							<PercentageButton href="#" disabled>100%</PercentageButton>
+							<PercentageButton href="#">25%</PercentageButton>
+							<PercentageButton href="#">50%</PercentageButton>
+							<PercentageButton href="#">75%</PercentageButton>
+							<PercentageButton href="#">100%</PercentageButton>
 						</Percentages>
 
 						<PoolButtonSecondary href="#">Withdraw</PoolButtonSecondary>
-
 					</WithdrawWrapper>
 				</Flex>
-
 			</VaultActionsWrapper>
 		</>
 	);
-}
+};
 
 const VaultActionsWrapper = styled.div`
 	padding-top: 12px;
@@ -117,7 +122,7 @@ const InputWrapper = styled.div`
 		align-self: right;
 
 		display: flex;
-    align-items: center;
+		align-items: center;
 	}
 `;
 
@@ -144,15 +149,14 @@ const TitleWrapper = styled.div`
 	align-items: baseline;
 `;
 
-const ClaimWrapper = styled.div`
-`;
+const ClaimWrapper = styled.div``;
 
 const DepositWrapper = styled.div`
 	width: calc(50% - 18px);
 `;
 
 const WithdrawWrapper = styled.div`
-	width: calc(50% - 18px)
+	width: calc(50% - 18px);
 `;
 
 const PoolButtonSecondary = styled(SecondaryButton)`

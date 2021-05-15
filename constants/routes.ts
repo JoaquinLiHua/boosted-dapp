@@ -10,7 +10,7 @@ export const ROUTES: RouteProps[] = [
 		link: '/',
 	},
 	{
-		copy: 'OrbitStation',
+		copy: 'xORBT',
 		link: '/stake',
 	},
 	{

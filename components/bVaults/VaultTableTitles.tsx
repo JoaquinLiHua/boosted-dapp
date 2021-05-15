@@ -2,7 +2,7 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import { PSmallStyles, PStyles, PLargeStyles } from 'styles/common';
 
-export const VaultTableTitles = (props) => {
+export const VaultTableTitles = (props: any) => {
 	const {
 		vaultTitle,
 		apyTitle,
@@ -73,7 +73,7 @@ const YourBalance = styled.div`
 const YourDeposit = styled.div`
 	${ColumnStyles}
 	grid-area: yourdeposit;
-	`;
+`;
 
 const YourPoolPercentage = styled.div`
 	${ColumnStyles}

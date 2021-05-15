@@ -1,11 +1,11 @@
-import React,  { useState } from 'react';
+import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { H6, H6Styles, PSmall, PSmallStyles, PStyles, PLargeStyles } from 'styles/common';
 
-import { HowToParticipateInVaults } from './HowToParticipateInVaults'
-import { VaultActions } from './VaultActions'
+import { HowToParticipateInVaults } from './HowToParticipateInVaults';
+import { VaultActions } from './VaultActions';
 
-export const VaultCard = (props) => {
+export const VaultCard = (props: any) => {
 	const {
 		logoURL,
 		vault,
@@ -23,26 +23,43 @@ export const VaultCard = (props) => {
 
 	return (
 		<CardWrapper href={href} {...rest}>
-
 			<CardHeader onClick={(toggle) => setVaultOpen(true)}>
-				<Logo><img src={logoURL} /></Logo>
-				<Vault>{vault}<span>USDC</span></Vault>
-				<APY>{apy}<span>daily</span></APY>
-				<TVL>{tvl}<span>USD</span></TVL>
-				<YourBalance>{balance}<span>USDC</span></YourBalance>
-				<YourDeposit>{deposit}<span>USDC</span></YourDeposit>
+				<Logo>
+					<img src={logoURL} />
+				</Logo>
+				<Vault>
+					{vault}
+					<span>USDC</span>
+				</Vault>
+				<APY>
+					{apy}
+					<span>daily</span>
+				</APY>
+				<TVL>
+					{tvl}
+					<span>USD</span>
+				</TVL>
+				<YourBalance>
+					{balance}
+					<span>USDC</span>
+				</YourBalance>
+				<YourDeposit>
+					{deposit}
+					<span>USDC</span>
+				</YourDeposit>
 				<YourPoolPercentage>{poolPercentage}</YourPoolPercentage>
-				<YourEearnings>{earnings}<span>USDC</span></YourEearnings>
+				<YourEearnings>
+					{earnings}
+					<span>USDC</span>
+				</YourEearnings>
 			</CardHeader>
 
-			{vaultOpen &&
-			
-			<CardContent>
-				<HowToParticipateInVaults />
-				<VaultActions />
-			</CardContent>
-
-			}
+			{vaultOpen && (
+				<CardContent>
+					<HowToParticipateInVaults />
+					<VaultActions />
+				</CardContent>
+			)}
 		</CardWrapper>
 	);
 };
@@ -133,7 +150,7 @@ const YourBalance = styled.div`
 const YourDeposit = styled.div`
 	${ColumnStyles}
 	grid-area: yourdeposit;
-	`;
+`;
 
 const YourPoolPercentage = styled.div`
 	${ColumnStyles}
@@ -150,11 +167,8 @@ const YourEearnings = styled.div`
 	text-shadow: ${(props) => props.theme.global.textShadowGlow};
 `;
 
-const Votes = styled.div`
-`;
+const Votes = styled.div``;
 
-const VoteWeight = styled.div`
-`;
+const VoteWeight = styled.div``;
 
-const ProposalsVoted = styled.div`
-`;
+const ProposalsVoted = styled.div``;

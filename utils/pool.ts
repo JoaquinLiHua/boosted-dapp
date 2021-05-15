@@ -1,4 +1,4 @@
-// import Web3 from 'web3';
+import Web3 from 'web3';
 
 // import { AbiItem } from 'web3-utils';
 // import BoostPoolsV1 from '../constants/abi/BoostPoolsV1.json';
