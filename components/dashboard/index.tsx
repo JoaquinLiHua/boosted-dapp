@@ -4,8 +4,6 @@ import { useTotalValueLocked } from 'old hooks/general/useTotalValueLocked';
 import { useGetTotalRewardAmount } from 'old hooks/general/useGetTotalRewardAmount';
 import { getDisplayBalance } from 'utils/formatBalance';
 
-import BoostToken from 'contracts/BoostToken';
-
 import { Card } from 'components/general/Card';
 import { H1, TwoCols, ThreeCols, PositiveNumber, NegativeNumber, Spacer } from 'styles/common';
 
@@ -15,15 +13,16 @@ import useERC20BalanceQuery from 'queries/token/useERC20BalanceQuery';
 import useTotalSupplyQuery from 'queries/token/useTotalSupplyQuery';
 import useTokenPriceQuery from 'queries/price/useTokenPriceQuery';
 import useTreasuryValueQuery from 'queries/treasury/useTreasuryValueQuery';
+import { CryptocurrencyWithAddresses } from 'constants/cryptocurrencies';
 
 const Dashboard: React.FC = () => {
-	const balance = useERC20BalanceQuery(BoostToken);
-	const boostTotalSupply = useTotalSupplyQuery(BoostToken);
+	const balance = useERC20BalanceQuery(CryptocurrencyWithAddresses.BOOST.address);
+	const boostTotalSupply = useTotalSupplyQuery(CryptocurrencyWithAddresses.BOOST.address);
 
 	// @TODO: Substitute for query
 	const orbitTotalSupply = '0';
 
-	const boostPrice = useTokenPriceQuery(BoostToken.address);
+	const boostPrice = useTokenPriceQuery(CryptocurrencyWithAddresses.BOOST.address);
 
 	const orbitPrice = {
 		data: {

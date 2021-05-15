@@ -1,7 +1,17 @@
-export const ROUTES = [
+export type RouteProps = {
+	copy: string;
+	link: string;
+	external?: boolean;
+};
+
+export const ROUTES: RouteProps[] = [
 	{
 		copy: 'Dashboard',
 		link: '/',
+	},
+	{
+		copy: 'OrbitStation',
+		link: '/stake',
 	},
 	{
 		copy: 'Pools',
@@ -13,7 +23,8 @@ export const ROUTES = [
 	},
 	{
 		copy: 'Governance',
-		link: '/gov',
+		link: 'https://snapshot.org/#/boosted-finance',
+		external: true,
 	},
 ];
 

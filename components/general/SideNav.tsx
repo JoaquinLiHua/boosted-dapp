@@ -1,8 +1,8 @@
 import React from 'react';
-import NextLink from 'next/link';
+import Link from 'next/link';
 import styled from 'styled-components';
 import { Spacer, device } from 'styles/common';
-import { ROUTES, ROUTESSECONDARY } from 'constants/routes';
+import { RouteProps, ROUTES, ROUTESSECONDARY } from 'constants/routes';
 import { useRouter } from 'next/router';
 import { ExternalLink } from 'components/general/ExternalLink';
 
@@ -18,22 +18,39 @@ const SideNav: React.FC<SideNavProps> = ({}) => {
 
 	return (
 		<Container>
-			{ROUTES.map((element, key) => (
-				<NextLink key={key} href={element.link}>
-					<Item active={route === element.link}>{element.copy}</Item>
-				</NextLink>
-			))}
-
+			{ROUTES.map((element: RouteProps, key) => {
+				if (!element.external) {
+					return (
+						<Link key={key} href={element.link}>
+							<Item active={route === element.link}>{element.copy}</Item>
+						</Link>
+					);
+				} else {
+					return (
+						<ExternalLink key={key} href={element.link}>
+							<Item active={false}>{element.copy}</Item>
+						</ExternalLink>
+					);
+				}
+			})}
 			<Spacer />
 
-			{ROUTESSECONDARY.map((element, key) => (
-				<NextLink key={key} href={element.link}>
-					<SecondaryItem active={route === element.link}>{element.copy}</SecondaryItem>
-				</NextLink>
-			))}
-
+			{ROUTESSECONDARY.map((element: RouteProps, key) => {
+				if (!element.external) {
+					return (
+						<Link key={key} href={element.link}>
+							<SecondaryItem active={route === element.link}>{element.copy}</SecondaryItem>
+						</Link>
+					);
+				} else {
+					return (
+						<ExternalLink key={key} href={element.link}>
+							<SecondaryItem active={route === element.link}>{element.copy}</SecondaryItem>
+						</ExternalLink>
+					);
+				}
+			})}
 			<Line />
-
 			<ExternalLinks>
 				<ul>
 					<li>
@@ -66,8 +83,6 @@ const SideNav: React.FC<SideNavProps> = ({}) => {
 					</li>
 				</ul>
 			</ExternalLinks>
-
-			{/* WIP */}
 			<SocialMediaLinks>
 				<ul>
 					<li>
@@ -134,24 +149,25 @@ const ExternalLinks = styled.div`
 `;
 
 const SocialMediaLinks = styled.div`
-  margin-top: 24px;
+	margin-top: 24px;
 
-  ul, li {
-    list-style-type; none;
-    display: inline-block;
+	ul,
+	li {
+		list-style-type: none;
+		display: inline-block;
 
-    & li {
+		& li {
 			margin-right: 8px;
 
 			:first-of-type {
 				padding-left: 0;
 			}
-    }
-  }
+		}
+	}
 
 	a {
 		padding: 6px;
-		
+
 		path {
 			fill: ${(props) => props.theme.colors.gray};
 		}
@@ -162,8 +178,6 @@ const SocialMediaLinks = styled.div`
 			}
 		}
 	}
-
-
 `;
 
 const Item = styled.div<{ active: boolean }>`

@@ -4,10 +4,10 @@ import React from 'react';
 // opened page doesn't have access to the current page.
 //
 // See: https://mathiasbynens.github.io/rel-noopener/
-export const ExternalLink = (props) => {
+export const ExternalLink = (props: any) => {
 	const { children, ...rest } = props;
 	return (
-		<a {...rest} target="_blank" rel="noopener noreferrer">
+		<a {...rest} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
 			{children}
 		</a>
 	);
