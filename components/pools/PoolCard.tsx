@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { BaseModal } from '../general/Modal';
 
@@ -9,21 +9,18 @@ import {
 	PStyles,
 	PLargeStyles,
 	PSmallStyles,
-	H6,
 	H6Styles,
-	Spacer,
-	MediumSpacer,
 	H2Styles,
 } from 'styles/common';
+import WithdrawModal from './WithdrawModal';
+import DepositModal from './DepositModal';
+import ClaimModal from './ClaimModal';
+import BoostModal from './BoostModal';
 
 type PoolCard = {
 	tokenPair: string;
 	earnedToken: string;
 	apy: string;
-	depositHref: string;
-	boostHref: string;
-	withdrawHref: string;
-	claimHref: string;
 	totalStaked: string;
 	yourStake: string;
 	yourRewards: string;
@@ -35,23 +32,16 @@ export const PoolCard: React.FC<PoolCard> = ({
 	tokenPair,
 	earnedToken,
 	apy,
-	depositHref,
-	boostHref,
-	withdrawHref,
-	claimHref,
 	totalStaked,
 	yourStake,
 	yourRewards,
 	firstLogoURL,
 	secondLogoURL,
 }) => {
-	const [showDepositDialog, setShowDepositDialog] = React.useState(false);
-	const openDepositDialog = () => setShowDepositDialog(true);
-	const closeDepositDialog = () => setShowDepositDialog(false);
-
-	const [showWithdrawDialog, setShowWithdrawDialog] = React.useState(false);
-	const openWithdrawDialog = () => setShowWithdrawDialog(true);
-	const closeWithdrawDialog = () => setShowWithdrawDialog(false);
+	const [showWithdrawDialog, setShowWithdrawDialog] = useState<boolean>(false);
+	const [showDepositDialog, setShowDepositDialog] = useState<boolean>(false);
+	const [showBoostDialog, setShowBoostDialog] = useState<boolean>(false);
+	const [showClaimDialog, setShowClaimDialog] = useState<boolean>(false);
 
 	return (
 		<CardWrapper>
@@ -88,124 +78,55 @@ export const PoolCard: React.FC<PoolCard> = ({
 				</TextLine>
 
 				<PoolButtons>
-					<PoolButton onClick={openDepositDialog}>Deposit</PoolButton>
-					<PoolButton href={boostHref}>
-						<span>🚀</span> Boost
+					<PoolButton onClick={() => setShowDepositDialog(true)}>Deposit</PoolButton>
+					<PoolButton onClick={() => setShowBoostDialog(true)}>
+						<span>🚀</span> Purchase Booster
 					</PoolButton>
-					<PoolButtonSecondary onClick={openWithdrawDialog}>Withdraw</PoolButtonSecondary>
-					<PoolButtonSecondary href={claimHref}>Claim</PoolButtonSecondary>
+					<PoolButtonSecondary onClick={() => setShowWithdrawDialog(true)}>
+						Withdraw
+					</PoolButtonSecondary>
+					<PoolButtonSecondary onClick={() => setShowClaimDialog(true)}>Claim</PoolButtonSecondary>
 				</PoolButtons>
 			</LowerPoolInfo>
 
-			<StyledBaseModal title="Deposit" isOpen={showDepositDialog} onDismiss={closeDepositDialog}>
-				<TextLine>
-					<InputTitle>Amount</InputTitle>
-					<RightModal>Balance: 0</RightModal>
-				</TextLine>
+			<WithdrawModal
+				{...{
+					firstLogoURL,
+					secondLogoURL,
+					open: showWithdrawDialog,
+					setOpen: (value: boolean) => setShowWithdrawDialog(value),
+					tokenPair,
+				}}
+			/>
 
-				<InputWrapper>
-					<TextLine>
-						<Left>Pool token</Left>
-						<Right>≈ $0.00</Right>
-					</TextLine>
-					<TextLine>
-						<LogoWrapperInput>
-							<LogoInput>
-								<img src={firstLogoURL} />
-							</LogoInput>
-							{secondLogoURL && (
-								<LogoInput>
-									<img src={secondLogoURL} />
-								</LogoInput>
-							)}
-							<TokenPool>{tokenPair}</TokenPool>
-						</LogoWrapperInput>
-						<input type="number" placeholder="0" />
-					</TextLine>
-				</InputWrapper>
+			<DepositModal
+				{...{
+					firstLogoURL,
+					secondLogoURL,
+					open: showDepositDialog,
+					setOpen: (value: boolean) => setShowDepositDialog(value),
+					tokenPair,
+				}}
+			/>
 
-				<MediumSpacer />
-
-				<TextLine>
-					<InputTitle>Your stake</InputTitle>
-					<RightModalBig>0</RightModalBig>
-				</TextLine>
-				<ThreeColWrapper>
-					<p>Daily earnings</p>
-					<p>0 INCH</p>
-					<p>$5321.00</p>
-				</ThreeColWrapper>
-				<ThreeColWrapper>
-					<p>Monthly earnings</p>
-					<p>317 INCH</p>
-					<p>$0.00</p>
-				</ThreeColWrapper>
-				<ThreeColWrapper>
-					<p>Yearly earnings</p>
-					<p>0 INCH</p>
-					<p>$0.00</p>
-				</ThreeColWrapper>
-
-				<Spacer />
-				<ModalButton>Deposit</ModalButton>
-			</StyledBaseModal>
-
-			<StyledBaseModal title="Withdraw" isOpen={showWithdrawDialog} onDismiss={closeWithdrawDialog}>
-				<TextLine>
-					<InputTitle>Amount</InputTitle>
-					<RightModal>Balance: 0</RightModal>
-				</TextLine>
-
-				<InputWrapper>
-					<TextLine>
-						<Left>Pool token</Left>
-						<Right>≈ $0.00</Right>
-					</TextLine>
-					<TextLine>
-						<LogoWrapperInput>
-							<LogoInput>
-								<img src={firstLogoURL} />
-							</LogoInput>
-							{secondLogoURL && (
-								<LogoInput>
-									<img src={secondLogoURL} />
-								</LogoInput>
-							)}
-							<TokenPool>{tokenPair}</TokenPool>
-						</LogoWrapperInput>
-						<input type="number" placeholder="0" />
-					</TextLine>
-				</InputWrapper>
-
-				<MediumSpacer />
-
-				<TextLine>
-					<InputTitle>Your stake</InputTitle>
-					<RightModalBig>1,000</RightModalBig>
-				</TextLine>
-				<ThreeColWrapper>
-					<p>Daily earnings</p>
-					<p>200 INCH</p>
-					<p>$5321.00</p>
-				</ThreeColWrapper>
-				<ThreeColWrapper>
-					<p>Monthly earnings</p>
-					<p>2901 INCH</p>
-					<p>$25,321.27</p>
-				</ThreeColWrapper>
-				<ThreeColWrapper>
-					<p>Yearly earnings</p>
-					<p>2901 INCH</p>
-					<p>$25,321.27</p>
-				</ThreeColWrapper>
-
-				<Spacer />
-
-				<ModalButtons>
-					<ModalButton>Withdraw</ModalButton>
-					<ModalButton>Exit</ModalButton>
-				</ModalButtons>
-			</StyledBaseModal>
+			<ClaimModal
+				{...{
+					firstLogoURL,
+					secondLogoURL,
+					open: showClaimDialog,
+					setOpen: (value: boolean) => setShowClaimDialog(value),
+					tokenPair,
+				}}
+			/>
+			<BoostModal
+				{...{
+					firstLogoURL,
+					secondLogoURL,
+					open: showBoostDialog,
+					setOpen: (value: boolean) => setShowBoostDialog(value),
+					tokenPair,
+				}}
+			/>
 		</CardWrapper>
 	);
 };
@@ -261,26 +182,11 @@ const RightModal = styled(Right)`
 	margin-right: 24px;
 `;
 
-const RightModalBig = styled(RightModal)`
-	${H2Styles}
-`;
-
 const PoolButtons = styled.div`
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
 	margin-top: 36px;
-`;
-
-const ModalButtons = styled(PoolButtons)`
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-between;
-	margin-top: 36px;
-
-	a {
-		width: calc(50% - 12px);
-	}
 `;
 
 const PoolButton = styled(PrimaryButton)`
@@ -301,11 +207,6 @@ const LogoWrapper = styled.div`
 	display: flex;
 	justify-content: center;
 	margin: 16px 0 32px;
-`;
-
-const LogoWrapperInput = styled(LogoWrapper)`
-	margin: 6px 0 0;
-	align-items: center;
 `;
 
 const Logo = styled.div`
@@ -329,84 +230,5 @@ const Logo = styled.div`
 		width: 44px;
 		justify-content: center;
 		align-self: center;
-	}
-`;
-
-const LogoInput = styled(Logo)`
-	:last-of-type {
-		margin-right: 12px;
-	}
-
-	img {
-		max-height: 24px;
-		max-width: 24px;
-	}
-`;
-
-const StyledBaseModal = styled(BaseModal)``;
-
-const InputTitle = styled.p`
-	${H6Styles}
-	margin-top: 0;
-`;
-
-const TokenPool = styled.p`
-	font-size: 15px;
-	font-family: ${(props) => props.theme.fonts.interSemiBold};
-	margin-top: 0;
-	margin-bottom: 0;
-`;
-
-const InputWrapper = styled.div`
-	background: #131720;
-	padding: 12px 24px 8px;
-	border-radius: 4px;
-
-	input {
-		font-size: 20px;
-		appeareance: none;
-		background: none;
-		font-family: ${(props) => props.theme.fonts.interSemiBold};
-		border: 0;
-		outline: 0;
-		height: 40px;
-		color: ${(props) => props.theme.colors.white};
-		padding: 0;
-		text-align: right;
-		flex: 1 0 auto;
-		top: -5px;
-		position: relative;
-		margin-left: 12px;
-	}
-`;
-
-const ModalButton = styled(PrimaryButton)`
-	padding: 16px 24px;
-	font-size: 16px;
-`;
-
-const ThreeColWrapper = styled.div`
-	margin-left: 24px;
-	margin-right: 24px;
-	display: flex;
-	justify-content: space-between;
-
-	p {
-		font-size: 14px;
-		margin: 4px 0;
-		color: ${(props) => props.theme.colors.white};
-		font-family: ${(props) => props.theme.fonts.interSemiBold};
-		width: 33.33%;
-
-		:first-of-type {
-			color: ${(props) => props.theme.colors.gray};
-			font-size: 13px;
-			text-align: left;
-		}
-
-		:nth-of-type(2),
-		:nth-of-type(3) {
-			text-align: right;
-		}
 	}
 `;

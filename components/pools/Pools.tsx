@@ -123,10 +123,6 @@ export const Pools: React.FC = () => {
 						totalStaked={pool.totalStaked}
 						yourStake={pool.yourStake}
 						yourRewards={pool.yourRewards}
-						depositHref={pool.depositHref}
-						boostHref={pool.boostHref}
-						withdrawHref={pool.withdrawHref}
-						claimHref={pool.claimHref}
 					/>
 				))}
 			</ThreeCols>
